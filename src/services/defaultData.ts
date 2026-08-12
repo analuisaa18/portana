@@ -1,0 +1,240 @@
+import { 
+  PortfolioSettings, 
+  Category, 
+  Project, 
+  ProjectBlock,
+  ThemeConfig 
+} from '../types/portfolio';
+
+export const DEFAULT_THEME_CONFIG: ThemeConfig = {
+  colors: {
+    background: '#050505',      // Deep pitch black
+    surface: '#0D0D0E',         // Dark architectural surface
+    textPrimary: '#FFFFFF',     // Crisp stark white typography
+    textSecondary: '#A1A1AA',   // Muted silver gray
+    primary: '#FFFFFF',         // High contrast primary white
+    secondary: '#27272A',       // Dark zinc secondary
+    accent: '#0047FF',          // Electric blue accent
+    border: '#1E1E24',          // Crisp hairline border
+    focus: '#0047FF',           // Electric blue focus ring
+    success: '#22C55E',         // Vibrant emerald green
+    warning: '#F59E0B',         // Amber warning
+    error: '#EF4444',           // Deep crimson
+  },
+  typography: {
+    fontFamilyHeadings: 'Space Grotesk, sans-serif',
+    fontFamilyBody: 'Space Grotesk, sans-serif',
+    baseSizePx: 16,
+    scaleRatio: 1.333,
+  },
+  radius: {
+    none: '0px',
+    sm: '2px',
+    md: '4px',
+    lg: '6px',
+    xl: '8px',
+    full: '9999px',
+  },
+  layout: {
+    maxWidthPx: 1280,
+    gridColumns: 3,
+    gapPx: 24,
+    containerPaddingPx: 32,
+  },
+  motion: {
+    durationFastMs: 150,
+    durationNormalMs: 300,
+    durationSlowMs: 500,
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    reducedMotionFallback: true,
+  },
+  ctaLabel: 'Ver projeto',
+  uxVoice: 'direto',
+};
+
+export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
+  portfolio_name: 'Ana Bochenek — Portfólio Autoral',
+  tagline: 'Design de Interfaces, Pesquisa & Cultura Digital',
+  about_title: 'Investigação e Prática em Design Autoral',
+  short_bio: 'Atuo na interseção entre design de interfaces, arquitetura de informação e acessibilidade digital.',
+  about_text: 'Trabalho desenvolvendo sistemas digitais onde o conteúdo, a tipografia e a acessibilidade caminham juntos. Acredito no design como infraestrutura crítica para a comunicação humana — transparente, utilizável e centrado no respeito ao tempo e à autonomia das pessoas.',
+  profile_image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800',
+  whatsapp: '5551999998888',
+  email_public: 'ana.bocheneck@acad.ufsm.br',
+  location: 'Santa Maria, RS — Brasil',
+  github_username: 'anabochenek',
+  social_links: [
+    { id: '1', platform: 'GitHub', url: 'https://github.com', label: 'github.com/anabochenek' },
+    { id: '2', platform: 'LinkedIn', url: 'https://linkedin.com', label: 'linkedin.com/in/anabochenek' },
+    { id: '3', platform: 'Behance', url: 'https://behance.net', label: 'behance.net/anabochenek' }
+  ],
+  ux_voice: 'direto',
+  theme_config: DEFAULT_THEME_CONFIG,
+};
+
+export const DEFAULT_CATEGORIES: Category[] = [
+  {
+    id: 'cat-1',
+    name: 'Design de Interfaces',
+    slug: 'design-de-interfaces',
+    description: 'Sistemas de design, aplicações web responsivas e arquiteturas de informação.',
+    display_order: 1,
+  },
+  {
+    id: 'cat-2',
+    name: 'Editorial & Tipografia',
+    slug: 'editorial-e-tipografia',
+    description: 'Publicações digitais, ensaios visuais e explorações tipográficas.',
+    display_order: 2,
+  },
+  {
+    id: 'cat-3',
+    name: 'Audiovisual & Som',
+    slug: 'audiovisual-e-som',
+    description: 'Composições sonoras, narrativas em vídeo e podcasts acessíveis com transcrição.',
+    display_order: 3,
+  },
+  {
+    id: 'cat-4',
+    name: 'Pesquisa & Projetos Experimentais',
+    slug: 'pesquisa-e-projetos-experimentais',
+    description: 'Investigações acadêmicas e protótipos interativos.',
+    display_order: 4,
+  },
+];
+
+export const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: 'proj-1',
+    category_id: 'cat-1',
+    title: 'Sistema de Leitura Tipográfica Acessível',
+    slug: 'sistema-de-leitura-tipografica-acessivel',
+    short_description: 'Interface experimental de leitura focada em legibilidade e contraste dinâmico para pessoas com baixa visão.',
+    cover_image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=1200',
+    year: 2025,
+    status: 'publicado',
+    featured: true,
+    display_order: 1,
+  },
+  {
+    id: 'proj-2',
+    category_id: 'cat-2',
+    title: 'Arquivo Aberto de Design Latino-Americano',
+    slug: 'arquivo-aberto-de-design-latino-americano',
+    short_description: 'Plataforma digital para documentação e preservação de memórias visuais editoriais.',
+    cover_image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1200',
+    year: 2024,
+    status: 'publicado',
+    featured: true,
+    display_order: 2,
+  },
+  {
+    id: 'proj-3',
+    category_id: 'cat-3',
+    title: 'Paisagens Sonoras da Pampa',
+    slug: 'paisagens-sonoras-da-pampa',
+    short_description: 'Documentário em áudio e vídeo explorando a acústica e biodiversidade dos campos do sul.',
+    cover_image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=1200',
+    year: 2024,
+    status: 'publicado',
+    featured: false,
+    display_order: 3,
+  },
+];
+
+export const DEFAULT_BLOCKS: Record<string, ProjectBlock[]> = {
+  'proj-1': [
+    {
+      id: 'block-1-1',
+      project_id: 'proj-1',
+      type: 'texto',
+      content: 'Este projeto nasceu da constatação de que grande parte das interfaces contemporâneas privilegia a estética visual em detrimento da legibilidade funcional. Desenvolvemos uma biblioteca de componentes ajustáveis que respeita as preferências do usuário, incluindo escala fluida e espaçamento de caracteres dinâmico.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-1-2',
+      project_id: 'proj-1',
+      type: 'imagem',
+      content: '',
+      media_url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200',
+      alt_text: 'Captura de tela demonstrando o teste de escala tipográfica com contraste elevado.',
+      caption: 'Protótipo de teste tipográfico com controle de entrelinha e largura máxima de coluna.',
+      transcript: '',
+      display_order: 2,
+    },
+    {
+      id: 'block-1-3',
+      project_id: 'proj-1',
+      type: 'video',
+      content: 'Demonstração Interativa do Protótipo em Ação',
+      media_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      alt_text: '',
+      caption: 'Vídeo explicativo cobrindo navegação por teclado e síntese de voz.',
+      transcript: '',
+      display_order: 3,
+    },
+    {
+      id: 'block-1-4',
+      project_id: 'proj-1',
+      type: 'audio',
+      content: 'Relato Oral do Processo de Desenvolvimento',
+      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      alt_text: '',
+      caption: 'Gravação do depoimento da pesquisadora principal sobre os testes com usuários.',
+      transcript: 'Olá! Neste áudio apresento os bastidores da pesquisa. Durante seis meses, entrevistamos 24 participantes com diferentes níveis de acuidade visual. Identificamos que a flexibilidade de margem e o ajuste de altura da linha foram os fatores determinantes para diminuir a fadiga ocular em leituras prolongadas.',
+      display_order: 4,
+    },
+  ],
+  'proj-2': [
+    {
+      id: 'block-2-1',
+      project_id: 'proj-2',
+      type: 'texto',
+      content: 'O Arquivo Aberto mapeia mais de 50 anos de capas de livros, cartazes e tipografias desenvolvidas na América Latina. O sistema catalográfico foi construído com metadados detalhados para facilitar pesquisas acadêmicas.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-2-2',
+      project_id: 'proj-2',
+      type: 'imagem',
+      content: '',
+      media_url: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200',
+      alt_text: 'Coleção de livros antigos dispostos em estantes de madeira.',
+      caption: 'Registro fotográfico das edições originais catalogadas na biblioteca física.',
+      transcript: '',
+      display_order: 2,
+    },
+  ],
+  'proj-3': [
+    {
+      id: 'block-3-1',
+      project_id: 'proj-3',
+      type: 'texto',
+      content: 'Um trabalho multissensorial focado nas paisagens sonoras dos biomas sulinos. Gravado em campo com equipamentos binaurais de alta fidelidade.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-3-2',
+      project_id: 'proj-3',
+      type: 'audio',
+      content: 'Faixa 01: Vento e Aves ao Amanhecer',
+      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      alt_text: '',
+      caption: 'Captação binaural realizada às 05:30 na Reserva Biológica do Ibirapuitã.',
+      transcript: 'Transcrição Sonora: Ouve-se o farfalhar contínuo da vegetação sob o vento forte do sul, acompanhado gradualmente pelo canto de siriemas e quero-queros marcando o início da manhã.',
+      display_order: 2,
+    },
+  ],
+};
