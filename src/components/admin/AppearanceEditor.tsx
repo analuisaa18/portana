@@ -23,6 +23,7 @@ const FONT_FALLBACKS: FontItem[] = [
   'Space Grotesk', 'Plus Jakarta Sans', 'DM Sans', 'Manrope', 'Outfit',
   'Work Sans', 'Figtree', 'Rubik', 'Bebas Neue', 'Archivo', 'Barlow',
   'IBM Plex Sans', 'IBM Plex Serif', 'JetBrains Mono', 'Roboto Mono', 'Syne',
+  'Lilita One',
 ].map(family => ({ family }));
 
 const ICON_PROVIDERS: Array<{ id: IconProvider; label: string; collection: string; example: string }> = [
@@ -33,15 +34,23 @@ const ICON_PROVIDERS: Array<{ id: IconProvider; label: string; collection: strin
 
 const normalizeGoogleFonts = (raw: string): FontItem[] => {
   try {
-    const clean = raw.replace(/^\)\]\}'\s*/, '');
+    const clean = raw.replace(/^\)\]}'\s*/, '');
     const data = JSON.parse(clean);
-    const items = Array.isArray(data) ? data : (data.familyMetadataList || data.items || []);
-    return items
-      .map((item: any) => item.family || item.name)
-      .filter(Boolean)
-      .map((family: string) => ({ family }));
+    const items = Array.isArray(data)
+      ? data
+      : (data.familyMetadataList || data.items || data.families || []);
+
+    const families = items
+      .map((item: any) => typeof item === 'string' ? item : (item.family || item.name))
+      .filter((family: unknown): family is string => typeof family === 'string' && family.trim().length > 0);
+
+    // Garante que as fontes do catálogo completo permaneçam disponíveis
+    // mesmo quando a API do Google Fonts estiver temporariamente indisponível.
+    return Array.from(new Set([...families, ...FONT_FALLBACKS.map(font => font.family)]))
+      .sort((a, b) => a.localeCompare(b))
+      .map(family => ({ family }));
   } catch {
-    return [];
+    return FONT_FALLBACKS;
   }
 };
 
