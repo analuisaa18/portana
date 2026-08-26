@@ -18,6 +18,19 @@
     --font-headings: 'Space Grotesk', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
     --font-size-base: 16px;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 21px;
+    --font-size-xl: 28px;
+    --font-size-2xl: 37px;
+    --font-size-3xl: 49px;
+    --font-heading-weight: 900;
+    --font-body-weight: 400;
+    --font-line-height: 1.6;
+    --font-heading-line-height: 0.95;
+    --font-letter-spacing: -0.03em;
+    --theme-custom-image: none;
 
     --radius-none: 0px;
     --radius-sm: 2px;
@@ -38,10 +51,15 @@
 
   body {
     background-color: var(--color-bg);
+    background-image: var(--theme-custom-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--color-text-primary);
     font-family: var(--font-body);
     font-size: var(--font-size-base);
-    line-height: 1.6;
+    line-height: var(--font-line-height);
+    font-weight: var(--font-body-weight);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -51,9 +69,22 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headings);
     color: var(--color-text-primary);
-    line-height: 0.95;
-    font-weight: 900;
-    letter-spacing: -0.03em;
+    line-height: var(--font-heading-line-height);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: var(--font-letter-spacing);
+  }
+
+  h1 { font-size: var(--font-size-3xl) !important; }
+  h2 { font-size: var(--font-size-2xl) !important; }
+  h3 { font-size: var(--font-size-xl) !important; }
+  h4 { font-size: var(--font-size-lg) !important; }
+  h5 { font-size: var(--font-size-md) !important; }
+  h6 { font-size: var(--font-size-sm) !important; }
+
+  .theme-custom-image {
+    background-image: var(--theme-custom-image);
+    background-size: cover;
+    background-position: center;
   }
 
   /* Accessibility: Always preserve visible focus ring for keyboard users */
