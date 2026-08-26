@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { SkipLink } from '../common/SkipLink';
+import { ThemeIcon } from '../common/ThemeIcon';
 
 interface HeaderProps {
   currentView: string;
@@ -31,8 +32,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
           {/* Brand Logo / Portfolio Name */}
           <button
             onClick={() => handleNavClick('projetos')}
-            className="flex flex-col text-left group cursor-pointer focus:outline-none"
+            className="flex items-center gap-3 text-left group cursor-pointer focus:outline-none"
           >
+            <ThemeIcon icon={settings.theme_config?.brandIcon} className="w-7 h-7 shrink-0 text-[var(--color-accent)]" />
             <span className="text-xl md:text-2xl font-black uppercase tracking-tighter text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
               {settings.portfolio_name || 'STUDIO.X'}
             </span>
