@@ -43,6 +43,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   layout: {
     maxWidthPx: 1280,
     gridColumns: 3,
+    gridStyle: 'standard',
     gapPx: 24,
     containerPaddingPx: 32,
   },
