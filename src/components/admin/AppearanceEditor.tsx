@@ -10,7 +10,7 @@ import { Badge } from '../common/Badge';
 import { ThemeIcon as ThemeIconPreview } from '../common/ThemeIcon';
 import {
   Palette, Type, Square, Sparkles, CheckCircle2, AlertTriangle, RotateCcw,
-  Save, Upload, Image as ImageIcon, Search, Shapes, RefreshCw
+  Save, Upload, Image as ImageIcon, Search, Shapes, RefreshCw, LayoutGrid
 } from 'lucide-react';
 
 interface AppearanceEditorProps { onSaved?: () => void; }
@@ -228,6 +228,35 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
             </div>
             <label className="space-y-1 block"><span className="block font-semibold">Espaçamento das letras (em)</span><input type="number" min="-0.1" max="0.2" step="0.005" value={config.typography.letterSpacing} onChange={e => updateTypography({ letterSpacing: Number(e.target.value) })} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
           </div>
+        </div>
+      </div>
+
+      <div className="p-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] space-y-5 shadow-xs">
+        <h3 className="text-base font-bold border-b border-[var(--color-border)] pb-2 flex items-center gap-2"><LayoutGrid className="w-4 h-4 text-[var(--color-accent)]" /> Grade de Projetos</h3>
+        <p className="text-xs text-[var(--color-text-secondary)]">Escolha quantas colunas usar e o comportamento visual da grade de projetos. A alteração é aplicada somente à área de projetos.</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          {[1, 2, 3, 4, 5, 6].map(columns => (
+            <button key={columns} type="button" onClick={() => setConfig(prev => ({ ...prev, layout: { ...prev.layout, gridColumns: columns } }))} className={`p-3 rounded-[var(--radius-md)] border text-center ${config.layout.gridColumns === columns ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] font-bold' : 'border-[var(--color-border)]'}`}>
+              <span className="block text-lg leading-none">{columns}</span><span className="text-[10px] uppercase tracking-wider">colunas</span>
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-xs">
+          {[
+            ['standard', 'Padrão', 'Cards uniformes'],
+            ['dense', 'Densa', 'Preenche espaços'],
+            ['masonry', 'Masonry', 'Colunas tipo Pinterest'],
+            ['featured', 'Destaque', 'Primeiro projeto maior'],
+            ['list', 'Lista', 'Uma coluna editorial'],
+          ].map(([value, label, description]) => (
+            <button key={value} type="button" onClick={() => setConfig(prev => ({ ...prev, layout: { ...prev.layout, gridStyle: value as ThemeConfig['layout']['gridStyle'] } }))} className={`p-3 rounded-[var(--radius-md)] border text-left ${config.layout.gridStyle === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10' : 'border-[var(--color-border)]'}`}>
+              <span className="block font-bold">{label}</span><span className="block mt-1 text-[10px] opacity-70">{description}</span>
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <label className="space-y-1"><span className="block font-semibold">Espaçamento da grade (px)</span><input type="number" min="0" max="80" step="2" value={config.layout.gapPx} onChange={e => setConfig(prev => ({ ...prev, layout: { ...prev.layout, gapPx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Largura máxima (px)</span><input type="number" min="800" max="2400" step="20" value={config.layout.maxWidthPx} onChange={e => setConfig(prev => ({ ...prev, layout: { ...prev.layout, maxWidthPx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
         </div>
       </div>
 
