@@ -26,6 +26,11 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     fontFamilyBody: 'Space Grotesk, sans-serif',
     baseSizePx: 16,
     scaleRatio: 1.333,
+    headingWeight: 900,
+    bodyWeight: 400,
+    lineHeight: 1.6,
+    headingLineHeight: 0.95,
+    letterSpacing: -0.03,
   },
   radius: {
     none: '0px',
@@ -48,6 +53,8 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
     reducedMotionFallback: true,
   },
+  brandIcon: { provider: 'lucide', name: 'Sparkles' },
+  customImage: '',
   ctaLabel: 'Ver projeto',
   uxVoice: 'direto',
 };
