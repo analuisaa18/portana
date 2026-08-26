@@ -57,13 +57,17 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
 
       {/* Projects Grid */}
       {filteredProjects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--layout-gap)] my-8">
-          {filteredProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onSelect={onSelectProject}
-            />
+        <div
+          className={`projects-layout projects-layout--${settings.theme_config?.layout?.gridStyle || 'standard'} my-8`}
+          style={{ '--project-grid-columns': Math.min(6, Math.max(1, settings.theme_config?.layout?.gridColumns || 3)) } as React.CSSProperties}
+        >
+          {filteredProjects.map((project, index) => (
+            <div key={project.id} className={index === 0 ? 'project-grid-item project-grid-item--first' : 'project-grid-item'} style={index === 0 && (settings.theme_config?.layout?.gridColumns || 3) > 1 ? { gridColumn: 'span 2', gridRow: 'span 2' } : undefined}>
+              <ProjectCard
+                project={project}
+                onSelect={onSelectProject}
+              />
+            </div>
           ))}
         </div>
       ) : (
