@@ -76,6 +76,20 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     root.style.setProperty('--font-headings', typography.fontFamilyHeadings || 'Plus Jakarta Sans, sans-serif');
     root.style.setProperty('--font-body', typography.fontFamilyBody || 'Inter, sans-serif');
     root.style.setProperty('--font-size-base', `${typography.baseSizePx || 16}px`);
+    root.style.setProperty('--font-heading-weight', `${typography.headingWeight || 700}`);
+    root.style.setProperty('--font-body-weight', `${typography.bodyWeight || 400}`);
+    root.style.setProperty('--font-line-height', `${typography.lineHeight || 1.6}`);
+    root.style.setProperty('--font-heading-line-height', `${typography.headingLineHeight || 1}`);
+    root.style.setProperty('--font-letter-spacing', `${typography.letterSpacing || 0}em`);
+    const base = typography.baseSizePx || 16;
+    const ratio = typography.scaleRatio || 1.25;
+    root.style.setProperty('--font-size-xs', `${base / Math.pow(ratio, 2)}px`);
+    root.style.setProperty('--font-size-sm', `${base / ratio}px`);
+    root.style.setProperty('--font-size-md', `${base}px`);
+    root.style.setProperty('--font-size-lg', `${base * ratio}px`);
+    root.style.setProperty('--font-size-xl', `${base * Math.pow(ratio, 2)}px`);
+    root.style.setProperty('--font-size-2xl', `${base * Math.pow(ratio, 3)}px`);
+    root.style.setProperty('--font-size-3xl', `${base * Math.pow(ratio, 4)}px`);
 
     // Radius
     root.style.setProperty('--radius-none', radius.none || '0px');
@@ -101,6 +115,23 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       root.style.setProperty('--motion-duration-slow', `${motion.durationSlowMs || 500}ms`);
     }
     root.style.setProperty('--motion-easing', motion.easing || 'cubic-bezier(0.16, 1, 0.3, 1)');
+
+    const customImage = themeConfig.customImage || '';
+    root.style.setProperty('--theme-custom-image', customImage ? `url(\"${customImage.replace(/\"/g, '\\"')}\")` : 'none');
+
+    const loadGoogleFont = (fontStack: string) => {
+      const family = fontStack.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      if (!family) return;
+      const id = `google-font-${family.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      if (document.getElementById(id)) return;
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+      document.head.appendChild(link);
+    };
+    loadGoogleFont(typography.fontFamilyHeadings || 'Space Grotesk');
+    loadGoogleFont(typography.fontFamilyBody || 'Inter');
   }, [themeConfig, reducedMotion]);
 
   const updateThemeConfig = async (newConfig: ThemeConfig) => {
