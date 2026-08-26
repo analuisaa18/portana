@@ -36,7 +36,22 @@ export interface ThemeTypography {
   fontFamilyBody: string;
   baseSizePx: number;
   scaleRatio: number;
+  headingWeight: number;
+  bodyWeight: number;
+  lineHeight: number;
+  headingLineHeight: number;
+  letterSpacing: number;
 }
+
+export type IconProvider = 'material' | 'apple' | 'feather' | 'lucide' | 'custom';
+
+export interface ThemeIcon {
+  provider: IconProvider;
+  name: string;
+  url?: string;
+  alt?: string;
+}
+
 
 export interface ThemeRadius {
   none: string;
@@ -68,6 +83,8 @@ export interface ThemeConfig {
   radius: ThemeRadius;
   layout: ThemeLayout;
   motion: ThemeMotion;
+  brandIcon: ThemeIcon;
+  customImage: string;
   ctaLabel: CtaLabel;
   uxVoice: UXVoice;
 }
