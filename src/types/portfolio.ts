@@ -62,9 +62,12 @@ export interface ThemeRadius {
   full: string;
 }
 
+export type ThemeGridStyle = 'standard' | 'dense' | 'masonry' | 'featured' | 'list';
+
 export interface ThemeLayout {
   maxWidthPx: number;
   gridColumns: number;
+  gridStyle: ThemeGridStyle;
   gapPx: number;
   containerPaddingPx: number;
 }
