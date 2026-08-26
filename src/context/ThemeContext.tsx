@@ -103,6 +103,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     root.style.setProperty('--layout-max-width', `${layout.maxWidthPx || 1200}px`);
     root.style.setProperty('--layout-gap', `${layout.gapPx || 24}px`);
     root.style.setProperty('--layout-padding', `${layout.containerPaddingPx || 24}px`);
+    root.style.setProperty('--layout-grid-columns', `${Math.min(6, Math.max(1, layout.gridColumns || 3))}`);
+    root.style.setProperty('--layout-grid-style', layout.gridStyle || 'standard');
 
     // Motion
     if (reducedMotion) {
