@@ -38,14 +38,14 @@ const normalizeGoogleFonts = (raw: string): FontItem[] => {
     const data = JSON.parse(clean);
     const items = Array.isArray(data)
       ? data
-      : (data.familyMetadataList || data.items || data.families || []);
+      : (data.familyMetadataList || data.items || data.families || Object.values(data));
 
     const families = items
-      .map((item: any) => typeof item === 'string' ? item : (item.family || item.name))
+      .map((item: any) => typeof item === 'string' ? item : (item?.family || item?.name))
       .filter((family: unknown): family is string => typeof family === 'string' && family.trim().length > 0);
 
-    // Garante que as fontes do catálogo completo permaneçam disponíveis
-    // mesmo quando a API do Google Fonts estiver temporariamente indisponível.
+    // Garante também a presença de fontes importantes mesmo se o mirror estiver
+    // temporariamente indisponível ou atrasado em relação ao catálogo.
     return Array.from(new Set([...families, ...FONT_FALLBACKS.map(font => font.family)]))
       .sort((a, b) => a.localeCompare(b))
       .map(family => ({ family }));
@@ -83,7 +83,10 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
 
   useEffect(() => {
     let active = true;
-    fetch('https://fonts.google.com/metadata/fonts')
+    // O endpoint oficial de metadata não permite CORS direto no navegador.
+    // Este mirror público é atualizado a partir do catálogo do Google Fonts e
+    // contém a lista completa de famílias, sem exigir API key.
+    fetch('https://cdn.jsdelivr.net/gh/fontsource/google-font-metadata@main/data/google-fonts-v1.json')
       .then(r => r.text())
       .then(text => {
         if (!active) return;
