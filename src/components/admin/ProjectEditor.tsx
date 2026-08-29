@@ -15,9 +15,22 @@ import {
   Image as ImageIcon, 
   Video, 
   Volume2, 
+  Code2,
   Check, 
   AlertCircle 
 } from 'lucide-react';
+
+const DEFAULT_P5_SKETCH = `function setup() {
+  createCanvas(200, 200, WEBGL);
+  debugMode();
+  describe('A cube you can look around by clicking and dragging');
+}
+function draw() {
+  background(220);
+
+  orbitControl();
+  box(50);
+}`;
 
 interface ProjectEditorProps {
   project?: Project | null;
@@ -83,7 +96,7 @@ export const ProjectEditor: React.FC<ProjectEditorProps> = ({
       id: 'block-' + Date.now(),
       project_id: project?.id || '',
       type,
-      content: type === 'texto' ? 'Escreva seu texto aqui...' : '',
+      content: type === 'texto' ? 'Escreva seu texto aqui...' : type === 'p5' ? DEFAULT_P5_SKETCH : '',
       media_url: '',
       alt_text: '',
       caption: '',
@@ -400,6 +413,15 @@ export const ProjectEditor: React.FC<ProjectEditorProps> = ({
                 <Volume2 className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                 <span>+ Áudio</span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => handleAddBlock('p5')}
+                className="px-2.5 py-1.5 text-xs font-semibold rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-black/5 flex items-center gap-1 cursor-pointer"
+              >
+                <Code2 className="w-3.5 h-3.5 text-[var(--color-accent)]" />
+                <span>+ p5.js</span>
+              </button>
             </div>
           </div>
 
@@ -453,6 +475,40 @@ export const ProjectEditor: React.FC<ProjectEditorProps> = ({
                   </div>
 
                   {/* Block Type Fields */}
+                  {block.type === 'p5' && (
+                    <div className="space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-semibold text-[var(--color-text-primary)]">
+                          Código p5.js
+                        </label>
+                        <p className="text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
+                          O código será executado no navegador em um iframe isolado. Você pode colar sketches completos com <code>setup()</code> e <code>draw()</code>.
+                        </p>
+                        <textarea
+                          rows={16}
+                          value={block.content}
+                          onChange={(e) => handleUpdateBlock(idx, 'content', e.target.value)}
+                          spellCheck={false}
+                          placeholder={`function setup() {\n  createCanvas(200, 200, WEBGL);\n}\n\nfunction draw() {\n  background(220);\n  orbitControl();\n  box(50);\n}`}
+                          className="w-full px-3.5 py-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-black text-white text-xs font-mono leading-relaxed"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-semibold text-[var(--color-text-primary)]">
+                          Legenda (opcional)
+                        </label>
+                        <input
+                          type="text"
+                          value={block.caption}
+                          onChange={(e) => handleUpdateBlock(idx, 'caption', e.target.value)}
+                          placeholder="Ex: Cubo 3D interativo desenvolvido com p5.js"
+                          className="w-full px-3.5 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)]"
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {block.type === 'texto' && (
                     <div className="space-y-1.5">
                       <label className="block text-xs font-semibold text-[var(--color-text-primary)]">
