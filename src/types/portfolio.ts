@@ -150,7 +150,7 @@ export interface Project {
   blocks?: ProjectBlock[];
 }
 
-export type BlockType = 'texto' | 'imagem' | 'video' | 'audio';
+export type BlockType = 'texto' | 'imagem' | 'video' | 'audio' | 'p5';
 
 export interface ProjectBlock {
   id: string;
