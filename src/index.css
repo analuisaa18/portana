@@ -95,6 +95,84 @@
   }
 }
 
+
+/* Interactive portfolio name: subtle magnetic movement + letter wave. */
+.portfolio-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+  position: relative;
+  transition: transform 280ms var(--motion-easing);
+}
+
+.portfolio-brand-name {
+  --brand-mx: 0px;
+  --brand-my: 0px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  transform: translate3d(var(--brand-mx), var(--brand-my), 0);
+  transition: color 220ms var(--motion-easing), transform 180ms var(--motion-easing);
+}
+
+.portfolio-brand-name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.28rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 360ms var(--motion-easing);
+}
+
+.portfolio-brand-letter {
+  display: inline-block;
+  transform: translateY(0) rotate(0deg);
+  transition: transform 360ms var(--motion-easing), color 220ms var(--motion-easing);
+  transition-delay: calc(var(--letter-index) * 22ms);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-brand:hover .portfolio-brand-name {
+    color: var(--color-accent);
+  }
+
+  .portfolio-brand:hover .portfolio-brand-name::after {
+    transform: scaleX(1);
+  }
+
+  .portfolio-brand:hover .portfolio-brand-letter {
+    transform: translateY(-0.22em) rotate(-1.5deg);
+  }
+
+  .portfolio-brand:hover .portfolio-brand-letter:nth-child(3n) {
+    transform: translateY(-0.34em) rotate(-3deg);
+  }
+
+  .portfolio-brand:hover .portfolio-brand-letter:nth-child(4n) {
+    transform: translateY(-0.14em) rotate(3deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-brand,
+  .portfolio-brand-name,
+  .portfolio-brand-letter {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .portfolio-brand-name::after {
+    transition: none !important;
+  }
+}
+
 /* Bold Typography Utility Classes */
 .bold-eyebrow {
   font-family: var(--font-headings);
