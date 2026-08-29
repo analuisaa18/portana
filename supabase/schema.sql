@@ -90,7 +90,7 @@ CREATE TRIGGER set_projects_updated_at
 CREATE TABLE IF NOT EXISTS public.project_blocks (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
-    type TEXT NOT NULL CHECK (type IN ('texto', 'imagem', 'video', 'audio')),
+    type TEXT NOT NULL CHECK (type IN ('texto', 'imagem', 'video', 'audio', 'p5')),
     content TEXT DEFAULT '',
     media_url TEXT DEFAULT '',
     alt_text TEXT DEFAULT '',
@@ -201,3 +201,7 @@ WITH CHECK (bucket_id = 'portfolio-media' AND auth.role() = 'authenticated');
 CREATE POLICY "Atualizacao e delecao permitidas para usuarios autenticados" 
 ON storage.objects FOR ALL 
 USING (bucket_id = 'portfolio-media' AND auth.role() = 'authenticated');
+
+-- Migração para permitir blocos interativos p5.js em instalações existentes.
+ALTER TABLE public.project_blocks DROP CONSTRAINT IF EXISTS project_blocks_type_check;
+ALTER TABLE public.project_blocks ADD CONSTRAINT project_blocks_type_check CHECK (type IN ('texto', 'imagem', 'video', 'audio', 'p5'));
