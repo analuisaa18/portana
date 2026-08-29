@@ -34,10 +34,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
           {/* Brand Logo / Portfolio Name */}
           <button
             onClick={() => handleNavClick('projetos')}
-            className="portfolio-brand cursor-pointer focus:outline-none"
+            className={`portfolio-brand cursor-pointer focus:outline-none ${brandHovered ? 'portfolio-brand--active' : ''}`}
             aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}
-            onMouseEnter={() => setBrandHovered(true)}
-            onMouseLeave={() => {
+            onPointerEnter={() => setBrandHovered(true)}
+            onPointerLeave={() => {
               setBrandHovered(false);
               setBrandPointer({ x: 0, y: 0 });
             }}
@@ -45,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             <ThemeIcon icon={settings.theme_config?.brandIcon} className="w-7 h-7 shrink-0 text-[var(--color-accent)]" />
             <span
               className="portfolio-brand-name text-xl md:text-2xl font-black uppercase tracking-tighter text-[var(--color-text-primary)]"
-              onMouseMove={(event) => {
+              onPointerMove={(event) => {
                 const rect = event.currentTarget.getBoundingClientRect();
                 const x = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
                 const y = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   style={{
                     '--letter-index': index,
                     transform: brandHovered
-                      ? `translate3d(${brandPointer.x * 0.35}px, ${(-10 - (index % 3) * 3) + brandPointer.y * 0.35}px, 0) rotate(${index % 2 ? 4 : -4}deg) scale(${index % 3 === 0 ? 1.13 : 1.06})`
+                      ? `translate3d(${brandPointer.x * 0.28}px, ${(-7 - (index % 3) * 3) + brandPointer.y * 0.18}px, 0) rotate(${index % 2 ? 3 : -3}deg) scale(${index % 3 === 0 ? 1.1 : 1.04})`
                       : 'translate3d(0, 0, 0) rotate(0deg) scale(1)',
                     color: brandHovered ? 'var(--color-accent)' : 'var(--color-text-primary)',
                     transitionDelay: `${index * 18}ms`,
