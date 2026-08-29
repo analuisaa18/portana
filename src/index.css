@@ -165,10 +165,6 @@
   transform: translateY(-0.38em) rotate(-4deg) scale(1.06);
 }
 
-@media (hover: none), (pointer: coarse) {
-  .portfolio-brand-name::after { transform: scaleX(0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .portfolio-brand,
   .portfolio-brand-name,
