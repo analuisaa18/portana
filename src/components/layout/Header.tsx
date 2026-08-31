@@ -3,6 +3,8 @@ import { useTheme } from '../../context/ThemeContext';
 import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { SkipLink } from '../common/SkipLink';
 import { ThemeIcon } from '../common/ThemeIcon';
+import { KineticBrand } from './KineticBrand';
+import { DEFAULT_THEME_CONFIG } from '../../services/defaultData';
 
 interface HeaderProps {
   currentView: string;
@@ -10,16 +12,12 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
-  const { settings } = useTheme();
+  const { settings, reducedMotion } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [brandHovered, setBrandHovered] = useState(false);
-  const [brandPointer, setBrandPointer] = useState({ x: 0, y: 0 });
 
-  const header = settings.theme_config?.header;
-  const headerStyle = header?.style || 'minimal';
-  const animation = header?.animation || 'wave';
-  const intensity = header?.animationIntensity ?? 1;
-  const navStyle = header?.navStyle || 'underline';
+  const header = { ...DEFAULT_THEME_CONFIG.header, ...(settings.theme_config?.header || {}) };
+  const headerStyle = header.style || 'minimal';
+  const navStyle = header.navStyle || 'underline';
 
   const navItems = [
     { id: 'sobre', label: 'Sobre' },
@@ -52,29 +50,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     return `${base} py-1 ${isActive ? 'text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8 font-black' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`;
   };
 
-  const getLetterTransform = (index: number) => {
-    if (!brandHovered || animation === 'none') return 'translate3d(0, 0, 0) rotate(0deg) scale(1)';
-
-    const x = brandPointer.x * intensity;
-    const y = brandPointer.y * intensity;
-
-    if (animation === 'lift') {
-      return `translate3d(${x * 0.12}px, ${-3 * intensity + y * 0.04}px, 0) rotate(${x * 0.12}deg) scale(${1 + 0.025 * intensity})`;
-    }
-
-    if (animation === 'magnetic') {
-      const factor = 0.55 + (index % 3) * 0.06;
-      return `translate3d(${x * factor}px, ${y * factor}px, 0) rotate(${x * 0.08}deg) scale(${1 + Math.min(0.12, Math.abs(x) * 0.006 * intensity)})`;
-    }
-
-    const wave = Math.sin(index * 0.9 + x * 0.08) * 2.5 * intensity;
-    const vertical = -5 * intensity - (index % 3) * 2 * intensity + y * 0.12 + wave;
-    const horizontal = x * (0.16 + (index % 3) * 0.025);
-    const rotation = (index % 2 ? 2.5 : -2.5) * intensity + x * 0.06;
-    const scale = 1 + (index % 3 === 0 ? 0.06 : 0.025) * intensity;
-
-    return `translate3d(${horizontal}px, ${vertical}px, 0) rotate(${rotation}deg) scale(${scale})`;
-  };
 
   return (
     <>
@@ -93,13 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         >
           <button
             onClick={() => handleNavClick('projetos')}
-            className={`portfolio-brand cursor-pointer focus:outline-none ${brandHovered ? 'portfolio-brand--active' : ''}`}
+            className="portfolio-brand cursor-pointer focus:outline-none"
             aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}
-            onPointerEnter={() => setBrandHovered(true)}
-            onPointerLeave={() => {
-              setBrandHovered(false);
-              setBrandPointer({ x: 0, y: 0 });
-            }}
           >
             {header?.showBrandIcon !== false && (
               <span
@@ -112,38 +82,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 />
               </span>
             )}
-            <span
+            <KineticBrand
+              text={settings.portfolio_name || 'STUDIO.X'}
+              header={header}
+              reducedMotion={reducedMotion}
               className="portfolio-brand-name text-[var(--color-text-primary)]"
-              onPointerMove={(event) => {
-                const rect = event.currentTarget.getBoundingClientRect();
-                const x = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
-                const y = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-                setBrandPointer({ x: x * 12, y: y * 10 });
-              }}
-              style={{
-                fontSize: `${header?.brandFontSizePx || 24}px`,
-                fontWeight: header?.brandWeight || 900,
-                letterSpacing: `${header?.brandLetterSpacing ?? -0.04}em`,
-                textTransform: 'uppercase',
-              }}
-            >
-              {(settings.portfolio_name || 'STUDIO.X').split('').map((character, index) => (
-                <span
-                  key={`${character}-${index}`}
-                  className="portfolio-brand-letter inline-block"
-                  style={{
-                    transform: getLetterTransform(index),
-                    color: brandHovered && animation !== 'none' ? 'var(--color-accent)' : 'var(--color-text-primary)',
-                    transition: 'transform 420ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease',
-                    transitionDelay: `${index * 12}ms`,
-                    transformOrigin: 'center bottom',
-                  }}
-                  aria-hidden="true"
-                >
-                  {character === ' ' ? '\u00A0' : character}
-                </span>
-              ))}
-            </span>
+            />
             {header?.showTagline !== false && settings.tagline && (
               <span className="text-[10px] font-bold tracking-[0.3em] text-[var(--color-text-secondary)] hidden sm:block">
                 {settings.tagline}
