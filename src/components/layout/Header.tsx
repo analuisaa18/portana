@@ -3,6 +3,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { SkipLink } from '../common/SkipLink';
 import { ThemeIcon } from '../common/ThemeIcon';
+import { DEFAULT_THEME_CONFIG } from '../../services/defaultData';
 
 interface HeaderProps {
   currentView: string;
@@ -14,6 +15,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [brandHovered, setBrandHovered] = useState(false);
   const [brandPointer, setBrandPointer] = useState({ x: 0, y: 0 });
+  const header = { ...DEFAULT_THEME_CONFIG.header, ...(settings.theme_config?.header || {}) };
+  const headerStyle = header.style || 'minimal';
+  const headerAnimation = header.animation || 'wave';
+  const intensity = Math.max(0, Math.min(2, header.animationIntensity ?? 1));
 
   const navItems = [
     { id: 'sobre', label: 'Sobre' },
@@ -26,157 +31,95 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     setMobileMenuOpen(false);
   };
 
-  const portfolioName = settings.portfolio_name || 'STUDIO.X';
-
-  const handleBrandPointerMove = (
-    event: React.PointerEvent<HTMLSpanElement>
-  ) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    const x =
-      ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
-
-    const y =
-      ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-
-    setBrandPointer({
-      x: x * 12,
-      y: y * 10,
-    });
-  };
-
-  const handleBrandLeave = () => {
-    setBrandHovered(false);
-    setBrandPointer({ x: 0, y: 0 });
-  };
-
   return (
     <>
       <SkipLink />
-
-      <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur-md transition-colors">
-        <div className="max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] h-20 flex items-center justify-between">
-
+      <header
+        className={`z-40 w-full transition-all ${header.sticky ? 'sticky top-0' : 'relative'} ${headerStyle === 'floating' ? 'pt-3 px-[var(--layout-padding)]' : ''}`}
+        style={{
+          borderBottom: header.showBorder ? '1px solid var(--color-border)' : 'none',
+          backgroundColor: `color-mix(in srgb, var(--color-surface) ${Math.round((header.backgroundOpacity ?? 0.9) * 100)}%, transparent)`,
+          backdropFilter: header.blur ? 'blur(var(--header-blur))' : 'none',
+        }}
+      >
+        <div
+          className={`max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between w-full ${headerStyle === 'boxed' ? 'rounded-[var(--radius-lg)] border border-[var(--color-border)] my-2' : ''} ${headerStyle === 'floating' ? 'rounded-[var(--radius-xl)] border border-[var(--color-border)] shadow-sm' : ''}`}
+          style={{ minHeight: 'var(--header-height)' }}
+        >
           {/* Brand Logo / Portfolio Name */}
           <button
             onClick={() => handleNavClick('projetos')}
-            className={`portfolio-brand cursor-pointer focus:outline-none ${
-              brandHovered ? 'portfolio-brand--active' : ''
-            }`}
-            aria-label={`Ir para projetos — ${portfolioName}`}
+            className={`portfolio-brand cursor-pointer focus:outline-none ${brandHovered ? 'portfolio-brand--active' : ''}`}
+            aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}
             onPointerEnter={() => setBrandHovered(true)}
-            onPointerLeave={handleBrandLeave}
+            onPointerLeave={() => {
+              setBrandHovered(false);
+              setBrandPointer({ x: 0, y: 0 });
+            }}
           >
-            <ThemeIcon
-              icon={settings.theme_config?.brandIcon}
-              className="w-7 h-7 shrink-0 text-[var(--color-accent)]"
-            />
-
+            <ThemeIcon icon={settings.theme_config?.brandIcon} className="shrink-0 text-[var(--color-accent)]" style={{ width: 'var(--header-icon-size)', height: 'var(--header-icon-size)', display: header.showBrandIcon ? undefined : 'none' }} />
             <span
-              className="portfolio-brand-name text-xl md:text-2xl font-black uppercase tracking-tighter text-[var(--color-text-primary)]"
-              onPointerMove={handleBrandPointerMove}
+              className={`portfolio-brand-name text-[var(--color-text-primary)] ${headerAnimation === 'none' ? '' : `portfolio-brand-animation--${headerAnimation}`}`}
+              style={{
+                fontSize: 'var(--header-name-size)',
+                fontWeight: 'var(--header-name-weight)' as React.CSSProperties['fontWeight'],
+                letterSpacing: 'var(--header-name-spacing)',
+              }}
+              onPointerMove={(event) => {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const x = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
+                const y = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
+                setBrandPointer({ x: x * 5, y: y * 5 });
+              }}
             >
-              {portfolioName.split('').map((character, index) => {
-                /*
-                 * Cada letra recebe uma posição própria baseada:
-                 * - na posição do mouse;
-                 * - na distância da letra até o centro do nome;
-                 * - em um pequeno deslocamento alternado.
-                 *
-                 * A ideia é inspirada na animação por letra
-                 * apresentada no tutorial de tipografia do p5.js 2.0.
-                 */
-
-                const center = (portfolioName.length - 1) / 2;
-                const distanceFromCenter = index - center;
-
-                const wave =
-                  Math.sin(
-                    index * 0.9 +
-                      brandPointer.x * 0.08
-                  ) * 2.5;
-
-                const mouseInfluence =
-                  brandPointer.x *
-                  (0.35 + Math.abs(distanceFromCenter) * 0.025);
-
-                const verticalInfluence =
-                  -Math.abs(brandPointer.y) * 0.15 +
-                  wave;
-
-                const rotation =
-                  brandPointer.x * 0.12 +
-                  Math.sin(index * 1.2 + brandPointer.x * 0.05) * 2.5;
-
-                const scale =
-                  1 +
-                  Math.min(
-                    0.1,
-                    Math.abs(brandPointer.x) *
-                      (0.004 + (index % 3) * 0.001)
-                  );
-
-                return (
-                  <span
-                    key={`${character}-${index}`}
-                    className="portfolio-brand-letter inline-block"
-                    style={{
-                      '--letter-index': index,
-
-                      transform: brandHovered
-                        ? `translate3d(
-                            ${mouseInfluence}px,
-                            ${verticalInfluence}px,
-                            0
-                          )
-                          rotate(${rotation}deg)
-                          scale(${scale})`
-                        : 'translate3d(0, 0, 0) rotate(0deg) scale(1)',
-
-                      color: brandHovered
-                        ? 'var(--color-accent)'
-                        : 'var(--color-text-primary)',
-
-                      transition:
-                        'transform 420ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease',
-
-                      transitionDelay: `${index * 12}ms`,
-
-                      transformOrigin: 'center bottom',
-                    } as React.CSSProperties}
-                    aria-hidden="true"
-                  >
-                    {character === ' ' ? '\u00A0' : character}
-                  </span>
-                );
-              })}
+              {(settings.portfolio_name || 'STUDIO.X').split('').map((character, index) => (
+                <span
+                  key={`${character}-${index}`}
+                  className="portfolio-brand-letter"
+                  style={{
+                    '--letter-index': index,
+                    transform: brandHovered && headerAnimation !== 'none'
+                      ? headerAnimation === 'magnetic'
+                        ? `translate3d(${brandPointer.x * 0.5 * intensity}px, ${brandPointer.y * 0.35 * intensity}px, 0) scale(${1 + 0.04 * intensity})`
+                        : headerAnimation === 'lift'
+                          ? `translate3d(${brandPointer.x * 0.12 * intensity}px, ${-4 * intensity}px, 0) rotate(${index % 2 ? 2 : -2}deg) scale(${1 + 0.02 * intensity})`
+                          : `translate3d(${brandPointer.x * 0.28 * intensity}px, ${(-7 - (index % 3) * 3) * intensity + brandPointer.y * 0.18 * intensity}px, 0) rotate(${index % 2 ? 3 : -3}deg) scale(${index % 3 === 0 ? 1.1 : 1.04})`
+                      : 'translate3d(0, 0, 0) rotate(0deg) scale(1)',
+                    color: brandHovered ? 'var(--color-accent)' : 'var(--color-text-primary)',
+                    transitionDelay: `${index * 18}ms`,
+                  } as React.CSSProperties}
+                  aria-hidden="true"
+                >
+                  {character === ' ' ? '\u00A0' : character}
+                </span>
+              ))}
             </span>
-
             {settings.tagline && (
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--color-text-secondary)] hidden sm:block">
+              <span className="font-bold uppercase tracking-[0.3em] text-[var(--color-text-secondary)] hidden sm:block" style={{ fontSize: 'var(--header-tagline-size)', display: header.showTagline ? undefined : 'none' }}>
                 {settings.tagline}
               </span>
             )}
           </button>
 
           {/* Desktop Navigation */}
-          <nav
-            className="hidden md:flex items-center gap-6"
-            aria-label="Navegação Principal"
-          >
+          <nav className={`hidden md:flex items-center ${header.navStyle === 'pill' ? 'gap-2' : ''}`} style={{ gap: header.navStyle === 'pill' ? undefined : 'var(--header-nav-gap)' }} aria-label="Navegação Principal">
             {navItems.map((item) => {
               const isActive = currentView === item.id;
-
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`text-[11px] font-bold uppercase tracking-[0.35em] transition-all cursor-pointer py-1 ${
+                  className={`transition-all cursor-pointer ${header.navStyle === 'pill' ? 'px-3 py-1.5 rounded-full' : 'py-1'} ${
                     isActive
-                      ? 'text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8 font-black'
+                      ? 'text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8'
                       : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                   }`}
+                  style={{
+                    fontSize: 'var(--header-nav-size)',
+                    fontWeight: 'var(--header-nav-weight)' as React.CSSProperties['fontWeight'],
+                    textTransform: header.navUppercase ? 'uppercase' : 'none',
+                  }}
                 >
                   {item.label}
                 </button>
@@ -184,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             })}
 
             {/* Admin shortcut */}
-            <button
+            {header.showAdminButton !== false && <button
               onClick={() => handleNavClick('admin')}
               className={`ml-2 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-[var(--radius-sm)] border flex items-center gap-1.5 transition-colors cursor-pointer ${
                 currentView.startsWith('admin')
@@ -195,7 +138,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             >
               <Shield className="w-3.5 h-3.5" />
               <span>Admin</span>
-            </button>
+            </button>}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -205,17 +148,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             className="md:hidden p-2.5 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:bg-black/5 cursor-pointer"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
-            aria-label={
-              mobileMenuOpen
-                ? 'Fechar menu de navegação'
-                : 'Abrir menu de navegação'
-            }
+            aria-label={mobileMenuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
           >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -225,13 +160,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             id="mobile-menu"
             className="md:hidden border-b border-[var(--color-border)] bg-[var(--color-surface)] px-[var(--layout-padding)] py-4 space-y-2 animate-fade-in"
           >
-            <nav
-              className="flex flex-col space-y-1"
-              aria-label="Navegação Mobile"
-            >
+            <nav className="flex flex-col space-y-1" aria-label="Navegação Mobile">
               {navItems.map((item) => {
                 const isActive = currentView === item.id;
-
                 return (
                   <button
                     key={item.id}
@@ -248,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 );
               })}
 
-              <button
+              {header.showAdminButton !== false && <button
                 onClick={() => handleNavClick('admin')}
                 className="w-full text-left px-4 py-3 text-sm font-semibold rounded-[var(--radius-md)] border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] flex items-center justify-between mt-2 cursor-pointer"
               >
@@ -256,9 +187,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   <Shield className="w-4 h-4 text-[var(--color-accent)]" />
                   <span>Área Administrativa</span>
                 </span>
-
                 <Sparkles className="w-4 h-4 text-[var(--color-accent)]" />
-              </button>
+              </button>}
             </nav>
           </div>
         )}
