@@ -64,34 +64,6 @@ export interface ThemeRadius {
 
 export type ThemeGridStyle = 'standard' | 'dense' | 'masonry' | 'featured' | 'list';
 
-export type ThemeHeaderStyle = 'minimal' | 'boxed' | 'editorial' | 'floating';
-export type ThemeHeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic';
-export type ThemeHeaderNavStyle = 'plain' | 'underline' | 'pill';
-
-export interface ThemeHeader {
-  style: ThemeHeaderStyle;
-  sticky: boolean;
-  showBorder: boolean;
-  blur: boolean;
-  backgroundOpacity: number;
-  heightPx: number;
-  showBrandIcon: boolean;
-  iconSizePx: number;
-  nameSizePx: number;
-  nameWeight: number;
-  nameLetterSpacing: number;
-  showTagline: boolean;
-  taglineSizePx: number;
-  navStyle: ThemeHeaderNavStyle;
-  navGapPx: number;
-  navSizePx: number;
-  navWeight: number;
-  navUppercase: boolean;
-  showAdminButton: boolean;
-  animation: ThemeHeaderAnimation;
-  animationIntensity: number;
-}
-
 export interface ThemeLayout {
   maxWidthPx: number;
   gridColumns: number;
@@ -108,13 +80,40 @@ export interface ThemeMotion {
   reducedMotionFallback: boolean;
 }
 
+export type HeaderStyle = 'minimal' | 'boxed' | 'editorial' | 'floating';
+export type HeaderNavStyle = 'simple' | 'underline' | 'pill';
+export type HeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic';
+
+export interface ThemeHeader {
+  style: HeaderStyle;
+  sticky: boolean;
+  showBorder: boolean;
+  blur: boolean;
+  opacity: number;
+  heightPx: number;
+  showBrandIcon: boolean;
+  iconSizePx: number;
+  brandFontSizePx: number;
+  brandWeight: number;
+  brandLetterSpacing: number;
+  showTagline: boolean;
+  navStyle: HeaderNavStyle;
+  navFontSizePx: number;
+  navWeight: number;
+  navLetterSpacing: number;
+  navUppercase: boolean;
+  showAdminButton: boolean;
+  animation: HeaderAnimation;
+  animationIntensity: number;
+}
+
 export interface ThemeConfig {
   colors: ThemeColors;
   typography: ThemeTypography;
   radius: ThemeRadius;
   layout: ThemeLayout;
-  header: ThemeHeader;
   motion: ThemeMotion;
+  header: ThemeHeader;
   brandIcon: ThemeIcon;
   customImage: string;
   ctaLabel: CtaLabel;
