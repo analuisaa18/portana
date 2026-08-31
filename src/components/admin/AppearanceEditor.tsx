@@ -3,6 +3,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { DEFAULT_THEME_CONFIG } from '../../services/defaultData';
 import { auditThemeContrast, ContrastAuditResult } from '../../lib/contrast';
 import { ThemeConfig, CtaLabel, UXVoice, IconProvider, ThemeIcon } from '../../types/portfolio';
+import { TypographyLab } from './TypographyLab';
 import { portfolioStore } from '../../services/store';
 import { Button } from '../common/Button';
 import { Toast, ToastMessage } from '../common/Toast';
@@ -306,6 +307,13 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
           </div>
         </div>
       </div>
+
+      <TypographyLab
+        value={config.typography.lab || DEFAULT_THEME_CONFIG.typography.lab!}
+        onChange={(lab) => updateTypography({ lab })}
+        previewText={config.typography.lab?.text || '3D TICKER'}
+        fontFamily={config.typography.fontFamilyHeadings}
+      />
 
       <div className="p-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] space-y-5 shadow-xs">
         <h3 className="text-base font-bold border-b border-[var(--color-border)] pb-2 flex items-center gap-2"><LayoutGrid className="w-4 h-4 text-[var(--color-accent)]" /> Grade de Projetos</h3>
