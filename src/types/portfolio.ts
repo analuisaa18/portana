@@ -97,7 +97,8 @@ export interface ThemeMotion {
 
 export type HeaderStyle = 'minimal' | 'boxed' | 'editorial' | 'floating';
 export type HeaderNavStyle = 'simple' | 'underline' | 'pill';
-export type HeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic';
+export type HeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic' | 'elastic' | 'ripple' | 'orbit' | 'glitch' | 'stretch';
+export type HeaderAnimationColorMode = 'theme' | 'accent' | 'alternating' | 'pulse';
 
 export interface ThemeHeader {
   style: HeaderStyle;
@@ -111,6 +112,7 @@ export interface ThemeHeader {
   brandFontSizePx: number;
   brandWeight: number;
   brandLetterSpacing: number;
+  brandFontFamily: string;
   showTagline: boolean;
   navStyle: HeaderNavStyle;
   navFontSizePx: number;
@@ -120,6 +122,12 @@ export interface ThemeHeader {
   showAdminButton: boolean;
   animation: HeaderAnimation;
   animationIntensity: number;
+  animationSpeed: number;
+  animationDepthPx: number;
+  animationSpread: number;
+  animationAutoPlay: boolean;
+  animationPointer: boolean;
+  animationColorMode: HeaderAnimationColorMode;
 }
 
 export interface ThemeConfig {
