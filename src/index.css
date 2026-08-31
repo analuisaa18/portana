@@ -363,3 +363,105 @@
     aspect-ratio: 16 / 10;
   }
 }
+
+
+/* Interactive 3D typography experiment */
+.brik-ticker-section {
+  width: 100%;
+  padding: 80px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.brik-ticker {
+  width: min(900px, 90vw);
+  height: 520px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  cursor: crosshair;
+}
+
+.brik-ticker-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  transform-style: preserve-3d;
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1), border-radius 300ms ease;
+  box-shadow: 0 30px 80px rgba(0,0,0,.18), 0 10px 30px rgba(0,0,0,.12);
+}
+
+.brik-ticker:hover .brik-ticker-inner { border-radius: 18px; }
+
+.brik-ticker-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 700ms cubic-bezier(.16,1,.3,1), filter 500ms ease;
+}
+
+.brik-ticker:hover .brik-ticker-image {
+  transform: scale(1.06);
+  filter: contrast(1.08) saturate(1.08);
+}
+
+.brik-ticker-overlay {
+  position: absolute;
+  inset: auto 30px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.brik-ticker-overlay span {
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.45);
+  background: rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  border-radius: 999px;
+  transform: translateZ(35px);
+  transition: transform 300ms ease;
+}
+
+.brik-ticker:hover .brik-ticker-overlay span:nth-child(1) { transform: translateZ(55px) translateX(4px); }
+.brik-ticker:hover .brik-ticker-overlay span:nth-child(2) { transform: translateZ(70px) translateX(-3px); }
+.brik-ticker:hover .brik-ticker-overlay span:nth-child(3) { transform: translateZ(45px) translateX(6px); }
+
+.brik-ticker-shadow {
+  position: absolute;
+  width: 75%;
+  height: 30px;
+  bottom: -25px;
+  left: 12.5%;
+  background: rgba(0,0,0,.25);
+  filter: blur(25px);
+  border-radius: 50%;
+  transition: transform 400ms ease, opacity 400ms ease;
+  pointer-events: none;
+}
+
+.brik-ticker:hover .brik-ticker-shadow { transform: scale(.85); opacity: .65; }
+
+@media (max-width: 768px) {
+  .brik-ticker-section { padding: 50px 0; }
+  .brik-ticker { width: 92vw; height: 400px; }
+  .brik-ticker-overlay { inset: auto 18px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-ticker-inner, .brik-ticker-image, .brik-ticker-overlay span { transition: none; }
+}
