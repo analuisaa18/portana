@@ -31,6 +31,20 @@ export interface ThemeColors {
   error: string;
 }
 
+export interface ThemeTypographyLab {
+  text: string;
+  speed: number;
+  depth: number;
+  perspective: number;
+  curvature: number;
+  spacing: number;
+  rotateX: number;
+  rotateY: number;
+  rotateZ: number;
+  mouseStrength: number;
+  autoRotate: boolean;
+}
+
 export interface ThemeTypography {
   fontFamilyHeadings: string;
   fontFamilyBody: string;
@@ -41,6 +55,7 @@ export interface ThemeTypography {
   lineHeight: number;
   headingLineHeight: number;
   letterSpacing: number;
+  lab?: ThemeTypographyLab;
 }
 
 export type IconProvider = 'material' | 'apple' | 'feather' | 'lucide' | 'custom';
