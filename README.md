@@ -73,3 +73,8 @@ VITE_SUPABASE_ANON_KEY="sua-chave-anon-publica"
 
 Acesse a rota de administração clicando em **"Admin"** no cabeçalho:
 - **Código de Acesso Rápido**: Digite `admin123` para entrar no painel.
+
+
+## Interactive typography experiment
+
+The portfolio includes `src/components/public/BrikTicker.tsx`. Place the artwork used by the experiment at `assets/brik-ticker.png` for the visual to appear.
