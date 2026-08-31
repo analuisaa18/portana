@@ -64,6 +64,34 @@ export interface ThemeRadius {
 
 export type ThemeGridStyle = 'standard' | 'dense' | 'masonry' | 'featured' | 'list';
 
+export type ThemeHeaderStyle = 'minimal' | 'boxed' | 'editorial' | 'floating';
+export type ThemeHeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic';
+export type ThemeHeaderNavStyle = 'plain' | 'underline' | 'pill';
+
+export interface ThemeHeader {
+  style: ThemeHeaderStyle;
+  sticky: boolean;
+  showBorder: boolean;
+  blur: boolean;
+  backgroundOpacity: number;
+  heightPx: number;
+  showBrandIcon: boolean;
+  iconSizePx: number;
+  nameSizePx: number;
+  nameWeight: number;
+  nameLetterSpacing: number;
+  showTagline: boolean;
+  taglineSizePx: number;
+  navStyle: ThemeHeaderNavStyle;
+  navGapPx: number;
+  navSizePx: number;
+  navWeight: number;
+  navUppercase: boolean;
+  showAdminButton: boolean;
+  animation: ThemeHeaderAnimation;
+  animationIntensity: number;
+}
+
 export interface ThemeLayout {
   maxWidthPx: number;
   gridColumns: number;
@@ -85,6 +113,7 @@ export interface ThemeConfig {
   typography: ThemeTypography;
   radius: ThemeRadius;
   layout: ThemeLayout;
+  header: ThemeHeader;
   motion: ThemeMotion;
   brandIcon: ThemeIcon;
   customImage: string;
