@@ -39,7 +39,7 @@ export const P5SketchBlock: React.FC<P5SketchBlockProps> = ({ block }) => {
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script>
   <script>
     try {
-      ${code.replace(/<\\/script/gi, '<\\\\/script')}
+      ${code.replace(/<\/script/gi, '<\\/script')}
     } catch (error) {
       document.body.innerHTML = '<pre style="font:12px monospace;padding:16px;white-space:pre-wrap">Erro no sketch p5.js: ' + String(error) + '</pre>';
     }
