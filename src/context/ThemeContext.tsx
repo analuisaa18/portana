@@ -56,6 +56,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const typography = themeConfig.typography || DEFAULT_THEME_CONFIG.typography;
     const radius = themeConfig.radius || DEFAULT_THEME_CONFIG.radius;
     const layout = themeConfig.layout || DEFAULT_THEME_CONFIG.layout;
+    const header = { ...DEFAULT_THEME_CONFIG.header, ...(themeConfig.header || {}) };
     const motion = themeConfig.motion || DEFAULT_THEME_CONFIG.motion;
 
     // Colors
@@ -105,6 +106,20 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     root.style.setProperty('--layout-padding', `${layout.containerPaddingPx || 24}px`);
     root.style.setProperty('--layout-grid-columns', `${Math.min(6, Math.max(1, layout.gridColumns || 3))}`);
     root.style.setProperty('--layout-grid-style', layout.gridStyle || 'standard');
+
+    // Header
+    root.style.setProperty('--header-height', `${header.heightPx || 80}px`);
+    root.style.setProperty('--header-bg-opacity', `${Math.min(1, Math.max(0, header.backgroundOpacity ?? 0.9))}`);
+    root.style.setProperty('--header-blur', header.blur ? '12px' : '0px');
+    root.style.setProperty('--header-border-display', header.showBorder ? '1px' : '0px');
+    root.style.setProperty('--header-name-size', `${header.nameSizePx || 24}px`);
+    root.style.setProperty('--header-name-weight', `${header.nameWeight || 900}`);
+    root.style.setProperty('--header-name-spacing', `${header.nameLetterSpacing ?? -0.05}em`);
+    root.style.setProperty('--header-icon-size', `${header.iconSizePx || 28}px`);
+    root.style.setProperty('--header-tagline-size', `${header.taglineSizePx || 10}px`);
+    root.style.setProperty('--header-nav-gap', `${header.navGapPx || 24}px`);
+    root.style.setProperty('--header-nav-size', `${header.navSizePx || 11}px`);
+    root.style.setProperty('--header-nav-weight', `${header.navWeight || 700}`);
 
     // Motion
     if (reducedMotion) {
