@@ -465,3 +465,105 @@
 @media (prefers-reduced-motion: reduce) {
   .brik-ticker-inner, .brik-ticker-image, .brik-ticker-overlay span { transition: none; }
 }
+/* =========================================================
+   ANIMATED 3D TYPOGRAPHY
+   ========================================================= */
+
+.animated-title-3d {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  cursor: default;
+  user-select: none;
+  overflow: visible;
+}
+
+.animated-title-3d-line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  line-height: 0.86;
+}
+
+.animated-title-3d-line-accent {
+  color: var(--color-accent);
+}
+
+.animated-title-3d-letter {
+  display: inline-block;
+  position: relative;
+
+  font-size: clamp(
+    3.2rem,
+    7vw,
+    7rem
+  );
+
+  font-weight: 900;
+  letter-spacing: -0.075em;
+
+  transform-style: preserve-3d;
+
+  will-change:
+    transform,
+    text-shadow;
+
+  transition:
+    color 180ms ease;
+
+  backface-visibility: visible;
+}
+
+.animated-title-3d:hover
+.animated-title-3d-letter {
+  color: var(--color-accent);
+}
+
+.animated-title-3d-line-accent
+.animated-title-3d-letter {
+  color: var(--color-accent);
+}
+
+/* profundidade falsa */
+.animated-title-3d-letter::after {
+  content: attr(data-letter);
+  position: absolute;
+
+  inset: 0;
+
+  transform: translate3d(
+    7px,
+    7px,
+    -8px
+  );
+
+  color: transparent;
+
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .animated-title-3d {
+    max-width: 100%;
+  }
+
+  .animated-title-3d-letter {
+    font-size: clamp(
+      2.4rem,
+      10vw,
+      4.5rem
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-title-3d-letter {
+    transform: none !important;
+    transition: none !important;
+  }
+}
