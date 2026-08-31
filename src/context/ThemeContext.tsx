@@ -109,16 +109,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     // Header
     root.style.setProperty('--header-height', `${header.heightPx || 80}px`);
-    root.style.setProperty('--header-bg-opacity', `${Math.min(1, Math.max(0, header.backgroundOpacity ?? 0.9))}`);
+    root.style.setProperty('--header-bg-opacity', `${Math.min(1, Math.max(0, header.opacity ?? 0.9))}`);
     root.style.setProperty('--header-blur', header.blur ? '12px' : '0px');
     root.style.setProperty('--header-border-display', header.showBorder ? '1px' : '0px');
-    root.style.setProperty('--header-name-size', `${header.nameSizePx || 24}px`);
-    root.style.setProperty('--header-name-weight', `${header.nameWeight || 900}`);
-    root.style.setProperty('--header-name-spacing', `${header.nameLetterSpacing ?? -0.05}em`);
+    root.style.setProperty('--header-name-size', `${header.brandFontSizePx || 24}px`);
+    root.style.setProperty('--header-name-weight', `${header.brandWeight || 900}`);
+    root.style.setProperty('--header-name-spacing', `${header.brandLetterSpacing ?? -0.05}em`);
     root.style.setProperty('--header-icon-size', `${header.iconSizePx || 28}px`);
-    root.style.setProperty('--header-tagline-size', `${header.taglineSizePx || 10}px`);
-    root.style.setProperty('--header-nav-gap', `${header.navGapPx || 24}px`);
-    root.style.setProperty('--header-nav-size', `${header.navSizePx || 11}px`);
+    root.style.setProperty('--header-tagline-size', '10px');
+    root.style.setProperty('--header-nav-gap', '24px');
+    root.style.setProperty('--header-nav-size', `${header.navFontSizePx || 11}px`);
     root.style.setProperty('--header-nav-weight', `${header.navWeight || 700}`);
 
     // Motion
@@ -149,6 +149,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     };
     loadGoogleFont(typography.fontFamilyHeadings || 'Space Grotesk');
     loadGoogleFont(typography.fontFamilyBody || 'Inter');
+    if (header.brandFontFamily?.trim()) loadGoogleFont(header.brandFontFamily);
   }, [themeConfig, reducedMotion]);
 
   const updateThemeConfig = async (newConfig: ThemeConfig) => {
