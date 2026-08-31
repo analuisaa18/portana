@@ -69,6 +69,7 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
     typography: { ...DEFAULT_THEME_CONFIG.typography, ...(themeConfig?.typography || {}) },
     radius: { ...DEFAULT_THEME_CONFIG.radius, ...(themeConfig?.radius || {}) },
     layout: { ...DEFAULT_THEME_CONFIG.layout, ...(themeConfig?.layout || {}) },
+    header: { ...DEFAULT_THEME_CONFIG.header, ...(themeConfig?.header || {}) },
     motion: { ...DEFAULT_THEME_CONFIG.motion, ...(themeConfig?.motion || {}) },
     brandIcon: { ...DEFAULT_THEME_CONFIG.brandIcon, ...(themeConfig?.brandIcon || {}) },
     customImage: themeConfig?.customImage || '',
@@ -228,6 +229,46 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
             </div>
             <label className="space-y-1 block"><span className="block font-semibold">Espaçamento das letras (em)</span><input type="number" min="-0.1" max="0.2" step="0.005" value={config.typography.letterSpacing} onChange={e => updateTypography({ letterSpacing: Number(e.target.value) })} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
           </div>
+        </div>
+      </div>
+
+      <div className="p-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] space-y-5 shadow-xs">
+        <h3 className="text-base font-bold border-b border-[var(--color-border)] pb-2 flex items-center gap-2"><LayoutGrid className="w-4 h-4 text-[var(--color-accent)]" /> Cabeçalho / Header</h3>
+        <p className="text-xs text-[var(--color-text-secondary)]">Controle a composição do cabeçalho, marca, navegação e interação do seu nome sem alterar o restante do portfólio.</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          {[['minimal','Minimal'],['boxed','Caixa'],['editorial','Editorial'],['floating','Flutuante']].map(([value,label]) => (
+            <button key={value} type="button" onClick={() => setConfig(prev => ({ ...prev, header: { ...prev.header, style: value as ThemeConfig['header']['style'] } }))} className={`p-3 rounded-[var(--radius-md)] border text-left ${config.header.style === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] font-bold' : 'border-[var(--color-border)]'}`}>
+              <span className="block font-bold">{label}</span><span className="block mt-1 text-[10px] opacity-70">Estilo do header</span>
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.sticky} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, sticky: e.target.checked } }))} /> Fixo no topo</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.showBorder} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, showBorder: e.target.checked } }))} /> Mostrar borda</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.blur} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, blur: e.target.checked } }))} /> Blur</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.showAdminButton} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, showAdminButton: e.target.checked } }))} /> Mostrar Admin</label>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <label className="space-y-1"><span className="block font-semibold">Altura (px)</span><input type="number" min="48" max="140" value={config.header.heightPx} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, heightPx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Opacidade</span><input type="number" min="0" max="1" step="0.05" value={config.header.backgroundOpacity} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, backgroundOpacity: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Ícone (px)</span><input type="number" min="0" max="64" value={config.header.iconSizePx} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, iconSizePx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Nome (px)</span><input type="number" min="12" max="64" value={config.header.nameSizePx} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, nameSizePx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <label className="space-y-1"><span className="block font-semibold">Peso do nome</span><input type="number" min="100" max="900" step="100" value={config.header.nameWeight} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, nameWeight: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Tracking do nome (em)</span><input type="number" min="-0.2" max="0.3" step="0.01" value={config.header.nameLetterSpacing} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, nameLetterSpacing: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Tamanho nav (px)</span><input type="number" min="8" max="24" value={config.header.navSizePx} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, navSizePx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+          <label className="space-y-1"><span className="block font-semibold">Gap nav (px)</span><input type="number" min="4" max="64" value={config.header.navGapPx} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, navGapPx: Number(e.target.value) } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]" /></label>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div><label className="block font-semibold mb-2">Navegação</label><select value={config.header.navStyle} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, navStyle: e.target.value as ThemeConfig['header']['navStyle'] } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]"><option value="plain">Simples</option><option value="underline">Sublinhado</option><option value="pill">Pílula</option></select></div>
+          <div><label className="block font-semibold mb-2">Animação do nome</label><select value={config.header.animation} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, animation: e.target.value as ThemeConfig['header']['animation'] } }))} className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]"><option value="none">Nenhuma</option><option value="lift">Elevação</option><option value="wave">Onda por letra</option><option value="magnetic">Magnética</option></select></div>
+          <label className="space-y-1"><span className="block font-semibold">Intensidade ({config.header.animationIntensity.toFixed(1)}x)</span><input type="range" min="0" max="2" step="0.1" value={config.header.animationIntensity} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, animationIntensity: Number(e.target.value) } }))} className="w-full" /></label>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.showBrandIcon} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, showBrandIcon: e.target.checked } }))} /> Mostrar ícone da marca</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.showTagline} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, showTagline: e.target.checked } }))} /> Mostrar tagline</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={config.header.navUppercase} onChange={e => setConfig(prev => ({ ...prev, header: { ...prev.header, navUppercase: e.target.checked } }))} /> Navegação em maiúsculas</label>
         </div>
       </div>
 
