@@ -5,6 +5,7 @@ import { ProjectCard } from './ProjectCard';
 import { GitHubShowcase } from './GitHubShowcase';
 import { useTheme } from '../../context/ThemeContext';
 import { FolderOpen } from 'lucide-react';
+import { BrikTicker } from './BrikTicker';
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -170,6 +171,9 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           </button>
         </div>
       )}
+
+      {/* Interactive typography experiment */}
+      <BrikTicker />
 
       {/* Live GitHub Showcase */}
       <GitHubShowcase
