@@ -19,6 +19,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const headerStyle = header.style || 'minimal';
   const headerAnimation = header.animation || 'wave';
   const intensity = Math.max(0, Math.min(2, header.animationIntensity ?? 1));
+  const navStyle = header.navStyle || 'plain';
+  const isReducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
   const navItems = [
     { id: 'sobre', label: 'Sobre' },
@@ -43,13 +45,17 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         }}
       >
         <div
-          className={`max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between w-full ${headerStyle === 'boxed' ? 'rounded-[var(--radius-lg)] border border-[var(--color-border)] my-2' : ''} ${headerStyle === 'floating' ? 'rounded-[var(--radius-xl)] border border-[var(--color-border)] shadow-sm' : ''}`}
-          style={{ minHeight: 'var(--header-height)' }}
+          className={`max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between w-full transition-all ${headerStyle === 'boxed' ? 'rounded-[var(--radius-lg)] border border-[var(--color-border)] my-2' : ''} ${headerStyle === 'floating' ? 'rounded-[var(--radius-xl)] border border-[var(--color-border)] shadow-sm my-2' : ''}`}
+          style={{
+            minHeight: 'var(--header-height)',
+            paddingTop: headerStyle === 'editorial' ? '0.5rem' : undefined,
+            paddingBottom: headerStyle === 'editorial' ? '0.5rem' : undefined,
+          }}
         >
           {/* Brand Logo / Portfolio Name */}
           <button
             onClick={() => handleNavClick('projetos')}
-            className={`portfolio-brand cursor-pointer focus:outline-none ${brandHovered ? 'portfolio-brand--active' : ''}`}
+            className={`portfolio-brand cursor-pointer focus:outline-none ${headerStyle === 'editorial' ? 'portfolio-brand--editorial' : ''} ${brandHovered ? 'portfolio-brand--active' : ''}`}
             aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}
             onPointerEnter={() => setBrandHovered(true)}
             onPointerLeave={() => {
@@ -78,12 +84,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   className="portfolio-brand-letter"
                   style={{
                     '--letter-index': index,
-                    transform: brandHovered && headerAnimation !== 'none'
+                    transform: !isReducedMotion && brandHovered && headerAnimation !== 'none'
                       ? headerAnimation === 'magnetic'
-                        ? `translate3d(${brandPointer.x * 0.5 * intensity}px, ${brandPointer.y * 0.35 * intensity}px, 0) scale(${1 + 0.04 * intensity})`
+                        ? `translate3d(${brandPointer.x * 0.75 * intensity}px, ${brandPointer.y * 0.5 * intensity}px, 0) rotate(${brandPointer.x * 0.18 * intensity}deg) scale(${1 + 0.05 * intensity})`
                         : headerAnimation === 'lift'
-                          ? `translate3d(${brandPointer.x * 0.12 * intensity}px, ${-4 * intensity}px, 0) rotate(${index % 2 ? 2 : -2}deg) scale(${1 + 0.02 * intensity})`
-                          : `translate3d(${brandPointer.x * 0.28 * intensity}px, ${(-7 - (index % 3) * 3) * intensity + brandPointer.y * 0.18 * intensity}px, 0) rotate(${index % 2 ? 3 : -3}deg) scale(${index % 3 === 0 ? 1.1 : 1.04})`
+                          ? `translate3d(${brandPointer.x * 0.16 * intensity}px, ${-5 * intensity}px, 0) rotate(${index % 2 ? 2 : -2}deg) scale(${1 + 0.025 * intensity})`
+                          : `translate3d(${brandPointer.x * (0.18 + (index % 4) * 0.035) * intensity}px, ${(-5 - (index % 3) * 3) * intensity + brandPointer.y * 0.22 * intensity}px, 0) rotate(${(index % 2 ? 3 : -3) + brandPointer.x * 0.08}deg) scale(${index % 3 === 0 ? 1.08 : 1.035})`
                       : 'translate3d(0, 0, 0) rotate(0deg) scale(1)',
                     color: brandHovered ? 'var(--color-accent)' : 'var(--color-text-primary)',
                     transitionDelay: `${index * 18}ms`,
@@ -102,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className={`hidden md:flex items-center ${header.navStyle === 'pill' ? 'gap-2' : ''}`} style={{ gap: header.navStyle === 'pill' ? undefined : 'var(--header-nav-gap)' }} aria-label="Navegação Principal">
+          <nav className={`hidden md:flex items-center ${navStyle === 'pill' ? 'gap-2' : ''} ${headerStyle === 'editorial' ? 'border-l border-[var(--color-border)] pl-5' : ''}`} style={{ gap: header.navStyle === 'pill' ? undefined : 'var(--header-nav-gap)' }} aria-label="Navegação Principal">
             {navItems.map((item) => {
               const isActive = currentView === item.id;
               return (
@@ -110,10 +116,22 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`transition-all cursor-pointer ${header.navStyle === 'pill' ? 'px-3 py-1.5 rounded-full' : 'py-1'} ${
+                  className={`transition-all cursor-pointer ${
+                    navStyle === 'pill'
+                      ? 'px-3 py-1.5 rounded-full border'
+                      : navStyle === 'underline'
+                        ? 'py-1 underline-offset-8'
+                        : 'py-1'
+                  } ${
                     isActive
-                      ? 'text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8'
-                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+                      ? navStyle === 'pill'
+                        ? 'text-[var(--color-bg)] bg-[var(--color-accent)] border-[var(--color-accent)]'
+                        : navStyle === 'underline'
+                          ? 'text-[var(--color-accent)] underline decoration-[var(--color-accent)]'
+                          : 'text-[var(--color-accent)]'
+                      : navStyle === 'pill'
+                        ? 'text-[var(--color-text-secondary)] border-transparent hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)]'
+                        : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                   }`}
                   style={{
                     fontSize: 'var(--header-nav-size)',
