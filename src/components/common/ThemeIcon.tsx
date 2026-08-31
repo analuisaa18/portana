@@ -15,13 +15,13 @@ const iconUrl = (icon: ThemeIconConfig) => {
   return `https://api.iconify.design/${collection}:${encodeURIComponent(icon.name)}.svg?color=currentColor`;
 };
 
-export const ThemeIcon: React.FC<{ icon?: ThemeIconConfig; className?: string }> = ({ icon, className = 'w-5 h-5' }) => {
-  if (!icon) return <Sparkles className={className} />;
+export const ThemeIcon: React.FC<{ icon?: ThemeIconConfig; className?: string; style?: React.CSSProperties }> = ({ icon, className = 'w-5 h-5', style }) => {
+  if (!icon) return <Sparkles className={className} style={style} />;
   if (icon.provider === 'lucide') {
     const Icon = (Sparkles as React.ComponentType<any>);
-    return <Icon className={className} aria-hidden="true" />;
+    return <Icon className={className} style={style} aria-hidden="true" />;
   }
   const src = iconUrl(icon);
   if (!src) return <Sparkles className={className} />;
-  return <img src={src} alt={icon.alt || ''} className={`${className} object-contain`} aria-hidden={!icon.alt} />;
+  return <img src={src} alt={icon.alt || ''} className={`${className} object-contain`} style={style} aria-hidden={!icon.alt} />;
 };
