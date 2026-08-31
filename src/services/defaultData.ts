@@ -31,6 +31,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     lineHeight: 1.6,
     headingLineHeight: 0.95,
     letterSpacing: -0.03,
+    lab: { text: '3D TICKER', speed: 1, depth: 28, perspective: 900, curvature: 18, spacing: 4, rotateX: -12, rotateY: 0, rotateZ: 0, mouseStrength: 0.7, autoRotate: true },
   },
   radius: {
     none: '0px',
