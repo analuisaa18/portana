@@ -6,12 +6,14 @@ import { SettingsEditor } from './SettingsEditor';
 import { CategoryManager } from './CategoryManager';
 import { ProjectList } from './ProjectList';
 import { AppearanceEditor } from './AppearanceEditor';
+import { HeaderEditor } from './HeaderEditor';
 import { GitHubManager } from './GitHubManager';
 import { 
   FolderGit2, 
   Layers, 
   UserCheck, 
   Palette, 
+  PanelTop,
   LogOut, 
   Eye, 
   FileCheck2, 
@@ -29,7 +31,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout,
   onPreviewPublic,
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,6 +64,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     { id: 'github', label: 'Integração GitHub', icon: <Github className="w-4 h-4 text-[var(--color-accent)]" /> },
     { id: 'settings', label: 'Perfil & Sobre', icon: <UserCheck className="w-4 h-4" /> },
     { id: 'appearance', label: 'Aparência & Design System', icon: <Palette className="w-4 h-4" /> },
+    { id: 'header', label: 'Personalizar Header', icon: <PanelTop className="w-4 h-4" /> },
   ];
 
   return (
@@ -237,6 +240,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {activeTab === 'appearance' && (
         <AppearanceEditor onSaved={refreshData} />
+      )}
+
+      {activeTab === 'header' && (
+        <HeaderEditor onSaved={refreshData} />
       )}
     </div>
   );
