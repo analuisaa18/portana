@@ -125,13 +125,15 @@ export interface ThemeHeader {
   animationSpeed: number;
   animationMouseStrength: number;
   animationRepeat: number;
-  animationAxisX: number;
-  animationAxisY: number;
-  animationAxisZ: number;
-  animationBackground: boolean;
-  animationBackgroundIntensity: number;
-  animationBackgroundParallax: number;
-  animationBackgroundGrid: number;
+  backgroundEnabled: boolean;
+  backgroundStyle: 'grid' | 'orb' | 'particles' | 'hybrid';
+  backgroundOpacity: number;
+  backgroundIntensity: number;
+  backgroundParallax: number;
+  backgroundGridSize: number;
+  backgroundGridPerspective: number;
+  backgroundMouseDepth: number;
+  backgroundAccentMix: number;
 }
 
 export interface ThemeConfig {
