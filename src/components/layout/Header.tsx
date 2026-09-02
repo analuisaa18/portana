@@ -88,20 +88,32 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     }
 
     if (animation === 'wrapped3d') {
+      // Brik-like “wrapped” motion: each glyph travels around an invisible
+      // rounded 3D loop instead of simply waving left/right.
       const depth = header?.animationDepth ?? 70;
       const mouseStrength = header?.animationMouseStrength ?? 1;
       const speed = header?.animationSpeed ?? 1;
       const t = brandTick * 0.016 * speed;
-      const phase = index * 0.72;
-      const wave = Math.sin(t * 2 + phase) * 7 * intensity;
-      const waveX = Math.cos(t * 1.4 + phase) * 3 * intensity;
-      const z = Math.sin(phase + x * 0.025) * depth * 0.55 + x * 3.5 * mouseStrength;
-      const rotateY = Math.sin(phase + x * 0.04) * 13 * intensity + x * 1.7 * mouseStrength;
-      const rotateX = y * -3.5 * mouseStrength + Math.cos(phase + t) * 3;
-      const rotateZ = Math.sin(phase + t * 1.2) * 2.2 + x * 0.25;
-      const lift = wave - Math.abs(x) * 0.8 + y * 1.8 * mouseStrength;
-      const scale = 1 + Math.sin(phase + t) * 0.035;
-      return `translate3d(${waveX}px, ${lift}px, ${z}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      const count = Math.max((settings.portfolio_name || 'STUDIO.X').length, 1);
+      const phase = (index / count) * Math.PI * 2;
+      const angle = phase + t * 0.95;
+
+      const radiusX = 34 * intensity;
+      const radiusY = 11 * intensity;
+      const xLoop = Math.cos(angle) * radiusX;
+      const yLoop = Math.sin(angle) * radiusY;
+      const zLoop = Math.sin(angle) * depth;
+
+      // Pointer bends the whole loop and adds a small camera-like tilt.
+      const pointerX = x * 1.15 * mouseStrength;
+      const pointerY = y * 0.8 * mouseStrength;
+      const tiltY = Math.sin(angle) * 42 * intensity + x * 1.35 * mouseStrength;
+      const tiltX = Math.cos(angle) * -10 * intensity + y * -2.8 * mouseStrength;
+      const tangent = (Math.atan2(Math.cos(angle) * radiusY, -Math.sin(angle) * radiusX) * 180) / Math.PI;
+      const rotateZ = tangent - 90;
+      const scale = 0.86 + (Math.sin(angle) + 1) * 0.10;
+
+      return `translate3d(${xLoop + pointerX}px, ${yLoop + pointerY}px, ${zLoop}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
     }
 
     const wave = Math.sin(index * 0.9 + x * 0.08) * 2.5 * intensity;
