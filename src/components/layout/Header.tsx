@@ -5,6 +5,10 @@ import { SkipLink } from '../common/SkipLink';
 import { ThemeIcon } from '../common/ThemeIcon';
 import { InteractiveHeaderBackground } from './InteractiveHeaderBackground';
 
+const DEFAULT_HEADER_FALLBACK = {
+  style: 'minimal', sticky: true, showBorder: true, blur: true, opacity: 0.9, heightPx: 80, showBrandIcon: true, iconSizePx: 28, brandFontSizePx: 24, brandWeight: 900, brandLetterSpacing: -0.04, showTagline: true, navStyle: 'underline', navFontSizePx: 11, navWeight: 700, navLetterSpacing: 0.35, navUppercase: true, showAdminButton: true, animation: 'wrapped3d', animationIntensity: 1, animationPerspective: 900, animationDepth: 70, animationSpeed: 1, animationMouseStrength: 1, animationRepeat: 3, backgroundEnabled: true, backgroundStyle: 'hybrid', backgroundOpacity: 0.42, backgroundIntensity: 1, backgroundParallax: 1, backgroundGridSize: 42, backgroundGridPerspective: 900, backgroundMouseDepth: 80, backgroundAccentMix: 0.65
+} as any;
+
 interface HeaderProps {
   currentView: string;
   onNavigate: (view: string, param?: string) => void;
@@ -16,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const [brandHovered, setBrandHovered] = useState(false);
   const [brandPointer, setBrandPointer] = useState({ x: 0, y: 0 });
   const [brandTick, setBrandTick] = useState(0);
-  const [headerPointer, setHeaderPointer] = useState({ x: 0, y: 0 });
+  const [scenePointer, setScenePointer] = useState({ x: 0, y: 0 });
 
   const header = settings.theme_config?.header;
   const headerStyle = header?.style || 'minimal';
@@ -93,9 +97,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       // The word folds around an invisible 3D cylinder/ellipse.
       // Each glyph has its own angle, depth and tangent rotation.
       const depth = header?.animationDepth ?? 95;
-      const axisX = header?.animationAxisX ?? 1;
-      const axisY = header?.animationAxisY ?? 1;
-      const axisZ = header?.animationAxisZ ?? 1;
       const speed = header?.animationSpeed ?? 1;
       const mouseStrength = header?.animationMouseStrength ?? 1;
       const repeat = Math.max(1, header?.animationRepeat ?? 3);
@@ -109,14 +110,14 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       const angle = baseAngle + t;
       const radiusX = Math.max(28, Math.min(72, 34 + depth * 0.22));
       const radiusY = 7 + depth * 0.045;
-      const z = Math.cos(angle) * depth * 0.9 * axisZ;
-      const arcX = Math.sin(angle) * radiusX * axisX;
-      const arcY = ((1 - Math.cos(angle)) * radiusY - radiusY) * axisY;
+      const z = Math.cos(angle) * depth * 0.9;
+      const arcX = Math.sin(angle) * radiusX;
+      const arcY = (1 - Math.cos(angle)) * radiusY - radiusY;
 
       const tangent = (Math.cos(angle) * 30) * intensity;
-      const rotateY = (-Math.sin(angle) * 72) * intensity * axisY;
-      const rotateX = y * -4.5 * mouseStrength * axisX + Math.cos(angle + t * 0.6) * 4 * intensity * axisX;
-      const rotateZ = tangent * axisZ + x * 1.4 * mouseStrength * axisZ;
+      const rotateY = (-Math.sin(angle) * 72) * intensity;
+      const rotateX = y * -4.5 * mouseStrength + Math.cos(angle + t * 0.6) * 4 * intensity;
+      const rotateZ = tangent + x * 1.4 * mouseStrength;
       const mouseX = x * (1.7 + Math.abs(Math.sin(angle)) * 0.5) * mouseStrength;
       const mouseY = y * 1.2 * mouseStrength;
       const scale = 0.82 + (Math.cos(angle) + 1) * 0.14;
@@ -137,21 +138,21 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     <>
       <SkipLink />
       <header
+        className={`${header?.sticky === false ? 'relative' : 'sticky top-0'} z-40 w-full header-3d-container ${headerStyleClass} ${header?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'} bg-[var(--color-surface)] transition-all`}
         onPointerMove={(event) => {
           const rect = event.currentTarget.getBoundingClientRect();
           const x = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
           const y = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-          setHeaderPointer({ x: Math.max(-1, Math.min(1, x)), y: Math.max(-1, Math.min(1, y)) });
+          setScenePointer({ x: x * 100, y: y * 60 });
         }}
-        onPointerLeave={() => setHeaderPointer({ x: 0, y: 0 })}
-        className={`${header?.sticky === false ? 'relative' : 'sticky top-0'} relative z-40 w-full ${headerStyleClass} ${header?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'} bg-[var(--color-surface)] transition-all`}
+        onPointerLeave={() => setScenePointer({ x: 0, y: 0 })}
         style={{
           minHeight: `${header?.heightPx || 80}px`,
-          backgroundColor: `color-mix(in srgb, var(--color-surface) ${Math.round(Math.min(62, (header?.opacity ?? 0.9) * 62))}%, transparent)`,
+          backgroundColor: `color-mix(in srgb, var(--color-surface) ${Math.round((header?.opacity ?? 0.9) * 100)}%, transparent)`,
           backdropFilter: header?.blur === false ? 'none' : 'blur(12px)',
         }}
       >
-        <InteractiveHeaderBackground header={header || { ...({} as any) }} pointer={headerPointer} active={brandHovered || Math.abs(headerPointer.x) + Math.abs(headerPointer.y) > 0.01} />
+        <InteractiveHeaderBackground config={header || DEFAULT_HEADER_FALLBACK} pointer={scenePointer} />
         <div
           className="relative z-10 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between"
           style={{ minHeight: `${header?.heightPx || 80}px` }}
