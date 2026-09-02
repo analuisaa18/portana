@@ -40,7 +40,7 @@ export const InteractiveHeaderBackground: React.FC<Props> = ({ header, pointer, 
       className="interactive-header-bg"
       aria-hidden="true"
       style={{
-        opacity: 0.55 + Math.min(0.35, intensity * 0.18),
+        opacity: 0.88 + Math.min(0.12, intensity * 0.04),
         '--ihb-x': `${px * 28}px`,
         '--ihb-y': `${py * 18}px`,
         '--ihb-rot-x': `${rotX}deg`,
@@ -52,6 +52,8 @@ export const InteractiveHeaderBackground: React.FC<Props> = ({ header, pointer, 
       } as React.CSSProperties}
     >
       <div className="interactive-header-bg__grid" />
+      <div className="interactive-header-bg__plane" />
+      <div className="interactive-header-bg__noise" />
       <div className="interactive-header-bg__glow interactive-header-bg__glow--a" />
       <div className="interactive-header-bg__glow interactive-header-bg__glow--b" />
       <div className="interactive-header-bg__ring interactive-header-bg__ring--1" />
