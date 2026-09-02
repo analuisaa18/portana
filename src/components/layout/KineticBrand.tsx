@@ -41,7 +41,7 @@ export const KineticBrand: React.FC<KineticBrandProps> = ({
   const colorMode = header.animationColorMode || 'theme';
 
   useEffect(() => {
-    if (reducedMotion || animation === 'none' || !autoPlay || speed <= 0) {
+    if (reducedMotion || animation === 'none' || speed <= 0 || (animation !== 'wrapped3d' && !autoPlay)) {
       setTime(0);
       return;
     }
@@ -156,6 +156,33 @@ export const KineticBrand: React.FC<KineticBrandProps> = ({
         ? `${2 * intensity}px 0 0 color-mix(in srgb, var(--color-accent) 65%, transparent), ${-2 * intensity}px 0 0 color-mix(in srgb, var(--color-primary) 55%, transparent)`
         : 'none';
       opacity = clamp(1 - gate * 0.08, 0.82, 1);
+    }
+
+    if (animation === 'wrapped3d') {
+      // Wrapped-style 3D ribbon: each glyph travels around an invisible
+      // horizontal cylinder and reacts strongly to the pointer.
+      const perspective = Math.max(350, header.animationPerspective || 900);
+      const depth3d = clamp(header.animationDepth ?? 70, 25, 180);
+      const mouse = clamp(header.animationMouseStrength ?? 1, 0, 3);
+      const repeat = Math.max(1, header.animationRepeat ?? 3);
+      const hoverAmount = hovered ? 1 : 0;
+      const t = autoPlay || hovered ? time * Math.max(speed, 0.25) * 2.2 : 0;
+      const angle = normalizedIndex * Math.PI * (0.72 + repeat * 0.16) + t;
+      const radius = 24 + depth3d * 0.72;
+      const z = Math.cos(angle) * depth3d * 1.15 * hoverAmount;
+      const xArc = Math.sin(angle) * radius * hoverAmount;
+      const yArc = (1 - Math.cos(angle)) * (8 + depth3d * 0.07) * hoverAmount;
+      const tangent = Math.cos(angle) * 42;
+      const rotateY = -Math.sin(angle) * 82;
+      const rotateX = py * -14 * mouse + Math.sin(t * 0.8 + index) * 3;
+      const rotateZ = tangent + px * 10 * mouse;
+      const mouseX = px * 18 * mouse * (0.35 + Math.abs(normalizedIndex) * 0.7);
+      const mouseY = py * 10 * mouse;
+      const scale = hoverAmount ? 0.78 + (Math.cos(angle) + 1) * 0.18 : 1;
+      transform = `translate3d(${xArc + mouseX}px, ${yArc + mouseY}px, ${z}px) perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      textShadow = hoverAmount
+        ? `${px * 5}px ${8 + py * 4}px ${Math.max(4, depth3d * 0.22)}px color-mix(in srgb, var(--color-accent) 38%, transparent)`
+        : 'none';
     }
 
     if (animation === 'stretch') {
