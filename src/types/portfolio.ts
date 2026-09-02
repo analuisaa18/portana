@@ -125,6 +125,13 @@ export interface ThemeHeader {
   animationSpeed: number;
   animationMouseStrength: number;
   animationRepeat: number;
+  animationAxisX: number;
+  animationAxisY: number;
+  animationAxisZ: number;
+  animationBackground: boolean;
+  animationBackgroundIntensity: number;
+  animationBackgroundParallax: number;
+  animationBackgroundGrid: number;
 }
 
 export interface ThemeConfig {
