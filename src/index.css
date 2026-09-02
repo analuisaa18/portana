@@ -426,3 +426,43 @@
     transition: none !important;
   }
 }
+
+
+/* Wrapped 3D header — strong pointer-driven depth */
+.kinetic-brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  transform-style: preserve-3d;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  overflow: visible;
+  isolation: isolate;
+}
+.kinetic-brand-letter {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform-origin: 50% 70%;
+  will-change: transform;
+}
+.kinetic-brand[data-animation='wrapped3d'] {
+  perspective: 900px;
+}
+.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::before,
+.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::after {
+  content: attr(data-letter);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::before {
+  transform: translate3d(3px, 3px, -10px);
+  color: color-mix(in srgb, var(--color-accent) 38%, transparent);
+}
+.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::after {
+  transform: translate3d(6px, 6px, -20px);
+  color: color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
