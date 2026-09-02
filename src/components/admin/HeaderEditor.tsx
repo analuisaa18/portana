@@ -200,40 +200,6 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
               <input className={controlClass} type="number" min="1" max="6" step="1" value={header.animationRepeat} onChange={e => update({ animationRepeat: Number(e.target.value) })} />
             </label>
           </div>
-
-          <div className="mt-5 pt-5 border-t border-[var(--color-border)]">
-            <h4 className="font-bold mb-3">Eixos 3D</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <label className="text-xs font-semibold space-y-1 block">Eixo X
-                <input className={controlClass} type="number" min="-3" max="3" step="0.1" value={header.animationAxisX} onChange={e => update({ animationAxisX: Number(e.target.value) })} />
-              </label>
-              <label className="text-xs font-semibold space-y-1 block">Eixo Y
-                <input className={controlClass} type="number" min="-3" max="3" step="0.1" value={header.animationAxisY} onChange={e => update({ animationAxisY: Number(e.target.value) })} />
-              </label>
-              <label className="text-xs font-semibold space-y-1 block">Eixo Z
-                <input className={controlClass} type="number" min="-3" max="3" step="0.1" value={header.animationAxisZ} onChange={e => update({ animationAxisZ: Number(e.target.value) })} />
-              </label>
-            </div>
-          </div>
-
-          <div className="mt-5 pt-5 border-t border-[var(--color-border)]">
-            <h4 className="font-bold mb-3">Fundo interativo 3D</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <label className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
-                <input type="checkbox" checked={header.animationBackground !== false} onChange={e => update({ animationBackground: e.target.checked })} />
-                Ativar fundo
-              </label>
-              <label className="text-xs font-semibold space-y-1 block">Intensidade
-                <input className={controlClass} type="number" min="0" max="3" step="0.1" value={header.animationBackgroundIntensity} onChange={e => update({ animationBackgroundIntensity: Number(e.target.value) })} />
-              </label>
-              <label className="text-xs font-semibold space-y-1 block">Paralaxe
-                <input className={controlClass} type="number" min="0" max="3" step="0.1" value={header.animationBackgroundParallax} onChange={e => update({ animationBackgroundParallax: Number(e.target.value) })} />
-              </label>
-              <label className="text-xs font-semibold space-y-1 block">Grade
-                <input className={controlClass} type="number" min="0" max="2" step="0.1" value={header.animationBackgroundGrid} onChange={e => update({ animationBackgroundGrid: Number(e.target.value) })} />
-              </label>
-            </div>
-          </div>
         )}
       </div>
     </div>
