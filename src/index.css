@@ -365,204 +365,59 @@
 }
 
 
-/* Interactive 3D typography experiment */
-.brik-ticker-section {
-  width: 100%;
-  padding: 80px 0;
-  overflow: hidden;
-  position: relative;
-}
-
-.brik-ticker {
-  width: min(900px, 90vw);
-  height: 520px;
-  margin: 0 auto;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1200px;
-  cursor: crosshair;
-}
-
-.brik-ticker-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 32px;
-  transform-style: preserve-3d;
-  transition: transform 180ms cubic-bezier(.2,.8,.2,1), border-radius 300ms ease;
-  box-shadow: 0 30px 80px rgba(0,0,0,.18), 0 10px 30px rgba(0,0,0,.12);
-}
-
-.brik-ticker:hover .brik-ticker-inner { border-radius: 18px; }
-
-.brik-ticker-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-  transition: transform 700ms cubic-bezier(.16,1,.3,1), filter 500ms ease;
-}
-
-.brik-ticker:hover .brik-ticker-image {
-  transform: scale(1.06);
-  filter: contrast(1.08) saturate(1.08);
-}
-
-.brik-ticker-overlay {
-  position: absolute;
-  inset: auto 30px 28px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.brik-ticker-overlay span {
-  padding: 8px 12px;
-  border: 1px solid rgba(255,255,255,.45);
-  background: rgba(0,0,0,.25);
-  backdrop-filter: blur(10px);
-  color: white;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .22em;
-  border-radius: 999px;
-  transform: translateZ(35px);
-  transition: transform 300ms ease;
-}
-
-.brik-ticker:hover .brik-ticker-overlay span:nth-child(1) { transform: translateZ(55px) translateX(4px); }
-.brik-ticker:hover .brik-ticker-overlay span:nth-child(2) { transform: translateZ(70px) translateX(-3px); }
-.brik-ticker:hover .brik-ticker-overlay span:nth-child(3) { transform: translateZ(45px) translateX(6px); }
-
-.brik-ticker-shadow {
-  position: absolute;
-  width: 75%;
-  height: 30px;
-  bottom: -25px;
-  left: 12.5%;
-  background: rgba(0,0,0,.25);
-  filter: blur(25px);
-  border-radius: 50%;
-  transition: transform 400ms ease, opacity 400ms ease;
-  pointer-events: none;
-}
-
-.brik-ticker:hover .brik-ticker-shadow { transform: scale(.85); opacity: .65; }
-
-@media (max-width: 768px) {
-  .brik-ticker-section { padding: 50px 0; }
-  .brik-ticker { width: 92vw; height: 400px; }
-  .brik-ticker-overlay { inset: auto 18px 18px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .brik-ticker-inner, .brik-ticker-image, .brik-ticker-overlay span { transition: none; }
-}
 /* =========================================================
-   ANIMATED 3D TYPOGRAPHY
+   HEADER — WRAPPED 3D TYPOGRAPHY
+   Inspired by experimental wrapped typography.
    ========================================================= */
 
-.animated-title-3d {
-  position: relative;
-  width: 100%;
-  max-width: 760px;
-  perspective: 1000px;
+.portfolio-brand-name {
+  display: inline-flex;
+  align-items: baseline;
   transform-style: preserve-3d;
-  cursor: default;
-  user-select: none;
+  perspective: 900px;
   overflow: visible;
 }
 
-.animated-title-3d-line {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  line-height: 0.86;
-}
-
-.animated-title-3d-line-accent {
-  color: var(--color-accent);
-}
-
-.animated-title-3d-letter {
-  display: inline-block;
+.portfolio-brand-letter {
   position: relative;
-
-  font-size: clamp(
-    3.2rem,
-    7vw,
-    7rem
-  );
-
-  font-weight: 900;
-  letter-spacing: -0.075em;
-
   transform-style: preserve-3d;
-
-  will-change:
-    transform,
-    text-shadow;
-
-  transition:
-    color 180ms ease;
-
+  will-change: transform, color, text-shadow;
   backface-visibility: visible;
 }
 
-.animated-title-3d:hover
-.animated-title-3d-letter {
-  color: var(--color-accent);
-}
-
-.animated-title-3d-line-accent
-.animated-title-3d-letter {
-  color: var(--color-accent);
-}
-
-/* profundidade falsa */
-.animated-title-3d-letter::after {
+.portfolio-brand-letter--wrapped3d::before,
+.portfolio-brand-letter--wrapped3d::after {
   content: attr(data-letter);
   position: absolute;
-
   inset: 0;
-
-  transform: translate3d(
-    7px,
-    7px,
-    -8px
-  );
-
-  color: transparent;
-
   pointer-events: none;
+  transform-style: preserve-3d;
 }
 
-@media (max-width: 768px) {
-  .animated-title-3d {
-    max-width: 100%;
-  }
+.portfolio-brand-letter--wrapped3d::before {
+  color: color-mix(in srgb, var(--color-accent) 32%, transparent);
+  transform: translate3d(3px, 3px, -8px);
+}
 
-  .animated-title-3d-letter {
-    font-size: clamp(
-      2.4rem,
-      10vw,
-      4.5rem
-    );
+.portfolio-brand-letter--wrapped3d::after {
+  color: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  transform: translate3d(6px, 6px, -16px);
+}
+
+.portfolio-brand--active .portfolio-brand-name {
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-brand--active .portfolio-brand-letter--wrapped3d {
+    text-shadow: 0 10px 20px color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animated-title-3d-letter {
+  .portfolio-brand-letter,
+  .portfolio-brand-letter--wrapped3d::before,
+  .portfolio-brand-letter--wrapped3d::after {
     transform: none !important;
     transition: none !important;
   }
