@@ -427,42 +427,74 @@
   }
 }
 
-
-/* Wrapped 3D header — strong pointer-driven depth */
-.kinetic-brand {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  transform-style: preserve-3d;
-  perspective: 900px;
-  perspective-origin: 50% 50%;
-  overflow: visible;
-  isolation: isolate;
-}
-.kinetic-brand-letter {
-  position: relative;
-  display: inline-block;
-  transform-style: preserve-3d;
-  backface-visibility: visible;
-  transform-origin: 50% 70%;
-  will-change: transform;
-}
-.kinetic-brand[data-animation='wrapped3d'] {
-  perspective: 900px;
-}
-.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::before,
-.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::after {
-  content: attr(data-letter);
+/* Interactive 3D field behind the header typography */
+.interactive-header-bg {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
+  z-index: 0;
+  perspective: 900px;
   transform-style: preserve-3d;
+  background:
+    radial-gradient(circle at var(--ihb-glow-x) var(--ihb-glow-y), color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 82%, transparent), transparent);
+  transition: opacity 240ms ease;
 }
-.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::before {
-  transform: translate3d(3px, 3px, -10px);
-  color: color-mix(in srgb, var(--color-accent) 38%, transparent);
+
+.interactive-header-bg__grid {
+  position: absolute;
+  inset: -55%;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-accent) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 22%, transparent) 1px, transparent 1px);
+  background-size: 38px 38px;
+  opacity: var(--ihb-grid-opacity);
+  transform: translate3d(var(--ihb-x), var(--ihb-y), -80px) rotateX(var(--ihb-rot-x)) rotateY(var(--ihb-rot-y)) rotateZ(-2deg);
+  transform-origin: center;
+  transition: transform 100ms linear;
 }
-.kinetic-brand[data-animation='wrapped3d'] .kinetic-brand-letter::after {
-  transform: translate3d(6px, 6px, -20px);
-  color: color-mix(in srgb, var(--color-accent) 18%, transparent);
+
+.interactive-header-bg__glow {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  filter: blur(32px);
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  transform: translate3d(var(--ihb-x), var(--ihb-y), 30px);
+  transition: transform 120ms linear;
 }
+
+.interactive-header-bg__glow--a { left: 8%; top: -80px; }
+.interactive-header-bg__glow--b { right: 8%; bottom: -120px; transform: translate3d(calc(var(--ihb-x) * -1), calc(var(--ihb-y) * -1), 20px); }
+
+.interactive-header-bg__ring {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 24%, transparent);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  transition: transform 120ms linear;
+}
+.interactive-header-bg__ring--1 { width: 220px; height: 70px; right: 22%; top: 8%; transform: translate3d(var(--ihb-x), var(--ihb-y), 45px) rotateX(68deg) rotateZ(calc(var(--ihb-rot-y) * 1.5)); }
+.interactive-header-bg__ring--2 { width: 140px; height: 45px; left: 34%; bottom: -10px; transform: translate3d(calc(var(--ihb-x) * -1), calc(var(--ihb-y) * -1), 20px) rotateX(70deg) rotateZ(calc(var(--ihb-rot-x) * -1.5)); }
+
+.interactive-header-bg__dust { position: absolute; inset: 0; transform-style: preserve-3d; }
+.interactive-header-bg__dust span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  left: calc((var(--i) * 9%) + 4%);
+  top: calc((var(--i) * 7%) + 18%);
+  background: var(--color-accent);
+  opacity: 0.25;
+  transform: translate3d(calc(var(--ihb-x) + var(--dx)), calc(var(--ihb-y) + var(--dy)), calc(var(--i) * 7px));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 70%, transparent);
+}
+
+.portfolio-brand-name,
+.portfolio-brand-letter { transform-style: preserve-3d; }
+.portfolio-brand-name { position: relative; z-index: 2; }
+.portfolio-brand-letter--wrapped3d::before,
+.portfolio-brand-letter--wrapped3d::after { transform-style: preserve-3d; }
