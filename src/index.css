@@ -427,104 +427,16 @@
   }
 }
 
-/* Interactive 3D field behind the header typography */
-.interactive-header-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-  perspective: 900px;
-  transform-style: preserve-3d;
-  background:
-    radial-gradient(circle at var(--ihb-glow-x) var(--ihb-glow-y), color-mix(in srgb, var(--color-accent) 34%, transparent), transparent 38%),
-    radial-gradient(circle at 12% 20%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 30%),
-    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 38%, transparent), color-mix(in srgb, var(--color-surface) 8%, transparent));
-  transition: opacity 240ms ease;
-}
 
-.interactive-header-bg__grid {
-  position: absolute;
-  inset: -55%;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--color-accent) 22%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 22%, transparent) 1px, transparent 1px);
-  background-size: 38px 38px;
-  opacity: var(--ihb-grid-opacity);
-  transform: translate3d(var(--ihb-x), var(--ihb-y), -80px) rotateX(var(--ihb-rot-x)) rotateY(var(--ihb-rot-y)) rotateZ(-2deg);
-  transform-origin: center;
-  transition: transform 100ms linear;
-}
-
-.interactive-header-bg__glow {
-  position: absolute;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  filter: blur(32px);
-  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
-  transform: translate3d(var(--ihb-x), var(--ihb-y), 30px);
-  transition: transform 120ms linear;
-}
-
-.interactive-header-bg__glow--a { left: 8%; top: -80px; }
-.interactive-header-bg__glow--b { right: 8%; bottom: -120px; transform: translate3d(calc(var(--ihb-x) * -1), calc(var(--ihb-y) * -1), 20px); }
-
-.interactive-header-bg__ring {
-  position: absolute;
-  border: 1px solid color-mix(in srgb, var(--color-accent) 24%, transparent);
-  border-radius: 50%;
-  transform-style: preserve-3d;
-  transition: transform 120ms linear;
-}
-.interactive-header-bg__ring--1 { width: 220px; height: 70px; right: 22%; top: 8%; transform: translate3d(var(--ihb-x), var(--ihb-y), 45px) rotateX(68deg) rotateZ(calc(var(--ihb-rot-y) * 1.5)); }
-.interactive-header-bg__ring--2 { width: 140px; height: 45px; left: 34%; bottom: -10px; transform: translate3d(calc(var(--ihb-x) * -1), calc(var(--ihb-y) * -1), 20px) rotateX(70deg) rotateZ(calc(var(--ihb-rot-x) * -1.5)); }
-
-.interactive-header-bg__dust { position: absolute; inset: 0; transform-style: preserve-3d; }
-.interactive-header-bg__dust span {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  left: calc((var(--i) * 9%) + 4%);
-  top: calc((var(--i) * 7%) + 18%);
-  background: var(--color-accent);
-  opacity: 0.25;
-  transform: translate3d(calc(var(--ihb-x) + var(--dx)), calc(var(--ihb-y) + var(--dy)), calc(var(--i) * 7px));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 70%, transparent);
-}
-
-.portfolio-brand-name,
-.portfolio-brand-letter { transform-style: preserve-3d; }
-.portfolio-brand-name { position: relative; z-index: 2; }
-.portfolio-brand-letter--wrapped3d::before,
-.portfolio-brand-letter--wrapped3d::after { transform-style: preserve-3d; }
-
-
-/* Visible 3D background plane: the typography and background share the same scene. */
-.interactive-header-bg__plane {
-  position: absolute;
-  width: 150%;
-  height: 420%;
-  left: -25%;
-  top: -150%;
-  transform-origin: center;
-  transform: translate3d(calc(var(--ihb-x) * -0.55), calc(var(--ihb-y) * -0.35), -120px) rotateX(58deg) rotateZ(-7deg);
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px);
-  background-size: 54px 54px;
-  opacity: 0.5;
-  transform-style: preserve-3d;
-  transition: transform 120ms linear;
-}
-
-.interactive-header-bg__noise {
-  position: absolute;
-  inset: -20%;
-  opacity: 0.16;
-  background-image: radial-gradient(circle, var(--color-accent) 0.8px, transparent 0.9px);
-  background-size: 18px 18px;
-  transform: translate3d(calc(var(--ihb-x) * 0.35), calc(var(--ihb-y) * 0.25), 40px);
-  transition: transform 120ms linear;
-}
+/* Header 3D interactive scene */
+.header-3d-container { position: relative; isolation: isolate; overflow: hidden; }
+.header-3d-scene { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; transform-style: preserve-3d; }
+.header-3d-grid { position: absolute; left: -18%; top: -150%; width: 136%; height: 420%; transform-style: preserve-3d; transform-origin: center center; background-image: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 42%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 42%, transparent) 1px, transparent 1px); mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 78%, transparent 100%); }
+.header-3d-orb { position: absolute; border: 1px solid color-mix(in srgb, var(--color-accent) 72%, transparent); border-radius: 50%; transform-style: preserve-3d; box-shadow: 0 0 55px color-mix(in srgb, var(--color-accent) 24%, transparent), inset 0 0 35px color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.header-3d-orb--one { width: 260px; height: 260px; left: 55%; top: -105px; }
+.header-3d-orb--two { width: 150px; height: 150px; left: 15%; top: 5px; }
+.header-3d-particles { position: absolute; inset: 0; transform-style: preserve-3d; }
+.header-3d-particles i { position: absolute; width: 3px; height: 3px; border-radius: 999px; background: var(--color-accent); box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 70%, transparent); }
+.header-3d-vignette { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 15%, color-mix(in srgb, var(--color-surface) 22%, transparent) 100%); }
+.portfolio-brand-name { position: relative; z-index: 3; display: inline-flex; align-items: baseline; transform-style: preserve-3d; perspective: 900px; overflow: visible; }
+.portfolio-brand-letter { position: relative; transform-style: preserve-3d; will-change: transform; }
