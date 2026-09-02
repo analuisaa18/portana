@@ -437,8 +437,9 @@
   perspective: 900px;
   transform-style: preserve-3d;
   background:
-    radial-gradient(circle at var(--ihb-glow-x) var(--ihb-glow-y), color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 32%),
-    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 82%, transparent), transparent);
+    radial-gradient(circle at var(--ihb-glow-x) var(--ihb-glow-y), color-mix(in srgb, var(--color-accent) 34%, transparent), transparent 38%),
+    radial-gradient(circle at 12% 20%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 38%, transparent), color-mix(in srgb, var(--color-surface) 8%, transparent));
   transition: opacity 240ms ease;
 }
 
@@ -498,3 +499,32 @@
 .portfolio-brand-name { position: relative; z-index: 2; }
 .portfolio-brand-letter--wrapped3d::before,
 .portfolio-brand-letter--wrapped3d::after { transform-style: preserve-3d; }
+
+
+/* Visible 3D background plane: the typography and background share the same scene. */
+.interactive-header-bg__plane {
+  position: absolute;
+  width: 150%;
+  height: 420%;
+  left: -25%;
+  top: -150%;
+  transform-origin: center;
+  transform: translate3d(calc(var(--ihb-x) * -0.55), calc(var(--ihb-y) * -0.35), -120px) rotateX(58deg) rotateZ(-7deg);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px);
+  background-size: 54px 54px;
+  opacity: 0.5;
+  transform-style: preserve-3d;
+  transition: transform 120ms linear;
+}
+
+.interactive-header-bg__noise {
+  position: absolute;
+  inset: -20%;
+  opacity: 0.16;
+  background-image: radial-gradient(circle, var(--color-accent) 0.8px, transparent 0.9px);
+  background-size: 18px 18px;
+  transform: translate3d(calc(var(--ihb-x) * 0.35), calc(var(--ihb-y) * 0.25), 40px);
+  transition: transform 120ms linear;
+}
