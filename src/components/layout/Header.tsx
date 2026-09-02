@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
 
   const header = settings.theme_config?.header;
   const headerStyle = header?.style || 'minimal';
-  const animation = header?.animation || 'wave';
+  const animation = header?.animation || 'wrapped3d';
   const intensity = header?.animationIntensity ?? 1;
   const navStyle = header?.navStyle || 'underline';
 
@@ -88,32 +88,35 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     }
 
     if (animation === 'wrapped3d') {
-      // Brik-like “wrapped” motion: each glyph travels around an invisible
-      // rounded 3D loop instead of simply waving left/right.
-      const depth = header?.animationDepth ?? 70;
-      const mouseStrength = header?.animationMouseStrength ?? 1;
+      // The word folds around an invisible 3D cylinder/ellipse.
+      // Each glyph has its own angle, depth and tangent rotation.
+      const depth = header?.animationDepth ?? 95;
       const speed = header?.animationSpeed ?? 1;
-      const t = brandTick * 0.016 * speed;
+      const mouseStrength = header?.animationMouseStrength ?? 1;
+      const repeat = Math.max(1, header?.animationRepeat ?? 3);
+      const t = brandTick * 0.018 * speed;
       const count = Math.max((settings.portfolio_name || 'STUDIO.X').length, 1);
-      const phase = (index / count) * Math.PI * 2;
-      const angle = phase + t * 0.95;
+      const center = (count - 1) / 2;
+      const normalized = count === 1 ? 0 : (index - center) / center;
 
-      const radiusX = 34 * intensity;
-      const radiusY = 11 * intensity;
-      const xLoop = Math.cos(angle) * radiusX;
-      const yLoop = Math.sin(angle) * radiusY;
-      const zLoop = Math.sin(angle) * depth;
+      // Multiple wraps make the title feel like it is printed on a moving ribbon.
+      const baseAngle = normalized * Math.PI * 0.78 * repeat;
+      const angle = baseAngle + t;
+      const radiusX = Math.max(28, Math.min(72, 34 + depth * 0.22));
+      const radiusY = 7 + depth * 0.045;
+      const z = Math.cos(angle) * depth * 0.9;
+      const arcX = Math.sin(angle) * radiusX;
+      const arcY = (1 - Math.cos(angle)) * radiusY - radiusY;
 
-      // Pointer bends the whole loop and adds a small camera-like tilt.
-      const pointerX = x * 1.15 * mouseStrength;
-      const pointerY = y * 0.8 * mouseStrength;
-      const tiltY = Math.sin(angle) * 42 * intensity + x * 1.35 * mouseStrength;
-      const tiltX = Math.cos(angle) * -10 * intensity + y * -2.8 * mouseStrength;
-      const tangent = (Math.atan2(Math.cos(angle) * radiusY, -Math.sin(angle) * radiusX) * 180) / Math.PI;
-      const rotateZ = tangent - 90;
-      const scale = 0.86 + (Math.sin(angle) + 1) * 0.10;
+      const tangent = (Math.cos(angle) * 30) * intensity;
+      const rotateY = (-Math.sin(angle) * 72) * intensity;
+      const rotateX = y * -4.5 * mouseStrength + Math.cos(angle + t * 0.6) * 4 * intensity;
+      const rotateZ = tangent + x * 1.4 * mouseStrength;
+      const mouseX = x * (1.7 + Math.abs(Math.sin(angle)) * 0.5) * mouseStrength;
+      const mouseY = y * 1.2 * mouseStrength;
+      const scale = 0.82 + (Math.cos(angle) + 1) * 0.14;
 
-      return `translate3d(${xLoop + pointerX}px, ${yLoop + pointerY}px, ${zLoop}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      return `translate3d(${arcX + mouseX}px, ${arcY + mouseY}px, ${z}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
     }
 
     const wave = Math.sin(index * 0.9 + x * 0.08) * 2.5 * intensity;
@@ -186,7 +189,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   style={{
                     transform: getLetterTransform(index),
                     color: brandHovered && animation !== 'none' ? 'var(--color-accent)' : 'var(--color-text-primary)',
-                    transition: 'transform 420ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease',
+                    transition: brandHovered && animation === 'wrapped3d' ? 'color 250ms ease' : 'transform 420ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease',
                     transitionDelay: `${index * 12}ms`,
                     transformOrigin: 'center bottom',
                   }}
