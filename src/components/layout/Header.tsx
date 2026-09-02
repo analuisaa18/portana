@@ -147,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         className={`${header?.sticky === false ? 'relative' : 'sticky top-0'} relative z-40 w-full ${headerStyleClass} ${header?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'} bg-[var(--color-surface)] transition-all`}
         style={{
           minHeight: `${header?.heightPx || 80}px`,
-          backgroundColor: `color-mix(in srgb, var(--color-surface) ${Math.round((header?.opacity ?? 0.9) * 100)}%, transparent)`,
+          backgroundColor: `color-mix(in srgb, var(--color-surface) ${Math.round(Math.min(62, (header?.opacity ?? 0.9) * 62))}%, transparent)`,
           backdropFilter: header?.blur === false ? 'none' : 'blur(12px)',
         }}
       >
