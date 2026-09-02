@@ -376,6 +376,7 @@
   transform-style: preserve-3d;
   perspective: 900px;
   overflow: visible;
+  transform-origin: center center;
 }
 
 .portfolio-brand-letter {
