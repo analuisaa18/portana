@@ -202,6 +202,19 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
           </div>
         )}
       </div>
+
+      <div className={cardClass}>
+        <h3 className="font-bold mb-4">Fundo 3D interativo</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <label className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
+            <input type="checkbox" checked={header.backgroundEnabled !== false} onChange={e=>update({backgroundEnabled:e.target.checked})}/> Exibir fundo
+          </label>
+          {(['grid','orbits','particles','hybrid'] as const).map(value=><button key={value} type="button" onClick={()=>update({backgroundType:value})} className={`p-3 rounded-[var(--radius-md)] border text-left ${header.backgroundType===value?'border-[var(--color-accent)] bg-[var(--color-accent)]/10':'border-[var(--color-border)]'}`}><span className="font-bold block capitalize">{value}</span><span className="text-[11px] text-[var(--color-text-secondary)]">Tipo de campo</span></button>)}
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {([['backgroundOpacity','Opacidade',0,1,.05],['backgroundIntensity','Intensidade',0,3,.1],['backgroundParallax','Paralaxe',0,3,.1],['backgroundGridSize','Tamanho da grade',18,100,1],['backgroundPerspective','Perspectiva',250,1800,50]] as const).map(([key,label,min,max,step])=><label key={key} className="text-xs font-semibold space-y-1 block">{label}<input className={controlClass} type="number" min={min} max={max} step={step} value={Number(header[key] ?? 1)} onChange={e=>update({[key]:Number(e.target.value)} as Partial<ThemeHeader>)}/></label>)}
+        </div>
+      </div>
     </div>
   );
 };
