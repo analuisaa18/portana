@@ -427,16 +427,11 @@
   }
 }
 
-
-/* Header 3D interactive scene */
-.header-3d-container { position: relative; isolation: isolate; overflow: hidden; }
-.header-3d-scene { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; transform-style: preserve-3d; }
-.header-3d-grid { position: absolute; left: -18%; top: -150%; width: 136%; height: 420%; transform-style: preserve-3d; transform-origin: center center; background-image: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 42%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 42%, transparent) 1px, transparent 1px); mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 78%, transparent 100%); }
-.header-3d-orb { position: absolute; border: 1px solid color-mix(in srgb, var(--color-accent) 72%, transparent); border-radius: 50%; transform-style: preserve-3d; box-shadow: 0 0 55px color-mix(in srgb, var(--color-accent) 24%, transparent), inset 0 0 35px color-mix(in srgb, var(--color-accent) 10%, transparent); }
-.header-3d-orb--one { width: 260px; height: 260px; left: 55%; top: -105px; }
-.header-3d-orb--two { width: 150px; height: 150px; left: 15%; top: 5px; }
-.header-3d-particles { position: absolute; inset: 0; transform-style: preserve-3d; }
-.header-3d-particles i { position: absolute; width: 3px; height: 3px; border-radius: 999px; background: var(--color-accent); box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 70%, transparent); }
-.header-3d-vignette { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 15%, color-mix(in srgb, var(--color-surface) 22%, transparent) 100%); }
-.portfolio-brand-name { position: relative; z-index: 3; display: inline-flex; align-items: baseline; transform-style: preserve-3d; perspective: 900px; overflow: visible; }
-.portfolio-brand-letter { position: relative; transform-style: preserve-3d; will-change: transform; }
+/* HEADER 3D FIELD — rendered inside the header, behind the content */
+.header-3d-scene{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;transform-style:preserve-3d;background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--color-accent) 10%,transparent),transparent 58%)}
+.header-3d-scene__wash{position:absolute;inset:-40%;background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--color-accent) 16%,transparent),transparent 35%);filter:blur(28px);transform:translateZ(-80px)}
+.header-3d-grid{position:absolute;inset:-80%;background-image:linear-gradient(to right,color-mix(in srgb,var(--color-accent) var(--grid-opacity),transparent) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--color-accent) var(--grid-opacity),transparent) 1px,transparent 1px);background-size:var(--grid-size) var(--grid-size);transform:translate3d(var(--grid-x),var(--grid-y),-20px) rotateX(68deg) rotateZ(var(--grid-rotate));transform-origin:center center;mask-image:linear-gradient(to bottom,transparent 0%,black 28%,black 78%,transparent 100%)}
+.header-3d-orbits{position:absolute;left:50%;top:50%;width:420px;height:180px;margin-left:-210px;margin-top:-90px;transform-style:preserve-3d;transition:transform 80ms linear}.header-3d-orbit{position:absolute;left:0;top:0;width:100%;height:100%;border:1px solid color-mix(in srgb,var(--color-accent) 48%,transparent);border-radius:50%;box-shadow:0 0 24px color-mix(in srgb,var(--color-accent) 15%,transparent);transform-style:preserve-3d}.header-3d-orbit--a{transform:rotateX(68deg) rotateZ(-12deg)}.header-3d-orbit--b{transform:rotateX(68deg) rotateZ(46deg) translateZ(22px)}.header-3d-orbit--c{transform:rotateX(68deg) rotateZ(102deg) translateZ(-26px)}
+.header-3d-particles{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 100ms linear}.header-3d-particles i{position:absolute;border-radius:999px;box-shadow:0 0 12px currentColor;transform-style:preserve-3d}.header-3d-cursor-glow{position:absolute;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);transition:left 80ms linear,top 80ms linear;opacity:.6}.header-3d-scene__label{position:absolute;right:14px;bottom:7px;font:700 8px/1 monospace;letter-spacing:.22em;color:color-mix(in srgb,var(--color-accent) 55%,transparent);opacity:.55}
+.kinetic-brand{position:relative;z-index:2;transform-style:preserve-3d;overflow:visible}.kinetic-brand-letter{position:relative;transform-style:preserve-3d;backface-visibility:visible;text-shadow:0 0 0 transparent}.kinetic-brand-letter::before,.kinetic-brand-letter::after{content:attr(aria-label);position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.header-3d-grid,.header-3d-orbits,.header-3d-particles{transform:none!important}.kinetic-brand-letter{transform:none!important;transition:none!important}}
