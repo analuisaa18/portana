@@ -41,7 +41,7 @@ export const KineticBrand: React.FC<KineticBrandProps> = ({
   const colorMode = header.animationColorMode || 'theme';
 
   useEffect(() => {
-    if (reducedMotion || animation === 'none' || speed <= 0 || (animation !== 'wrapped3d' && !autoPlay)) {
+    if (reducedMotion || animation === 'none' || !autoPlay || speed <= 0) {
       setTime(0);
       return;
     }
@@ -98,6 +98,20 @@ export const KineticBrand: React.FC<KineticBrandProps> = ({
     let filter = 'none';
     let opacity = 1;
     let textShadow = 'none';
+
+    if (animation === 'wrapped3d') {
+      const d = depth * intensity;
+      const angle = normalizedIndex * 1.9 + phase * 0.42;
+      const z = Math.cos(angle) * d;
+      const x = Math.sin(angle) * Math.min(72, 26 + d * 0.55) + px * 18 * (pointerEnabled ? 1 : 0);
+      const y = (1 - Math.cos(angle)) * Math.min(16, 5 + d * 0.1) - 7 + py * 12;
+      const rx = py * -18 + Math.sin(angle + phase) * 8;
+      const ry = -Math.sin(angle) * 62 + px * 24;
+      const rz = Math.cos(angle) * 28 + px * 8;
+      const scale = 0.78 + (Math.cos(angle) + 1) * 0.13;
+      transform = `translate3d(${x}px,${y}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${scale})`;
+      textShadow = `${-z * 0.025}px ${Math.abs(z) * 0.018}px ${Math.max(2, Math.abs(z) * 0.06)}px color-mix(in srgb,var(--color-accent) 35%,transparent)`;
+    }
 
     if (animation === 'lift') {
       const lift = active ? (-4 - Math.abs(normalizedIndex) * 2) * intensity : 0;
@@ -156,33 +170,6 @@ export const KineticBrand: React.FC<KineticBrandProps> = ({
         ? `${2 * intensity}px 0 0 color-mix(in srgb, var(--color-accent) 65%, transparent), ${-2 * intensity}px 0 0 color-mix(in srgb, var(--color-primary) 55%, transparent)`
         : 'none';
       opacity = clamp(1 - gate * 0.08, 0.82, 1);
-    }
-
-    if (animation === 'wrapped3d') {
-      // Wrapped-style 3D ribbon: each glyph travels around an invisible
-      // horizontal cylinder and reacts strongly to the pointer.
-      const perspective = Math.max(350, header.animationPerspective || 900);
-      const depth3d = clamp(header.animationDepth ?? 70, 25, 180);
-      const mouse = clamp(header.animationMouseStrength ?? 1, 0, 3);
-      const repeat = Math.max(1, header.animationRepeat ?? 3);
-      const hoverAmount = hovered ? 1 : 0;
-      const t = autoPlay || hovered ? time * Math.max(speed, 0.25) * 2.2 : 0;
-      const angle = normalizedIndex * Math.PI * (0.72 + repeat * 0.16) + t;
-      const radius = 24 + depth3d * 0.72;
-      const z = Math.cos(angle) * depth3d * 1.15 * hoverAmount;
-      const xArc = Math.sin(angle) * radius * hoverAmount;
-      const yArc = (1 - Math.cos(angle)) * (8 + depth3d * 0.07) * hoverAmount;
-      const tangent = Math.cos(angle) * 42;
-      const rotateY = -Math.sin(angle) * 82;
-      const rotateX = py * -14 * mouse + Math.sin(t * 0.8 + index) * 3;
-      const rotateZ = tangent + px * 10 * mouse;
-      const mouseX = px * 18 * mouse * (0.35 + Math.abs(normalizedIndex) * 0.7);
-      const mouseY = py * 10 * mouse;
-      const scale = hoverAmount ? 0.78 + (Math.cos(angle) + 1) * 0.18 : 1;
-      transform = `translate3d(${xArc + mouseX}px, ${yArc + mouseY}px, ${z}px) perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
-      textShadow = hoverAmount
-        ? `${px * 5}px ${8 + py * 4}px ${Math.max(4, depth3d * 0.22)}px color-mix(in srgb, var(--color-accent) 38%, transparent)`
-        : 'none';
     }
 
     if (animation === 'stretch') {
