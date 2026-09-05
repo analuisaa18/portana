@@ -125,15 +125,19 @@ export interface ThemeHeader {
   animationSpeed: number;
   animationMouseStrength: number;
   animationRepeat: number;
-  backgroundEnabled: boolean;
-  backgroundStyle: 'grid' | 'orb' | 'particles' | 'hybrid';
-  backgroundOpacity: number;
-  backgroundIntensity: number;
-  backgroundParallax: number;
-  backgroundGridSize: number;
-  backgroundGridPerspective: number;
-  backgroundMouseDepth: number;
-  backgroundAccentMix: number;
+  animationDepthPx?: number;
+  animationSpread?: number;
+  animationAutoPlay?: boolean;
+  animationPointer?: boolean;
+  animationColorMode?: 'theme' | 'accent' | 'alternating' | 'pulse';
+  brandFontFamily?: string;
+  backgroundEnabled?: boolean;
+  backgroundType?: 'grid' | 'orbits' | 'particles' | 'hybrid';
+  backgroundOpacity?: number;
+  backgroundIntensity?: number;
+  backgroundParallax?: number;
+  backgroundGridSize?: number;
+  backgroundPerspective?: number;
 }
 
 export interface ThemeConfig {
