@@ -138,6 +138,13 @@ export interface ThemeHeader {
   backgroundParallax?: number;
   backgroundGridSize?: number;
   backgroundPerspective?: number;
+  wrappedSurfaceColor?: string;
+  wrappedTextColor?: string;
+  wrappedCurve?: number;
+  wrappedTwist?: number;
+  wrappedBulge?: number;
+  wrappedGlow?: number;
+  wrappedScale?: number;
 }
 
 export interface ThemeConfig {
