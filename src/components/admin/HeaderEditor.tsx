@@ -214,6 +214,32 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {([['backgroundOpacity','Opacidade',0,1,.05],['backgroundIntensity','Intensidade',0,3,.1],['backgroundParallax','Paralaxe',0,3,.1],['backgroundGridSize','Tamanho da grade',18,100,1],['backgroundPerspective','Perspectiva',250,1800,50]] as const).map(([key,label,min,max,step])=><label key={key} className="text-xs font-semibold space-y-1 block">{label}<input className={controlClass} type="number" min={min} max={max} step={step} value={Number(header[key] ?? 1)} onChange={e=>update({[key]:Number(e.target.value)} as Partial<ThemeHeader>)}/></label>)}
         </div>
+        <div className="mt-5 pt-5 border-t border-[var(--color-border)]">
+          <h4 className="font-bold mb-3">Superfície Wrapped</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <label className="text-xs font-semibold space-y-1 block">Cor do volume
+              <input className="w-full h-10" type="color" value={header.wrappedSurfaceColor || '#0A84FF'} onChange={e=>update({wrappedSurfaceColor:e.target.value})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Cor do texto
+              <input className="w-full h-10" type="color" value={header.wrappedTextColor || '#FFFFFF'} onChange={e=>update({wrappedTextColor:e.target.value})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Curvatura
+              <input className={controlClass} type="number" min="0" max="3" step="0.05" value={header.wrappedCurve ?? 1.15} onChange={e=>update({wrappedCurve:Number(e.target.value)})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Torção
+              <input className={controlClass} type="number" min="0" max="3" step="0.05" value={header.wrappedTwist ?? 1.25} onChange={e=>update({wrappedTwist:Number(e.target.value)})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Volume
+              <input className={controlClass} type="number" min="0.2" max="3" step="0.05" value={header.wrappedBulge ?? 1.1} onChange={e=>update({wrappedBulge:Number(e.target.value)})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Brilho
+              <input className={controlClass} type="number" min="0" max="1" step="0.05" value={header.wrappedGlow ?? 0.35} onChange={e=>update({wrappedGlow:Number(e.target.value)})}/>
+            </label>
+            <label className="text-xs font-semibold space-y-1 block">Escala
+              <input className={controlClass} type="number" min="0.55" max="1.6" step="0.05" value={header.wrappedScale ?? 1} onChange={e=>update({wrappedScale:Number(e.target.value)})}/>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   );
