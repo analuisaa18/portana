@@ -3,179 +3,132 @@ import React, { useEffect, useRef } from 'react';
 interface AnimatedTitle3DProps {
   line1?: string;
   line2?: string;
+  surfaceColor?: string;
+  textColor?: string;
+  shadowColor?: string;
+  intensity?: number;
+  speed?: number;
+  mouseStrength?: number;
+  enabled?: boolean;
 }
 
 export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
   line1 = 'PROJETOS &',
   line2 = 'CONCEITOS',
+  surfaceColor = '#9f8ca5',
+  textColor = '#ffffff',
+  shadowColor = '#4d3b50',
+  intensity = 1,
+  speed = 1,
+  mouseStrength = 1,
+  enabled = true,
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const lettersRef = useRef<HTMLSpanElement[]>([]);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const ribbonRef = useRef<SVGGElement>(null);
+  const textRef = useRef<SVGGElement>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
+    if (!enabled) return;
+    const root = rootRef.current;
+    const ribbon = ribbonRef.current;
+    const text = textRef.current;
+    if (!root || !ribbon || !text) return;
 
-    if (!container) return;
+    let tx = 0;
+    let ty = 0;
+    let x = 0;
+    let y = 0;
+    let raf = 0;
+    let t0 = performance.now();
 
-    const letters = lettersRef.current;
+    const move = (e: PointerEvent) => {
+      const r = root.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / Math.max(r.width, 1) - 0.5) * 2;
+      ty = ((e.clientY - r.top) / Math.max(r.height, 1) - 0.5) * 2;
+    };
+    const leave = () => { tx = 0; ty = 0; };
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let animationFrame = 0;
+    root.addEventListener('pointermove', move);
+    root.addEventListener('pointerleave', leave);
 
-    const handlePointerMove = (event: PointerEvent) => {
-      const rect = container.getBoundingClientRect();
+    const animate = (now: number) => {
+      x += (tx - x) * 0.075;
+      y += (ty - y) * 0.075;
+      const t = (now - t0) * 0.001 * speed;
+      const i = Math.max(0, intensity);
+      const m = Math.max(0, mouseStrength);
 
-      mouseX =
-        ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const rx = x * 2.2 * m;
+      const ry = -y * 2.8 * m;
+      const rz = Math.sin(t * 0.9) * 1.2 * i + x * 1.8 * m;
+      const sx = 1 + Math.sin(t * 0.8) * 0.012 * i;
+      const sy = 1 + Math.cos(t * 0.65) * 0.012 * i;
+      const px = x * 14 * m;
+      const py = y * 7 * m + Math.sin(t * 1.3) * 2.5 * i;
 
-      mouseY =
-        ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-
-      targetX = mouseX;
-      targetY = mouseY;
+      ribbon.setAttribute('transform', `translate(${px} ${py}) rotate(${rz} 540 105) scale(${sx} ${sy})`);
+      text.setAttribute('transform', `translate(${px * 0.72} ${py * 0.72}) rotate(${rz * 0.9} 540 105) scale(${sx} ${sy})`);
+      root.style.setProperty('--title-tilt-x', `${rx}deg`);
+      root.style.setProperty('--title-tilt-y', `${ry}deg`);
+      root.style.setProperty('--title-z', `${18 + Math.abs(x) * 18 * m}px`);
+      root.style.setProperty('--title-wave', `${Math.sin(t * 1.1) * 5 * i}px`);
+      root.style.transform = `perspective(1200px) translate3d(0, var(--title-wave), 0) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sx}, ${sy})`;
+      raf = requestAnimationFrame(animate);
     };
 
-    const handlePointerLeave = () => {
-      targetX = 0;
-      targetY = 0;
-    };
-
-    container.addEventListener('pointermove', handlePointerMove);
-    container.addEventListener('pointerleave', handlePointerLeave);
-
-    const animate = () => {
-      mouseX += (targetX - mouseX) * 0.08;
-      mouseY += (targetY - mouseY) * 0.08;
-
-      const time = performance.now() * 0.001;
-
-      letters.forEach((letter, index) => {
-        if (!letter) return;
-
-        const wave =
-          Math.sin(time * 2.2 + index * 0.55) * 7;
-
-        const wave2 =
-          Math.cos(time * 1.7 + index * 0.35) * 4;
-
-        const mouseInfluence =
-          mouseX * (index % 2 === 0 ? 10 : -10);
-
-        const depth =
-          Math.sin(index * 0.8 + time) * 10 +
-          mouseX * 22;
-
-        const rotation =
-          Math.sin(time * 1.8 + index * 0.5) * 2.5 +
-          mouseX * (index % 2 ? 4 : -4);
-
-        const rotationX =
-          mouseY * -8 +
-          Math.cos(time + index * 0.4) * 2;
-
-        const scale =
-          1 +
-          Math.sin(time * 1.5 + index * 0.6) * 0.025;
-
-        letter.style.transform = `
-          translate3d(
-            ${mouseInfluence}px,
-            ${wave + mouseY * 10}px,
-            ${depth}px
-          )
-          rotateX(${rotationX}deg)
-          rotateY(${mouseX * 12 + wave2}deg)
-          rotateZ(${rotation}deg)
-          scale(${scale})
-        `;
-
-        letter.style.textShadow = `
-          ${depth * 0.35}px
-          ${depth * 0.18}px
-          0px
-          rgba(0,0,0,0.18)
-        `;
-      });
-
-      animationFrame = requestAnimationFrame(animate);
-    };
-
-    animate();
-
+    raf = requestAnimationFrame(animate);
     return () => {
-      cancelAnimationFrame(animationFrame);
-
-      container.removeEventListener(
-        'pointermove',
-        handlePointerMove
-      );
-
-      container.removeEventListener(
-        'pointerleave',
-        handlePointerLeave
-      );
+      cancelAnimationFrame(raf);
+      root.removeEventListener('pointermove', move);
+      root.removeEventListener('pointerleave', leave);
     };
-  }, []);
+  }, [enabled, intensity, speed, mouseStrength]);
 
-  const allLetters = [
-    ...line1.split('').map((character, index) => ({
-      character,
-      index,
-      line: 0,
-    })),
-    ...line2.split('').map((character, index) => ({
-      character,
-      index: index + line1.length,
-      line: 1,
-    })),
-  ];
+  if (!enabled) return null;
+
+  const id = React.useId().replace(/:/g, '');
 
   return (
-    <div
-      ref={containerRef}
-      className="animated-title-3d"
-      aria-label={`${line1} ${line2}`}
-    >
-      <div className="animated-title-3d-line">
-        {allLetters
-          .filter((item) => item.line === 0)
-          .map((item) => (
-            <span
-              key={`line1-${item.index}`}
-              ref={(element) => {
-                if (element) {
-                  lettersRef.current[item.index] = element;
-                }
-              }}
-              className="animated-title-3d-letter"
-              aria-hidden="true"
-            >
-              {item.character === ' ' ? '\u00A0' : item.character}
-            </span>
-          ))}
-      </div>
+    <div ref={rootRef} className="animated-title-3d animated-title-3d--ribbon" aria-label={`${line1} ${line2}`}>
+      <svg className="animated-title-3d-svg" viewBox="0 0 1080 210" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <filter id={`${id}-soft`} x="-20%" y="-40%" width="140%" height="180%">
+            <feGaussianBlur stdDeviation="0.35" />
+          </filter>
+          <filter id={`${id}-warp`} x="-15%" y="-40%" width="130%" height="180%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.035" numOctaves="2" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale={8 + intensity * 10} xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <linearGradient id={`${id}-surface`} x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stopColor={surfaceColor} stopOpacity="0.98" />
+            <stop offset="0.5" stopColor={surfaceColor} stopOpacity="0.72" />
+            <stop offset="1" stopColor={surfaceColor} stopOpacity="0.94" />
+          </linearGradient>
+          <linearGradient id={`${id}-shine`} x1="0" x2="1">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.12" />
+            <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.02" />
+            <stop offset="1" stopColor="#000000" stopOpacity="0.08" />
+          </linearGradient>
+        </defs>
 
-      <div className="animated-title-3d-line animated-title-3d-line-accent">
-        {allLetters
-          .filter((item) => item.line === 1)
-          .map((item) => (
-            <span
-              key={`line2-${item.index}`}
-              ref={(element) => {
-                if (element) {
-                  lettersRef.current[item.index] = element;
-                }
-              }}
-              className="animated-title-3d-letter"
-              aria-hidden="true"
-            >
-              {item.character === ' ' ? '\u00A0' : item.character}
-            </span>
+        <g ref={ribbonRef} filter={`url(#${id}-warp)`} className="animated-title-3d-ribbon">
+          <path d="M35 57 C210 20 320 83 470 46 C625 8 735 55 1045 31 L1045 165 C790 143 665 176 505 151 C350 127 210 187 35 157 Z" fill={shadowColor} opacity="0.42" transform="translate(10 13)" />
+          <path d="M35 47 C210 10 320 73 470 36 C625 -2 735 45 1045 21 L1045 155 C790 133 665 166 505 141 C350 117 210 177 35 147 Z" fill={`url(#${id}-surface)`} />
+          <path d="M35 47 C210 10 320 73 470 36 C625 -2 735 45 1045 21 L1045 155 C790 133 665 166 505 141 C350 117 210 177 35 147 Z" fill={`url(#${id}-shine)`} />
+        </g>
+
+        <g ref={textRef} filter={`url(#${id}-soft)`} className="animated-title-3d-text-group">
+          {[18, 14, 10, 6].map((d) => (
+            <React.Fragment key={d}>
+              <text x="540" y="91" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line1" fill={shadowColor} transform={`translate(${d} ${d + 8})`}>{line1}</text>
+              <text x="540" y="151" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line2" fill={shadowColor} transform={`translate(${d} ${d + 8})`}>{line2}</text>
+            </React.Fragment>
           ))}
-      </div>
+          <text x="540" y="91" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line1" fill={textColor}>{line1}</text>
+          <text x="540" y="151" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line2" fill={textColor}>{line2}</text>
+        </g>
+      </svg>
+      <span className="sr-only">{line1} {line2}</span>
     </div>
   );
 };
