@@ -1,143 +1,303 @@
-import React, { useEffect, useRef } from 'react';
+import { 
+  PortfolioSettings, 
+  Category, 
+  Project, 
+  ProjectBlock,
+  ThemeConfig 
+} from '../types/portfolio';
 
-interface AnimatedTitle3DProps {
-  line1?: string;
-  line2?: string;
-  surfaceColor?: string;
-  textColor?: string;
-  shadowColor?: string;
-  intensity?: number;
-  speed?: number;
-  mouseStrength?: number;
-  enabled?: boolean;
-}
-
-const hexToRgba = (hex: string, alpha: number) => {
-  const value = hex.replace('#', '');
-  const normalized = value.length === 3 ? value.split('').map((c) => c + c).join('') : value;
-  const r = parseInt(normalized.slice(0, 2), 16);
-  const g = parseInt(normalized.slice(2, 4), 16);
-  const b = parseInt(normalized.slice(4, 6), 16);
-  return `rgba(${Number.isFinite(r) ? r : 0}, ${Number.isFinite(g) ? g : 0}, ${Number.isFinite(b) ? b : 0}, ${alpha})`;
+export const DEFAULT_THEME_CONFIG: ThemeConfig = {
+  colors: {
+    background: '#050505',      // Deep pitch black
+    surface: '#0D0D0E',         // Dark architectural surface
+    textPrimary: '#FFFFFF',     // Crisp stark white typography
+    textSecondary: '#A1A1AA',   // Muted silver gray
+    primary: '#FFFFFF',         // High contrast primary white
+    secondary: '#27272A',       // Dark zinc secondary
+    accent: '#0047FF',          // Electric blue accent
+    border: '#1E1E24',          // Crisp hairline border
+    focus: '#0047FF',           // Electric blue focus ring
+    success: '#22C55E',         // Vibrant emerald green
+    warning: '#F59E0B',         // Amber warning
+    error: '#EF4444',           // Deep crimson
+  },
+  typography: {
+    fontFamilyHeadings: 'Space Grotesk, sans-serif',
+    fontFamilyBody: 'Space Grotesk, sans-serif',
+    baseSizePx: 16,
+    scaleRatio: 1.333,
+    headingWeight: 900,
+    bodyWeight: 400,
+    lineHeight: 1.6,
+    headingLineHeight: 0.95,
+    letterSpacing: -0.03,
+    lab: { text: '3D TICKER', speed: 1, depth: 28, perspective: 900, curvature: 18, spacing: 4, rotateX: -12, rotateY: 0, rotateZ: 0, mouseStrength: 0.7, autoRotate: true },
+  },
+  radius: {
+    none: '0px',
+    sm: '2px',
+    md: '4px',
+    lg: '6px',
+    xl: '8px',
+    full: '9999px',
+  },
+  layout: {
+    maxWidthPx: 1280,
+    gridColumns: 3,
+    gridStyle: 'standard',
+    gapPx: 24,
+    containerPaddingPx: 32,
+  },
+  motion: {
+    durationFastMs: 150,
+    durationNormalMs: 300,
+    durationSlowMs: 500,
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    reducedMotionFallback: true,
+  },
+  header: {
+    style: 'minimal',
+    sticky: true,
+    showBorder: true,
+    blur: true,
+    opacity: 0.9,
+    heightPx: 80,
+    showBrandIcon: true,
+    iconSizePx: 28,
+    brandFontSizePx: 24,
+    brandWeight: 900,
+    brandLetterSpacing: -0.04,
+    showTagline: true,
+    navStyle: 'underline',
+    navFontSizePx: 11,
+    navWeight: 700,
+    navLetterSpacing: 0.35,
+    navUppercase: true,
+    showAdminButton: true,
+    animation: 'wrapped3d',
+    animationIntensity: 1,
+    animationPerspective: 900,
+    animationDepth: 70,
+    animationSpeed: 1,
+    animationMouseStrength: 1,
+    animationRepeat: 3,
+    animationDepthPx: 80,
+    animationSpread: 1.15,
+    animationAutoPlay: true,
+    animationPointer: true,
+    animationColorMode: 'theme',
+    brandFontFamily: 'Space Grotesk, sans-serif',
+    backgroundEnabled: true,
+    backgroundType: 'hybrid',
+    backgroundOpacity: 0.78,
+    backgroundIntensity: 1,
+    backgroundParallax: 1,
+    backgroundGridSize: 42,
+    backgroundPerspective: 700,
+    wrappedSurfaceColor: '#0A84FF',
+    wrappedTextColor: '#FFFFFF',
+    wrappedCurve: 1.15,
+    wrappedTwist: 1.25,
+    wrappedBulge: 1.1,
+    wrappedGlow: 0.35,
+    wrappedScale: 1.0,
+    projectTitle3dEnabled: true,
+    projectTitle3dSurfaceColor: '#9F8CA5',
+    projectTitle3dTextColor: '#FFFFFF',
+    projectTitle3dShadowColor: '#4D3B50',
+    projectTitle3dIntensity: 1.2,
+    projectTitle3dSpeed: 1,
+    projectTitle3dMouseStrength: 1.1,
+  },
+  brandIcon: { provider: 'lucide', name: 'Sparkles' },
+  customImage: '',
+  ctaLabel: 'Ver projeto',
+  uxVoice: 'direto',
 };
 
-export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
-  line1 = 'PROJETOS &',
-  line2 = 'CONCEITOS',
-  surfaceColor = '#9f8ca5',
-  textColor = '#ffffff',
-  shadowColor = '#4d3b50',
-  intensity = 1,
-  speed = 1,
-  mouseStrength = 1,
-  enabled = true,
-}) => {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const ribbonRef = useRef<SVGGElement>(null);
-  const textRef = useRef<SVGGElement>(null);
+export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
+  portfolio_name: 'Ana Bochenek — Portfólio Autoral',
+  tagline: 'Design de Interfaces, Pesquisa & Cultura Digital',
+  about_title: 'Investigação e Prática em Design Autoral',
+  short_bio: 'Atuo na interseção entre design de interfaces, arquitetura de informação e acessibilidade digital.',
+  about_text: 'Trabalho desenvolvendo sistemas digitais onde o conteúdo, a tipografia e a acessibilidade caminham juntos. Acredito no design como infraestrutura crítica para a comunicação humana — transparente, utilizável e centrado no respeito ao tempo e à autonomia das pessoas.',
+  profile_image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800',
+  whatsapp: '5551999998888',
+  email_public: 'ana.bocheneck@acad.ufsm.br',
+  location: 'Santa Maria, RS — Brasil',
+  github_username: 'anabochenek',
+  social_links: [
+    { id: '1', platform: 'GitHub', url: 'https://github.com', label: 'github.com/anabochenek' },
+    { id: '2', platform: 'LinkedIn', url: 'https://linkedin.com', label: 'linkedin.com/in/anabochenek' },
+    { id: '3', platform: 'Behance', url: 'https://behance.net', label: 'behance.net/anabochenek' }
+  ],
+  ux_voice: 'direto',
+  theme_config: DEFAULT_THEME_CONFIG,
+};
 
-  useEffect(() => {
-    if (!enabled) return;
-    const root = rootRef.current;
-    const ribbon = ribbonRef.current;
-    const text = textRef.current;
-    if (!root || !ribbon || !text) return;
+export const DEFAULT_CATEGORIES: Category[] = [
+  {
+    id: 'cat-1',
+    name: 'Design de Interfaces',
+    slug: 'design-de-interfaces',
+    description: 'Sistemas de design, aplicações web responsivas e arquiteturas de informação.',
+    display_order: 1,
+  },
+  {
+    id: 'cat-2',
+    name: 'Editorial & Tipografia',
+    slug: 'editorial-e-tipografia',
+    description: 'Publicações digitais, ensaios visuais e explorações tipográficas.',
+    display_order: 2,
+  },
+  {
+    id: 'cat-3',
+    name: 'Audiovisual & Som',
+    slug: 'audiovisual-e-som',
+    description: 'Composições sonoras, narrativas em vídeo e podcasts acessíveis com transcrição.',
+    display_order: 3,
+  },
+  {
+    id: 'cat-4',
+    name: 'Pesquisa & Projetos Experimentais',
+    slug: 'pesquisa-e-projetos-experimentais',
+    description: 'Investigações acadêmicas e protótipos interativos.',
+    display_order: 4,
+  },
+];
 
-    let tx = 0;
-    let ty = 0;
-    let x = 0;
-    let y = 0;
-    let raf = 0;
-    let t0 = performance.now();
+export const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: 'proj-1',
+    category_id: 'cat-1',
+    title: 'Sistema de Leitura Tipográfica Acessível',
+    slug: 'sistema-de-leitura-tipografica-acessivel',
+    short_description: 'Interface experimental de leitura focada em legibilidade e contraste dinâmico para pessoas com baixa visão.',
+    cover_image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=1200',
+    year: 2025,
+    status: 'publicado',
+    featured: true,
+    display_order: 1,
+  },
+  {
+    id: 'proj-2',
+    category_id: 'cat-2',
+    title: 'Arquivo Aberto de Design Latino-Americano',
+    slug: 'arquivo-aberto-de-design-latino-americano',
+    short_description: 'Plataforma digital para documentação e preservação de memórias visuais editoriais.',
+    cover_image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1200',
+    year: 2024,
+    status: 'publicado',
+    featured: true,
+    display_order: 2,
+  },
+  {
+    id: 'proj-3',
+    category_id: 'cat-3',
+    title: 'Paisagens Sonoras da Pampa',
+    slug: 'paisagens-sonoras-da-pampa',
+    short_description: 'Documentário em áudio e vídeo explorando a acústica e biodiversidade dos campos do sul.',
+    cover_image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=1200',
+    year: 2024,
+    status: 'publicado',
+    featured: false,
+    display_order: 3,
+  },
+];
 
-    const move = (e: PointerEvent) => {
-      const r = root.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / Math.max(r.width, 1) - 0.5) * 2;
-      ty = ((e.clientY - r.top) / Math.max(r.height, 1) - 0.5) * 2;
-    };
-    const leave = () => { tx = 0; ty = 0; };
-
-    root.addEventListener('pointermove', move);
-    root.addEventListener('pointerleave', leave);
-
-    const animate = (now: number) => {
-      x += (tx - x) * 0.075;
-      y += (ty - y) * 0.075;
-      const t = (now - t0) * 0.001 * speed;
-      const i = Math.max(0, intensity);
-      const m = Math.max(0, mouseStrength);
-
-      const rx = x * 2.2 * m;
-      const ry = -y * 2.8 * m;
-      const rz = Math.sin(t * 0.9) * 1.2 * i + x * 1.8 * m;
-      const sx = 1 + Math.sin(t * 0.8) * 0.012 * i;
-      const sy = 1 + Math.cos(t * 0.65) * 0.012 * i;
-      const px = x * 14 * m;
-      const py = y * 7 * m + Math.sin(t * 1.3) * 2.5 * i;
-
-      ribbon.setAttribute('transform', `translate(${px} ${py}) rotate(${rz} 540 105) scale(${sx} ${sy})`);
-      text.setAttribute('transform', `translate(${px * 0.72} ${py * 0.72}) rotate(${rz * 0.9} 540 105) scale(${sx} ${sy})`);
-      root.style.setProperty('--title-tilt-x', `${rx}deg`);
-      root.style.setProperty('--title-tilt-y', `${ry}deg`);
-      root.style.setProperty('--title-z', `${18 + Math.abs(x) * 18 * m}px`);
-      root.style.setProperty('--title-wave', `${Math.sin(t * 1.1) * 5 * i}px`);
-      root.style.transform = `perspective(1200px) translate3d(0, var(--title-wave), 0) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sx}, ${sy})`;
-      raf = requestAnimationFrame(animate);
-    };
-
-    raf = requestAnimationFrame(animate);
-    return () => {
-      cancelAnimationFrame(raf);
-      root.removeEventListener('pointermove', move);
-      root.removeEventListener('pointerleave', leave);
-    };
-  }, [enabled, intensity, speed, mouseStrength]);
-
-  if (!enabled) return null;
-
-  const id = React.useId().replace(/:/g, '');
-
-  return (
-    <div ref={rootRef} className="animated-title-3d animated-title-3d--ribbon" aria-label={`${line1} ${line2}`}>
-      <svg className="animated-title-3d-svg" viewBox="0 0 1080 210" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <filter id={`${id}-soft`} x="-20%" y="-40%" width="140%" height="180%">
-            <feGaussianBlur stdDeviation="0.35" />
-          </filter>
-          <filter id={`${id}-warp`} x="-15%" y="-40%" width="130%" height="180%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.035" numOctaves="2" seed="9" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale={8 + intensity * 10} xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-          <linearGradient id={`${id}-surface`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor={surfaceColor} stopOpacity="0.98" />
-            <stop offset="0.5" stopColor={surfaceColor} stopOpacity="0.72" />
-            <stop offset="1" stopColor={surfaceColor} stopOpacity="0.94" />
-          </linearGradient>
-          <linearGradient id={`${id}-shine`} x1="0" x2="1">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.12" />
-            <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.02" />
-            <stop offset="1" stopColor="#000000" stopOpacity="0.08" />
-          </linearGradient>
-        </defs>
-
-        <g ref={ribbonRef} filter={`url(#${id}-warp)`} className="animated-title-3d-ribbon">
-          <path d="M35 57 C210 20 320 83 470 46 C625 8 735 55 1045 31 L1045 165 C790 143 665 176 505 151 C350 127 210 187 35 157 Z" fill={shadowColor} opacity="0.42" transform="translate(10 13)" />
-          <path d="M35 47 C210 10 320 73 470 36 C625 -2 735 45 1045 21 L1045 155 C790 133 665 166 505 141 C350 117 210 177 35 147 Z" fill={`url(#${id}-surface)`} />
-          <path d="M35 47 C210 10 320 73 470 36 C625 -2 735 45 1045 21 L1045 155 C790 133 665 166 505 141 C350 117 210 177 35 147 Z" fill={`url(#${id}-shine)`} />
-        </g>
-
-        <g ref={textRef} filter={`url(#${id}-soft)`} className="animated-title-3d-text-group">
-          {[18, 14, 10, 6].map((d) => (
-            <React.Fragment key={d}>
-              <text x="540" y="91" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line1" fill={shadowColor} transform={`translate(${d} ${d + 8})`}>{line1}</text>
-              <text x="540" y="151" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line2" fill={shadowColor} transform={`translate(${d} ${d + 8})`}>{line2}</text>
-            </React.Fragment>
-          ))}
-          <text x="540" y="91" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line1" fill={textColor}>{line1}</text>
-          <text x="540" y="151" textAnchor="middle" className="animated-title-3d-text animated-title-3d-text--line2" fill={textColor}>{line2}</text>
-        </g>
-      </svg>
-      <span className="sr-only">{line1} {line2}</span>
-    </div>
-  );
+export const DEFAULT_BLOCKS: Record<string, ProjectBlock[]> = {
+  'proj-1': [
+    {
+      id: 'block-1-1',
+      project_id: 'proj-1',
+      type: 'texto',
+      content: 'Este projeto nasceu da constatação de que grande parte das interfaces contemporâneas privilegia a estética visual em detrimento da legibilidade funcional. Desenvolvemos uma biblioteca de componentes ajustáveis que respeita as preferências do usuário, incluindo escala fluida e espaçamento de caracteres dinâmico.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-1-2',
+      project_id: 'proj-1',
+      type: 'imagem',
+      content: '',
+      media_url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200',
+      alt_text: 'Captura de tela demonstrando o teste de escala tipográfica com contraste elevado.',
+      caption: 'Protótipo de teste tipográfico com controle de entrelinha e largura máxima de coluna.',
+      transcript: '',
+      display_order: 2,
+    },
+    {
+      id: 'block-1-3',
+      project_id: 'proj-1',
+      type: 'video',
+      content: 'Demonstração Interativa do Protótipo em Ação',
+      media_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      alt_text: '',
+      caption: 'Vídeo explicativo cobrindo navegação por teclado e síntese de voz.',
+      transcript: '',
+      display_order: 3,
+    },
+    {
+      id: 'block-1-4',
+      project_id: 'proj-1',
+      type: 'audio',
+      content: 'Relato Oral do Processo de Desenvolvimento',
+      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      alt_text: '',
+      caption: 'Gravação do depoimento da pesquisadora principal sobre os testes com usuários.',
+      transcript: 'Olá! Neste áudio apresento os bastidores da pesquisa. Durante seis meses, entrevistamos 24 participantes com diferentes níveis de acuidade visual. Identificamos que a flexibilidade de margem e o ajuste de altura da linha foram os fatores determinantes para diminuir a fadiga ocular em leituras prolongadas.',
+      display_order: 4,
+    },
+  ],
+  'proj-2': [
+    {
+      id: 'block-2-1',
+      project_id: 'proj-2',
+      type: 'texto',
+      content: 'O Arquivo Aberto mapeia mais de 50 anos de capas de livros, cartazes e tipografias desenvolvidas na América Latina. O sistema catalográfico foi construído com metadados detalhados para facilitar pesquisas acadêmicas.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-2-2',
+      project_id: 'proj-2',
+      type: 'imagem',
+      content: '',
+      media_url: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200',
+      alt_text: 'Coleção de livros antigos dispostos em estantes de madeira.',
+      caption: 'Registro fotográfico das edições originais catalogadas na biblioteca física.',
+      transcript: '',
+      display_order: 2,
+    },
+  ],
+  'proj-3': [
+    {
+      id: 'block-3-1',
+      project_id: 'proj-3',
+      type: 'texto',
+      content: 'Um trabalho multissensorial focado nas paisagens sonoras dos biomas sulinos. Gravado em campo com equipamentos binaurais de alta fidelidade.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-3-2',
+      project_id: 'proj-3',
+      type: 'audio',
+      content: 'Faixa 01: Vento e Aves ao Amanhecer',
+      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      alt_text: '',
+      caption: 'Captação binaural realizada às 05:30 na Reserva Biológica do Ibirapuitã.',
+      transcript: 'Transcrição Sonora: Ouve-se o farfalhar contínuo da vegetação sob o vento forte do sul, acompanhado gradualmente pelo canto de siriemas e quero-queros marcando o início da manhã.',
+      display_order: 2,
+    },
+  ],
 };
