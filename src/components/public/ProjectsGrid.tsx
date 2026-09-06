@@ -6,6 +6,7 @@ import { GitHubShowcase } from './GitHubShowcase';
 import { useTheme } from '../../context/ThemeContext';
 import { FolderOpen } from 'lucide-react';
 import WrappedTypography from './WrappedTypography';
+import { AnimatedTitle3D } from './AnimatedTitle3D';
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -19,7 +20,6 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   onSelectProject,
 }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const [titleHovered, setTitleHovered] = useState(false);
 
   // Filter projects by category
   const filteredProjects = selectedCategoryId
@@ -53,35 +53,17 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           ACERVO AUTORAL & INVESTIGAÇÃO
         </h2>
 
-        <h1
-          className="text-4xl sm:text-6xl md:text-8xl bold-hero-title text-[var(--color-text-primary)] mb-6"
-          onMouseEnter={() => setTitleHovered(true)}
-          onMouseLeave={() => setTitleHovered(false)}
-          style={{
-            transition: 'transform 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-            transformOrigin: 'left center',
-            transform: titleHovered
-              ? 'translateX(8px) scale(1.025) rotate(-0.5deg)'
-              : 'translateX(0) scale(1) rotate(0)',
-            cursor: 'default',
-          }}
-        >
-          PROJETOS &<br />
-
-          <span
-            className="text-[var(--color-accent)]"
-            style={{
-              display: 'inline-block',
-              transition: 'transform 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-              transformOrigin: 'left center',
-              transform: titleHovered
-                ? 'translateX(18px) rotate(1deg)'
-                : 'translateX(0) rotate(0)',
-            }}
-          >
-            CONCEITOS
-          </span>
-        </h1>
+        <AnimatedTitle3D
+          line1="PROJETOS &"
+          line2="CONCEITOS"
+          enabled={settings.theme_config?.header?.projectTitle3dEnabled !== false}
+          surfaceColor={settings.theme_config?.header?.projectTitle3dSurfaceColor || '#9f8ca5'}
+          textColor={settings.theme_config?.header?.projectTitle3dTextColor || '#ffffff'}
+          shadowColor={settings.theme_config?.header?.projectTitle3dShadowColor || '#4d3b50'}
+          intensity={settings.theme_config?.header?.projectTitle3dIntensity ?? 1}
+          speed={settings.theme_config?.header?.projectTitle3dSpeed ?? 1}
+          mouseStrength={settings.theme_config?.header?.projectTitle3dMouseStrength ?? 1}
+        />
 
         <p
           className="text-base md:text-xl text-[var(--color-text-secondary)] font-medium max-w-2xl leading-relaxed"
