@@ -443,40 +443,56 @@
 @media (max-width: 900px){.header-wrapped-brand{width:min(58vw,560px);height:130px}.wrapped-3d-canvas{height:130px}}
 @media (max-width: 767px){.header-wrapped-brand{width:calc(100vw - 110px);height:105px}.wrapped-3d-canvas{height:105px}}
 
-/* Wrapped 3D title used in the Projects intro — GIF-like deformable typography */
+/* WRAPPED TYPOGRAPHY — deformable ink-like 3D title, no ribbon/panel */
 .animated-title-3d--wrapped-gif{
   position:relative;
   width:min(1080px,100%);
-  min-height:260px;
+  min-height:360px;
   margin:0 0 1.25rem;
   overflow:visible;
-  perspective:1200px;
+  perspective:1400px;
   transform-style:preserve-3d;
-  transform:perspective(1200px) rotateX(var(--wrapped-rx,0deg)) rotateY(var(--wrapped-ry,0deg)) scale(var(--wrapped-scale,1));
   will-change:transform;
   cursor:default;
 }
 .animated-title-3d-svg--wrapped{
   display:block;
   width:100%;
-  height:auto;
-  min-height:210px;
+  height:360px;
   overflow:visible;
   transform-style:preserve-3d;
-  border-radius:4px;
-  box-shadow:0 20px 50px rgba(0,0,0,.14);
+  overflow:visible;
 }
 .animated-title-3d-text--gif{
   font-family:var(--font-heading,system-ui,sans-serif);
   font-weight:950;
-  font-size:76px;
-  letter-spacing:-.055em;
+  font-size:112px;
+  letter-spacing:-.075em;
   paint-order:stroke fill;
   vector-effect:non-scaling-stroke;
+  stroke-linejoin:round;
+  stroke-linecap:round;
+}
+.animated-title-3d-text--outline{
+  filter:drop-shadow(var(--wrapped-shadow-x,0px) var(--wrapped-shadow-y,10px) 0 color-mix(in srgb, var(--color-text-primary) 22%, transparent));
 }
 .animated-title-3d-text--front{
-  filter:drop-shadow(0 10px 0 rgba(0,0,0,.16));
+  filter:drop-shadow(0 5px 0 color-mix(in srgb, var(--shadow-color, #17121b) 75%, transparent));
 }
-@media (min-width:640px){.animated-title-3d-text--gif{font-size:82px}}
-@media (max-width:767px){.animated-title-3d--wrapped-gif{min-height:220px}.animated-title-3d-svg--wrapped{min-height:190px}.animated-title-3d-text--gif{font-size:58px}}
+.animated-title-3d--wrapped-gif::after{
+  content:"";
+  position:absolute;
+  inset:12% 9%;
+  pointer-events:none;
+  border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 68%);
+  mix-blend-mode:multiply;
+  z-index:-1;
+}
+@media (min-width:640px){.animated-title-3d-text--gif{font-size:118px}}
+@media (max-width:767px){
+  .animated-title-3d--wrapped-gif{min-height:270px}
+  .animated-title-3d-svg--wrapped{height:270px}
+  .animated-title-3d-text--gif{font-size:72px}
+}
 @media (prefers-reduced-motion:reduce){.animated-title-3d--wrapped-gif{transform:none!important}.animated-title-3d-svg--wrapped{filter:none}}
