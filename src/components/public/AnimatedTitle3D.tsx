@@ -12,6 +12,15 @@ interface AnimatedTitle3DProps {
   enabled?: boolean;
 }
 
+const hexToRgba = (hex: string, alpha: number) => {
+  const value = hex.replace('#', '');
+  const normalized = value.length === 3 ? value.split('').map((c) => c + c).join('') : value;
+  const r = parseInt(normalized.slice(0, 2), 16);
+  const g = parseInt(normalized.slice(2, 4), 16);
+  const b = parseInt(normalized.slice(4, 6), 16);
+  return `rgba(${Number.isFinite(r) ? r : 0}, ${Number.isFinite(g) ? g : 0}, ${Number.isFinite(b) ? b : 0}, ${alpha})`;
+};
+
 export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
   line1 = 'PROJETOS &',
   line2 = 'CONCEITOS',
