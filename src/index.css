@@ -435,3 +435,9 @@
 .header-3d-particles{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 100ms linear}.header-3d-particles i{position:absolute;border-radius:999px;box-shadow:0 0 12px currentColor;transform-style:preserve-3d}.header-3d-cursor-glow{position:absolute;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);transition:left 80ms linear,top 80ms linear;opacity:.6}.header-3d-scene__label{position:absolute;right:14px;bottom:7px;font:700 8px/1 monospace;letter-spacing:.22em;color:color-mix(in srgb,var(--color-accent) 55%,transparent);opacity:.55}
 .kinetic-brand{position:relative;z-index:2;transform-style:preserve-3d;overflow:visible}.kinetic-brand-letter{position:relative;transform-style:preserve-3d;backface-visibility:visible;text-shadow:0 0 0 transparent}.kinetic-brand-letter::before,.kinetic-brand-letter::after{content:attr(aria-label);position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d}
 @media (prefers-reduced-motion:reduce){.header-3d-grid,.header-3d-orbits,.header-3d-particles{transform:none!important}.kinetic-brand-letter{transform:none!important;transition:none!important}}
+
+/* WRAPPED 3D — canvas scene used by the real Header */
+.header-wrapped-brand{position:relative;display:block;width:min(66vw,760px);height:150px;overflow:visible;transform-style:preserve-3d;perspective:1100px;}
+.wrapped-3d-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible;transform:translateZ(0);pointer-events:none;}
+@media (max-width: 900px){.header-wrapped-brand{width:min(58vw,560px);height:130px}.wrapped-3d-canvas{height:130px}}
+@media (max-width: 767px){.header-wrapped-brand{width:calc(100vw - 110px);height:105px}.wrapped-3d-canvas{height:105px}}
