@@ -79,8 +79,8 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const rawWidths = chars.map(ch => ctx.measureText(ch).width);
       const rawTotal = rawWidths.reduce((a, b) => a + b, 0);
       const fit = Math.min(1, (width * 0.92) / Math.max(rawTotal, 1));
-      const radius = Math.max(220, width * 0.72);
-      const arc = Math.PI * (0.88 + curve * 0.13);
+      const radius = Math.max(520, width * 1.18);
+      const arc = Math.min(1.30, 0.92 + curve * 0.12);
       const centerX = width / 2 + mx * width * 0.05 * mouse;
       const centerY = height * 0.52 + my * height * 0.06 * mouse;
 
@@ -90,20 +90,20 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
         const gw = rawWidths[index] * fit;
         const u = (cursor + gw / 2) / Math.max(rawTotal * fit, 1);
         const theta = u * arc
-          + Math.sin(t * 0.75 + index * 0.2) * 0.025 * intensity
-          + mx * 0.22 * mouse;
-        const front = Math.max(0.06, Math.cos(theta));
+          + Math.sin(t * 0.75 + index * 0.2) * 0.016 * intensity
+          + mx * 0.09 * mouse;
+        const front = Math.max(0, Math.cos(theta));
         const side = Math.sin(theta);
-        const x = centerX + side * radius * 0.42;
-        const wave = Math.sin(theta * (2.1 + twist) + t * 1.05) * height * 0.16 * intensity;
-        const y = centerY + wave + my * 13 * mouse;
-        const sx = Math.max(0.46, 0.48 + front * 0.66);
-        const rotation = Math.sin(theta) * -0.42 + Math.sin(t * 0.6 + index * 0.3) * 0.018;
+        const x = centerX + side * radius * 0.36;
+        const wave = Math.sin(theta * (2.0 + twist * 0.35) + t * 1.05) * height * 0.07 * intensity;
+        const y = centerY + wave + my * 8 * mouse;
+        const sx = Math.max(0.78, 0.82 + front * 0.18);
+        const rotation = -theta * 0.52 + Math.sin(t * 0.6 + index * 0.3) * 0.012;
 
         const shadow = header.wrappedTextColor || '#ffffff';
         const depthColor = header.wrappedSurfaceColor || '#0A84FF';
         const shadowColor = '#172033';
-        const alpha = 0.28 + front * 0.72;
+        const alpha = 0.82 + front * 0.18;
 
         ctx.save();
         ctx.translate(x, y);
