@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface AnimatedTitle3DProps {
   line1?: string;
@@ -13,183 +13,204 @@ interface AnimatedTitle3DProps {
 }
 
 /**
- * Deformable wrapped typography inspired by the supplied reference.
- * The important difference from a ribbon is that there is NO backing panel:
- * the type itself is the deformable object. Multiple offset copies create the
- * long extrusion/echo seen in the reference, while SVG turbulence bends the
- * letterforms as one soft body.
+ * Lightweight wrapped/cylindrical typography.
+ * The reference effect behaves like type travelling around a 3D cylinder:
+ * the glyphs become larger in front, smaller toward the sides and their
+ * baseline bends with the cylinder. A few cheap offset passes create depth.
  */
 export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
   line1 = 'PROJETOS &',
   line2 = 'CONCEITOS',
   surfaceColor = '#7c6dff',
-  textColor = '#17121b',
+  textColor = '#ffffff',
   shadowColor = '#17121b',
   intensity = 1.2,
   speed = 1,
   mouseStrength = 1.1,
   enabled = true,
 }) => {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
-  const displacementRef = useRef<SVGFEDisplacementMapElement>(null);
-  const warpGroupRef = useRef<SVGGElement>(null);
-  const id = useId().replace(/:/g, '');
+  const ref = useRef<HTMLCanvasElement>(null);
+  const pointer = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+  const visible = useRef(true);
 
   useEffect(() => {
     if (!enabled) return;
-    const root = rootRef.current;
-    const turbulence = turbulenceRef.current;
-    const displacement = displacementRef.current;
-    const group = warpGroupRef.current;
-    if (!root || !turbulence || !displacement || !group) return;
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
 
-    let targetX = 0;
-    let targetY = 0;
-    let x = 0;
-    let y = 0;
     let raf = 0;
-    const started = performance.now();
+    let last = 0;
+    let start = performance.now();
+    let dpr = 1;
+    let width = 1;
+    let height = 1;
 
-    const move = (event: PointerEvent) => {
-      const rect = root.getBoundingClientRect();
-      targetX = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
-      targetY = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-    };
-    const leave = () => { targetX = 0; targetY = 0; };
-
-    root.addEventListener('pointermove', move);
-    root.addEventListener('pointerleave', leave);
-
-    const frame = (now: number) => {
-      x += (targetX - x) * 0.085;
-      y += (targetY - y) * 0.085;
-
-      const t = ((now - started) / 1000) * Math.max(0.05, speed);
-      const i = Math.max(0, intensity);
-      const m = Math.max(0, mouseStrength);
-
-      // One soft-body motion: vertical waves + horizontal squeeze + tilt.
-      const waveX = Math.sin(t * 1.18) * 15 * i + x * 28 * m;
-      const waveY = Math.sin(t * 1.55 + x * 1.7) * 11 * i + y * 18 * m;
-      const rotate = Math.sin(t * 0.8) * 3.2 * i + x * 5.5 * m;
-      const skew = Math.sin(t * 0.9) * 2.5 * i + x * 7 * m;
-      const scaleX = 1 + Math.sin(t * 0.75) * 0.025 * i;
-      const scaleY = 1 + Math.cos(t * 0.9) * 0.035 * i;
-
-      group.setAttribute(
-        'transform',
-        `translate(${waveX} ${waveY}) rotate(${rotate} 540 180) skewX(${skew}) scale(${scaleX} ${scaleY})`,
-      );
-
-      const warp = (15 + i * 24) + Math.abs(x) * 20 * m + Math.abs(y) * 10 * m;
-      displacement.setAttribute('scale', String(warp));
-      turbulence.setAttribute('seed', String(Math.floor(t * 8) % 10000));
-      turbulence.setAttribute('baseFrequency', `${0.006 + i * 0.002} ${0.018 + i * 0.011}`);
-
-      root.style.setProperty('--wrapped-depth', `${10 + i * 14 + Math.abs(x) * 24 * m}px`);
-      root.style.setProperty('--wrapped-shadow-x', `${x * 9 * m}px`);
-      root.style.setProperty('--wrapped-shadow-y', `${10 + y * 5 * m}px`);
-
-      raf = requestAnimationFrame(frame);
+    const resize = () => {
+      const r = canvas.getBoundingClientRect();
+      width = Math.max(280, r.width);
+      height = Math.max(180, r.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const cw = Math.round(width * dpr);
+      const ch = Math.round(height * dpr);
+      if (canvas.width !== cw || canvas.height !== ch) {
+        canvas.width = cw;
+        canvas.height = ch;
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    raf = requestAnimationFrame(frame);
+    const onMove = (e: PointerEvent) => {
+      const r = canvas.getBoundingClientRect();
+      pointer.current.tx = ((e.clientX - r.left) / Math.max(r.width, 1) - 0.5) * 2;
+      pointer.current.ty = ((e.clientY - r.top) / Math.max(r.height, 1) - 0.5) * 2;
+    };
+    const onLeave = () => {
+      pointer.current.tx = 0;
+      pointer.current.ty = 0;
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { visible.current = entry.isIntersecting; },
+      { threshold: 0.01 },
+    );
+
+    resize();
+    observer.observe(canvas);
+    canvas.addEventListener('pointermove', onMove, { passive: true });
+    canvas.addEventListener('pointerleave', onLeave, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
+
+    const render = (now: number) => {
+      raf = requestAnimationFrame(render);
+      if (!visible.current || now - last < 30) return; // ~33 fps, deliberately light.
+      last = now;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const dt = Math.min(50, now - (last || now));
+      const p = pointer.current;
+      p.x += (p.tx - p.x) * 0.11;
+      p.y += (p.ty - p.y) * 0.11;
+
+      const t = reduced ? 0 : ((now - start) / 1000) * Math.max(0.08, speed);
+      const power = Math.max(0, Math.min(2.2, intensity));
+      const mouse = Math.max(0, Math.min(2, mouseStrength));
+
+      ctx.clearRect(0, 0, width, height);
+
+      const family = getComputedStyle(document.documentElement)
+        .getPropertyValue('--font-headings')
+        .trim() || 'Arial, sans-serif';
+      const weight = 900;
+      const baseSize = Math.max(34, Math.min(104, width > 700 ? 94 : width * 0.115));
+
+      // Cylinder: front is at theta = 0, sides turn away from camera.
+      const radius = Math.max(260, width * 0.62);
+      const arc = Math.PI * (0.92 + 0.14 * power);
+      const wobble = 0.18 + power * 0.05;
+      const centerX = width / 2 + p.x * width * 0.055 * mouse;
+      const centerY = height / 2 + p.y * height * 0.07 * mouse;
+
+      const drawLine = (text: string, yOffset: number, size: number) => {
+        const chars = Array.from(text);
+        ctx.font = `${weight} ${size}px ${family}`;
+        const widths = chars.map(ch => ctx.measureText(ch).width);
+        const total = widths.reduce((a, b) => a + b, 0);
+        const fit = Math.min(1, (width * 0.9) / Math.max(total, 1));
+        let cursor = -total * fit / 2;
+
+        chars.forEach((ch, index) => {
+          const w = widths[index] * fit;
+          const u = (cursor + w / 2) / Math.max(total * fit, 1);
+          const theta = u * arc + Math.sin(t * 0.75 + index * 0.15) * 0.025 * power
+            + p.x * 0.24 * mouse;
+
+          const front = Math.cos(theta);
+          const side = Math.sin(theta);
+          // Perspective compression toward cylinder edges.
+          const scale = 0.48 + 0.72 * Math.max(0.08, front);
+          const x = centerX + side * radius * 0.48;
+          const wave = Math.sin(theta * 2.4 + t * 1.15) * height * wobble;
+          const y = centerY + yOffset + wave + p.y * 16 * mouse;
+          const rotation = Math.atan2(
+            Math.cos(theta) * radius * 0.48,
+            Math.max(80, Math.abs(Math.sin(theta)) * radius),
+          ) * 0.16 + p.x * 0.05 * mouse;
+
+          // Only soften, never fully remove, the side glyphs.
+          const alpha = 0.34 + 0.66 * Math.max(0, front);
+          const sx = Math.max(0.5, scale * fit);
+
+          ctx.save();
+          ctx.translate(x, y);
+
+          // 3D depth: 5 cheap passes, unlike SVG turbulence which is expensive.
+          for (let layer = 5; layer >= 1; layer--) {
+            const d = layer * (2.4 + power * 1.8);
+            ctx.save();
+            ctx.rotate(rotation);
+            ctx.scale(sx, sx * (0.96 + front * 0.08));
+            ctx.globalAlpha = alpha * (0.05 + (6 - layer) * 0.025);
+            ctx.fillStyle = shadowColor;
+            ctx.fillText(ch, -w * 0.5, layer * d * 0.42);
+            ctx.restore();
+          }
+
+          // Chromatic edge echoes, inspired by the reference.
+          ctx.save();
+          ctx.rotate(rotation);
+          ctx.scale(sx, sx);
+          ctx.globalAlpha = alpha * 0.85;
+          ctx.lineWidth = Math.max(1.2, 2.4 * sx);
+          ctx.strokeStyle = surfaceColor;
+          ctx.strokeText(ch, -w * 0.5 - 1.8, 0);
+          ctx.restore();
+
+          // Front face.
+          ctx.save();
+          ctx.rotate(rotation);
+          ctx.scale(sx, sx * (0.96 + front * 0.08));
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = textColor;
+          ctx.shadowColor = surfaceColor;
+          ctx.shadowBlur = 2.5 + front * 3;
+          ctx.fillText(ch, -w * 0.5, 0);
+          ctx.restore();
+
+          ctx.restore();
+          cursor += w;
+        });
+      };
+
+      if (line2) {
+        drawLine(line1, -baseSize * 0.56, baseSize * 0.86);
+        drawLine(line2, baseSize * 0.48, baseSize * 0.86);
+      } else {
+        drawLine(line1, 0, baseSize);
+      }
+    };
+
+    raf = requestAnimationFrame(render);
     return () => {
       cancelAnimationFrame(raf);
-      root.removeEventListener('pointermove', move);
-      root.removeEventListener('pointerleave', leave);
+      observer.disconnect();
+      canvas.removeEventListener('pointermove', onMove);
+      canvas.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('resize', resize);
     };
-  }, [enabled, intensity, speed, mouseStrength]);
+  }, [enabled, line1, line2, surfaceColor, textColor, shadowColor, intensity, speed, mouseStrength]);
 
   if (!enabled) return null;
 
-  // Many close copies create the long, elastic extrusion/echo of the reference.
-  const depthLayers = Array.from({ length: 22 }, (_, index) => index);
-
   return (
-    <div
-      ref={rootRef}
-      className="animated-title-3d animated-title-3d--wrapped-gif"
-      aria-label={`${line1} ${line2}`}
-      style={{ '--shadow-color': shadowColor } as React.CSSProperties}
-    >
-      <svg
-        className="animated-title-3d-svg--wrapped"
-        viewBox="0 0 1080 360"
+    <div className="animated-title-3d animated-title-3d--wrapped-gif">
+      <canvas
+        ref={ref}
+        className="animated-title-3d-canvas"
+        aria-label={`${line1} ${line2}`}
         role="img"
-        aria-hidden="true"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <filter id={`${id}-body`} x="-25%" y="-35%" width="150%" height="175%" colorInterpolationFilters="sRGB">
-            <feTurbulence
-              ref={turbulenceRef}
-              type="fractalNoise"
-              baseFrequency="0.008 0.025"
-              numOctaves="2"
-              seed="8"
-              result="noise"
-            />
-            <feDisplacementMap
-              ref={displacementRef}
-              in="SourceGraphic"
-              in2="noise"
-              scale="28"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-          <filter id={`${id}-soft`} x="-25%" y="-35%" width="150%" height="175%">
-            <feGaussianBlur stdDeviation="0.7" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <pattern id={`${id}-grain`} width="5" height="5" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.55" fill={surfaceColor} opacity="0.18" />
-            <circle cx="4" cy="3" r="0.45" fill={surfaceColor} opacity="0.11" />
-          </pattern>
-        </defs>
-
-        <g ref={warpGroupRef} filter={`url(#${id}-body)`}>
-          {/* Back-to-front extrusion: same glyph, increasingly displaced in Z/X/Y. */}
-          {depthLayers.map((layer) => {
-            const p = layer / (depthLayers.length - 1);
-            const dx = p * 38;
-            const dy = p * 34;
-            const wobble = Math.sin(layer * 0.75) * 3;
-            const opacity = 0.08 + (1 - p) * 0.34;
-            const strokeWidth = 2.2 + (1 - p) * 2.2;
-            return (
-              <g key={layer} transform={`translate(${dx} ${dy + wobble})`} opacity={opacity}>
-                <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif" fill="none" stroke={surfaceColor} strokeWidth={strokeWidth}>
-                  {line1}
-                </text>
-                <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif" fill="none" stroke={surfaceColor} strokeWidth={strokeWidth}>
-                  {line2}
-                </text>
-              </g>
-            );
-          })}
-
-          {/* Dense outline echo */}
-          <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--outline" fill={textColor} stroke={surfaceColor} strokeWidth="10">
-            {line1}
-          </text>
-          <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--outline" fill={textColor} stroke={surfaceColor} strokeWidth="10">
-            {line2}
-          </text>
-
-          {/* Dark inner echo gives the characteristic nested/inked look. */}
-          <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--front" fill={textColor} stroke={shadowColor} strokeWidth="2.5">
-            {line1}
-          </text>
-          <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--front" fill={textColor} stroke={shadowColor} strokeWidth="2.5">
-            {line2}
-          </text>
-
-          <rect x="170" y="48" width="740" height="290" fill={`url(#${id}-grain)`} opacity="0.22" pointerEvents="none" />
-        </g>
-      </svg>
+      />
       <span className="sr-only">{line1} {line2}</span>
     </div>
   );
