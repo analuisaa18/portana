@@ -1,303 +1,198 @@
-import { 
-  PortfolioSettings, 
-  Category, 
-  Project, 
-  ProjectBlock,
-  ThemeConfig 
-} from '../types/portfolio';
+import React, { useEffect, useId, useRef } from 'react';
 
-export const DEFAULT_THEME_CONFIG: ThemeConfig = {
-  colors: {
-    background: '#050505',      // Deep pitch black
-    surface: '#0D0D0E',         // Dark architectural surface
-    textPrimary: '#FFFFFF',     // Crisp stark white typography
-    textSecondary: '#A1A1AA',   // Muted silver gray
-    primary: '#FFFFFF',         // High contrast primary white
-    secondary: '#27272A',       // Dark zinc secondary
-    accent: '#0047FF',          // Electric blue accent
-    border: '#1E1E24',          // Crisp hairline border
-    focus: '#0047FF',           // Electric blue focus ring
-    success: '#22C55E',         // Vibrant emerald green
-    warning: '#F59E0B',         // Amber warning
-    error: '#EF4444',           // Deep crimson
-  },
-  typography: {
-    fontFamilyHeadings: 'Space Grotesk, sans-serif',
-    fontFamilyBody: 'Space Grotesk, sans-serif',
-    baseSizePx: 16,
-    scaleRatio: 1.333,
-    headingWeight: 900,
-    bodyWeight: 400,
-    lineHeight: 1.6,
-    headingLineHeight: 0.95,
-    letterSpacing: -0.03,
-    lab: { text: '3D TICKER', speed: 1, depth: 28, perspective: 900, curvature: 18, spacing: 4, rotateX: -12, rotateY: 0, rotateZ: 0, mouseStrength: 0.7, autoRotate: true },
-  },
-  radius: {
-    none: '0px',
-    sm: '2px',
-    md: '4px',
-    lg: '6px',
-    xl: '8px',
-    full: '9999px',
-  },
-  layout: {
-    maxWidthPx: 1280,
-    gridColumns: 3,
-    gridStyle: 'standard',
-    gapPx: 24,
-    containerPaddingPx: 32,
-  },
-  motion: {
-    durationFastMs: 150,
-    durationNormalMs: 300,
-    durationSlowMs: 500,
-    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    reducedMotionFallback: true,
-  },
-  header: {
-    style: 'minimal',
-    sticky: true,
-    showBorder: true,
-    blur: true,
-    opacity: 0.9,
-    heightPx: 80,
-    showBrandIcon: true,
-    iconSizePx: 28,
-    brandFontSizePx: 24,
-    brandWeight: 900,
-    brandLetterSpacing: -0.04,
-    showTagline: true,
-    navStyle: 'underline',
-    navFontSizePx: 11,
-    navWeight: 700,
-    navLetterSpacing: 0.35,
-    navUppercase: true,
-    showAdminButton: true,
-    animation: 'wrapped3d',
-    animationIntensity: 1,
-    animationPerspective: 900,
-    animationDepth: 70,
-    animationSpeed: 1,
-    animationMouseStrength: 1,
-    animationRepeat: 3,
-    animationDepthPx: 80,
-    animationSpread: 1.15,
-    animationAutoPlay: true,
-    animationPointer: true,
-    animationColorMode: 'theme',
-    brandFontFamily: 'Space Grotesk, sans-serif',
-    backgroundEnabled: true,
-    backgroundType: 'hybrid',
-    backgroundOpacity: 0.78,
-    backgroundIntensity: 1,
-    backgroundParallax: 1,
-    backgroundGridSize: 42,
-    backgroundPerspective: 700,
-    wrappedSurfaceColor: '#0A84FF',
-    wrappedTextColor: '#FFFFFF',
-    wrappedCurve: 1.15,
-    wrappedTwist: 1.25,
-    wrappedBulge: 1.1,
-    wrappedGlow: 0.35,
-    wrappedScale: 1.0,
-    projectTitle3dEnabled: true,
-    projectTitle3dSurfaceColor: '#9F8CA5',
-    projectTitle3dTextColor: '#FFFFFF',
-    projectTitle3dShadowColor: '#4D3B50',
-    projectTitle3dIntensity: 1.2,
-    projectTitle3dSpeed: 1,
-    projectTitle3dMouseStrength: 1.1,
-  },
-  brandIcon: { provider: 'lucide', name: 'Sparkles' },
-  customImage: '',
-  ctaLabel: 'Ver projeto',
-  uxVoice: 'direto',
+interface AnimatedTitle3DProps {
+  line1?: string;
+  line2?: string;
+  surfaceColor?: string;
+  textColor?: string;
+  shadowColor?: string;
+  intensity?: number;
+  speed?: number;
+  mouseStrength?: number;
+  enabled?: boolean;
+}
+
+/**
+ * Deformable wrapped typography inspired by the supplied reference.
+ * The important difference from a ribbon is that there is NO backing panel:
+ * the type itself is the deformable object. Multiple offset copies create the
+ * long extrusion/echo seen in the reference, while SVG turbulence bends the
+ * letterforms as one soft body.
+ */
+export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
+  line1 = 'PROJETOS &',
+  line2 = 'CONCEITOS',
+  surfaceColor = '#7c6dff',
+  textColor = '#17121b',
+  shadowColor = '#17121b',
+  intensity = 1.2,
+  speed = 1,
+  mouseStrength = 1.1,
+  enabled = true,
+}) => {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
+  const displacementRef = useRef<SVGFEDisplacementMapElement>(null);
+  const warpGroupRef = useRef<SVGGElement>(null);
+  const id = useId().replace(/:/g, '');
+
+  useEffect(() => {
+    if (!enabled) return;
+    const root = rootRef.current;
+    const turbulence = turbulenceRef.current;
+    const displacement = displacementRef.current;
+    const group = warpGroupRef.current;
+    if (!root || !turbulence || !displacement || !group) return;
+
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+    let raf = 0;
+    const started = performance.now();
+
+    const move = (event: PointerEvent) => {
+      const rect = root.getBoundingClientRect();
+      targetX = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
+      targetY = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
+    };
+    const leave = () => { targetX = 0; targetY = 0; };
+
+    root.addEventListener('pointermove', move);
+    root.addEventListener('pointerleave', leave);
+
+    const frame = (now: number) => {
+      x += (targetX - x) * 0.085;
+      y += (targetY - y) * 0.085;
+
+      const t = ((now - started) / 1000) * Math.max(0.05, speed);
+      const i = Math.max(0, intensity);
+      const m = Math.max(0, mouseStrength);
+
+      // One soft-body motion: vertical waves + horizontal squeeze + tilt.
+      const waveX = Math.sin(t * 1.18) * 15 * i + x * 28 * m;
+      const waveY = Math.sin(t * 1.55 + x * 1.7) * 11 * i + y * 18 * m;
+      const rotate = Math.sin(t * 0.8) * 3.2 * i + x * 5.5 * m;
+      const skew = Math.sin(t * 0.9) * 2.5 * i + x * 7 * m;
+      const scaleX = 1 + Math.sin(t * 0.75) * 0.025 * i;
+      const scaleY = 1 + Math.cos(t * 0.9) * 0.035 * i;
+
+      group.setAttribute(
+        'transform',
+        `translate(${waveX} ${waveY}) rotate(${rotate} 540 180) skewX(${skew}) scale(${scaleX} ${scaleY})`,
+      );
+
+      const warp = (15 + i * 24) + Math.abs(x) * 20 * m + Math.abs(y) * 10 * m;
+      displacement.setAttribute('scale', String(warp));
+      turbulence.setAttribute('seed', String(Math.floor(t * 8) % 10000));
+      turbulence.setAttribute('baseFrequency', `${0.006 + i * 0.002} ${0.018 + i * 0.011}`);
+
+      root.style.setProperty('--wrapped-depth', `${10 + i * 14 + Math.abs(x) * 24 * m}px`);
+      root.style.setProperty('--wrapped-shadow-x', `${x * 9 * m}px`);
+      root.style.setProperty('--wrapped-shadow-y', `${10 + y * 5 * m}px`);
+
+      raf = requestAnimationFrame(frame);
+    };
+
+    raf = requestAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(raf);
+      root.removeEventListener('pointermove', move);
+      root.removeEventListener('pointerleave', leave);
+    };
+  }, [enabled, intensity, speed, mouseStrength]);
+
+  if (!enabled) return null;
+
+  // Many close copies create the long, elastic extrusion/echo of the reference.
+  const depthLayers = Array.from({ length: 22 }, (_, index) => index);
+
+  return (
+    <div
+      ref={rootRef}
+      className="animated-title-3d animated-title-3d--wrapped-gif"
+      aria-label={`${line1} ${line2}`}
+      style={{ '--shadow-color': shadowColor } as React.CSSProperties}
+    >
+      <svg
+        className="animated-title-3d-svg--wrapped"
+        viewBox="0 0 1080 360"
+        role="img"
+        aria-hidden="true"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <filter id={`${id}-body`} x="-25%" y="-35%" width="150%" height="175%" colorInterpolationFilters="sRGB">
+            <feTurbulence
+              ref={turbulenceRef}
+              type="fractalNoise"
+              baseFrequency="0.008 0.025"
+              numOctaves="2"
+              seed="8"
+              result="noise"
+            />
+            <feDisplacementMap
+              ref={displacementRef}
+              in="SourceGraphic"
+              in2="noise"
+              scale="28"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+          <filter id={`${id}-soft`} x="-25%" y="-35%" width="150%" height="175%">
+            <feGaussianBlur stdDeviation="0.7" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+          <pattern id={`${id}-grain`} width="5" height="5" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.55" fill={surfaceColor} opacity="0.18" />
+            <circle cx="4" cy="3" r="0.45" fill={surfaceColor} opacity="0.11" />
+          </pattern>
+        </defs>
+
+        <g ref={warpGroupRef} filter={`url(#${id}-body)`}>
+          {/* Back-to-front extrusion: same glyph, increasingly displaced in Z/X/Y. */}
+          {depthLayers.map((layer) => {
+            const p = layer / (depthLayers.length - 1);
+            const dx = p * 38;
+            const dy = p * 34;
+            const wobble = Math.sin(layer * 0.75) * 3;
+            const opacity = 0.08 + (1 - p) * 0.34;
+            const strokeWidth = 2.2 + (1 - p) * 2.2;
+            return (
+              <g key={layer} transform={`translate(${dx} ${dy + wobble})`} opacity={opacity}>
+                <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif" fill="none" stroke={surfaceColor} strokeWidth={strokeWidth}>
+                  {line1}
+                </text>
+                <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif" fill="none" stroke={surfaceColor} strokeWidth={strokeWidth}>
+                  {line2}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Dense outline echo */}
+          <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--outline" fill={textColor} stroke={surfaceColor} strokeWidth="10">
+            {line1}
+          </text>
+          <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--outline" fill={textColor} stroke={surfaceColor} strokeWidth="10">
+            {line2}
+          </text>
+
+          {/* Dark inner echo gives the characteristic nested/inked look. */}
+          <text x="540" y="160" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--front" fill={textColor} stroke={shadowColor} strokeWidth="2.5">
+            {line1}
+          </text>
+          <text x="540" y="268" textAnchor="middle" className="animated-title-3d-text--gif animated-title-3d-text--front" fill={textColor} stroke={shadowColor} strokeWidth="2.5">
+            {line2}
+          </text>
+
+          <rect x="170" y="48" width="740" height="290" fill={`url(#${id}-grain)`} opacity="0.22" pointerEvents="none" />
+        </g>
+      </svg>
+      <span className="sr-only">{line1} {line2}</span>
+    </div>
+  );
 };
 
-export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
-  portfolio_name: 'Ana Bochenek — Portfólio Autoral',
-  tagline: 'Design de Interfaces, Pesquisa & Cultura Digital',
-  about_title: 'Investigação e Prática em Design Autoral',
-  short_bio: 'Atuo na interseção entre design de interfaces, arquitetura de informação e acessibilidade digital.',
-  about_text: 'Trabalho desenvolvendo sistemas digitais onde o conteúdo, a tipografia e a acessibilidade caminham juntos. Acredito no design como infraestrutura crítica para a comunicação humana — transparente, utilizável e centrado no respeito ao tempo e à autonomia das pessoas.',
-  profile_image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800',
-  whatsapp: '5551999998888',
-  email_public: 'ana.bocheneck@acad.ufsm.br',
-  location: 'Santa Maria, RS — Brasil',
-  github_username: 'anabochenek',
-  social_links: [
-    { id: '1', platform: 'GitHub', url: 'https://github.com', label: 'github.com/anabochenek' },
-    { id: '2', platform: 'LinkedIn', url: 'https://linkedin.com', label: 'linkedin.com/in/anabochenek' },
-    { id: '3', platform: 'Behance', url: 'https://behance.net', label: 'behance.net/anabochenek' }
-  ],
-  ux_voice: 'direto',
-  theme_config: DEFAULT_THEME_CONFIG,
-};
-
-export const DEFAULT_CATEGORIES: Category[] = [
-  {
-    id: 'cat-1',
-    name: 'Design de Interfaces',
-    slug: 'design-de-interfaces',
-    description: 'Sistemas de design, aplicações web responsivas e arquiteturas de informação.',
-    display_order: 1,
-  },
-  {
-    id: 'cat-2',
-    name: 'Editorial & Tipografia',
-    slug: 'editorial-e-tipografia',
-    description: 'Publicações digitais, ensaios visuais e explorações tipográficas.',
-    display_order: 2,
-  },
-  {
-    id: 'cat-3',
-    name: 'Audiovisual & Som',
-    slug: 'audiovisual-e-som',
-    description: 'Composições sonoras, narrativas em vídeo e podcasts acessíveis com transcrição.',
-    display_order: 3,
-  },
-  {
-    id: 'cat-4',
-    name: 'Pesquisa & Projetos Experimentais',
-    slug: 'pesquisa-e-projetos-experimentais',
-    description: 'Investigações acadêmicas e protótipos interativos.',
-    display_order: 4,
-  },
-];
-
-export const DEFAULT_PROJECTS: Project[] = [
-  {
-    id: 'proj-1',
-    category_id: 'cat-1',
-    title: 'Sistema de Leitura Tipográfica Acessível',
-    slug: 'sistema-de-leitura-tipografica-acessivel',
-    short_description: 'Interface experimental de leitura focada em legibilidade e contraste dinâmico para pessoas com baixa visão.',
-    cover_image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=1200',
-    year: 2025,
-    status: 'publicado',
-    featured: true,
-    display_order: 1,
-  },
-  {
-    id: 'proj-2',
-    category_id: 'cat-2',
-    title: 'Arquivo Aberto de Design Latino-Americano',
-    slug: 'arquivo-aberto-de-design-latino-americano',
-    short_description: 'Plataforma digital para documentação e preservação de memórias visuais editoriais.',
-    cover_image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1200',
-    year: 2024,
-    status: 'publicado',
-    featured: true,
-    display_order: 2,
-  },
-  {
-    id: 'proj-3',
-    category_id: 'cat-3',
-    title: 'Paisagens Sonoras da Pampa',
-    slug: 'paisagens-sonoras-da-pampa',
-    short_description: 'Documentário em áudio e vídeo explorando a acústica e biodiversidade dos campos do sul.',
-    cover_image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=1200',
-    year: 2024,
-    status: 'publicado',
-    featured: false,
-    display_order: 3,
-  },
-];
-
-export const DEFAULT_BLOCKS: Record<string, ProjectBlock[]> = {
-  'proj-1': [
-    {
-      id: 'block-1-1',
-      project_id: 'proj-1',
-      type: 'texto',
-      content: 'Este projeto nasceu da constatação de que grande parte das interfaces contemporâneas privilegia a estética visual em detrimento da legibilidade funcional. Desenvolvemos uma biblioteca de componentes ajustáveis que respeita as preferências do usuário, incluindo escala fluida e espaçamento de caracteres dinâmico.',
-      media_url: '',
-      alt_text: '',
-      caption: '',
-      transcript: '',
-      display_order: 1,
-    },
-    {
-      id: 'block-1-2',
-      project_id: 'proj-1',
-      type: 'imagem',
-      content: '',
-      media_url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200',
-      alt_text: 'Captura de tela demonstrando o teste de escala tipográfica com contraste elevado.',
-      caption: 'Protótipo de teste tipográfico com controle de entrelinha e largura máxima de coluna.',
-      transcript: '',
-      display_order: 2,
-    },
-    {
-      id: 'block-1-3',
-      project_id: 'proj-1',
-      type: 'video',
-      content: 'Demonstração Interativa do Protótipo em Ação',
-      media_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      alt_text: '',
-      caption: 'Vídeo explicativo cobrindo navegação por teclado e síntese de voz.',
-      transcript: '',
-      display_order: 3,
-    },
-    {
-      id: 'block-1-4',
-      project_id: 'proj-1',
-      type: 'audio',
-      content: 'Relato Oral do Processo de Desenvolvimento',
-      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-      alt_text: '',
-      caption: 'Gravação do depoimento da pesquisadora principal sobre os testes com usuários.',
-      transcript: 'Olá! Neste áudio apresento os bastidores da pesquisa. Durante seis meses, entrevistamos 24 participantes com diferentes níveis de acuidade visual. Identificamos que a flexibilidade de margem e o ajuste de altura da linha foram os fatores determinantes para diminuir a fadiga ocular em leituras prolongadas.',
-      display_order: 4,
-    },
-  ],
-  'proj-2': [
-    {
-      id: 'block-2-1',
-      project_id: 'proj-2',
-      type: 'texto',
-      content: 'O Arquivo Aberto mapeia mais de 50 anos de capas de livros, cartazes e tipografias desenvolvidas na América Latina. O sistema catalográfico foi construído com metadados detalhados para facilitar pesquisas acadêmicas.',
-      media_url: '',
-      alt_text: '',
-      caption: '',
-      transcript: '',
-      display_order: 1,
-    },
-    {
-      id: 'block-2-2',
-      project_id: 'proj-2',
-      type: 'imagem',
-      content: '',
-      media_url: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200',
-      alt_text: 'Coleção de livros antigos dispostos em estantes de madeira.',
-      caption: 'Registro fotográfico das edições originais catalogadas na biblioteca física.',
-      transcript: '',
-      display_order: 2,
-    },
-  ],
-  'proj-3': [
-    {
-      id: 'block-3-1',
-      project_id: 'proj-3',
-      type: 'texto',
-      content: 'Um trabalho multissensorial focado nas paisagens sonoras dos biomas sulinos. Gravado em campo com equipamentos binaurais de alta fidelidade.',
-      media_url: '',
-      alt_text: '',
-      caption: '',
-      transcript: '',
-      display_order: 1,
-    },
-    {
-      id: 'block-3-2',
-      project_id: 'proj-3',
-      type: 'audio',
-      content: 'Faixa 01: Vento e Aves ao Amanhecer',
-      media_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-      alt_text: '',
-      caption: 'Captação binaural realizada às 05:30 na Reserva Biológica do Ibirapuitã.',
-      transcript: 'Transcrição Sonora: Ouve-se o farfalhar contínuo da vegetação sob o vento forte do sul, acompanhado gradualmente pelo canto de siriemas e quero-queros marcando o início da manhã.',
-      display_order: 2,
-    },
-  ],
-};
+export default AnimatedTitle3D;
