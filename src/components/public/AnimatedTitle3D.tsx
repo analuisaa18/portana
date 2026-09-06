@@ -106,9 +106,10 @@ export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
       const baseSize = Math.max(34, Math.min(104, width > 700 ? 94 : width * 0.115));
 
       // Cylinder: front is at theta = 0, sides turn away from camera.
-      const radius = Math.max(260, width * 0.62);
-      const arc = Math.PI * (0.92 + 0.14 * power);
-      const wobble = 0.18 + power * 0.05;
+      const radius = Math.max(520, width * 1.15);
+      // Keep the whole word in the front half of the cylinder so it stays readable.
+      const arc = Math.min(1.35, 0.92 + power * 0.16);
+      const wobble = 0.055 + power * 0.018;
       const centerX = width / 2 + p.x * width * 0.055 * mouse;
       const centerY = height / 2 + p.y * height * 0.07 * mouse;
 
@@ -123,24 +124,21 @@ export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
         chars.forEach((ch, index) => {
           const w = widths[index] * fit;
           const u = (cursor + w / 2) / Math.max(total * fit, 1);
-          const theta = u * arc + Math.sin(t * 0.75 + index * 0.15) * 0.025 * power
-            + p.x * 0.24 * mouse;
+          const theta = u * arc + Math.sin(t * 0.75 + index * 0.15) * 0.018 * power
+            + p.x * 0.10 * mouse;
 
           const front = Math.cos(theta);
           const side = Math.sin(theta);
           // Perspective compression toward cylinder edges.
-          const scale = 0.48 + 0.72 * Math.max(0.08, front);
-          const x = centerX + side * radius * 0.48;
-          const wave = Math.sin(theta * 2.4 + t * 1.15) * height * wobble;
-          const y = centerY + yOffset + wave + p.y * 16 * mouse;
-          const rotation = Math.atan2(
-            Math.cos(theta) * radius * 0.48,
-            Math.max(80, Math.abs(Math.sin(theta)) * radius),
-          ) * 0.16 + p.x * 0.05 * mouse;
+          const scale = 0.82 + 0.18 * Math.max(0, front);
+          const x = centerX + side * radius * 0.38;
+          const wave = Math.sin(theta * 2.15 + t * 1.05) * height * wobble;
+          const y = centerY + yOffset + wave + p.y * 9 * mouse;
+          const rotation = -theta * 0.55 + Math.sin(t * 0.55 + index * 0.22) * 0.012 + p.x * 0.035 * mouse;
 
           // Only soften, never fully remove, the side glyphs.
-          const alpha = 0.34 + 0.66 * Math.max(0, front);
-          const sx = Math.max(0.5, scale * fit);
+          const alpha = 0.82 + 0.18 * Math.max(0, front);
+          const sx = Math.max(0.72, scale * fit);
 
           ctx.save();
           ctx.translate(x, y);
