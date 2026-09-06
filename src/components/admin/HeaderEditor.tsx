@@ -240,6 +240,34 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
             </label>
           </div>
         </div>
+      <div className={cardClass}>
+        <h3 className="font-bold mb-4">Título 3D da seção Projetos</h3>
+        <p className="text-xs text-[var(--color-text-secondary)] mb-4">Controla o efeito deformado que aparece no título “PROJETOS & CONCEITOS” da página pública.</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <label className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
+            <input type="checkbox" checked={header.projectTitle3dEnabled !== false} onChange={e=>update({projectTitle3dEnabled:e.target.checked})}/> Exibir efeito
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Cor da superfície
+            <input className="w-full h-10" type="color" value={header.projectTitle3dSurfaceColor || '#9F8CA5'} onChange={e=>update({projectTitle3dSurfaceColor:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Cor do texto
+            <input className="w-full h-10" type="color" value={header.projectTitle3dTextColor || '#FFFFFF'} onChange={e=>update({projectTitle3dTextColor:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Cor da profundidade
+            <input className="w-full h-10" type="color" value={header.projectTitle3dShadowColor || '#4D3B50'} onChange={e=>update({projectTitle3dShadowColor:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Intensidade
+            <input className={controlClass} type="number" min="0" max="3" step="0.1" value={header.projectTitle3dIntensity ?? 1.2} onChange={e=>update({projectTitle3dIntensity:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Velocidade
+            <input className={controlClass} type="number" min="0" max="3" step="0.1" value={header.projectTitle3dSpeed ?? 1} onChange={e=>update({projectTitle3dSpeed:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Força do mouse
+            <input className={controlClass} type="number" min="0" max="3" step="0.1" value={header.projectTitle3dMouseStrength ?? 1.1} onChange={e=>update({projectTitle3dMouseStrength:Number(e.target.value)})}/>
+          </label>
+        </div>
+      </div>
+
       </div>
     </div>
   );
