@@ -145,6 +145,13 @@ export interface ThemeHeader {
   wrappedBulge?: number;
   wrappedGlow?: number;
   wrappedScale?: number;
+  projectTitle3dEnabled?: boolean;
+  projectTitle3dSurfaceColor?: string;
+  projectTitle3dTextColor?: string;
+  projectTitle3dShadowColor?: string;
+  projectTitle3dIntensity?: number;
+  projectTitle3dSpeed?: number;
+  projectTitle3dMouseStrength?: number;
 }
 
 export interface ThemeConfig {
