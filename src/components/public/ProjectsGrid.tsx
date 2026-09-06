@@ -20,6 +20,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   onSelectProject,
 }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [titleHovered, setTitleHovered] = useState(false);
 
   // Filter projects by category
   const filteredProjects = selectedCategoryId
