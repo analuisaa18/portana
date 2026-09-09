@@ -152,6 +152,13 @@ export interface ThemeHeader {
   projectTitle3dIntensity?: number;
   projectTitle3dSpeed?: number;
   projectTitle3dMouseStrength?: number;
+  circleFieldEnabled?: boolean;
+  circleFieldBackground?: string;
+  circleFieldColor?: string;
+  circleFieldOpacity?: number;
+  circleFieldSize?: number;
+  circleFieldMotion?: number;
+  circleFieldMouse?: number;
 }
 
 export interface ThemeConfig {
