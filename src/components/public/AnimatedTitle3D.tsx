@@ -115,14 +115,20 @@ export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
 
       const drawLine = (text: string, yOffset: number, size: number) => {
         const chars = Array.from(text);
+        // Keep the measured glyph size and the layout size identical.
+        // Compressing only the positions made the full-size glyphs overlap.
         ctx.font = `${weight} ${size}px ${family}`;
-        const widths = chars.map(ch => ctx.measureText(ch).width);
+        const rawWidths = chars.map(ch => ctx.measureText(ch).width);
+        const rawTotal = rawWidths.reduce((a, b) => a + b, 0);
+        const fit = Math.min(1, (width * 0.9) / Math.max(rawTotal, 1));
+        const renderSize = size * fit;
+        ctx.font = `${weight} ${renderSize}px ${family}`;
+        const widths = rawWidths.map(w => w * fit);
         const total = widths.reduce((a, b) => a + b, 0);
-        const fit = Math.min(1, (width * 0.9) / Math.max(total, 1));
-        let cursor = -total * fit / 2;
+        let cursor = -total / 2;
 
         chars.forEach((ch, index) => {
-          const w = widths[index] * fit;
+          const w = widths[index];
           const u = (cursor + w / 2) / Math.max(total * fit, 1);
           const theta = u * arc + Math.sin(t * 0.75 + index * 0.15) * 0.018 * power
             + p.x * 0.10 * mouse;
@@ -138,7 +144,7 @@ export const AnimatedTitle3D: React.FC<AnimatedTitle3DProps> = ({
 
           // Only soften, never fully remove, the side glyphs.
           const alpha = 0.82 + 0.18 * Math.max(0, front);
-          const sx = Math.max(0.72, scale * fit);
+          const sx = Math.max(0.82, scale);
 
           ctx.save();
           ctx.translate(x, y);
