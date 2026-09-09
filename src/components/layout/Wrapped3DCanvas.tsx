@@ -92,9 +92,9 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
 
       // One continuous wave across the whole word. This preserves readability
       // while still creating the wrapped 3D look from the reference.
-      const waveAmplitude = Math.min(15, height * 0.105) * intensity;
-      const waveCycles = 1.1 + twist * 0.16;
-      const zDepth = Math.min(34, 14 + (header.animationDepthPx ?? 24) * 0.28) * intensity;
+      const waveAmplitude = Math.min(7, height * 0.05) * intensity;
+      const waveCycles = 0.72 + twist * 0.06;
+      const zDepth = Math.min(18, 8 + (header.animationDepthPx ?? 24) * 0.14) * intensity;
       let cursor = -total / 2;
 
       chars.forEach((ch, index) => {
@@ -105,9 +105,9 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
         const wave = Math.sin(theta);
         const z = Math.cos(theta) * zDepth + normalizedMouseDepth(index, chars.length, mx * mouse);
         const x = centerX + mid;
-        const y = centerY + wave * waveAmplitude + my * 6 * mouse;
-        const rotation = Math.cos(theta) * (5.5 * intensity) + mx * 2.5 * mouse;
-        const scale = clamp(0.985 + Math.cos(theta) * 0.04 * intensity, 0.92, 1.06);
+        const y = centerY + wave * waveAmplitude + my * 3 * mouse;
+        const rotation = Math.cos(theta) * (1.8 * intensity) + mx * 1.2 * mouse;
+        const scale = clamp(1 + Math.cos(theta) * 0.012 * intensity, 0.985, 1.015);
         const alpha = clamp(0.94 + Math.cos(theta) * 0.05, 0.88, 1);
 
         const textColor = header.wrappedTextColor || '#ffffff';
@@ -120,10 +120,10 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
 
         // Controlled extrusion: enough depth to read as 3D, never enough to
         // stack into an unreadable wall of copies.
-        const extrusion = Math.min(8, Math.max(3, Math.abs(z) * 0.12 + 2));
+        const extrusion = Math.min(5, Math.max(2, Math.abs(z) * 0.08 + 1.5));
         for (let layer = Math.ceil(extrusion); layer >= 1; layer--) {
           ctx.save();
-          ctx.globalAlpha = alpha * (0.045 + (extrusion - layer) * 0.015);
+          ctx.globalAlpha = alpha * (0.035 + (extrusion - layer) * 0.012);
           ctx.fillStyle = 'rgba(35, 28, 42, 0.48)';
           ctx.fillText(ch, -gw / 2 + layer * 0.42, layer * 1.25);
           ctx.restore();
