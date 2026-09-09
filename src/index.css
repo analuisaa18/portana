@@ -487,3 +487,31 @@
 @media (prefers-reduced-motion:reduce){
   .animated-title-3d--wrapped-gif{transform:none!important}
 }
+
+/* Reference-style oversized circle field for the header. Pure CSS/DOM, intentionally lightweight. */
+.header-circle-field{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  isolation:isolate;
+}
+.header-circle-field__circle{
+  position:absolute;
+  width:var(--circle-size);
+  height:var(--circle-size);
+  border-radius:50%;
+  background:var(--circle-color);
+  transform:translate3d(var(--circle-mx),var(--circle-my),0) scale(var(--circle-scale));
+  will-change:transform;
+  animation:header-circle-float 11s ease-in-out infinite;
+  animation-delay:calc(var(--circle-delay) * -1);
+}
+@keyframes header-circle-float{
+  0%,100%{margin-top:0;margin-left:0}
+  50%{margin-top:-5px;margin-left:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .header-circle-field__circle{animation:none!important}
+}
