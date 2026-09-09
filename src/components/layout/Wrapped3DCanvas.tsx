@@ -77,7 +77,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const family = getComputedStyle(document.documentElement)
         .getPropertyValue('--font-headings').trim() || 'Arial, sans-serif';
       const phrase = (text || 'PORTFÓLIO').toUpperCase();
-      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.5 * scaleSetting;
+      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 0.92 * scaleSetting;
       const weight = header.brandWeight ?? 900;
       // Measure first, then apply the same fit factor to the actual font.
       // Previously the positions were compressed but the glyphs were still
@@ -88,7 +88,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const chars = Array.from(phrase);
       const rawWidths = chars.map(ch => ctx.measureText(ch).width);
       const rawTotal = rawWidths.reduce((a, b) => a + b, 0);
-      const padding = Math.max(28, width * 0.055);
+      const padding = Math.max(18, width * 0.035);
       const fit = Math.min(1, (width - padding * 2) / Math.max(rawTotal, 1));
       const renderSize = size * fit;
       ctx.font = `${weight} ${renderSize}px ${family}`;
