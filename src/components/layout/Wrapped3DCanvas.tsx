@@ -5,6 +5,7 @@ interface Props {
   text: string;
   header: ThemeHeader;
   pointer: { x: number; y: number; active: boolean };
+  marquee?: boolean;
 }
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -16,7 +17,7 @@ const normalizedMouseDepth = (index: number, length: number, mouse: number) => {
 };
 
 /** Lightweight, readable wrapped-3D typography for the header. */
-export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
+export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marquee = false }) => {
   const ref = useRef<HTMLCanvasElement | null>(null);
   const pointerRef = useRef(pointer);
   pointerRef.current = pointer;
@@ -76,7 +77,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const family = getComputedStyle(document.documentElement)
         .getPropertyValue('--font-headings').trim() || 'Arial, sans-serif';
       const phrase = (text || 'PORTFÓLIO').toUpperCase();
-      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.5 * scaleSetting;
+      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.28 * scaleSetting;
       const weight = header.brandWeight ?? 900;
       // Measure first, then apply the same fit factor to the actual font.
       // Previously the positions were compressed but the glyphs were still
@@ -93,7 +94,9 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       ctx.font = `${weight} ${renderSize}px ${family}`;
       const widths = chars.map((_, i) => rawWidths[i] * fit);
       const total = widths.reduce((a, b) => a + b, 0);
-      const centerX = width / 2 + mx * width * 0.035 * mouse;
+      const loopWidth = width + total + 160;
+      const marqueeOffset = marquee ? (((t * 105) % loopWidth) - loopWidth / 2) : 0;
+      const centerX = width / 2 + marqueeOffset + mx * width * 0.025 * mouse;
       const centerY = height * 0.56 + my * height * 0.045 * mouse;
 
       // One continuous wave across the whole word. This preserves readability
