@@ -241,6 +241,33 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
           </div>
         </div>
       <div className={cardClass}>
+        <h3 className="font-bold mb-4">Fundo de círculos — estilo referência</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <label className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
+            <input type="checkbox" checked={header.circleFieldEnabled !== false} onChange={e=>update({circleFieldEnabled:e.target.checked})}/> Exibir círculos
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Cor do fundo
+            <input className="w-full h-10" type="color" value={header.circleFieldBackground || '#E7E7CE'} onChange={e=>update({circleFieldBackground:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Cor dos círculos
+            <input className="w-full h-10" type="color" value={header.circleFieldColor || '#F2FF00'} onChange={e=>update({circleFieldColor:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Tamanho
+            <input className={controlClass} type="number" min="90" max="420" value={header.circleFieldSize ?? 190} onChange={e=>update({circleFieldSize:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Movimento
+            <input className={controlClass} type="number" min="0" max="2" step="0.1" value={header.circleFieldMotion ?? 0.7} onChange={e=>update({circleFieldMotion:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Interação mouse
+            <input className={controlClass} type="number" min="0" max="2" step="0.05" value={header.circleFieldMouse ?? 0.55} onChange={e=>update({circleFieldMouse:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Opacidade
+            <input className={controlClass} type="number" min="0" max="1" step="0.05" value={header.circleFieldOpacity ?? 1} onChange={e=>update({circleFieldOpacity:Number(e.target.value)})}/>
+          </label>
+        </div>
+      </div>
+
+      <div className={cardClass}>
         <h3 className="font-bold mb-4">Título 3D da seção Projetos</h3>
         <p className="text-xs text-[var(--color-text-secondary)] mb-4">Controla o efeito deformado que aparece no título “PROJETOS & CONCEITOS” da página pública.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
