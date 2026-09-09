@@ -4,6 +4,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
 import { ThemeIcon } from '../common/ThemeIcon';
 import { Wrapped3DCanvas } from './Wrapped3DCanvas';
+import { HeaderCircleField } from './HeaderCircleField';
 
 interface HeaderProps { currentView: string; onNavigate: (view: string, param?: string) => void; }
 
@@ -42,6 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       onPointerLeave={()=>setPointer({x:0,y:0,active:false})}
       style={{ minHeight:`${Math.max(h?.heightPx||80, 150)}px`, backgroundColor:`color-mix(in srgb, var(--color-surface) ${Math.round((h?.opacity ?? .62)*100)}%, transparent)`, backdropFilter:h?.blur===false?'none':'blur(8px)', isolation:'isolate' }}
     >
+      <HeaderCircleField header={h || ({} as any)} pointer={pointer} />
       <div className="relative z-10 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between" style={{minHeight:`${Math.max(h?.heightPx||80, 150)}px`}}>
         <button onClick={()=>handleNavClick('projetos')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10" aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}>
           {h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:h?.iconSizePx||28,height:h?.iconSizePx||28}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
