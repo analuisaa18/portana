@@ -13,7 +13,9 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   if (header.circleFieldEnabled === false) return null;
 
   const bg = header.circleFieldBackground || '#E7E7CE';
-  const circle = header.circleFieldColor || '#F2FF00';
+  const configuredCircle = header.circleFieldColor;
+  // Keep older saved themes compatible: the previous neon-yellow default now follows the portfolio accent.
+  const circle = !configuredCircle || configuredCircle.toUpperCase() === '#F2FF00' ? 'var(--color-accent)' : configuredCircle;
   const opacity = clamp(header.circleFieldOpacity ?? 1, 0, 1);
   const size = clamp(header.circleFieldSize ?? 190, 90, 420);
   const motion = clamp(header.circleFieldMotion ?? 0.7, 0, 2);
