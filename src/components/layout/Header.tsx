@@ -45,17 +45,19 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     >
       <HeaderCircleField header={h || ({} as any)} pointer={pointer} />
       <div className="relative z-10 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] flex items-center justify-between" style={{minHeight:`${Math.max(h?.heightPx||80, 150)}px`}}>
-        <button onClick={()=>handleNavClick('projetos')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10" aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}>
+        <button onClick={()=>handleNavClick('projetos')} className="portfolio-brand-icon-only cursor-pointer focus:outline-none relative z-20" aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}>
           {h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:h?.iconSizePx||28,height:h?.iconSizePx||28}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
-          <span className="header-wrapped-brand" aria-label={settings.portfolio_name || 'STUDIO.X'}>
-            <Wrapped3DCanvas
-              text={settings.portfolio_name || 'STUDIO.X'}
-              header={{...(h || ({} as any)), animation:'wrapped3d', backgroundEnabled:true}}
-              pointer={pointer}
-            />
-            <span className="sr-only">{settings.portfolio_name || 'STUDIO.X'}</span>
-          </span>
         </button>
+
+        <div className="header-brand-marquee" aria-hidden="true">
+          <Wrapped3DCanvas
+            text={settings.portfolio_name || 'STUDIO.X'}
+            header={{...(h || ({} as any)), animation:'wrapped3d', backgroundEnabled:true}}
+            pointer={pointer}
+            marquee
+          />
+        </div>
+        <span className="sr-only">{settings.portfolio_name || 'STUDIO.X'}</span>
 
         <nav className="hidden md:flex items-center gap-7" aria-label="Navegação principal">
           {navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} aria-current={currentView===item.id?'page':undefined} className={navClass(currentView===item.id)} style={{fontSize:`${h?.navFontSizePx||11}px`,fontWeight:h?.navWeight||700,letterSpacing:`${h?.navLetterSpacing||.35}em`,textTransform:h?.navUppercase===false?'none':'uppercase'}}>{item.label}</button>)}
