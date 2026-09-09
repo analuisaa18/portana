@@ -5,7 +5,6 @@ interface Props {
   text: string;
   header: ThemeHeader;
   pointer: { x: number; y: number; active: boolean };
-  marquee?: boolean;
 }
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -17,7 +16,7 @@ const normalizedMouseDepth = (index: number, length: number, mouse: number) => {
 };
 
 /** Lightweight, readable wrapped-3D typography for the header. */
-export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marquee = false }) => {
+export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
   const ref = useRef<HTMLCanvasElement | null>(null);
   const pointerRef = useRef(pointer);
   pointerRef.current = pointer;
@@ -69,7 +68,8 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marque
       const twist = clamp(header.wrappedTwist ?? 1.1, 0, 2.5);
       const glow = clamp(header.wrappedGlow ?? 0.3, 0, 1);
       const scaleSetting = clamp(header.wrappedScale ?? 1, 0.7, 1.2);
-      const t = ((now - start) / 1000) * speed;
+      // The brand stays floating in place. Animation is driven only by the mouse.
+      const t = 0;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       ctx.clearRect(0, 0, width, height);
@@ -77,7 +77,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marque
       const family = getComputedStyle(document.documentElement)
         .getPropertyValue('--font-headings').trim() || 'Arial, sans-serif';
       const phrase = (text || 'PORTFÓLIO').toUpperCase();
-      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.28 * scaleSetting;
+      const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.5 * scaleSetting;
       const weight = header.brandWeight ?? 900;
       // Measure first, then apply the same fit factor to the actual font.
       // Previously the positions were compressed but the glyphs were still
@@ -94,9 +94,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marque
       ctx.font = `${weight} ${renderSize}px ${family}`;
       const widths = chars.map((_, i) => rawWidths[i] * fit);
       const total = widths.reduce((a, b) => a + b, 0);
-      const loopWidth = width + total + 160;
-      const marqueeOffset = marquee ? (((t * 105) % loopWidth) - loopWidth / 2) : 0;
-      const centerX = width / 2 + marqueeOffset + mx * width * 0.025 * mouse;
+      const centerX = width / 2 + mx * width * 0.035 * mouse;
       const centerY = height * 0.56 + my * height * 0.045 * mouse;
 
       // One continuous wave across the whole word. This preserves readability
@@ -110,7 +108,8 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer, marque
         const gw = widths[index];
         const mid = cursor + gw / 2;
         const u = total > 0 ? mid / total : 0;
-        const theta = u * Math.PI * waveCycles + t * 0.9 + mx * 0.11 * mouse;
+        // Static wrapped shape; mouse adds only a subtle live deformation.
+        const theta = u * Math.PI * waveCycles + mx * 0.11 * mouse;
         const wave = Math.sin(theta);
         const z = Math.cos(theta) * zDepth + normalizedMouseDepth(index, chars.length, mx * mouse);
         const x = centerX + mid;
