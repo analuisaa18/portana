@@ -78,6 +78,9 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const phrase = (text || 'PORTFÓLIO').toUpperCase();
       const size = clamp(header.brandFontSizePx ?? 28, 18, 64) * 1.5 * scaleSetting;
       const weight = header.brandWeight ?? 900;
+      // Measure first, then apply the same fit factor to the actual font.
+      // Previously the positions were compressed but the glyphs were still
+      // rendered at full size, which caused letters to overlap.
       ctx.font = `${weight} ${size}px ${family}`;
       ctx.textBaseline = 'alphabetic';
 
@@ -86,7 +89,10 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const rawTotal = rawWidths.reduce((a, b) => a + b, 0);
       const padding = Math.max(28, width * 0.055);
       const fit = Math.min(1, (width - padding * 2) / Math.max(rawTotal, 1));
-      const total = rawTotal * fit;
+      const renderSize = size * fit;
+      ctx.font = `${weight} ${renderSize}px ${family}`;
+      const widths = chars.map((_, i) => rawWidths[i] * fit);
+      const total = widths.reduce((a, b) => a + b, 0);
       const centerX = width / 2 + mx * width * 0.035 * mouse;
       const centerY = height * 0.56 + my * height * 0.045 * mouse;
 
@@ -98,7 +104,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       let cursor = -total / 2;
 
       chars.forEach((ch, index) => {
-        const gw = rawWidths[index] * fit;
+        const gw = widths[index];
         const mid = cursor + gw / 2;
         const u = total > 0 ? mid / total : 0;
         const theta = u * Math.PI * waveCycles + t * 0.9 + mx * 0.11 * mouse;
