@@ -110,7 +110,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     projectTitle3dMouseStrength: 1.1,
     circleFieldEnabled: true,
     circleFieldBackground: '#E7E7CE',
-    circleFieldColor: '#F2FF00',
+    circleFieldColor: '#F87272',
     circleFieldOpacity: 1,
     circleFieldSize: 190,
     circleFieldMotion: 0.7,
