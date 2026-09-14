@@ -37,7 +37,7 @@ export const SupabaseStatusCard: React.FC = () => {
             <p className="text-xs text-[var(--color-text-secondary)] mt-1 leading-relaxed">
               {isConnected
                 ? 'Sua aplicação está conectada ao Supabase Database e Storage. Todos os dados e arquivos enviados são persistidos diretamente na nuvem.'
-                : 'Variáveis de ambiente do Supabase não configuradas no arquivo .env. A aplicação está operando com persistência em armazenamento local (LocalStorage), garantindo que nada seja perdido no seu navegador.'}
+                : 'Supabase não configurado. O armazenamento local não é usado como fonte de dados do portfólio; configure o Supabase para habilitar a persistência e o painel administrativo.'}
             </p>
 
             {!isConnected && (
