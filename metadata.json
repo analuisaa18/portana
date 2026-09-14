@@ -1,0 +1,6 @@
+{
+  "name": "Portfólio Pessoal Autoral",
+  "description": "Sistema completo de portfólio autoral com gestão de projetos, blocos de conteúdo, Supabase, área administrativa, acessibilidade WCAG 2.2 e design system customizável.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

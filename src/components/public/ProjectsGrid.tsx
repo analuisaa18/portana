@@ -1,0 +1,167 @@
+import React, { useState } from 'react';
+import { Project, Category } from '../../types/portfolio';
+import { CategoryFilter } from './CategoryFilter';
+import { ProjectCard } from './ProjectCard';
+import { GitHubShowcase } from './GitHubShowcase';
+import { useTheme } from '../../context/ThemeContext';
+import { FolderOpen } from 'lucide-react';
+import WrappedTypography from './WrappedTypography';
+import { AnimatedTitle3D } from './AnimatedTitle3D';
+
+interface ProjectsGridProps {
+  projects: Project[];
+  categories: Category[];
+  onSelectProject: (slug: string) => void;
+}
+
+export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
+  projects,
+  categories,
+  onSelectProject,
+}) => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [titleHovered, setTitleHovered] = useState(false);
+
+  // Filter projects by category
+  const filteredProjects = selectedCategoryId
+    ? projects.filter((p) => p.category_id === selectedCategoryId)
+    : projects;
+
+  const { settings } = useTheme();
+
+  return (
+    <section className="py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] relative overflow-hidden">
+      {/* Background Watermark Text from Bold Typography Theme */}
+      <div className="absolute top-10 right-[-2%] text-[240px] md:text-[360px] font-black text-white/[0.02] leading-none pointer-events-none select-none z-0">
+        024
+      </div>
+
+      {/* Intro Header */}
+      <div className="mb-10 relative z-10 max-w-4xl">
+        <h2
+          className="bold-eyebrow mb-4"
+          onMouseEnter={() => setTitleHovered(true)}
+          onMouseLeave={() => setTitleHovered(false)}
+          style={{
+            transition: 'transform 300ms ease, letter-spacing 300ms ease',
+            transform: titleHovered
+              ? 'translateX(6px) rotate(-1deg)'
+              : 'translateX(0) rotate(0)',
+            letterSpacing: titleHovered ? '0.18em' : undefined,
+            cursor: 'default',
+          }}
+        >
+          ACERVO AUTORAL & INVESTIGAÇÃO
+        </h2>
+
+        <AnimatedTitle3D
+          line1="PROJETOS &"
+          line2="CONCEITOS"
+          enabled={settings.theme_config?.header?.projectTitle3dEnabled !== false}
+          surfaceColor={settings.theme_config?.header?.projectTitle3dSurfaceColor || '#9f8ca5'}
+          textColor={settings.theme_config?.header?.projectTitle3dTextColor || '#ffffff'}
+          shadowColor={settings.theme_config?.header?.projectTitle3dShadowColor || '#4d3b50'}
+          intensity={settings.theme_config?.header?.projectTitle3dIntensity ?? 1}
+          speed={settings.theme_config?.header?.projectTitle3dSpeed ?? 1}
+          mouseStrength={settings.theme_config?.header?.projectTitle3dMouseStrength ?? 1}
+        />
+
+        <p
+          className="text-base md:text-xl text-[var(--color-text-secondary)] font-medium max-w-2xl leading-relaxed"
+          style={{
+            transition: 'transform 350ms ease',
+            transform: titleHovered
+              ? 'translateX(5px)'
+              : 'translateX(0)',
+          }}
+        >
+          Exploração de tipografia radical, arquitetura de informação e narrativas visuais contemporâneas.
+        </p>
+      </div>
+
+      {/* Category Filter Bar */}
+      <CategoryFilter
+        categories={categories}
+        selectedCategoryId={selectedCategoryId}
+        onSelectCategory={setSelectedCategoryId}
+        totalProjectsCount={projects.length}
+      />
+
+      {/* Projects Grid */}
+      {filteredProjects.length > 0 ? (
+        <div
+          className={`projects-layout projects-layout--${
+            settings.theme_config?.layout?.gridStyle || 'standard'
+          } my-8`}
+          style={
+            {
+              '--project-grid-columns': Math.min(
+                6,
+                Math.max(
+                  1,
+                  settings.theme_config?.layout?.gridColumns || 3
+                )
+              ),
+            } as React.CSSProperties
+          }
+        >
+          {filteredProjects.map((project, index) => (
+            <div
+              key={project.id}
+              className={
+                index === 0
+                  ? 'project-grid-item project-grid-item--first'
+                  : 'project-grid-item'
+              }
+              style={
+                index === 0 &&
+                (settings.theme_config?.layout?.gridColumns || 3) > 1
+                  ? {
+                      gridColumn: 'span 2',
+                      gridRow: 'span 2',
+                    }
+                  : undefined
+              }
+            >
+              <ProjectCard
+                project={project}
+                onSelect={onSelectProject}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        /* Empty State */
+        <div className="my-16 p-12 text-center rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] max-w-xl mx-auto space-y-4">
+          <div className="w-12 h-12 rounded-full bg-[var(--color-border)]/50 flex items-center justify-center mx-auto text-[var(--color-text-secondary)]">
+            <FolderOpen className="w-6 h-6" />
+          </div>
+
+          <h3 className="text-lg font-bold text-[var(--color-text-primary)]">
+            Nenhum projeto encontrado nesta categoria
+          </h3>
+
+          <p className="text-sm text-[var(--color-text-secondary)]">
+            Não há projetos publicados vinculados à categoria selecionada
+            neste momento.
+          </p>
+
+          <button
+            onClick={() => setSelectedCategoryId(null)}
+            className="px-4 py-2 text-xs font-semibold rounded-[var(--radius-md)] bg-[var(--color-primary)] text-white hover:opacity-90 cursor-pointer"
+          >
+            Ver todos os projetos
+          </button>
+        </div>
+      )}
+
+      {/* Interactive typography experiment */}
+      <WrappedTypography />
+
+      {/* Live GitHub Showcase */}
+      <GitHubShowcase
+        githubUsername={settings.github_username || 'anabochenek'}
+      />
+    </section>
+  );
+};
