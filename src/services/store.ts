@@ -237,7 +237,7 @@ export const portfolioStore = {
     const { data, error } = await query;
     if (error) throw new Error(`Erro ao carregar projetos do Supabase: ${error.message}`);
     return (data || []).sort((a, b) => a.display_order - b.display_order);
-  }
+  },
 
   async getProjectBySlug(slug: string, includeDrafts = true): Promise<Project | null> {
     const projects = await this.getProjects(includeDrafts);
