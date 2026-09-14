@@ -1,247 +1,419 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { 
-  PortfolioSettings, 
-  Category, 
-  Project, 
-  ProjectBlock 
+import {
+  PortfolioSettings,
+  Category,
+  Project,
+  ProjectBlock,
 } from '../types/portfolio';
-import { 
-  DEFAULT_PORTFOLIO_SETTINGS, 
-  DEFAULT_CATEGORIES, 
-  DEFAULT_PROJECTS, 
-  DEFAULT_BLOCKS 
+import {
+  DEFAULT_PORTFOLIO_SETTINGS,
+  DEFAULT_CATEGORIES,
+  DEFAULT_PROJECTS,
 } from './defaultData';
+import { normalizePortfolioSettings, normalizeThemeConfig } from './normalizers';
 
 const LOCAL_STORAGE_KEYS = {
   SETTINGS: 'portfolio_autoral_settings',
   CATEGORIES: 'portfolio_autoral_categories',
   PROJECTS: 'portfolio_autoral_projects',
   BLOCKS: 'portfolio_autoral_blocks',
+  RECOVERY_DONE: 'portfolio_autoral_recovery_done_v2',
 };
 
-// LocalStorage helpers with automatic seeding
-function getLocalItem<T>(key: string, defaultValue: T): T {
+const DATA_CHANGED_EVENT = 'portfolio:data-changed';
+const configuredOwnerId = (import.meta.env.VITE_PORTFOLIO_OWNER_ID || '').trim();
+
+const isUuid = (value?: string | null) =>
+  Boolean(value && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value));
+
+function readLocalItem<T>(key: string): T | null {
+  if (typeof window === 'undefined') return null;
   try {
-    const data = localStorage.getItem(key);
-    if (!data) {
-      localStorage.setItem(key, JSON.stringify(defaultValue));
-      return defaultValue;
-    }
-    return JSON.parse(data);
+    const raw = window.localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : null;
   } catch {
-    return defaultValue;
+    return null;
   }
 }
 
-function setLocalItem<T>(key: string, value: T): void {
+function writeLocalBackup<T>(key: string, value: T): void {
+  if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (err) {
-    console.error('Erro ao salvar no localStorage:', err);
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn('Não foi possível atualizar o backup local do portfólio:', error);
   }
 }
 
-// Store Implementation
+function emitDataChanged(kind: string): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(DATA_CHANGED_EVENT, { detail: { kind } }));
+}
+
+const settingsPayload = (settings: PortfolioSettings) => ({
+  portfolio_name: settings.portfolio_name,
+  tagline: settings.tagline,
+  about_title: settings.about_title,
+  about_text: settings.about_text,
+  short_bio: settings.short_bio,
+  profile_image: settings.profile_image,
+  whatsapp: settings.whatsapp,
+  email_public: settings.email_public,
+  location: settings.location,
+  github_username: settings.github_username || '',
+  social_links: settings.social_links,
+  ux_voice: settings.ux_voice,
+  theme_config: normalizeThemeConfig(settings.theme_config),
+});
+
+const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+
+function isLegacyAiDefaultSettings(settings: PortfolioSettings): boolean {
+  const theme = settings.theme_config;
+  if (!theme) return false;
+
+  // Assinatura do Design System original gerado pelo Google AI Studio.
+  // Isso permite ignorar somente o estado demonstrativo intocado e considerar
+  // qualquer personalização da aluna como dado recuperável, inclusive quando
+  // ela coincide com os novos fallbacks visuais desta correção.
+  return (
+    settings.portfolio_name === 'Ana Bochenek — Portfólio Autoral' &&
+    theme.colors?.background?.toUpperCase() === '#050505' &&
+    theme.colors?.surface?.toUpperCase() === '#0D0D0E' &&
+    theme.colors?.textPrimary?.toUpperCase() === '#FFFFFF' &&
+    theme.colors?.accent?.toUpperCase() === '#0047FF' &&
+    theme.typography?.fontFamilyHeadings === 'Space Grotesk, sans-serif' &&
+    theme.typography?.fontFamilyBody === 'Space Grotesk, sans-serif' &&
+    theme.header?.animation === 'wrapped3d' &&
+    theme.header?.wrappedSurfaceColor?.toUpperCase() === '#0A84FF' &&
+    theme.header?.projectTitle3dSurfaceColor?.toUpperCase() === '#9F8CA5'
+  );
+}
+
+function isExactDefaultCategory(category: Category): boolean {
+  const original = DEFAULT_CATEGORIES.find((item) => item.slug === category.slug);
+  if (!original) return false;
+  const pick = (c: Category) => ({
+    name: c.name,
+    slug: c.slug,
+    description: c.description,
+    display_order: c.display_order,
+  });
+  return sameJson(pick(category), pick(original));
+}
+
+function isExactDefaultProject(project: Project): boolean {
+  const original = DEFAULT_PROJECTS.find((item) => item.slug === project.slug);
+  if (!original) return false;
+  const pick = (p: Project) => ({
+    title: p.title,
+    slug: p.slug,
+    short_description: p.short_description,
+    cover_image: p.cover_image,
+    year: p.year,
+    status: p.status,
+    featured: p.featured,
+    display_order: p.display_order,
+  });
+  return sameJson(pick(project), pick(original));
+}
+
+async function getSessionUserId(): Promise<string | null> {
+  const { data, error } = await supabase.auth.getSession();
+  if (error) return null;
+  return data.session?.user?.id || null;
+}
+
+async function getLatestSettingsRowForOwner(ownerId: string): Promise<any | null> {
+  const { data, error } = await supabase
+    .from('portfolio_settings')
+    .select('*')
+    .eq('owner_id', ownerId)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw new Error(`Erro ao carregar configurações do Supabase: ${error.message}`);
+  return data || null;
+}
+
+async function resolvePublicOwnerId(): Promise<string | null> {
+  if (configuredOwnerId && isUuid(configuredOwnerId)) return configuredOwnerId;
+
+  const { data, error } = await supabase
+    .from('portfolio_settings')
+    .select('owner_id, updated_at')
+    .not('owner_id', 'is', null)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw new Error(`Erro ao identificar o portfólio público: ${error.message}`);
+  return data?.owner_id || null;
+}
+
+async function resolveOwnerId(): Promise<string | null> {
+  const authenticatedOwner = await getSessionUserId();
+  if (authenticatedOwner) return authenticatedOwner;
+  return resolvePublicOwnerId();
+}
+
+async function requireAuthenticatedOwner(): Promise<string> {
+  if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) throw new Error('Sessão administrativa inválida ou expirada.');
+  return data.user.id;
+}
+
+export interface LegacyBrowserSnapshot {
+  settings: PortfolioSettings | null;
+  categories: Category[];
+  projects: Project[];
+  blocks: Record<string, ProjectBlock[]>;
+  hasCustomData: boolean;
+  recoveryAlreadyDone: boolean;
+}
+
+export interface LegacyRecoveryResult {
+  settingsRecovered: boolean;
+  categoriesRecovered: number;
+  projectsRecovered: number;
+  blocksRecovered: number;
+}
+
 export const portfolioStore = {
-  // Check if Supabase is actively connected
   isConnectedToSupabase(): boolean {
     return isSupabaseConfigured();
   },
 
-  // SETTINGS
+  getDataChangedEventName(): string {
+    return DATA_CHANGED_EVENT;
+  },
+
+  getLegacyBrowserSnapshot(): LegacyBrowserSnapshot {
+    const rawSettings = readLocalItem<PortfolioSettings>(LOCAL_STORAGE_KEYS.SETTINGS);
+    const categories = readLocalItem<Category[]>(LOCAL_STORAGE_KEYS.CATEGORIES) || [];
+    const projects = readLocalItem<Project[]>(LOCAL_STORAGE_KEYS.PROJECTS) || [];
+    const blocks = readLocalItem<Record<string, ProjectBlock[]>>(LOCAL_STORAGE_KEYS.BLOCKS) || {};
+    const recoveryAlreadyDone = Boolean(readLocalItem<boolean>(LOCAL_STORAGE_KEYS.RECOVERY_DONE));
+
+    const normalizedLegacySettings = rawSettings ? normalizePortfolioSettings(rawSettings) : null;
+    const customSettings = rawSettings ? !isLegacyAiDefaultSettings(rawSettings) : false;
+
+    const nonDefaultProjects = projects.filter((project) => !isExactDefaultProject(project));
+    const categoriesDiffer = categories.length > 0 && !sameJson(
+      categories.map(({ id: _id, owner_id: _owner, created_at: _created, ...rest }) => rest),
+      DEFAULT_CATEGORIES.map(({ id: _id, owner_id: _owner, created_at: _created, ...rest }) => rest),
+    );
+
+    return {
+      settings: normalizedLegacySettings,
+      categories,
+      projects,
+      blocks,
+      hasCustomData: customSettings || categoriesDiffer || nonDefaultProjects.length > 0,
+      recoveryAlreadyDone,
+    };
+  },
+
   async getSettings(): Promise<PortfolioSettings> {
     if (!isSupabaseConfigured()) {
-      throw new Error('Supabase não configurado. O portfólio não usa LocalStorage como fonte de dados.');
+      throw new Error('Supabase não configurado. O portfólio público precisa do Supabase como fonte de dados.');
     }
 
+    const authenticatedOwner = await getSessionUserId();
+
+    if (authenticatedOwner) {
+      const ownRow = await getLatestSettingsRowForOwner(authenticatedOwner);
+      if (ownRow) return normalizePortfolioSettings(ownRow);
+
+      // Segurança para instalações antigas: se este navegador contém uma personalização
+      // local e o usuário ainda não tem linha própria no banco, mostramos essa cópia no
+      // admin para que nada seja perdido antes da recuperação/salvamento.
+      const legacy = this.getLegacyBrowserSnapshot();
+      if (legacy.settings && legacy.hasCustomData) {
+        return normalizePortfolioSettings({ ...legacy.settings, owner_id: authenticatedOwner });
+      }
+
+      return normalizePortfolioSettings({ ...DEFAULT_PORTFOLIO_SETTINGS, owner_id: authenticatedOwner });
+    }
+
+    const ownerId = await resolvePublicOwnerId();
+    if (ownerId) {
+      const row = await getLatestSettingsRowForOwner(ownerId);
+      if (row) return normalizePortfolioSettings(row);
+    }
+
+    // Compatibilidade apenas de leitura com bases antigas que possuíam uma linha sem owner_id.
     const { data, error } = await supabase
       .from('portfolio_settings')
       .select('*')
+      .order('updated_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
-    if (error) {
-      throw new Error(`Erro ao carregar configurações do Supabase: ${error.message}`);
-    }
-
-    if (!data) {
-      throw new Error('Nenhuma configuração do portfólio foi encontrada no Supabase.');
-    }
-
-    return {
-      ...DEFAULT_PORTFOLIO_SETTINGS,
-      ...data,
-      theme_config: data.theme_config || DEFAULT_PORTFOLIO_SETTINGS.theme_config,
-      social_links: data.social_links || DEFAULT_PORTFOLIO_SETTINGS.social_links,
-    };
+    if (error) throw new Error(`Erro ao carregar configurações do Supabase: ${error.message}`);
+    if (!data) throw new Error('Nenhuma configuração do portfólio foi encontrada no Supabase.');
+    return normalizePortfolioSettings(data);
   },
 
   async updateSettings(settings: Partial<PortfolioSettings>): Promise<PortfolioSettings> {
-    if (!isSupabaseConfigured()) {
-      throw new Error('Supabase não configurado. Alterações administrativas não podem ser salvas localmente.');
-    }
+    const ownerId = await requireAuthenticatedOwner();
+    const currentRow = await getLatestSettingsRowForOwner(ownerId);
 
-    const { data: authData } = await supabase.auth.getUser();
-    const user = authData.user;
-    if (!user) {
-      throw new Error('Sessão administrativa inválida ou expirada.');
-    }
+    const base = currentRow
+      ? normalizePortfolioSettings(currentRow)
+      : normalizePortfolioSettings({ ...DEFAULT_PORTFOLIO_SETTINGS, owner_id: ownerId });
 
-    const current = await this.getSettings();
-    const updated: PortfolioSettings = {
-      ...current,
+    const updated = normalizePortfolioSettings({
+      ...base,
       ...settings,
+      owner_id: ownerId,
+      theme_config: settings.theme_config
+        ? normalizeThemeConfig(settings.theme_config)
+        : normalizeThemeConfig(base.theme_config),
       updated_at: new Date().toISOString(),
-    };
+    });
 
-    const payload = {
-      portfolio_name: updated.portfolio_name,
-      tagline: updated.tagline,
-      about_title: updated.about_title,
-      about_text: updated.about_text,
-      short_bio: updated.short_bio,
-      profile_image: updated.profile_image,
-      whatsapp: updated.whatsapp,
-      email_public: updated.email_public,
-      location: updated.location,
-      github_username: updated.github_username,
-      social_links: updated.social_links,
-      ux_voice: updated.ux_voice,
-      theme_config: updated.theme_config,
-    };
+    const payload = settingsPayload(updated);
+    let saved: any = null;
 
-    let error;
-    if (current.id) {
-      ({ error } = await supabase
+    if (currentRow?.id) {
+      const { data, error } = await supabase
         .from('portfolio_settings')
         .update(payload)
-        .eq('id', current.id)
-        .eq('owner_id', user.id));
+        .eq('id', currentRow.id)
+        .eq('owner_id', ownerId)
+        .select('*')
+        .single();
+      if (error) throw new Error(`Erro ao salvar configurações no Supabase: ${error.message}`);
+      saved = data;
     } else {
-      ({ error } = await supabase
+      const { data, error } = await supabase
         .from('portfolio_settings')
-        .insert([{ ...payload, owner_id: user.id }]));
+        .insert([{ ...payload, owner_id: ownerId }])
+        .select('*')
+        .single();
+      if (error) throw new Error(`Erro ao criar configurações no Supabase: ${error.message}`);
+      saved = data;
     }
 
-    if (error) {
-      throw new Error(`Erro ao salvar configurações no Supabase: ${error.message}`);
-    }
-
-    return updated;
+    const normalized = normalizePortfolioSettings(saved);
+    writeLocalBackup(LOCAL_STORAGE_KEYS.SETTINGS, normalized);
+    emitDataChanged('settings');
+    return normalized;
   },
 
-  // CATEGORIES
   async getCategories(): Promise<Category[]> {
     if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
+    const ownerId = await resolveOwnerId();
+    if (!ownerId) return [];
+
     const { data, error } = await supabase
       .from('categories')
       .select('*')
+      .eq('owner_id', ownerId)
       .order('display_order', { ascending: true });
+
     if (error) throw new Error(`Erro ao carregar categorias do Supabase: ${error.message}`);
     return data || [];
   },
 
   async saveCategory(category: Partial<Category>): Promise<Category> {
-    const categories = await this.getCategories();
-    let resultCategory: Category;
+    const ownerId = await requireAuthenticatedOwner();
+    const payload = {
+      name: category.name?.trim() || 'Nova Categoria',
+      slug: category.slug?.trim() || `nova-categoria-${Date.now()}`,
+      description: category.description ?? '',
+      display_order: category.display_order ?? 0,
+    };
 
-    if (category.id) {
-      const index = categories.findIndex(c => c.id === category.id);
-      if (index >= 0) {
-        categories[index] = { ...categories[index], ...category } as Category;
-        resultCategory = categories[index];
+    let saved: any = null;
+
+    if (isUuid(category.id)) {
+      const { data, error } = await supabase
+        .from('categories')
+        .update(payload)
+        .eq('id', category.id)
+        .eq('owner_id', ownerId)
+        .select('*')
+        .maybeSingle();
+      if (error) throw new Error(`Erro ao atualizar categoria: ${error.message}`);
+      saved = data;
+    }
+
+    if (!saved) {
+      const { data: existing, error: lookupError } = await supabase
+        .from('categories')
+        .select('*')
+        .eq('owner_id', ownerId)
+        .eq('slug', payload.slug)
+        .limit(1)
+        .maybeSingle();
+      if (lookupError) throw new Error(`Erro ao verificar categoria: ${lookupError.message}`);
+
+      if (existing) {
+        const { data, error } = await supabase
+          .from('categories')
+          .update(payload)
+          .eq('id', existing.id)
+          .eq('owner_id', ownerId)
+          .select('*')
+          .single();
+        if (error) throw new Error(`Erro ao atualizar categoria: ${error.message}`);
+        saved = data;
       } else {
-        resultCategory = {
-          id: category.id,
-          name: category.name || 'Nova Categoria',
-          slug: category.slug || 'nova-categoria',
-          description: category.description || '',
-          display_order: category.display_order || categories.length + 1,
-        };
-        categories.push(resultCategory);
-      }
-    } else {
-      resultCategory = {
-        id: 'cat-' + Date.now(),
-        name: category.name || 'Nova Categoria',
-        slug: category.slug || 'nova-categoria-' + Date.now(),
-        description: category.description || '',
-        display_order: category.display_order || categories.length + 1,
-      };
-      categories.push(resultCategory);
-    }
-
-    setLocalItem(LOCAL_STORAGE_KEYS.CATEGORIES, categories);
-
-    if (isSupabaseConfigured()) {
-      try {
-        const { data: user } = await supabase.auth.getUser();
-        if (category.id && !category.id.startsWith('cat-')) {
-          await supabase
-            .from('categories')
-            .update({
-              name: resultCategory.name,
-              slug: resultCategory.slug,
-              description: resultCategory.description,
-              display_order: resultCategory.display_order,
-            })
-            .eq('id', category.id);
-        } else {
-          const { data } = await supabase
-            .from('categories')
-            .insert([{
-              owner_id: user.user?.id,
-              name: resultCategory.name,
-              slug: resultCategory.slug,
-              description: resultCategory.description,
-              display_order: resultCategory.display_order,
-            }])
-            .select()
-            .single();
-
-          if (data) resultCategory = data;
-        }
-      } catch (err) {
-        console.error('Erro ao salvar categoria no Supabase:', err);
+        const { data, error } = await supabase
+          .from('categories')
+          .insert([{ ...payload, owner_id: ownerId }])
+          .select('*')
+          .single();
+        if (error) throw new Error(`Erro ao criar categoria: ${error.message}`);
+        saved = data;
       }
     }
 
-    return resultCategory;
+    writeLocalBackup(LOCAL_STORAGE_KEYS.CATEGORIES, await this.getCategories());
+    emitDataChanged('categories');
+    return saved as Category;
   },
 
   async deleteCategory(id: string): Promise<void> {
-    const categories = await this.getCategories();
-    const filtered = categories.filter(c => c.id !== id);
-    setLocalItem(LOCAL_STORAGE_KEYS.CATEGORIES, filtered);
+    const ownerId = await requireAuthenticatedOwner();
+    if (!isUuid(id)) return;
 
-    if (isSupabaseConfigured() && !id.startsWith('cat-')) {
-      try {
-        await supabase.from('categories').delete().eq('id', id);
-      } catch (err) {
-        console.error('Erro ao excluir categoria do Supabase:', err);
-      }
-    }
+    const { error } = await supabase
+      .from('categories')
+      .delete()
+      .eq('id', id)
+      .eq('owner_id', ownerId);
+    if (error) throw new Error(`Erro ao excluir categoria: ${error.message}`);
+
+    writeLocalBackup(LOCAL_STORAGE_KEYS.CATEGORIES, await this.getCategories());
+    emitDataChanged('categories');
   },
 
-  // PROJECTS
   async getProjects(includeDrafts = false): Promise<Project[]> {
     if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
+    const ownerId = await resolveOwnerId();
+    if (!ownerId) return [];
 
     let query = supabase
       .from('projects')
       .select('*, category:categories(*)')
+      .eq('owner_id', ownerId)
       .order('display_order', { ascending: true });
 
     if (!includeDrafts) query = query.eq('status', 'publicado');
 
     const { data, error } = await query;
     if (error) throw new Error(`Erro ao carregar projetos do Supabase: ${error.message}`);
-    return (data || []).sort((a, b) => a.display_order - b.display_order);
+    return (data || []) as Project[];
   },
 
-  async getProjectBySlug(slug: string, includeDrafts = true): Promise<Project | null> {
+  async getProjectBySlug(slug: string, includeDrafts = false): Promise<Project | null> {
     const projects = await this.getProjects(includeDrafts);
-    const found = projects.find(p => p.slug === slug);
+    const found = projects.find((project) => project.slug === slug);
     if (!found) return null;
 
     const blocks = await this.getProjectBlocks(found.id);
@@ -249,111 +421,116 @@ export const portfolioStore = {
   },
 
   async saveProject(project: Partial<Project>): Promise<Project> {
-    const projects = getLocalItem<Project[]>(LOCAL_STORAGE_KEYS.PROJECTS, DEFAULT_PROJECTS);
-    let resultProject: Project;
+    const ownerId = await requireAuthenticatedOwner();
+    let current: Project | null = null;
 
-    if (project.id) {
-      const index = projects.findIndex(p => p.id === project.id);
-      if (index >= 0) {
-        projects[index] = {
-          ...projects[index],
-          ...project,
-          updated_at: new Date().toISOString(),
-        } as Project;
-        resultProject = projects[index];
-      } else {
-        resultProject = {
-          id: project.id,
-          category_id: project.category_id || null,
-          title: project.title || 'Novo Projeto',
-          slug: project.slug || 'novo-projeto-' + Date.now(),
-          short_description: project.short_description || '',
-          cover_image: project.cover_image || '',
-          year: project.year || new Date().getFullYear(),
-          status: project.status || 'rascunho',
-          featured: project.featured || false,
-          display_order: project.display_order || projects.length + 1,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        };
-        projects.push(resultProject);
-      }
+    if (isUuid(project.id)) {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', project.id)
+        .eq('owner_id', ownerId)
+        .limit(1)
+        .maybeSingle();
+      if (error) throw new Error(`Erro ao localizar projeto: ${error.message}`);
+      current = data as Project | null;
+    }
+
+    const now = new Date().toISOString();
+    const merged: Project = {
+      id: current?.id || project.id || '',
+      owner_id: ownerId,
+      category_id: project.category_id !== undefined ? project.category_id : (current?.category_id ?? null),
+      title: project.title ?? current?.title ?? 'Novo Projeto',
+      slug: project.slug ?? current?.slug ?? `novo-projeto-${Date.now()}`,
+      short_description: project.short_description ?? current?.short_description ?? '',
+      cover_image: project.cover_image ?? current?.cover_image ?? '',
+      year: project.year ?? current?.year ?? new Date().getFullYear(),
+      status: project.status ?? current?.status ?? 'rascunho',
+      featured: project.featured ?? current?.featured ?? false,
+      display_order: project.display_order ?? current?.display_order ?? 0,
+      created_at: current?.created_at ?? now,
+      updated_at: now,
+    };
+
+    const payload = {
+      category_id: merged.category_id,
+      title: merged.title,
+      slug: merged.slug,
+      short_description: merged.short_description,
+      cover_image: merged.cover_image,
+      year: merged.year,
+      status: merged.status,
+      featured: merged.featured,
+      display_order: merged.display_order,
+    };
+
+    let saved: any = null;
+
+    if (current?.id) {
+      const { data, error } = await supabase
+        .from('projects')
+        .update(payload)
+        .eq('id', current.id)
+        .eq('owner_id', ownerId)
+        .select('*')
+        .single();
+      if (error) throw new Error(`Erro ao atualizar projeto: ${error.message}`);
+      saved = data;
     } else {
-      resultProject = {
-        id: 'proj-' + Date.now(),
-        category_id: project.category_id || null,
-        title: project.title || 'Novo Projeto',
-        slug: project.slug || 'novo-projeto-' + Date.now(),
-        short_description: project.short_description || '',
-        cover_image: project.cover_image || '',
-        year: project.year || new Date().getFullYear(),
-        status: project.status || 'rascunho',
-        featured: project.featured || false,
-        display_order: project.display_order || projects.length + 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      projects.push(resultProject);
-    }
+      const { data: existing, error: lookupError } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('owner_id', ownerId)
+        .eq('slug', merged.slug)
+        .limit(1)
+        .maybeSingle();
+      if (lookupError) throw new Error(`Erro ao verificar projeto: ${lookupError.message}`);
 
-    setLocalItem(LOCAL_STORAGE_KEYS.PROJECTS, projects);
-
-    if (isSupabaseConfigured()) {
-      try {
-        const { data: user } = await supabase.auth.getUser();
-        const payload = {
-          category_id: resultProject.category_id,
-          title: resultProject.title,
-          slug: resultProject.slug,
-          short_description: resultProject.short_description,
-          cover_image: resultProject.cover_image,
-          year: resultProject.year,
-          status: resultProject.status,
-          featured: resultProject.featured,
-          display_order: resultProject.display_order,
-        };
-
-        if (project.id && !project.id.startsWith('proj-')) {
-          await supabase.from('projects').update(payload).eq('id', project.id);
-        } else {
-          const { data } = await supabase
-            .from('projects')
-            .insert([{ ...payload, owner_id: user.user?.id }])
-            .select()
-            .single();
-
-          if (data) resultProject = data;
-        }
-      } catch (err) {
-        console.error('Erro ao salvar projeto no Supabase:', err);
+      if (existing) {
+        const { data, error } = await supabase
+          .from('projects')
+          .update(payload)
+          .eq('id', existing.id)
+          .eq('owner_id', ownerId)
+          .select('*')
+          .single();
+        if (error) throw new Error(`Erro ao atualizar projeto: ${error.message}`);
+        saved = data;
+      } else {
+        const { data, error } = await supabase
+          .from('projects')
+          .insert([{ ...payload, owner_id: ownerId }])
+          .select('*')
+          .single();
+        if (error) throw new Error(`Erro ao criar projeto: ${error.message}`);
+        saved = data;
       }
     }
 
-    return resultProject;
+    writeLocalBackup(LOCAL_STORAGE_KEYS.PROJECTS, await this.getProjects(true));
+    emitDataChanged('projects');
+    return saved as Project;
   },
 
   async deleteProject(id: string): Promise<void> {
-    const projects = getLocalItem<Project[]>(LOCAL_STORAGE_KEYS.PROJECTS, DEFAULT_PROJECTS);
-    const filtered = projects.filter(p => p.id !== id);
-    setLocalItem(LOCAL_STORAGE_KEYS.PROJECTS, filtered);
+    const ownerId = await requireAuthenticatedOwner();
+    if (!isUuid(id)) return;
 
-    const allBlocks = getLocalItem<Record<string, ProjectBlock[]>>(LOCAL_STORAGE_KEYS.BLOCKS, DEFAULT_BLOCKS);
-    delete allBlocks[id];
-    setLocalItem(LOCAL_STORAGE_KEYS.BLOCKS, allBlocks);
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id)
+      .eq('owner_id', ownerId);
+    if (error) throw new Error(`Erro ao excluir projeto: ${error.message}`);
 
-    if (isSupabaseConfigured() && !id.startsWith('proj-')) {
-      try {
-        await supabase.from('projects').delete().eq('id', id);
-      } catch (err) {
-        console.error('Erro ao deletar projeto no Supabase:', err);
-      }
-    }
+    writeLocalBackup(LOCAL_STORAGE_KEYS.PROJECTS, await this.getProjects(true));
+    emitDataChanged('projects');
   },
 
-  // PROJECT BLOCKS
   async getProjectBlocks(projectId: string): Promise<ProjectBlock[]> {
     if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
-    if (projectId.startsWith('proj-')) return [];
+    if (!isUuid(projectId)) return [];
 
     const { data, error } = await supabase
       .from('project_blocks')
@@ -362,80 +539,157 @@ export const portfolioStore = {
       .order('display_order', { ascending: true });
 
     if (error) throw new Error(`Erro ao carregar blocos do Supabase: ${error.message}`);
-    return data || [];
+    return (data || []) as ProjectBlock[];
   },
 
   async saveBlocks(projectId: string, blocks: ProjectBlock[]): Promise<ProjectBlock[]> {
-    const formattedBlocks = blocks.map((b, idx) => ({
-      ...b,
+    const ownerId = await requireAuthenticatedOwner();
+    if (!isUuid(projectId)) throw new Error('Projeto ainda não possui um ID válido no Supabase.');
+
+    const { data: project, error: projectError } = await supabase
+      .from('projects')
+      .select('id')
+      .eq('id', projectId)
+      .eq('owner_id', ownerId)
+      .limit(1)
+      .maybeSingle();
+    if (projectError) throw new Error(`Erro ao validar projeto: ${projectError.message}`);
+    if (!project) throw new Error('Este projeto não pertence ao usuário autenticado.');
+
+    const formatted = blocks.map((block, index) => ({
       project_id: projectId,
-      display_order: idx + 1,
+      type: block.type,
+      content: block.content ?? '',
+      media_url: block.media_url ?? '',
+      alt_text: block.alt_text ?? '',
+      caption: block.caption ?? '',
+      transcript: block.transcript ?? '',
+      display_order: index + 1,
     }));
 
-    const allBlocks = getLocalItem<Record<string, ProjectBlock[]>>(LOCAL_STORAGE_KEYS.BLOCKS, DEFAULT_BLOCKS);
-    allBlocks[projectId] = formattedBlocks;
-    setLocalItem(LOCAL_STORAGE_KEYS.BLOCKS, allBlocks);
+    const { error: deleteError } = await supabase
+      .from('project_blocks')
+      .delete()
+      .eq('project_id', projectId);
+    if (deleteError) throw new Error(`Erro ao preparar atualização dos blocos: ${deleteError.message}`);
 
-    if (isSupabaseConfigured() && !projectId.startsWith('proj-')) {
-      try {
-        // Replace all blocks in Supabase for this project
-        await supabase.from('project_blocks').delete().eq('project_id', projectId);
-        
-        const payload = formattedBlocks.map(b => ({
-          project_id: projectId,
-          type: b.type,
-          content: b.content,
-          media_url: b.media_url,
-          alt_text: b.alt_text,
-          caption: b.caption,
-          transcript: b.transcript,
-          display_order: b.display_order,
-        }));
-
-        if (payload.length > 0) {
-          await supabase.from('project_blocks').insert(payload);
-        }
-      } catch (err) {
-        console.error('Erro ao sincronizar blocos no Supabase:', err);
-      }
+    let saved: ProjectBlock[] = [];
+    if (formatted.length > 0) {
+      const { data, error } = await supabase
+        .from('project_blocks')
+        .insert(formatted)
+        .select('*');
+      if (error) throw new Error(`Erro ao salvar blocos: ${error.message}`);
+      saved = (data || []) as ProjectBlock[];
     }
 
-    return formattedBlocks;
+    const backup = readLocalItem<Record<string, ProjectBlock[]>>(LOCAL_STORAGE_KEYS.BLOCKS) || {};
+    backup[projectId] = saved;
+    writeLocalBackup(LOCAL_STORAGE_KEYS.BLOCKS, backup);
+    emitDataChanged('blocks');
+    return saved;
   },
 
-  // FILE UPLOAD (Storage)
   async uploadFile(file: File, path: string): Promise<string> {
-    if (isSupabaseConfigured()) {
-      try {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `${path}/${fileName}`;
+    const ownerId = await requireAuthenticatedOwner();
+    const extension = file.name.includes('.') ? file.name.split('.').pop() : 'bin';
+    const safeExtension = (extension || 'bin').replace(/[^a-zA-Z0-9]/g, '').toLowerCase() || 'bin';
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${safeExtension}`;
+    const filePath = `${ownerId}/${path}/${fileName}`;
 
-        const { error } = await supabase.storage
-          .from('portfolio-media')
-          .upload(filePath, file, { cacheControl: '3600', upsert: true });
+    const { error } = await supabase.storage
+      .from('portfolio-media')
+      .upload(filePath, file, { cacheControl: '3600', upsert: false });
 
-        if (!error) {
-          const { data: publicUrlData } = supabase.storage
-            .from('portfolio-media')
-            .getPublicUrl(filePath);
+    if (error) throw new Error(`Erro ao enviar arquivo para o Supabase Storage: ${error.message}`);
 
-          return publicUrlData.publicUrl;
-        } else {
-          console.warn('Erro ao fazer upload no Supabase Storage, criando URL local:', error.message);
-        }
-      } catch (err) {
-        console.warn('Falha no upload para o Supabase Storage:', err);
-      }
+    const { data } = supabase.storage.from('portfolio-media').getPublicUrl(filePath);
+    if (!data.publicUrl) throw new Error('O Supabase não retornou uma URL pública para o arquivo.');
+    return data.publicUrl;
+  },
+
+  async migrateLegacyBrowserData(): Promise<LegacyRecoveryResult> {
+    const ownerId = await requireAuthenticatedOwner();
+    const snapshot = this.getLegacyBrowserSnapshot();
+    const result: LegacyRecoveryResult = {
+      settingsRecovered: false,
+      categoriesRecovered: 0,
+      projectsRecovered: 0,
+      blocksRecovered: 0,
+    };
+
+    if (!snapshot.hasCustomData) return result;
+
+    if (snapshot.settings && !isLegacyAiDefaultSettings(snapshot.settings)) {
+      await this.updateSettings({
+        ...snapshot.settings,
+        id: undefined,
+        owner_id: ownerId,
+        theme_config: normalizeThemeConfig(snapshot.settings.theme_config),
+      });
+      result.settingsRecovered = true;
     }
 
-    // Fallback: local blob URL or base64 reader
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+    const projectsToRecover = snapshot.projects.filter((project) => !isExactDefaultProject(project));
+    const referencedLegacyCategoryIds = new Set(
+      projectsToRecover.map((project) => project.category_id).filter((id): id is string => Boolean(id)),
+    );
+
+    const remoteCategories = await this.getCategories();
+    const remoteCategoryBySlug = new Map<string, Category>(remoteCategories.map((category) => [category.slug, category] as [string, Category]));
+    const categoryIdMap = new Map<string, string>();
+
+    for (const category of snapshot.categories) {
+      const existing = remoteCategoryBySlug.get(category.slug);
+
+      // Categorias demonstrativas intocadas nunca substituem uma categoria que já
+      // esteja no Supabase. Só são criadas se um projeto autoral recuperado depender
+      // delas e ainda não houver correspondente remoto.
+      if (isExactDefaultCategory(category)) {
+        if (existing) {
+          categoryIdMap.set(category.id, existing.id);
+          continue;
+        }
+        if (!referencedLegacyCategoryIds.has(category.id)) continue;
+      }
+
+      const saved = await this.saveCategory({
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        display_order: category.display_order,
+      });
+      categoryIdMap.set(category.id, saved.id);
+      remoteCategoryBySlug.set(saved.slug, saved);
+      result.categoriesRecovered += 1;
+    }
+
+    const projectIdMap = new Map<string, string>();
+    for (const project of projectsToRecover) {
+      const saved = await this.saveProject({
+        category_id: project.category_id ? (categoryIdMap.get(project.category_id) || null) : null,
+        title: project.title,
+        slug: project.slug,
+        short_description: project.short_description,
+        cover_image: project.cover_image,
+        year: project.year,
+        status: project.status,
+        featured: project.featured,
+        display_order: project.display_order,
+      });
+      projectIdMap.set(project.id, saved.id);
+      result.projectsRecovered += 1;
+    }
+
+    for (const [legacyProjectId, legacyBlocks] of Object.entries(snapshot.blocks) as Array<[string, ProjectBlock[]]>) {
+      const newProjectId = projectIdMap.get(legacyProjectId);
+      if (!newProjectId || !legacyBlocks?.length) continue;
+      await this.saveBlocks(newProjectId, legacyBlocks);
+      result.blocksRecovered += legacyBlocks.length;
+    }
+
+    writeLocalBackup(LOCAL_STORAGE_KEYS.RECOVERY_DONE, true);
+    emitDataChanged('legacy-recovery');
+    return result;
+  },
 };
