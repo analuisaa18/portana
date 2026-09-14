@@ -50,32 +50,43 @@ export const portfolioStore = {
 
   // SETTINGS
   async getSettings(): Promise<PortfolioSettings> {
-    if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('portfolio_settings')
-          .select('*')
-          .limit(1)
-          .maybeSingle();
-
-        if (error) {
-          console.warn('Erro ao carregar configurações do Supabase, fallback para LocalStorage:', error.message);
-        } else if (data) {
-          return {
-            ...DEFAULT_PORTFOLIO_SETTINGS,
-            ...data,
-            theme_config: data.theme_config || DEFAULT_PORTFOLIO_SETTINGS.theme_config,
-            social_links: data.social_links || DEFAULT_PORTFOLIO_SETTINGS.social_links,
-          };
-        }
-      } catch (err) {
-        console.warn('Falha no Supabase, usando LocalStorage:', err);
-      }
+    if (!isSupabaseConfigured()) {
+      throw new Error('Supabase não configurado. O portfólio não usa LocalStorage como fonte de dados.');
     }
-    return getLocalItem<PortfolioSettings>(LOCAL_STORAGE_KEYS.SETTINGS, DEFAULT_PORTFOLIO_SETTINGS);
+
+    const { data, error } = await supabase
+      .from('portfolio_settings')
+      .select('*')
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(`Erro ao carregar configurações do Supabase: ${error.message}`);
+    }
+
+    if (!data) {
+      throw new Error('Nenhuma configuração do portfólio foi encontrada no Supabase.');
+    }
+
+    return {
+      ...DEFAULT_PORTFOLIO_SETTINGS,
+      ...data,
+      theme_config: data.theme_config || DEFAULT_PORTFOLIO_SETTINGS.theme_config,
+      social_links: data.social_links || DEFAULT_PORTFOLIO_SETTINGS.social_links,
+    };
   },
 
   async updateSettings(settings: Partial<PortfolioSettings>): Promise<PortfolioSettings> {
+    if (!isSupabaseConfigured()) {
+      throw new Error('Supabase não configurado. Alterações administrativas não podem ser salvas localmente.');
+    }
+
+    const { data: authData } = await supabase.auth.getUser();
+    const user = authData.user;
+    if (!user) {
+      throw new Error('Sessão administrativa inválida ou expirada.');
+    }
+
     const current = await this.getSettings();
     const updated: PortfolioSettings = {
       ...current,
@@ -83,40 +94,37 @@ export const portfolioStore = {
       updated_at: new Date().toISOString(),
     };
 
-    setLocalItem(LOCAL_STORAGE_KEYS.SETTINGS, updated);
+    const payload = {
+      portfolio_name: updated.portfolio_name,
+      tagline: updated.tagline,
+      about_title: updated.about_title,
+      about_text: updated.about_text,
+      short_bio: updated.short_bio,
+      profile_image: updated.profile_image,
+      whatsapp: updated.whatsapp,
+      email_public: updated.email_public,
+      location: updated.location,
+      github_username: updated.github_username,
+      social_links: updated.social_links,
+      ux_voice: updated.ux_voice,
+      theme_config: updated.theme_config,
+    };
 
-    if (isSupabaseConfigured()) {
-      try {
-        const { data: user } = await supabase.auth.getUser();
-        const payload = {
-          portfolio_name: updated.portfolio_name,
-          tagline: updated.tagline,
-          about_title: updated.about_title,
-          about_text: updated.about_text,
-          short_bio: updated.short_bio,
-          profile_image: updated.profile_image,
-          whatsapp: updated.whatsapp,
-          email_public: updated.email_public,
-          location: updated.location,
-          github_username: updated.github_username,
-          social_links: updated.social_links,
-          ux_voice: updated.ux_voice,
-          theme_config: updated.theme_config,
-        };
+    let error;
+    if (current.id) {
+      ({ error } = await supabase
+        .from('portfolio_settings')
+        .update(payload)
+        .eq('id', current.id)
+        .eq('owner_id', user.id));
+    } else {
+      ({ error } = await supabase
+        .from('portfolio_settings')
+        .insert([{ ...payload, owner_id: user.id }]));
+    }
 
-        if (current.id) {
-          await supabase
-            .from('portfolio_settings')
-            .update(payload)
-            .eq('id', current.id);
-        } else {
-          await supabase
-            .from('portfolio_settings')
-            .insert([{ ...payload, owner_id: user.user?.id }]);
-        }
-      } catch (err) {
-        console.error('Erro ao atualizar Supabase:', err);
-      }
+    if (error) {
+      throw new Error(`Erro ao salvar configurações no Supabase: ${error.message}`);
     }
 
     return updated;
@@ -124,21 +132,13 @@ export const portfolioStore = {
 
   // CATEGORIES
   async getCategories(): Promise<Category[]> {
-    if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('categories')
-          .select('*')
-          .order('display_order', { ascending: true });
-
-        if (!error && data && data.length > 0) {
-          return data;
-        }
-      } catch (err) {
-        console.warn('Fallback para categorias locais:', err);
-      }
-    }
-    return getLocalItem<Category[]>(LOCAL_STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES);
+    if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .order('display_order', { ascending: true });
+    if (error) throw new Error(`Erro ao carregar categorias do Supabase: ${error.message}`);
+    return data || [];
   },
 
   async saveCategory(category: Partial<Category>): Promise<Category> {
@@ -225,42 +225,19 @@ export const portfolioStore = {
 
   // PROJECTS
   async getProjects(includeDrafts = false): Promise<Project[]> {
-    let projects: Project[] = [];
-    if (isSupabaseConfigured()) {
-      try {
-        let query = supabase
-          .from('projects')
-          .select('*, category:categories(*)')
-          .order('display_order', { ascending: true });
+    if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
 
-        if (!includeDrafts) {
-          query = query.eq('status', 'publicado');
-        }
+    let query = supabase
+      .from('projects')
+      .select('*, category:categories(*)')
+      .order('display_order', { ascending: true });
 
-        const { data, error } = await query;
-        if (!error && data) {
-          projects = data;
-        }
-      } catch (err) {
-        console.warn('Fallback para projetos locais:', err);
-      }
-    }
+    if (!includeDrafts) query = query.eq('status', 'publicado');
 
-    if (projects.length === 0) {
-      projects = getLocalItem<Project[]>(LOCAL_STORAGE_KEYS.PROJECTS, DEFAULT_PROJECTS);
-      const categories = await this.getCategories();
-      projects = projects.map(p => ({
-        ...p,
-        category: categories.find(c => c.id === p.category_id),
-      }));
-
-      if (!includeDrafts) {
-        projects = projects.filter(p => p.status === 'publicado');
-      }
-    }
-
-    return projects.sort((a, b) => a.display_order - b.display_order);
-  },
+    const { data, error } = await query;
+    if (error) throw new Error(`Erro ao carregar projetos do Supabase: ${error.message}`);
+    return (data || []).sort((a, b) => a.display_order - b.display_order);
+  }
 
   async getProjectBySlug(slug: string, includeDrafts = true): Promise<Project | null> {
     const projects = await this.getProjects(includeDrafts);
@@ -375,22 +352,17 @@ export const portfolioStore = {
 
   // PROJECT BLOCKS
   async getProjectBlocks(projectId: string): Promise<ProjectBlock[]> {
-    if (isSupabaseConfigured() && !projectId.startsWith('proj-')) {
-      try {
-        const { data, error } = await supabase
-          .from('project_blocks')
-          .select('*')
-          .eq('project_id', projectId)
-          .order('display_order', { ascending: true });
+    if (!isSupabaseConfigured()) throw new Error('Supabase não configurado.');
+    if (projectId.startsWith('proj-')) return [];
 
-        if (!error && data) return data;
-      } catch (err) {
-        console.warn('Fallback para blocos locais:', err);
-      }
-    }
+    const { data, error } = await supabase
+      .from('project_blocks')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('display_order', { ascending: true });
 
-    const allBlocks = getLocalItem<Record<string, ProjectBlock[]>>(LOCAL_STORAGE_KEYS.BLOCKS, DEFAULT_BLOCKS);
-    return (allBlocks[projectId] || []).sort((a, b) => a.display_order - b.display_order);
+    if (error) throw new Error(`Erro ao carregar blocos do Supabase: ${error.message}`);
+    return data || [];
   },
 
   async saveBlocks(projectId: string, blocks: ProjectBlock[]): Promise<ProjectBlock[]> {
