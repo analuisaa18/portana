@@ -153,12 +153,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [themeConfig, reducedMotion]);
 
   const updateThemeConfig = async (newConfig: ThemeConfig) => {
-    const updatedSettings = {
-      ...settings,
-      theme_config: newConfig,
-    };
-    setSettings(updatedSettings);
-    await portfolioStore.updateSettings({ theme_config: newConfig });
+    // Persist first. The UI only adopts the new theme after Supabase confirms the save.
+    const updated = await portfolioStore.updateSettings({ theme_config: newConfig });
+    setSettings(updated);
   };
 
   const handleUpdateSettings = async (newSettings: Partial<PortfolioSettings>) => {
