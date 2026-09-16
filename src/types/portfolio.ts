@@ -159,6 +159,30 @@ export interface ThemeHeader {
   circleFieldSize?: number;
   circleFieldMotion?: number;
   circleFieldMouse?: number;
+
+  /** Responsive header controls */
+  responsiveEnabled?: boolean;
+  responsiveBreakpointPx?: number;
+  mobileHeightPx?: number;
+  mobileContainerPaddingPx?: number;
+  mobileBrandFontSizePx?: number;
+  mobileBrandWeight?: number;
+  mobileBrandLetterSpacing?: number;
+  mobileIconSizePx?: number;
+  mobileNavFontSizePx?: number;
+  mobileNavGapPx?: number;
+  mobileBrandMaxWidthPx?: number;
+  desktopNavGapPx?: number;
+  desktopContainerPaddingPx?: number;
+  desktopBrandMaxWidthPx?: number;
+  mobileShowBrandIcon?: boolean;
+  mobileShowTagline?: boolean;
+  mobile3dScale?: number;
+  mobile3dDepth?: number;
+  mobile3dMouseStrength?: number;
+  mobileAnimationEnabled?: boolean;
+  mobileBackgroundEnabled?: boolean;
+  mobileBackgroundOpacity?: number;
 }
 
 export interface ThemeConfig {
