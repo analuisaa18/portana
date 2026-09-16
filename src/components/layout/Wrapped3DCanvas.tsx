@@ -37,8 +37,8 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
 
     const resize = () => {
       const r = canvas.getBoundingClientRect();
-      width = Math.max(280, r.width);
-      height = Math.max(90, r.height);
+      width = Math.max(1, r.width);
+      height = Math.max(1, r.height);
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
@@ -59,8 +59,9 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       last = now;
 
       const p = pointerRef.current;
-      const mx = p.active ? clamp(p.x, -1, 1) : 0;
-      const my = p.active ? clamp(p.y, -1, 1) : 0;
+      const pointerEnabled = header.animationPointer !== false;
+      const mx = p.active && pointerEnabled ? clamp(p.x, -1, 1) : 0;
+      const my = p.active && pointerEnabled ? clamp(p.y, -1, 1) : 0;
       const speed = clamp(header.animationSpeed ?? 1, 0.05, 3);
       const intensity = clamp(header.animationIntensity ?? 1, 0.35, 1.65);
       const mouse = clamp(header.animationMouseStrength ?? 1, 0, 1.6);
@@ -69,7 +70,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
       const glow = clamp(header.wrappedGlow ?? 0.3, 0, 1);
       const scaleSetting = clamp(header.wrappedScale ?? 1, 0.7, 1.2);
       // The brand stays floating in place. Animation is driven only by the mouse.
-      const t = 0;
+      const t = header.animationAutoPlay === false ? 0 : ((now - start) / 1000) * speed;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       ctx.clearRect(0, 0, width, height);
@@ -109,7 +110,7 @@ export const Wrapped3DCanvas: React.FC<Props> = ({ text, header, pointer }) => {
         const mid = cursor + gw / 2;
         const u = total > 0 ? mid / total : 0;
         // Static wrapped shape; mouse adds only a subtle live deformation.
-        const theta = u * Math.PI * waveCycles + mx * 0.11 * mouse;
+        const theta = u * Math.PI * waveCycles + t * 0.22 + mx * 0.11 * mouse;
         const wave = Math.sin(theta);
         const z = Math.cos(theta) * zDepth + normalizedMouseDepth(index, chars.length, mx * mouse);
         const x = centerX + mid;
