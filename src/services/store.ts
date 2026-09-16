@@ -64,7 +64,25 @@ const settingsPayload = (settings: PortfolioSettings) => ({
   social_links: settings.social_links,
   ux_voice: settings.ux_voice,
   theme_config: normalizeThemeConfig(settings.theme_config),
+  // Bancos antigos podem não ter o trigger de updated_at. Gravamos a data
+  // explicitamente para o frontend público identificar a configuração recém-salva.
+  updated_at: settings.updated_at || new Date().toISOString(),
 });
+
+const withoutGithubUsername = <T extends Record<string, unknown>>(payload: T) => {
+  const { github_username: _githubUsername, ...legacyPayload } = payload;
+  return legacyPayload;
+};
+
+const isMissingGithubUsernameColumn = (error: any) => {
+  const message = String(error?.message || '').toLowerCase();
+  return message.includes('github_username') && (
+    message.includes('column') ||
+    message.includes('schema cache') ||
+    error?.code === 'PGRST204' ||
+    error?.code === '42703'
+  );
+};
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -138,13 +156,17 @@ async function getLatestSettingsRowForOwner(ownerId: string): Promise<any | null
 }
 
 async function resolvePublicOwnerId(): Promise<string | null> {
+  // Quando VITE_PORTFOLIO_OWNER_ID estiver configurado na Vercel, ele sempre vence.
   if (configuredOwnerId && isUuid(configuredOwnerId)) return configuredOwnerId;
 
+  // Sem variável fixa, usamos a configuração salva mais recentemente. updateSettings()
+  // atualiza updated_at explicitamente, portanto não dependemos de trigger em bancos antigos.
   const { data, error } = await supabase
     .from('portfolio_settings')
-    .select('owner_id, updated_at')
+    .select('owner_id, updated_at, created_at')
     .not('owner_id', 'is', null)
     .order('updated_at', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
 
@@ -279,21 +301,47 @@ export const portfolioStore = {
     let saved: any = null;
 
     if (currentRow?.id) {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('portfolio_settings')
         .update(payload)
         .eq('id', currentRow.id)
         .eq('owner_id', ownerId)
         .select('*')
         .single();
+
+      // O schema original do projeto não tinha github_username. Se o banco da aluna
+      // ainda for dessa versão, esse campo opcional não pode impedir que o tema salve.
+      if (error && isMissingGithubUsernameColumn(error)) {
+        const retry = await supabase
+          .from('portfolio_settings')
+          .update(withoutGithubUsername(payload))
+          .eq('id', currentRow.id)
+          .eq('owner_id', ownerId)
+          .select('*')
+          .single();
+        data = retry.data;
+        error = retry.error;
+      }
+
       if (error) throw new Error(`Erro ao salvar configurações no Supabase: ${error.message}`);
       saved = data;
     } else {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('portfolio_settings')
         .insert([{ ...payload, owner_id: ownerId }])
         .select('*')
         .single();
+
+      if (error && isMissingGithubUsernameColumn(error)) {
+        const retry = await supabase
+          .from('portfolio_settings')
+          .insert([{ ...withoutGithubUsername(payload), owner_id: ownerId }])
+          .select('*')
+          .single();
+        data = retry.data;
+        error = retry.error;
+      }
+
       if (error) throw new Error(`Erro ao criar configurações no Supabase: ${error.message}`);
       saved = data;
     }
