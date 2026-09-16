@@ -161,6 +161,136 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
       </div>
 
       <div className={cardClass}>
+        <h3 className="font-bold mb-1">Responsividade do Header</h3>
+        <p className="text-xs text-[var(--color-text-secondary)] mb-4">
+          Configure o Header separadamente para desktop e celular. O breakpoint define quando o layout móvel entra em ação.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+          <label className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
+            <input type="checkbox" checked={header.responsiveEnabled !== false} onChange={e=>update({responsiveEnabled:e.target.checked})}/>
+            Responsividade personalizada
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Breakpoint (px)
+            <input className={controlClass} type="number" min="480" max="1400" step="1" value={header.responsiveBreakpointPx ?? 768} onChange={e=>update({responsiveBreakpointPx:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Largura máxima da marca (desktop)
+            <input className={controlClass} type="number" min="180" max="900" value={header.desktopBrandMaxWidthPx ?? 560} onChange={e=>update({desktopBrandMaxWidthPx:Number(e.target.value)})}/>
+          </label>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="p-4 rounded-[var(--radius-lg)] border border-[var(--color-border)]">
+            <h4 className="font-black mb-4">Desktop</h4>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="text-xs font-semibold space-y-1 block">Altura
+                <input className={controlClass} type="number" min="56" max="180" value={header.heightPx ?? 80} onChange={e=>update({heightPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Padding lateral
+                <input className={controlClass} type="number" min="8" max="100" value={header.desktopContainerPaddingPx ?? 32} onChange={e=>update({desktopContainerPaddingPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Nome
+                <input className={controlClass} type="number" min="12" max="80" value={header.brandFontSizePx ?? 24} onChange={e=>update({brandFontSizePx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Gap navegação
+                <input className={controlClass} type="number" min="4" max="80" value={header.desktopNavGapPx ?? 24} onChange={e=>update({desktopNavGapPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Peso do nome
+                <input className={controlClass} type="number" min="100" max="900" step="100" value={header.brandWeight ?? 900} onChange={e=>update({brandWeight:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Ícone
+                <input className={controlClass} type="number" min="12" max="80" value={header.iconSizePx ?? 28} onChange={e=>update({iconSizePx:Number(e.target.value)})}/>
+              </label>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-[var(--radius-lg)] border border-[var(--color-border)]">
+            <h4 className="font-black mb-4">Mobile</h4>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="text-xs font-semibold space-y-1 block">Altura
+                <input className={controlClass} type="number" min="64" max="160" value={header.mobileHeightPx ?? 104} onChange={e=>update({mobileHeightPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Padding lateral
+                <input className={controlClass} type="number" min="6" max="50" value={header.mobileContainerPaddingPx ?? 16} onChange={e=>update({mobileContainerPaddingPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Nome
+                <input className={controlClass} type="number" min="10" max="48" value={header.mobileBrandFontSizePx ?? 18} onChange={e=>update({mobileBrandFontSizePx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Largura máxima
+                <input className={controlClass} type="number" min="120" max="500" value={header.mobileBrandMaxWidthPx ?? 260} onChange={e=>update({mobileBrandMaxWidthPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Gap do menu
+                <input className={controlClass} type="number" min="4" max="40" value={header.mobileNavGapPx ?? 12} onChange={e=>update({mobileNavGapPx:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Ícone
+                <input className={controlClass} type="number" min="10" max="60" value={header.mobileIconSizePx ?? 22} onChange={e=>update({mobileIconSizePx:Number(e.target.value)})}/>
+              </label>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+              {[
+                ['mobileShowBrandIcon','Mostrar ícone no mobile', header.mobileShowBrandIcon !== false],
+                ['mobileAnimationEnabled','Ativar animação 3D no mobile', header.mobileAnimationEnabled !== false],
+                ['mobileBackgroundEnabled','Ativar fundo no mobile', header.mobileBackgroundEnabled !== false],
+              ].map(([key,label,checked])=>(
+                <label key={key as string} className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-xs cursor-pointer">
+                  <input type="checkbox" checked={Boolean(checked)} onChange={e=>update({[key as string]:e.target.checked} as Partial<ThemeHeader>)}/>
+                  {label as string}
+                </label>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              <label className="text-xs font-semibold space-y-1 block">Escala 3D
+                <input className={controlClass} type="number" min="0.4" max="1.2" step="0.05" value={header.mobile3dScale ?? 0.72} onChange={e=>update({mobile3dScale:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Profundidade 3D
+                <input className={controlClass} type="number" min="0" max="120" value={header.mobile3dDepth ?? 34} onChange={e=>update({mobile3dDepth:Number(e.target.value)})}/>
+              </label>
+              <label className="text-xs font-semibold space-y-1 block">Mouse 3D
+                <input className={controlClass} type="number" min="0" max="2" step="0.05" value={header.mobile3dMouseStrength ?? 0.7} onChange={e=>update({mobile3dMouseStrength:Number(e.target.value)})}/>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClass}>
+        <h3 className="font-bold mb-1">Animação dinâmica avançada</h3>
+        <p className="text-xs text-[var(--color-text-secondary)] mb-4">
+          Ajuste como o nome se comporta em movimento sem precisar editar o componente.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+          {[
+            ['animationAutoPlay','Movimento automático', header.animationAutoPlay !== false],
+            ['animationPointer','Interação com mouse', header.animationPointer !== false],
+          ].map(([key,label,checked])=>(
+            <label key={key as string} className="flex items-center gap-2 p-3 border border-[var(--color-border)] rounded-[var(--radius-md)] text-sm cursor-pointer">
+              <input type="checkbox" checked={Boolean(checked)} onChange={e=>update({[key as string]:e.target.checked} as Partial<ThemeHeader>)}/>
+              {label as string}
+            </label>
+          ))}
+          <label className="text-xs font-semibold space-y-1 block">Profundidade extra (px)
+            <input className={controlClass} type="number" min="0" max="300" value={header.animationDepthPx ?? 80} onChange={e=>update({animationDepthPx:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Dispersão
+            <input className={controlClass} type="number" min="0" max="3" step="0.05" value={header.animationSpread ?? 1.15} onChange={e=>update({animationSpread:Number(e.target.value)})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Família tipográfica
+            <input className={controlClass} type="text" value={header.brandFontFamily ?? ''} placeholder="Usar tipografia do tema" onChange={e=>update({brandFontFamily:e.target.value})}/>
+          </label>
+          <label className="text-xs font-semibold space-y-1 block">Modo de cor
+            <select className={controlClass} value={header.animationColorMode ?? 'theme'} onChange={e=>update({animationColorMode:e.target.value as ThemeHeader['animationColorMode']})}>
+              <option value="theme">Tema</option>
+              <option value="accent">Cor de destaque</option>
+              <option value="alternating">Alternado</option>
+              <option value="pulse">Pulso</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div className={cardClass}>
         <h3 className="font-bold mb-4">Interação do nome</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {[
