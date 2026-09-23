@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { ThemeHeader } from '../../types/portfolio';
 
 interface Props {
@@ -20,25 +20,18 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   const size = clamp(header.circleFieldSize ?? 190, 90, 420);
   const motion = clamp(header.circleFieldMotion ?? 0.7, 0, 2);
   const pointerStrength = clamp(header.circleFieldMouse ?? 0.55, 0, 2);
-  const ref = useRef<HTMLDivElement | null>(null);
+  // As bolinhas ficam paradas enquanto o cursor está fora do Header.
+  // Quando o mouse entra/move, cada bolinha recebe um deslocamento diferente,
+  // criando a sensação de profundidade/paralaxe sem animação automática.
+  const circleMotion = (c: { d: number }, index: number) => {
+    const px = pointer.active ? pointer.x : 0;
+    const py = pointer.active ? pointer.y : 0;
+    const depth = 0.55 + (index % 3) * 0.22;
+    const x = px * pointerStrength * 26 * depth;
+    const y = py * pointerStrength * 18 * depth;
+    return { x, y };
+  };
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now:number) => {
-      const t = (now - start) / 1000;
-      const px = pointer.active ? pointer.x : 0;
-      const py = pointer.active ? pointer.y : 0;
-      el.style.setProperty('--circle-mx', `${px * pointerStrength * 18}px`);
-      el.style.setProperty('--circle-my', `${py * pointerStrength * 12}px`);
-      el.style.setProperty('--circle-t', `${t * motion}`);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [pointer.active, pointer.x, pointer.y, motion, pointerStrength]);
 
   const circles = [
     { left:'-8%', top:'-82%', s:1.02, d:0.0 },
@@ -51,7 +44,6 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
 
   return (
     <div
-      ref={ref}
       className="header-circle-field"
       aria-hidden="true"
       style={{
@@ -70,6 +62,8 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
             top: c.top,
             ['--circle-scale' as any]: c.s,
             ['--circle-delay' as any]: `${c.d}s`,
+            ['--circle-x' as any]: `${circleMotion(c, i).x}px`,
+            ['--circle-y' as any]: `${circleMotion(c, i).y}px`,
           } as React.CSSProperties}
         />
       ))}
