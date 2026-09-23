@@ -533,6 +533,18 @@ img, video, canvas, iframe, svg {
 /* No desktop, a navegação permanece geometricamente centralizada,
    independentemente da largura da marca à esquerda. */
 @media (min-width: 768px) {
+  /* Desktop: mantém a barra alta como no layout de referência,
+     mas mantém nome + navegação em uma única linha centralizada verticalmente. */
+  header.header-nav-shell {
+    min-height: 190px !important;
+    height: 190px !important;
+  }
+
+  .header-nav-shell .header-content-row {
+    min-height: 190px !important;
+    height: 190px !important;
+    align-items: center !important;
+  }
   .header-desktop-cluster {
     width: 100%;
     max-width: 1100px;
