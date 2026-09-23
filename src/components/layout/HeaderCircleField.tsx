@@ -24,11 +24,20 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   // Quando o mouse entra/move, cada bolinha recebe um deslocamento diferente,
   // criando a sensação de profundidade/paralaxe sem animação automática.
   const circleMotion = (c: { d: number }, index: number) => {
+    // Cada bolinha tem um vetor próprio: elas não se deslocam como um bloco.
+    // O mouse apenas ativa o movimento; a direção, força e eixo variam por círculo.
     const px = pointer.active ? pointer.x : 0;
     const py = pointer.active ? pointer.y : 0;
-    const depth = 0.55 + (index % 3) * 0.22;
-    const x = px * pointerStrength * 26 * depth;
-    const y = py * pointerStrength * 18 * depth;
+    const depth = 0.62 + (index % 3) * 0.2;
+    const angle = c.d * 1.7 + index * 0.85;
+    const dirX = Math.cos(angle);
+    const dirY = Math.sin(angle);
+    const crossX = Math.sin(angle * 0.8);
+    const crossY = Math.cos(angle * 0.9);
+    const strength = pointerStrength * (0.72 + (index % 4) * 0.16);
+
+    const x = (px * dirX * 34 + py * crossX * 10) * strength * depth;
+    const y = (py * dirY * 25 + px * crossY * 8) * strength * depth;
     return { x, y };
   };
 
