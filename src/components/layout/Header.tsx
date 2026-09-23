@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   return <>
     <SkipLink />
     <header
-      className={`${h?.sticky === false ? 'relative' : 'sticky top-0'} z-40 w-full overflow-hidden ${headerStyleClass} ${h?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'}`}
+      className={`header-nav-shell ${h?.sticky === false ? 'relative' : 'sticky top-0'} z-40 w-full overflow-hidden ${headerStyleClass} ${h?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'}`}
       onPointerMove={(e) => {
         const r=e.currentTarget.getBoundingClientRect();
         setPointer({ x: ((e.clientX-r.left)/Math.max(r.width,1)-.5)*2, y: ((e.clientY-r.top)/Math.max(r.height,1)-.5)*2, active:true });
@@ -79,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         header={{...(h || ({} as any)), circleFieldOpacity: isMobile ? ((h?.circleFieldOpacity ?? 1) * (h?.mobileBackgroundOpacity ?? 0.85)) : h?.circleFieldOpacity}}
         pointer={pointer}
       />}
-      <div className="relative z-10 max-w-[var(--layout-max-width)] mx-auto flex items-center justify-center w-full" style={{minHeight:`${Math.max(effectiveHeight, 72)}px`, paddingLeft:`${effectivePadding}px`, paddingRight:`${effectivePadding}px`}}>
+      <div className="header-content-row relative z-10 max-w-[var(--layout-max-width)] mx-auto flex items-center justify-center w-full" style={{minHeight:`${Math.max(effectiveHeight, 72)}px`, paddingLeft:`${effectivePadding}px`, paddingRight:`${effectivePadding}px`}}>
         <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${Math.max(effectiveNavGap * 1.5, 28)}px`}}>
           <button onClick={()=>handleNavClick('projetos')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 shrink-0 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, fontSize:`${effectiveNavSize}px`, fontWeight:h?.navWeight||700, letterSpacing:`${h?.navLetterSpacing||.35}em`, fontFamily:'var(--font-body)', color:'#fff'}} aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}>
             {(!isMobile || h?.mobileShowBrandIcon !== false) && h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:effectiveIconSize,height:effectiveIconSize}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
