@@ -5,7 +5,6 @@ import { ProjectCard } from './ProjectCard';
 import { GitHubShowcase } from './GitHubShowcase';
 import { useTheme } from '../../context/ThemeContext';
 import { FolderOpen } from 'lucide-react';
-import WrappedTypography from './WrappedTypography';
 import { AnimatedTitle3D } from './AnimatedTitle3D';
 
 interface ProjectsGridProps {
@@ -30,7 +29,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   const { settings } = useTheme();
 
   return (
-    <section className="py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] relative overflow-hidden">
+    <section className="portfolio-public-section py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] relative">
       {/* Background Watermark Text from Bold Typography Theme */}
       <div className="absolute top-10 right-[-2%] text-[240px] md:text-[360px] font-black text-white/[0.02] leading-none pointer-events-none select-none z-0">
         024
@@ -154,9 +153,6 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           </button>
         </div>
       )}
-
-      {/* Interactive typography experiment */}
-      <WrappedTypography />
 
       {/* Live GitHub Showcase */}
       <GitHubShowcase
