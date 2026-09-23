@@ -147,7 +147,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
 
           <button
             onClick={() => setSelectedCategoryId(null)}
-            className="px-4 py-2 text-xs font-semibold rounded-[var(--radius-md)] bg-[var(--color-primary)] text-white hover:opacity-90 cursor-pointer"
+            className="px-4 py-2 text-xs font-semibold rounded-[var(--radius-md)] bg-[var(--color-accent)] text-white hover:opacity-90 cursor-pointer"
           >
             Ver todos os projetos
           </button>
