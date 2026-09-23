@@ -17,15 +17,20 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const h = header;
   const breakpoint = h?.responsiveBreakpointPx ?? 768;
   const responsive = h?.responsiveEnabled !== false;
-  const isMobile = responsive && viewportWidth < breakpoint;
+  // O layout móvel precisa continuar funcional mesmo quando a personalização
+  // responsiva está desligada; nesse caso usamos os valores padrão do mobile.
+  const isMobile = viewportWidth < breakpoint;
 
   useEffect(() => {
-    if (!responsive) return;
-    const onResize = () => setViewportWidth(window.innerWidth);
+    const onResize = () => setViewportWidth(window.visualViewport?.width || window.innerWidth);
     onResize();
     window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
-  }, [responsive]);
+    window.visualViewport?.addEventListener('resize', onResize, { passive: true });
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.visualViewport?.removeEventListener('resize', onResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMobile) setMobileMenuOpen(false);
@@ -41,17 +46,18 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
 
   const handleNavClick = (id: string) => { onNavigate(id); setMobileMenuOpen(false); };
   const headerStyleClass = headerStyle === 'boxed' ? 'mx-3 mt-3 rounded-[var(--radius-xl)] border' : headerStyle === 'floating' ? 'mx-3 mt-3 rounded-full border shadow-lg' : headerStyle === 'editorial' ? 'border-b-2' : 'border-b';
-  const effectiveHeight = isMobile ? (h?.mobileHeightPx ?? 104) : (h?.heightPx ?? 80);
-  const effectivePadding = isMobile ? (h?.mobileContainerPaddingPx ?? 16) : (h?.desktopContainerPaddingPx ?? 32);
-  const effectiveBrandSize = isMobile ? (h?.mobileBrandFontSizePx ?? 18) : (h?.brandFontSizePx ?? 24);
-  const effectiveBrandWeight = isMobile ? (h?.mobileBrandWeight ?? h?.brandWeight ?? 900) : (h?.brandWeight ?? 900);
-  const effectiveBrandSpacing = isMobile ? (h?.mobileBrandLetterSpacing ?? h?.brandLetterSpacing ?? -0.04) : (h?.brandLetterSpacing ?? -0.04);
-  const effectiveIconSize = isMobile ? (h?.mobileIconSizePx ?? 22) : (h?.iconSizePx ?? 28);
-  const effectiveNavSize = isMobile ? (h?.mobileNavFontSizePx ?? 10) : (h?.navFontSizePx ?? 11);
-  const effectiveNavGap = isMobile ? (h?.mobileNavGapPx ?? 12) : (h?.desktopNavGapPx ?? 24);
-  const effectiveBrandMaxWidth = isMobile ? (h?.mobileBrandMaxWidthPx ?? 260) : (h?.desktopBrandMaxWidthPx ?? 560);
-  const effectiveAnimationEnabled = isMobile ? h?.mobileAnimationEnabled !== false : true;
-  const effectiveBackgroundEnabled = isMobile ? h?.mobileBackgroundEnabled !== false : true;
+  const useCustomMobile = isMobile && responsive;
+  const effectiveHeight = isMobile ? (useCustomMobile ? (h?.mobileHeightPx ?? 104) : 88) : (h?.heightPx ?? 80);
+  const effectivePadding = isMobile ? (useCustomMobile ? (h?.mobileContainerPaddingPx ?? 16) : 16) : (h?.desktopContainerPaddingPx ?? 32);
+  const effectiveBrandSize = isMobile ? (useCustomMobile ? (h?.mobileBrandFontSizePx ?? 18) : 18) : (h?.brandFontSizePx ?? 24);
+  const effectiveBrandWeight = isMobile ? (useCustomMobile ? (h?.mobileBrandWeight ?? h?.brandWeight ?? 900) : (h?.brandWeight ?? 900)) : (h?.brandWeight ?? 900);
+  const effectiveBrandSpacing = isMobile ? (useCustomMobile ? (h?.mobileBrandLetterSpacing ?? h?.brandLetterSpacing ?? -0.04) : (h?.brandLetterSpacing ?? -0.04)) : (h?.brandLetterSpacing ?? -0.04);
+  const effectiveIconSize = isMobile ? (useCustomMobile ? (h?.mobileIconSizePx ?? 22) : 20) : (h?.iconSizePx ?? 28);
+  const effectiveNavSize = isMobile ? (useCustomMobile ? (h?.mobileNavFontSizePx ?? 10) : 10) : (h?.navFontSizePx ?? 11);
+  const effectiveNavGap = isMobile ? (useCustomMobile ? (h?.mobileNavGapPx ?? 12) : 10) : (h?.desktopNavGapPx ?? 24);
+  const effectiveBrandMaxWidth = isMobile ? (useCustomMobile ? (h?.mobileBrandMaxWidthPx ?? 260) : 240) : (h?.desktopBrandMaxWidthPx ?? 560);
+  const effectiveAnimationEnabled = isMobile ? (useCustomMobile ? h?.mobileAnimationEnabled !== false : false) : true;
+  const effectiveBackgroundEnabled = isMobile ? (useCustomMobile ? h?.mobileBackgroundEnabled !== false : true) : true;
 
   const navClass = (active:boolean) => {
     const base='cursor-pointer transition-all';
@@ -90,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
           </span>
         </button>
 
-        <nav className="relative z-30 shrink-0 items-center" style={{display:isMobile ? 'none' : 'flex', gap:`${effectiveNavGap}px`}} aria-label="Navegação principal">
+        <nav className="desktop-centered-nav relative z-30 shrink-0 items-center" style={{display:isMobile ? 'none' : 'flex', gap:`${effectiveNavGap}px`}} aria-label="Navegação principal">
           {navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} aria-current={currentView===item.id?'page':undefined} className={navClass(currentView===item.id)} style={{fontSize:`${effectiveNavSize}px`,fontWeight:h?.navWeight||700,letterSpacing:`${h?.navLetterSpacing||.35}em`,textTransform:h?.navUppercase===false?'none':'uppercase'}}>{item.label}</button>)}
           {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]" aria-label="Área administrativa"><Shield className="w-4 h-4" /></button>}
         </nav>
