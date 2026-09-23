@@ -516,3 +516,114 @@
 @media (prefers-reduced-motion:reduce){
   .header-circle-field__circle{animation:none!important}
 }
+
+
+/* =========================================================
+   RESPONSIVIDADE — correções estruturais
+   ========================================================= */
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+body {
+  overflow-x: clip;
+}
+
+img, video, canvas, iframe, svg {
+  max-width: 100%;
+}
+
+/* No desktop, a navegação permanece geometricamente centralizada,
+   independentemente da largura da marca à esquerda. */
+@media (min-width: 768px) {
+  .desktop-centered-nav {
+    position: absolute !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: min(58vw, 760px);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --layout-padding: 16px !important;
+    --layout-gap: 16px !important;
+  }
+
+  main,
+  main > *,
+  section,
+  article {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .portfolio-public-section {
+    overflow: visible;
+  }
+
+  .projects-layout,
+  .projects-layout--list {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+  }
+
+  .projects-layout--masonry {
+    column-count: 1 !important;
+    width: 100%;
+  }
+
+  /* O primeiro card recebe span via style inline no desktop.
+     O !important garante que esse span não sobreviva no celular. */
+  .projects-layout--featured .project-grid-item--first,
+  .project-grid-item--first {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .project-grid-item,
+  .project-grid-item article,
+  .theme-card {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .animated-title-3d--wrapped-gif {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(180px, 58vw, 230px);
+    overflow: hidden;
+  }
+
+  .animated-title-3d-canvas {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .header-wrapped-brand {
+    width: min(calc(100vw - 104px), 250px) !important;
+    max-width: min(calc(100vw - 104px), 250px) !important;
+    height: 88px;
+  }
+
+  .wrapped-3d-canvas {
+    height: 88px;
+  }
+
+  h1 { font-size: clamp(2rem, 10vw, var(--font-size-3xl)) !important; }
+  h2 { font-size: clamp(1.65rem, 8vw, var(--font-size-2xl)) !important; }
+  h3 { font-size: clamp(1.25rem, 6vw, var(--font-size-xl)) !important; }
+
+  .bold-eyebrow {
+    letter-spacing: clamp(0.14em, 2vw, 0.35em);
+    overflow-wrap: anywhere;
+  }
+
+  input, textarea, select, button {
+    max-width: 100%;
+  }
+}
