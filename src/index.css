@@ -504,14 +504,9 @@
   height:var(--circle-size);
   border-radius:50%;
   background:var(--circle-color);
-  transform:translate3d(var(--circle-mx),var(--circle-my),0) scale(var(--circle-scale));
+  transform:translate3d(var(--circle-x, 0px),var(--circle-y, 0px),0) scale(var(--circle-scale));
   will-change:transform;
-  animation:header-circle-float 11s ease-in-out infinite;
-  animation-delay:calc(var(--circle-delay) * -1);
-}
-@keyframes header-circle-float{
-  0%,100%{margin-top:0;margin-left:0}
-  50%{margin-top:-5px;margin-left:4px}
+  transition:transform 180ms cubic-bezier(.22,.61,.36,1);
 }
 @media (prefers-reduced-motion:reduce){
   .header-circle-field__circle{animation:none!important}
