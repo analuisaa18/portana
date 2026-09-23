@@ -533,12 +533,28 @@ img, video, canvas, iframe, svg {
 /* No desktop, a navegação permanece geometricamente centralizada,
    independentemente da largura da marca à esquerda. */
 @media (min-width: 768px) {
+  .header-desktop-cluster {
+    width: 100%;
+    max-width: 1100px;
+  }
+
   .desktop-centered-nav {
-    position: absolute !important;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: min(58vw, 760px);
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    max-width: none !important;
+  }
+
+  .header-brand-inline {
+    display: inline-flex !important;
+    align-items: center;
+  }
+
+  .header-brand-static {
+    font-family: var(--font-body) !important;
+    color: #fff !important;
+    text-transform: none !important;
   }
 }
 
