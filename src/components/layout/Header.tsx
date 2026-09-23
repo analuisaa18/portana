@@ -3,7 +3,6 @@ import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
 import { ThemeIcon } from '../common/ThemeIcon';
-import { Wrapped3DCanvas } from './Wrapped3DCanvas';
 import { HeaderCircleField } from './HeaderCircleField';
 
 interface HeaderProps { currentView: string; onNavigate: (view: string, param?: string) => void; }
@@ -56,7 +55,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const effectiveNavSize = isMobile ? (useCustomMobile ? (h?.mobileNavFontSizePx ?? 10) : 10) : (h?.navFontSizePx ?? 11);
   const effectiveNavGap = isMobile ? (useCustomMobile ? (h?.mobileNavGapPx ?? 12) : 10) : (h?.desktopNavGapPx ?? 24);
   const effectiveBrandMaxWidth = isMobile ? (useCustomMobile ? (h?.mobileBrandMaxWidthPx ?? 260) : 240) : (h?.desktopBrandMaxWidthPx ?? 560);
-  const effectiveAnimationEnabled = isMobile ? (useCustomMobile ? h?.mobileAnimationEnabled !== false : false) : true;
   const effectiveBackgroundEnabled = isMobile ? (useCustomMobile ? h?.mobileBackgroundEnabled !== false : true) : true;
 
   const navClass = (active:boolean) => {
@@ -85,13 +83,19 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         <button onClick={()=>handleNavClick('projetos')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 shrink min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, fontSize:`${effectiveBrandSize}px`, fontWeight:effectiveBrandWeight, letterSpacing:`${effectiveBrandSpacing}em`}} aria-label={`Ir para projetos — ${settings.portfolio_name || 'STUDIO.X'}`}>
           {(!isMobile || h?.mobileShowBrandIcon !== false) && h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:effectiveIconSize,height:effectiveIconSize}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
           <span className="header-wrapped-brand" aria-label={settings.portfolio_name || 'STUDIO.X'} style={{width:'100%', maxWidth:'100%'}}>
-            {effectiveAnimationEnabled ? (
-              <Wrapped3DCanvas
-                text={settings.portfolio_name || 'STUDIO.X'}
-                header={{...(h || ({} as any)), animation:'wrapped3d', backgroundEnabled:effectiveBackgroundEnabled, brandFontSizePx:effectiveBrandSize, brandWeight:effectiveBrandWeight, brandLetterSpacing:effectiveBrandSpacing, animationDepthPx:isMobile ? (h?.mobile3dDepth ?? 34) : h?.animationDepthPx, animationMouseStrength:isMobile ? (h?.mobile3dMouseStrength ?? 0.7) : h?.animationMouseStrength, wrappedScale:isMobile ? ((h?.wrappedScale ?? 1) * (h?.mobile3dScale ?? 0.72)) : h?.wrappedScale}}
-                pointer={pointer}
-              />
-            ) : <span className="portfolio-brand-name-fallback">{settings.portfolio_name || 'STUDIO.X'}</span>}
+            <span
+              className="portfolio-brand-name-fallback header-brand-static"
+              style={{
+                display: 'block',
+                width: '100%',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'clip',
+              }}
+            >
+              {settings.portfolio_name || 'STUDIO.X'}
+            </span>
             <span className="sr-only">{settings.portfolio_name || 'STUDIO.X'}</span>
           </span>
         </button>
