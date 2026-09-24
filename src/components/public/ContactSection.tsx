@@ -39,7 +39,9 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section className="py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] animate-fade-in">
+    <section className="editorial-contact-page py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] animate-fade-in">
+      <div className="editorial-contact-page__star editorial-contact-page__star--one" aria-hidden="true">✳</div>
+      <div className="editorial-contact-page__star editorial-contact-page__star--two" aria-hidden="true">✦</div>
       {/* Intro Header */}
       <div className="mb-12 text-center max-w-3xl mx-auto space-y-3">
         <h2 className="bold-eyebrow">
