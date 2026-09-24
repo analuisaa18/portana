@@ -2122,3 +2122,149 @@ header.header-nav-shell {
     animation: none !important;
   }
 }
+
+/* =========================================================
+   MOBILE — mesma composição visual do desktop, sem cortes
+   ========================================================= */
+@media (max-width: 767px) {
+  .header-content-row {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .header-desktop-cluster {
+    min-width: 0 !important;
+    overflow: hidden;
+  }
+
+  .portfolio-brand {
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .header-brand-inline,
+  .header-brand-static {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .header-graphic-field { overflow: hidden !important; }
+
+  .editorial-home--single {
+    padding: 10px 8px 28px !important;
+    overflow-x: hidden;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .editorial-home--single .editorial-hero {
+    min-height: 620px !important;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 5% !important;
+    bottom: 7% !important;
+    width: 43% !important;
+    max-width: 43% !important;
+    z-index: 8;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(42px, 9.8vw, 70px) !important;
+    line-height: .82;
+    white-space: nowrap;
+    transform: rotate(-6deg) translateZ(0);
+    transform-origin: left center;
+  }
+
+  .editorial-home--single .editorial-hero-title:hover,
+  .editorial-home--single .editorial-hero-title:focus-visible {
+    transform: rotate(-6deg) scale(1.035) translateZ(0);
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 100%;
+    margin-top: 28px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 44% !important;
+    height: 58% !important;
+    right: 5% !important;
+    top: 15% !important;
+    bottom: auto !important;
+    z-index: 4;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 25% !important;
+    height: 24% !important;
+    right: 1% !important;
+    top: 9% !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 21% !important;
+    height: 22% !important;
+    right: 2% !important;
+    top: 47% !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 2% !important;
+    bottom: 5% !important;
+    font-size: 72px !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 42% !important;
+    top: 31% !important;
+    font-size: 38px !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 45% !important;
+    bottom: 8% !important;
+    font-size: 38px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .editorial-home--single .editorial-hero { min-height: 560px !important; }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 6% !important;
+    width: 42% !important;
+    max-width: 42% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(36px, 10vw, 48px) !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    font-size: 10px;
+    margin-top: 22px;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 43% !important;
+    height: 55% !important;
+    right: 5% !important;
+    top: 14% !important;
+  }
+}
