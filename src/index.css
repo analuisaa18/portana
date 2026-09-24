@@ -724,3 +724,202 @@ body {
     border-color: #E388A9 !important;
   }
 }
+
+
+/* =========================================================
+   VISUAL SYSTEM — BLACK + PINK (MOBILE REFERENCE)
+   This layer intentionally overrides saved/legacy theme colors
+   on the public portfolio so old AI-Studio theme values cannot
+   leak back into the presentation.
+   ========================================================= */
+:root {
+  --visual-black: #090909;
+  --visual-surface: #121212;
+  --visual-pink: #E388A9;
+  --visual-pink-soft: #F0B3C7;
+  --visual-white: #FFF7FA;
+  --visual-ink: #171117;
+}
+
+html,
+body,
+#root {
+  background: var(--visual-black) !important;
+  color: var(--visual-white) !important;
+}
+
+body {
+  background-color: var(--visual-black) !important;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(227,136,169,.045) 0 1px, transparent 1px),
+    radial-gradient(circle at 75% 65%, rgba(227,136,169,.035) 0 1px, transparent 1px) !important;
+  background-size: 8px 8px, 13px 13px !important;
+  background-attachment: fixed !important;
+}
+
+/* Header: pink capsule from the mobile reference. */
+header.header-nav-shell {
+  background: var(--visual-pink) !important;
+  background-image: none !important;
+  color: var(--visual-ink) !important;
+  border-color: var(--visual-pink) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,.28) !important;
+  backdrop-filter: none !important;
+}
+
+.header-nav-shell .header-content-row,
+.header-nav-shell .header-desktop-cluster {
+  color: var(--visual-ink) !important;
+}
+
+.header-nav-shell .portfolio-brand,
+.header-nav-shell .header-brand-static {
+  color: var(--visual-ink) !important;
+}
+
+.header-nav-shell .desktop-centered-nav button {
+  color: var(--visual-ink) !important;
+  background: transparent !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: var(--visual-ink) !important;
+  text-decoration-color: var(--visual-ink) !important;
+}
+
+.header-nav-shell .desktop-centered-nav button:hover {
+  color: var(--visual-ink) !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+  color: var(--visual-ink) !important;
+  border-color: var(--visual-ink) !important;
+}
+
+.header-nav-shell .portfolio-brand svg,
+.header-nav-shell .desktop-centered-nav svg {
+  color: var(--visual-ink) !important;
+  stroke: currentColor !important;
+}
+
+/* Keep the decorative circles available on desktop, but make them
+   pink-on-black only when the field is intentionally enabled.
+   On the mobile breakpoint the reference is clean, so hide them. */
+.header-circle-field {
+  background-color: transparent !important;
+}
+
+.header-circle-field__circle {
+  background: var(--visual-pink) !important;
+}
+
+@media (max-width: 767px) {
+  .header-circle-field {
+    display: none !important;
+  }
+
+  header.header-nav-shell {
+    border-radius: 28px !important;
+    margin: 8px 10px 0 !important;
+    width: calc(100% - 20px) !important;
+    min-height: 88px !important;
+    height: 88px !important;
+  }
+
+  .header-nav-shell .header-content-row {
+    min-height: 88px !important;
+    height: 88px !important;
+  }
+}
+
+/* Main portfolio typography */
+.portfolio-public-section,
+.portfolio-public-section * {
+  --color-bg: var(--visual-black);
+}
+
+.portfolio-public-section .bold-eyebrow {
+  color: var(--visual-pink) !important;
+  text-shadow: none !important;
+}
+
+.portfolio-public-section .text-\[var\(--color-text-secondary\)\] {
+  color: var(--visual-pink-soft) !important;
+}
+
+.portfolio-public-section > div > p {
+  color: var(--visual-pink-soft) !important;
+}
+
+/* 3D title: pink face + deep black extrusion. */
+.animated-title-3d--wrapped-gif,
+.animated-title-3d-canvas {
+  color: var(--visual-pink) !important;
+}
+
+.animated-title-3d--wrapped-gif {
+  --title-surface: var(--visual-pink) !important;
+  --title-text: var(--visual-pink) !important;
+  --title-shadow: #000000 !important;
+}
+
+/* Catch inline/legacy title colors without changing its geometry. */
+.animated-title-3d--wrapped-gif [style*="color"],
+.animated-title-3d-canvas [style*="color"] {
+  color: var(--visual-pink) !important;
+}
+
+/* Background watermark stays almost invisible, as in the mobile mockup. */
+.portfolio-public-section > .absolute {
+  color: rgba(227,136,169,.025) !important;
+}
+
+/* Category controls / primary buttons. */
+.category-filter-button,
+.theme-button-primary,
+.portfolio-public-section button {
+  --tw-bg-opacity: 1;
+}
+
+.category-filter-button {
+  background-color: var(--visual-pink) !important;
+  color: var(--visual-ink) !important;
+  border-color: var(--visual-pink) !important;
+}
+
+.category-filter-button:not([aria-pressed="true"]) {
+  background-color: transparent !important;
+  color: var(--visual-pink-soft) !important;
+  border-color: var(--visual-pink) !important;
+}
+
+.theme-button-primary {
+  background-color: var(--visual-pink) !important;
+  color: var(--visual-ink) !important;
+}
+
+/* Empty state / cards */
+.theme-card,
+.portfolio-public-section .rounded-\[var\(--radius-xl\)\] {
+  background-color: var(--visual-surface) !important;
+  border-color: rgba(227,136,169,.65) !important;
+}
+
+.portfolio-public-section h3 {
+  color: var(--visual-pink) !important;
+}
+
+.portfolio-public-section .text-\[var\(--color-text-primary\)\] {
+  color: var(--visual-white) !important;
+}
+
+/* Inputs/interactive surfaces follow the same palette. */
+button,
+a {
+  -webkit-tap-highlight-color: rgba(227,136,169,.25);
+}
+
+::selection {
+  background: var(--visual-pink) !important;
+  color: var(--visual-ink) !important;
+}
