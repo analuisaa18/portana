@@ -61,6 +61,8 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
   const Projects = () => (
     <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
       <div className="editorial-index">02 / 05</div>
+      <div className="editorial-page-star editorial-page-star--projects-one" aria-hidden="true">✳</div>
+      <div className="editorial-page-star editorial-page-star--projects-two" aria-hidden="true">✦</div>
       <h2>PROJETOS</h2>
       <div className="editorial-project-grid">
         {[0, 1, 2, 3].map((i) => {
@@ -81,6 +83,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
   const Principles = () => (
     <section className="editorial-panel editorial-panel--black editorial-principles" aria-label="Princípios">
       <div className="editorial-index">03 / 05</div>
+      <div className="editorial-page-star editorial-page-star--principles" aria-hidden="true">✳</div>
       <h2>PRINCÍPIOS</h2>
       <div className="editorial-principles-body">
         <ul>
@@ -107,7 +110,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
     <section className="editorial-panel editorial-panel--pink editorial-footer-card" aria-label="Encerramento">
       <div className="editorial-brand"><Star size={16}/> ANA BOCHENECK</div>
       <div className="editorial-footer-copy">OBRIGADA<br/>POR AQUI!</div>
-      <div className="editorial-star-doodle">✳</div>
+      <div className="editorial-footer-star-doodle">✳</div>
     </section>
   );
 
