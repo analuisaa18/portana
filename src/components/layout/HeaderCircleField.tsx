@@ -22,17 +22,17 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   const py = pointer.active ? pointer.y : 0;
 
   const stars = [
-    { left: '7%', top: '18%', size: 31, delay: '0s', duration: '6.8s', dx: -16, dy: -10, rotate: -12 },
-    { left: '28%', top: '68%', size: 20, delay: '-2.2s', duration: '7.8s', dx: 12, dy: -14, rotate: 8 },
-    { left: '51%', top: '10%', size: 25, delay: '-4.1s', duration: '8.6s', dx: -10, dy: 12, rotate: -8 },
-    { left: '78%', top: '70%', size: 28, delay: '-1.4s', duration: '7.2s', dx: 14, dy: 8, rotate: 13 },
-    { left: '93%', top: '20%', size: 18, delay: '-3.4s', duration: '9s', dx: -10, dy: -12, rotate: -6 },
+    { left: '7%', top: '18%', size: 37, delay: '0s', duration: '6.8s', dx: -16, dy: -10, rotate: -12 },
+    { left: '28%', top: '68%', size: 24, delay: '-2.2s', duration: '7.8s', dx: 12, dy: -14, rotate: 8 },
+    { left: '51%', top: '10%', size: 30, delay: '-4.1s', duration: '8.6s', dx: -10, dy: 12, rotate: -8 },
+    { left: '78%', top: '70%', size: 34, delay: '-1.4s', duration: '7.2s', dx: 14, dy: 8, rotate: 13 },
+    { left: '93%', top: '20%', size: 22, delay: '-3.4s', duration: '9s', dx: -10, dy: -12, rotate: -6 },
   ];
 
   const blocks = [
-    { left: '17%', top: '8%', width: 92, height: 36, rotate: -9, opacity: .16, delay: '-1s', duration: '10s', dx: 10, dy: 8 },
-    { left: '63%', top: '58%', width: 112, height: 42, rotate: 8, opacity: .12, delay: '-5s', duration: '12s', dx: -12, dy: -8 },
-    { left: '86%', top: '8%', width: 76, height: 30, rotate: -15, opacity: .14, delay: '-7s', duration: '11s', dx: 8, dy: 10 },
+    { left: '17%', top: '8%', width: 104, height: 41, rotate: -9, opacity: .16, delay: '-1s', duration: '10s', dx: 10, dy: 8 },
+    { left: '63%', top: '58%', width: 126, height: 48, rotate: 8, opacity: .12, delay: '-5s', duration: '12s', dx: -12, dy: -8 },
+    { left: '86%', top: '8%', width: 86, height: 35, rotate: -15, opacity: .14, delay: '-7s', duration: '11s', dx: 8, dy: 10 },
   ];
 
   return (
