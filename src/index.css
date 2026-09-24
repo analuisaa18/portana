@@ -2114,10 +2114,14 @@ header.header-nav-shell {
   /* Desktop only: enlarge the same CSS stars used by the mobile layout.
      The mobile sizes remain untouched below. */
   .header-graphic-star {
-    font-size: calc(var(--star-size, 30px) * 1.42) !important;
+    font-size: calc(var(--star-size, 30px) * 1.65) !important;
   }
   .header-graphic-star:nth-of-type(3n) {
-    font-size: calc(var(--star-size, 30px) * 1.15) !important;
+    font-size: calc(var(--star-size, 30px) * 1.35) !important;
+  }
+
+  .header-graphic-block {
+    transform: scale(1.08);
   }
 }
 
