@@ -348,10 +348,10 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
           <h4 className="font-bold mb-3">Superfície Wrapped</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <label className="text-xs font-semibold space-y-1 block">Cor do volume
-              <input className="w-full h-10" type="color" value={header.wrappedSurfaceColor || '#0A84FF'} onChange={e=>update({wrappedSurfaceColor:e.target.value})}/>
+              <input className="w-full h-10" type="color" value={header.wrappedSurfaceColor || '#E388A9'} onChange={e=>update({wrappedSurfaceColor:e.target.value})}/>
             </label>
             <label className="text-xs font-semibold space-y-1 block">Cor do texto
-              <input className="w-full h-10" type="color" value={header.wrappedTextColor || '#FFFFFF'} onChange={e=>update({wrappedTextColor:e.target.value})}/>
+              <input className="w-full h-10" type="color" value={header.wrappedTextColor || '#171717'} onChange={e=>update({wrappedTextColor:e.target.value})}/>
             </label>
             <label className="text-xs font-semibold space-y-1 block">Curvatura
               <input className={controlClass} type="number" min="0" max="3" step="0.05" value={header.wrappedCurve ?? 1.15} onChange={e=>update({wrappedCurve:Number(e.target.value)})}/>
@@ -377,7 +377,7 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
             <input type="checkbox" checked={header.circleFieldEnabled !== false} onChange={e=>update({circleFieldEnabled:e.target.checked})}/> Exibir círculos
           </label>
           <label className="text-xs font-semibold space-y-1 block">Cor do fundo
-            <input className="w-full h-10" type="color" value={header.circleFieldBackground || '#E7E7CE'} onChange={e=>update({circleFieldBackground:e.target.value})}/>
+            <input className="w-full h-10" type="color" value={header.circleFieldBackground || '#101010'} onChange={e=>update({circleFieldBackground:e.target.value})}/>
           </label>
           <label className="text-xs font-semibold space-y-1 block">Cor dos círculos
             <input className="w-full h-10" type="color" value={header.circleFieldColor || '#F2FF00'} onChange={e=>update({circleFieldColor:e.target.value})}/>
@@ -405,10 +405,10 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
             <input type="checkbox" checked={header.projectTitle3dEnabled !== false} onChange={e=>update({projectTitle3dEnabled:e.target.checked})}/> Exibir efeito
           </label>
           <label className="text-xs font-semibold space-y-1 block">Cor da superfície
-            <input className="w-full h-10" type="color" value={header.projectTitle3dSurfaceColor || '#9F8CA5'} onChange={e=>update({projectTitle3dSurfaceColor:e.target.value})}/>
+            <input className="w-full h-10" type="color" value={header.projectTitle3dSurfaceColor || '#E388A9'} onChange={e=>update({projectTitle3dSurfaceColor:e.target.value})}/>
           </label>
           <label className="text-xs font-semibold space-y-1 block">Cor do texto
-            <input className="w-full h-10" type="color" value={header.projectTitle3dTextColor || '#FFFFFF'} onChange={e=>update({projectTitle3dTextColor:e.target.value})}/>
+            <input className="w-full h-10" type="color" value={header.projectTitle3dTextColor || '#E388A9'} onChange={e=>update({projectTitle3dTextColor:e.target.value})}/>
           </label>
           <label className="text-xs font-semibold space-y-1 block">Cor da profundidade
             <input className="w-full h-10" type="color" value={header.projectTitle3dShadowColor || '#4D3B50'} onChange={e=>update({projectTitle3dShadowColor:e.target.value})}/>
