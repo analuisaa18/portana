@@ -1419,3 +1419,53 @@ header.header-nav-shell {
   .editorial-hero-photo { width: 54%; height: 48%; right: 3%; top: 13%; }
   .editorial-hero::after { right: 20%; bottom: 27%; font-size: 90px; }
 }
+
+/* Navegação por páginas editoriais: cada área aparece somente quando sua
+   opção correspondente do header é selecionada. */
+.editorial-home--single {
+  width: 100%;
+  padding: 24px 0 48px;
+}
+
+.editorial-grid--single {
+  display: flex !important;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.editorial-grid--single > .editorial-panel {
+  width: 100%;
+  grid-area: auto !important;
+}
+
+.editorial-home--single .editorial-hero {
+  min-height: min(760px, calc(100vh - 120px));
+}
+
+.editorial-home--projects .editorial-projects {
+  min-height: 620px;
+}
+
+.editorial-home--projects .editorial-principles {
+  min-height: 430px;
+}
+
+.editorial-home--projects .editorial-footer-card {
+  min-height: 220px;
+}
+
+@media (max-width: 900px) {
+  .editorial-home--single {
+    padding: 12px 10px 32px;
+  }
+
+  .editorial-grid--single {
+    gap: 12px;
+  }
+
+  .editorial-home--single .editorial-hero {
+    min-height: 590px;
+  }
+}
