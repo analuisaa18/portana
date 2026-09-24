@@ -34,14 +34,14 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
           aria-label="Portfólio — interação"
         >PORTFÓLIO</button>
         <p>DESIGN DE INTERFACES,<br/>PROJETOS GRÁFICOS E<br/>EXPERIÊNCIAS VISUAIS.</p>
-        <div className="editorial-star-doodle">✳</div>
+        <div className="editorial-star-doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
       </div>
       <div className="editorial-hero-paper paper-one" aria-hidden="true" />
       <div className="editorial-hero-paper paper-two" aria-hidden="true" />
       <img className="editorial-hero-photo" src={settings.profile_image || photo('portana-profile')} alt="Imagem editorial de destaque" />
-      <div className="editorial-hero-scribble">✦</div>
-      <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true">✳</div>
-      <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true">✦</div>
+      <div className="editorial-hero-scribble"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
+      <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
+      <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
     </section>
   );
 
@@ -54,15 +54,15 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
         <p>Gosto de transformar ideias em projetos que conectam pessoas, com soluções simples, funcionais e cheias de personalidade.</p>
       </div>
       <img src={settings.profile_image || photo('portana-about')} alt="Retrato editorial" />
-      <div className="editorial-doodle">✳</div>
+      <div className="editorial-doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
     </section>
   );
 
   const Projects = () => (
     <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
       <div className="editorial-index">02 / 05</div>
-      <div className="editorial-page-star editorial-page-star--projects-one" aria-hidden="true">✳</div>
-      <div className="editorial-page-star editorial-page-star--projects-two" aria-hidden="true">✦</div>
+      <div className="editorial-page-star editorial-page-star--projects-one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
+      <div className="editorial-page-star editorial-page-star--projects-two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
       <h2>PROJETOS</h2>
       <div className="editorial-project-grid">
         {[0, 1, 2, 3].map((i) => {
@@ -83,13 +83,13 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
   const Principles = () => (
     <section className="editorial-panel editorial-panel--black editorial-principles" aria-label="Princípios">
       <div className="editorial-index">03 / 05</div>
-      <div className="editorial-page-star editorial-page-star--principles" aria-hidden="true">✳</div>
+      <div className="editorial-page-star editorial-page-star--principles" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
       <h2>PRINCÍPIOS</h2>
       <div className="editorial-principles-body">
         <ul>
           <li>CRIATIVIDADE</li><li>FUNCIONALIDADE</li><li>ESTÉTICA</li><li>AUTENTICIDADE</li><li>PROCESSO</li>
         </ul>
-        <div className="editorial-quote-mark">✳</div>
+        <div className="editorial-quote-mark"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
         <blockquote>“boas ideias<br/>também são<br/>formas de<br/>cuidado.”</blockquote>
       </div>
     </section>
@@ -110,7 +110,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
     <section className="editorial-panel editorial-panel--pink editorial-footer-card" aria-label="Encerramento">
       <div className="editorial-brand"><Star size={16}/> ANA BOCHENECK</div>
       <div className="editorial-footer-copy">OBRIGADA<br/>POR AQUI!</div>
-      <div className="editorial-footer-star-doodle">✳</div>
+      <div className="editorial-footer-star-doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
     </section>
   );
 
