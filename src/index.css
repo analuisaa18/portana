@@ -802,20 +802,28 @@ header.header-nav-shell {
   stroke: currentColor !important;
 }
 
-/* Keep the decorative circles available on desktop, but make them
-   pink-on-black only when the field is intentionally enabled.
-   On the mobile breakpoint the reference is clean, so hide them. */
+/* HEADER CIRCLE FIELD — visible on desktop and mobile.
+   The reference uses oversized cropped circles around the capsule,
+   not a flat solid header. */
 .header-circle-field {
-  background-color: transparent !important;
+  display: block !important;
+  background: transparent !important;
+  z-index: 0 !important;
 }
 
 .header-circle-field__circle {
   background: var(--visual-pink) !important;
+  opacity: 1 !important;
+}
+
+/* Black header with coral/pink circles, matching the requested visual direction. */
+header.header-nav-shell {
+  background: #090909 !important;
 }
 
 @media (max-width: 767px) {
   .header-circle-field {
-    display: none !important;
+    display: block !important;
   }
 
   header.header-nav-shell {
@@ -824,6 +832,7 @@ header.header-nav-shell {
     width: calc(100% - 20px) !important;
     min-height: 88px !important;
     height: 88px !important;
+    background: #090909 !important;
   }
 
   .header-nav-shell .header-content-row {
@@ -922,4 +931,105 @@ a {
 ::selection {
   background: var(--visual-pink) !important;
   color: var(--visual-ink) !important;
+}
+
+/* =========================================================
+   FINAL REFERENCE: PINK CAPSULE + CORAL CIRCLES
+   The requested reference is a black editorial page with a
+   pink navigation capsule. The existing circle field remains
+   visible inside that capsule as oversized cropped circles.
+   ========================================================= */
+:root {
+  --reference-pink: #E388A9;
+  --reference-coral: #F87272;
+  --reference-black: #090909;
+}
+
+html, body, #root {
+  background: var(--reference-black) !important;
+}
+
+header.header-nav-shell {
+  background: var(--reference-pink) !important;
+  background-image: none !important;
+  color: var(--reference-black) !important;
+  border-color: var(--reference-pink) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.30) !important;
+  backdrop-filter: none !important;
+}
+
+.header-nav-shell .header-content-row,
+.header-nav-shell .header-desktop-cluster,
+.header-nav-shell .portfolio-brand,
+.header-nav-shell .header-brand-static,
+.header-nav-shell .desktop-centered-nav button,
+.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: var(--reference-black) !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  text-decoration-color: var(--reference-black) !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+  color: var(--reference-black) !important;
+  border-color: var(--reference-black) !important;
+}
+
+.header-nav-shell .portfolio-brand svg,
+.header-nav-shell .desktop-centered-nav svg {
+  color: var(--reference-black) !important;
+  stroke: currentColor !important;
+}
+
+/* Keep the circles INSIDE the pink capsule. They are intentionally
+   oversized and cropped by the header, like the previous circle field. */
+.header-circle-field {
+  display: block !important;
+  z-index: 0 !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.header-circle-field__circle {
+  background: var(--reference-coral) !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+/* The content stays above the circles. */
+.header-nav-shell .header-content-row {
+  position: relative;
+  z-index: 10 !important;
+}
+
+/* Reference-style typography for the public page. */
+.portfolio-public-section .bold-eyebrow {
+  color: var(--reference-pink) !important;
+}
+
+.portfolio-public-section .text-\[var\(--color-text-secondary\)\],
+.portfolio-public-section > div > p {
+  color: var(--reference-pink-soft, #F0B3C7) !important;
+}
+
+/* Keep the main 3D title pink and its extrusion dark. */
+.animated-title-3d-canvas,
+.animated-title-3d-canvas * {
+  --color-accent: var(--reference-pink) !important;
+}
+
+/* The mobile capsule keeps the same reference treatment, with the
+   circles still visible instead of replacing the background. */
+@media (max-width: 767px) {
+  header.header-nav-shell {
+    background: var(--reference-pink) !important;
+    border-color: var(--reference-pink) !important;
+    border-radius: 28px !important;
+  }
+
+  .header-circle-field__circle {
+    background: var(--reference-coral) !important;
+  }
 }
