@@ -8,74 +8,80 @@ interface Props {
 
 const clamp = (v:number,min:number,max:number) => Math.min(max, Math.max(min, v));
 
-/** Lightweight recreation of the reference field: oversized cropped circles moving behind the header. */
+/**
+ * Editorial graphic field used inside the navigation capsule.
+ * The old circles are intentionally replaced by the same visual language
+ * used throughout the portfolio: floating stars/doodles + translucent blocks.
+ */
 export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   if (header.circleFieldEnabled === false) return null;
 
-  const bg = header.circleFieldBackground || '#101010';
-  const configuredCircle = header.circleFieldColor;
-  // Keep older saved themes compatible: the previous neon-yellow default now follows the portfolio accent.
-  const circle = !configuredCircle || configuredCircle.toUpperCase() === '#F2FF00' ? 'var(--color-accent)' : configuredCircle;
   const opacity = clamp(header.circleFieldOpacity ?? 1, 0, 1);
-  const size = clamp(header.circleFieldSize ?? 190, 90, 420);
-  const motion = clamp(header.circleFieldMotion ?? 0.7, 0, 2);
   const pointerStrength = clamp(header.circleFieldMouse ?? 0.55, 0, 2);
-  // As bolinhas ficam paradas enquanto o cursor está fora do Header.
-  // Quando o mouse entra/move, cada bolinha recebe um deslocamento diferente,
-  // criando a sensação de profundidade/paralaxe sem animação automática.
-  const circleMotion = (c: { d: number }, index: number) => {
-    // Cada bolinha tem um vetor próprio: elas não se deslocam como um bloco.
-    // O mouse apenas ativa o movimento; a direção, força e eixo variam por círculo.
-    const px = pointer.active ? pointer.x : 0;
-    const py = pointer.active ? pointer.y : 0;
-    const depth = 0.62 + (index % 3) * 0.2;
-    const angle = c.d * 1.7 + index * 0.85;
-    const dirX = Math.cos(angle);
-    const dirY = Math.sin(angle);
-    const crossX = Math.sin(angle * 0.8);
-    const crossY = Math.cos(angle * 0.9);
-    const strength = pointerStrength * (0.72 + (index % 4) * 0.16);
+  const px = pointer.active ? pointer.x : 0;
+  const py = pointer.active ? pointer.y : 0;
 
-    const x = (px * dirX * 34 + py * crossX * 10) * strength * depth;
-    const y = (py * dirY * 25 + px * crossY * 8) * strength * depth;
-    return { x, y };
-  };
+  const stars = [
+    { left: '7%', top: '18%', size: 31, delay: '0s', duration: '6.8s', dx: -16, dy: -10, rotate: -12 },
+    { left: '28%', top: '68%', size: 20, delay: '-2.2s', duration: '7.8s', dx: 12, dy: -14, rotate: 8 },
+    { left: '51%', top: '10%', size: 25, delay: '-4.1s', duration: '8.6s', dx: -10, dy: 12, rotate: -8 },
+    { left: '78%', top: '70%', size: 28, delay: '-1.4s', duration: '7.2s', dx: 14, dy: 8, rotate: 13 },
+    { left: '93%', top: '20%', size: 18, delay: '-3.4s', duration: '9s', dx: -10, dy: -12, rotate: -6 },
+  ];
 
-
-  const circles = [
-    { left:'-8%', top:'-82%', s:1.02, d:0.0 },
-    { left:'30%', top:'-105%', s:1.18, d:1.4 },
-    { left:'91%', top:'18%', s:1.05, d:2.6 },
-    { left:'7%', top:'70%', s:1.12, d:3.5 },
-    { left:'43%', top:'82%', s:1.0, d:4.6 },
-    { left:'78%', top:'68%', s:1.08, d:5.5 },
+  const blocks = [
+    { left: '17%', top: '8%', width: 92, height: 36, rotate: -9, opacity: .16, delay: '-1s', duration: '10s', dx: 10, dy: 8 },
+    { left: '63%', top: '58%', width: 112, height: 42, rotate: 8, opacity: .12, delay: '-5s', duration: '12s', dx: -12, dy: -8 },
+    { left: '86%', top: '8%', width: 76, height: 30, rotate: -15, opacity: .14, delay: '-7s', duration: '11s', dx: 8, dy: 10 },
   ];
 
   return (
     <div
-      className="header-circle-field"
+      className="header-graphic-field"
       aria-hidden="true"
-      style={{
-        backgroundColor: bg,
-        opacity,
-        ['--circle-size' as any]: `${size}px`,
-        ['--circle-color' as any]: circle,
-      } as React.CSSProperties}
+      style={{ opacity }}
     >
-      {circles.map((c, i) => (
-        <span
-          key={i}
-          className="header-circle-field__circle"
-          style={{
-            left: c.left,
-            top: c.top,
-            ['--circle-scale' as any]: c.s,
-            ['--circle-delay' as any]: `${c.d}s`,
-            ['--circle-x' as any]: `${circleMotion(c, i).x}px`,
-            ['--circle-y' as any]: `${circleMotion(c, i).y}px`,
-          } as React.CSSProperties}
-        />
-      ))}
+      {blocks.map((b, i) => {
+        const x = px * b.dx * pointerStrength;
+        const y = py * b.dy * pointerStrength;
+        return (
+          <span
+            key={`block-${i}`}
+            className="header-graphic-block"
+            style={{
+              left: b.left,
+              top: b.top,
+              width: `${b.width}px`,
+              height: `${b.height}px`,
+              opacity: b.opacity,
+              ['--block-rotate' as any]: `${b.rotate}deg`,
+              ['--block-delay' as any]: b.delay,
+              ['--block-duration' as any]: b.duration,
+              transform: `translate3d(${x}px, ${y}px, 0) rotate(${b.rotate}deg)`,
+            } as React.CSSProperties}
+          />
+        );
+      })}
+
+      {stars.map((s, i) => {
+        const x = px * s.dx * pointerStrength;
+        const y = py * s.dy * pointerStrength;
+        return (
+          <span
+            key={`star-${i}`}
+            className="header-graphic-star"
+            style={{
+              left: s.left,
+              top: s.top,
+              fontSize: `${s.size}px`,
+              ['--star-delay' as any]: s.delay,
+              ['--star-duration' as any]: s.duration,
+              ['--star-rotate' as any]: `${s.rotate}deg`,
+              transform: `translate3d(${x}px, ${y}px, 0) rotate(${s.rotate}deg)`,
+            } as React.CSSProperties}
+          >✦</span>
+        );
+      })}
     </div>
   );
 };
