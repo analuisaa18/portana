@@ -2268,3 +2268,208 @@ header.header-nav-shell {
     top: 14% !important;
   }
 }
+
+/* =========================================================
+   MOBILE FINAL FIX — header completo + hero sem sobreposição
+   ========================================================= */
+@media (max-width: 767px) {
+  /* O mobile usa a mesma navegação do desktop, compactada para caber.
+     Nada de hamburger escondendo Sobre/Projetos/Contato/Admin. */
+  header.header-nav-shell {
+    min-height: 88px !important;
+    height: 88px !important;
+    margin: 8px 10px 0 !important;
+    width: calc(100% - 20px) !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+  }
+
+  header.header-nav-shell .header-content-row {
+    min-height: 88px !important;
+    height: 88px !important;
+    padding-left: 14px !important;
+    padding-right: 12px !important;
+    gap: 7px !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+
+  header.header-nav-shell .header-desktop-cluster {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    overflow: visible !important;
+  }
+
+  header.header-nav-shell .portfolio-brand {
+    flex: 0 1 auto !important;
+    max-width: 46% !important;
+    min-width: 0 !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+  }
+
+  header.header-nav-shell .portfolio-brand > span:first-child {
+    width: 19px !important;
+    height: 19px !important;
+    flex: 0 0 19px !important;
+  }
+
+  header.header-nav-shell .header-brand-inline,
+  header.header-nav-shell .header-brand-static {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 10px !important;
+    letter-spacing: .10em !important;
+    line-height: 1 !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    gap: 7px !important;
+    align-items: center !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button {
+    padding: 3px 0 !important;
+    font-size: 8px !important;
+    letter-spacing: .16em !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+    width: 22px !important;
+    height: 22px !important;
+    padding: 3px !important;
+    margin-left: 1px !important;
+    flex: 0 0 22px !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  /* Remove qualquer menu móvel aberto que possa duplicar a navegação. */
+  header.header-nav-shell > #mobile-menu {
+    display: none !important;
+  }
+
+  /* HOME: duas zonas claras — foto à direita em cima e título à esquerda
+     embaixo. O PORTFÓLIO nunca pode entrar na área da foto. */
+  .editorial-home--single {
+    padding: 10px 8px 24px !important;
+    overflow-x: hidden !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    min-height: 610px !important;
+    height: 610px !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 43% !important;
+    height: 43% !important;
+    right: 5% !important;
+    top: 10% !important;
+    bottom: auto !important;
+    z-index: 3 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 27% !important;
+    height: 20% !important;
+    right: 2% !important;
+    top: 7% !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 23% !important;
+    height: 18% !important;
+    right: 3% !important;
+    top: 40% !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 6% !important;
+    bottom: 8% !important;
+    width: 47% !important;
+    max-width: 47% !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(34px, 10.2vw, 48px) !important;
+    line-height: .84 !important;
+    white-space: nowrap !important;
+    transform: rotate(-6deg) translateZ(0) !important;
+    transform-origin: left center !important;
+  }
+
+  .editorial-home--single .editorial-hero-title:hover,
+  .editorial-home--single .editorial-hero-title:focus-visible {
+    transform: rotate(-6deg) scale(1.045) translateZ(0) !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 100% !important;
+    margin-top: 24px !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 3% !important;
+    bottom: 7% !important;
+    font-size: 62px !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 39% !important;
+    top: 48% !important;
+    font-size: 30px !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 36% !important;
+    bottom: 9% !important;
+    font-size: 32px !important;
+    z-index: 7 !important;
+  }
+
+  /* Nunca mostrar widgets/elementos de estado verdes na composição editorial. */
+  .editorial-home--single [class*="success"],
+  .editorial-home--single [class*="emerald"],
+  .editorial-home--single [style*="#22C55E"],
+  .editorial-home--single [style*="#53D88A"] {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  header.header-nav-shell .header-brand-inline,
+  header.header-nav-shell .header-brand-static { font-size: 9px !important; letter-spacing: .08em !important; }
+  header.header-nav-shell .desktop-centered-nav { gap: 5px !important; }
+  header.header-nav-shell .desktop-centered-nav button { font-size: 7px !important; letter-spacing: .12em !important; }
+  .editorial-home--single .editorial-hero { min-height: 590px !important; height: 590px !important; }
+  .editorial-home--single .editorial-hero-copy { width: 48% !important; max-width: 48% !important; }
+  .editorial-home--single .editorial-hero-title { font-size: 32px !important; }
+}
