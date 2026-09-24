@@ -15,7 +15,7 @@ import { Project, Category } from './types/portfolio';
 import { LoadingState } from './components/common/LoadingState';
 
 export function PortfolioApp() {
-  const [currentView, setCurrentView] = useState<string>('projetos');
+  const [currentView, setCurrentView] = useState<string>('home');
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
@@ -82,7 +82,7 @@ export function PortfolioApp() {
       await supabase.auth.signOut();
     }
     setIsAdminAuthenticated(false);
-    setCurrentView('projetos');
+    setCurrentView('home');
   };
 
   return (
@@ -94,14 +94,25 @@ export function PortfolioApp() {
           <LoadingState message="Carregando portfólio autoral..." />
         ) : (
           <>
-            {/* View: Sobre */}
+            {/* Home: somente a abertura/portfólio */}
+            {currentView === 'home' && !selectedSlug && (
+              <EditorialHome
+                view="home"
+                projects={projects}
+                onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
+                onNavigate={handleNavigate}
+              />
+            )}
+
+            {/* Sobre: aparece somente ao clicar em Sobre */}
             {currentView === 'sobre' && (
               <AboutSection onNavigateContact={() => handleNavigate('contato')} />
             )}
 
-            {/* View: Projetos Gallery */}
+            {/* Projetos: identidade visual, desenhos/pinturas e interfaces */}
             {currentView === 'projetos' && !selectedSlug && (
               <EditorialHome
+                view="projetos"
                 projects={projects}
                 onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
                 onNavigate={handleNavigate}
