@@ -2,15 +2,15 @@
 
 @layer base {
   :root {
-    --color-bg: #050505;
-    --color-surface: #0D0D0E;
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: #A1A1AA;
-    --color-primary: #FFFFFF;
-    --color-secondary: #27272A;
-    --color-accent: #0047FF;
-    --color-border: #1E1E24;
-    --color-focus: #0047FF;
+    --color-bg: #101010;
+    --color-surface: #171717;
+    --color-text-primary: #FFF7FA;
+    --color-text-secondary: #E39AB5;
+    --color-primary: #E388A9;
+    --color-secondary: #2A1F24;
+    --color-accent: #E388A9;
+    --color-border: #E388A9;
+    --color-focus: #E388A9;
     --color-success: #22C55E;
     --color-warning: #F59E0B;
     --color-error: #EF4444;
@@ -51,8 +51,8 @@
 
   body {
     background-color: var(--color-bg);
-    background-image: var(--theme-custom-image);
-    background-size: cover;
+    background-image: var(--theme-custom-image), radial-gradient(circle at 18% 10%, rgba(227,136,169,.045) 0 1px, transparent 1px), radial-gradient(circle at 72% 60%, rgba(227,136,169,.035) 0 1px, transparent 1px);
+    background-size: cover, 7px 7px, 11px 11px;
     background-position: center;
     background-attachment: fixed;
     color: var(--color-text-primary);
@@ -648,5 +648,79 @@ img, video, canvas, iframe, svg {
 
   input, textarea, select, button {
     max-width: 100%;
+  }
+}
+
+
+/* =========================================================
+   PALETA EDITORIAL — preto + rosa, inspirada no layout mobile
+   ========================================================= */
+body {
+  background-color: #101010;
+  color: #FFF7FA;
+}
+
+.portfolio-public-section .bold-eyebrow,
+.portfolio-public-section > div > p,
+.portfolio-public-section .text-\[var\(--color-text-secondary\)\] {
+  color: #E388A9;
+}
+
+.portfolio-public-section .bold-eyebrow {
+  text-shadow: 0 0 18px rgba(227,136,169,.08);
+}
+
+.header-nav-shell {
+  background-color: #101010 !important;
+  border-color: #E388A9 !important;
+}
+
+.header-nav-shell .header-brand-static,
+.header-nav-shell .portfolio-brand {
+  color: #FFF7FA !important;
+}
+
+.header-nav-shell .desktop-centered-nav button {
+  color: #E39AB5;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: #FFF7FA;
+  text-decoration-color: #E388A9;
+}
+
+.theme-button-primary,
+.category-filter-button {
+  background-color: #E388A9 !important;
+  color: #101010 !important;
+}
+
+/* On mobile, the reference uses a pink capsule around the navigation. */
+@media (max-width: 767px) {
+  .header-nav-shell {
+    background:
+      radial-gradient(circle at 86% 50%, rgba(16,16,16,.9) 0 11%, transparent 11.5%),
+      linear-gradient(135deg, #E388A9 0%, #E8A1BA 100%) !important;
+    border-color: #E388A9 !important;
+    color: #101010 !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.24);
+  }
+
+  .header-nav-shell .header-brand-static,
+  .header-nav-shell .portfolio-brand,
+  .header-nav-shell .text-\[var\(--color-text-primary\)\] {
+    color: #101010 !important;
+  }
+
+  .header-nav-shell .desktop-centered-nav { display: none !important; }
+
+  .header-nav-shell > .header-content-row > button {
+    color: #101010 !important;
+    border-color: rgba(16,16,16,.45) !important;
+  }
+
+  #mobile-menu {
+    background: #171717 !important;
+    border-color: #E388A9 !important;
   }
 }
