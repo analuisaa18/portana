@@ -28,12 +28,20 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
     <section className="editorial-panel editorial-panel--pink editorial-hero" aria-label="Portfólio">
       <div className="editorial-index">00 / 05</div>
       <div className="editorial-hero-copy">
-        <h1>PORTFÓLIO</h1>
+        <button
+          type="button"
+          className="editorial-hero-title"
+          aria-label="Portfólio — interação"
+        >PORTFÓLIO</button>
         <p>DESIGN DE INTERFACES,<br/>PROJETOS GRÁFICOS E<br/>EXPERIÊNCIAS VISUAIS.</p>
         <div className="editorial-star-doodle">✳</div>
       </div>
-      <img className="editorial-hero-photo" src={settings.profile_image || photo('portana-profile')} alt="Imagem editorial" />
+      <div className="editorial-hero-paper paper-one" aria-hidden="true" />
+      <div className="editorial-hero-paper paper-two" aria-hidden="true" />
+      <img className="editorial-hero-photo" src={settings.profile_image || photo('portana-profile')} alt="Imagem editorial de destaque" />
       <div className="editorial-hero-scribble">✦</div>
+      <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true">✳</div>
+      <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true">✦</div>
     </section>
   );
 
