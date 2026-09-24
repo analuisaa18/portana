@@ -1,4 +1,4 @@
-aimport React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
