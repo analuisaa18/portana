@@ -17,7 +17,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     accent: '#E388A9',          // Electric blue accent
     border: '#E388A9',          // Crisp hairline border
     focus: '#E388A9',           // Electric blue focus ring
-    success: '#53D88A',         // Vibrant emerald green
+    success: '#E388A9',         // Vibrant emerald green
     warning: '#F2B56B',         // Amber warning
     error: '#F26F88',           // Deep crimson
   },
