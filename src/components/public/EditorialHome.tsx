@@ -12,7 +12,7 @@ interface EditorialHomeProps {
   view?: 'home' | 'projetos';
 }
 
-export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelectProject, view = 'home' }) => {
+export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelectProject, onNavigate, view = 'home' }) => {
   const { settings } = useTheme();
 
   const cards = projects.slice(0, 4);
@@ -34,6 +34,15 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
           aria-label="Portfólio — interação"
         >PORTFÓLIO</button>
         <p>DESIGN DE INTERFACES,<br/>PROJETOS GRÁFICOS E<br/>EXPERIÊNCIAS VISUAIS.</p>
+        <button
+          type="button"
+          className="editorial-hero-projects-cta"
+          onClick={() => onNavigate('projetos')}
+          aria-label="Ver projetos"
+        >
+          <span>VER PROJETOS</span>
+          <ArrowUpRight size={18} strokeWidth={2.2} aria-hidden="true" />
+        </button>
         <div className="editorial-star-doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
       </div>
       <div className="editorial-hero-paper paper-one" aria-hidden="true" />
