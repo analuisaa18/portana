@@ -12,7 +12,7 @@ const clamp = (v:number,min:number,max:number) => Math.min(max, Math.max(min, v)
 export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
   if (header.circleFieldEnabled === false) return null;
 
-  const bg = header.circleFieldBackground || '#E7E7CE';
+  const bg = header.circleFieldBackground || '#101010';
   const configuredCircle = header.circleFieldColor;
   // Keep older saved themes compatible: the previous neon-yellow default now follows the portfolio accent.
   const circle = !configuredCircle || configuredCircle.toUpperCase() === '#F2FF00' ? 'var(--color-accent)' : configuredCircle;
