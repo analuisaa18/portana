@@ -35,6 +35,15 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
     { left: '86%', top: '8%', width: 86, height: 35, rotate: -15, opacity: .14, delay: '-7s', duration: '11s', dx: 8, dy: 10 },
   ];
 
+  // Pequenos pontos de ritmo visual: ficam entre as estrelas maiores,
+  // sem competir com o nome e os links da navegação.
+  const smallStars = [
+    { left: '37%', top: '24%', size: 12, delay: '-1.8s', duration: '7.4s', dx: -5, dy: 4, rotate: 10 },
+    { left: '49%', top: '76%', size: 9, delay: '-3.1s', duration: '8.2s', dx: 5, dy: -4, rotate: -8 },
+    { left: '70%', top: '25%', size: 13, delay: '-4.6s', duration: '7.8s', dx: -4, dy: 5, rotate: 14 },
+    { left: '87%', top: '72%', size: 10, delay: '-5.7s', duration: '8.8s', dx: 4, dy: -5, rotate: -12 },
+  ];
+
   return (
     <div
       className="header-graphic-field"
@@ -73,7 +82,7 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
             style={{
               left: s.left,
               top: s.top,
-              fontSize: `${s.size}px`,
+              ['--star-size' as any]: `${s.size}px`,
               ['--star-delay' as any]: s.delay,
               ['--star-duration' as any]: s.duration,
               ['--star-rotate' as any]: `${s.rotate}deg`,
@@ -82,6 +91,27 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
           ><span className="header-graphic-star-mark" /></span>
         );
       })}
+
+      <div className="header-graphic-small-stars">
+        {smallStars.map((s, i) => {
+          const x = px * s.dx * pointerStrength;
+          const y = py * s.dy * pointerStrength;
+          return (
+            <span
+              key={`small-star-${i}`}
+              className="header-graphic-small-star"
+              style={{
+                left: s.left,
+                top: s.top,
+                ['--small-star-size' as any]: `${s.size}px`,
+                ['--star-delay' as any]: s.delay,
+                ['--star-duration' as any]: s.duration,
+                transform: `translate3d(${x}px, ${y}px, 0) rotate(${s.rotate}deg)`,
+              } as React.CSSProperties}
+            ><span className="header-graphic-star-mark" /></span>
+          );
+        })}
+      </div>
     </div>
   );
 };
