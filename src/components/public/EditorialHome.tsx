@@ -47,7 +47,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
       </div>
       <div className="editorial-hero-paper paper-one" aria-hidden="true" />
       <div className="editorial-hero-paper paper-two" aria-hidden="true" />
-      <img className="editorial-hero-photo" src={settings.profile_image || photo('portana-profile')} alt="Imagem editorial de destaque" />
+      <img className="editorial-hero-photo" src="/home-editorial-experiment.jpg" alt="Processo criativo com computador e referências de cor" />
       <div className="editorial-hero-scribble"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
       <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
       <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
