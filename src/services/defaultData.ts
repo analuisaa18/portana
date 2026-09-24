@@ -8,8 +8,8 @@ import {
 
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   colors: {
-    background: '#101010',      // Deep pitch black
-    surface: '#171717',         // Dark architectural surface
+    background: '#090909',      // Deep pitch black
+    surface: '#121212',         // Dark architectural surface
     textPrimary: '#FFF7FA',     // Crisp stark white typography
     textSecondary: '#E39AB5',   // Muted silver gray
     primary: '#E388A9',         // High contrast primary white
