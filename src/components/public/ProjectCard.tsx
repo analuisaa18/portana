@@ -66,7 +66,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) =
           <button
             type="button"
             onClick={() => onSelect(project.slug)}
-            className="w-full py-3 px-4 text-xs font-black uppercase tracking-[0.2em] rounded-[var(--radius-sm)] bg-white text-black hover:bg-[var(--color-accent)] hover:text-white transition-all flex items-center justify-between cursor-pointer focus:outline-none focus-visible:ring-2"
+            className="w-full py-3 px-4 text-xs font-black uppercase tracking-[0.2em] rounded-[var(--radius-sm)] bg-[var(--color-accent)] text-[#101010] hover:opacity-90 transition-all flex items-center justify-between cursor-pointer focus:outline-none focus-visible:ring-2"
             aria-label={`${ctaText}: ${project.title}`}
           >
             <span>{ctaText}</span>
