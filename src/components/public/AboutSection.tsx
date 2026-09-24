@@ -14,8 +14,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact })
     <main className="editorial-about-page" aria-label="Sobre mim">
       <section className="editorial-about-page__panel">
         <div className="editorial-about-page__index">01 / 04</div>
-        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--one" aria-hidden="true">✳</div>
-        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--two" aria-hidden="true">✦</div>
+        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
+        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
 
         <div className="editorial-about-page__content">
           <div className="editorial-about-page__text">
@@ -70,8 +70,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact })
                 </div>
               )}
             </div>
-            <div className="editorial-about-page__doodle">✳</div>
-            <div className="editorial-about-page__brush">✦</div>
+            <div className="editorial-about-page__doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
+            <div className="editorial-about-page__brush"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
           </div>
         </div>
       </section>
