@@ -2483,3 +2483,114 @@ header.header-nav-shell {
   .editorial-home--single .editorial-hero-copy { width: 48% !important; max-width: 48% !important; }
   .editorial-home--single .editorial-hero-title { font-size: 32px !important; }
 }
+
+/* =========================================================
+   EDITORIAL GRAPHICS — REAL CSS SHAPES, NEVER EMOJIS
+   ========================================================= */
+.editorial-star-mark,
+.header-graphic-star-mark {
+  display: inline-block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  font-family: Arial, sans-serif;
+  font-variant-emoji: text;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* 8-point burst used by the desktop editorial artwork */
+.editorial-star-mark--burst,
+.header-graphic-star-mark {
+  clip-path: polygon(
+    50% 0%, 58% 35%, 84% 16%, 65% 42%,
+    100% 50%, 65% 58%, 84% 84%, 58% 65%,
+    50% 100%, 42% 65%, 16% 84%, 35% 58%,
+    0% 50%, 35% 42%, 16% 16%, 42% 35%
+  );
+}
+
+/* 4-point sparkle used for the larger desktop mark */
+.editorial-star-mark--diamond {
+  clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+}
+
+.editorial-star-doodle .editorial-star-mark {
+  width: 1em;
+  height: 1em;
+}
+
+.editorial-hero-scribble .editorial-star-mark {
+  width: 1em;
+  height: 1em;
+}
+
+.editorial-hero-star .editorial-star-mark,
+.editorial-page-star .editorial-star-mark,
+.editorial-quote-mark .editorial-star-mark,
+.editorial-footer-star-doodle .editorial-star-mark,
+.editorial-about-page__doodle .editorial-star-mark,
+.editorial-about-page__brush .editorial-star-mark,
+.editorial-about-page__floating-star .editorial-star-mark,
+.editorial-contact-page__star .editorial-star-mark {
+  width: 1em;
+  height: 1em;
+}
+
+/* Header stars use the exact same CSS graphic language as the page. */
+.header-graphic-star {
+  font-size: inherit;
+  color: var(--reference-pink, #E388A9);
+}
+.header-graphic-star-mark {
+  width: 1em;
+  height: 1em;
+}
+
+/* Replace the old decorative pseudo-glyph with the same real CSS shape. */
+.editorial-hero::after {
+  content: '';
+  position: absolute;
+  right: 31%;
+  bottom: 18%;
+  width: 120px;
+  height: 120px;
+  background: rgba(0,0,0,.35);
+  clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  transform: rotate(18deg);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* The public editorial surface is strictly black / pink / paper tones. */
+.editorial-home--single,
+.editorial-home--single * {
+  --editorial-graphic-pink: #E388A9;
+}
+
+@media (max-width: 767px) {
+  /* Mobile gets the desktop graphics scaled down — never emoji glyphs. */
+  .editorial-home--single .editorial-star-doodle {
+    font-size: 46px !important;
+  }
+  .editorial-home--single .editorial-hero-scribble {
+    font-size: 58px !important;
+  }
+  .editorial-home--single .editorial-hero-star--one {
+    font-size: 28px !important;
+  }
+  .editorial-home--single .editorial-hero-star--two {
+    font-size: 30px !important;
+  }
+
+  /* If an old/stale mobile sticker node survives in the DOM, remove only
+     the known sticker/emoji hooks — never hide the editorial artwork. */
+  .editorial-home--single [class*="sticker"],
+  .editorial-home--single [class*="emoji"],
+  .editorial-home--single [data-sticker],
+  .editorial-home--single [data-emoji] {
+    display: none !important;
+  }
+}
