@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   lineHeight: 1,
                 }}
               >
-                {settings.portfolio_name || 'STUDIO.X'}
+                Ana Bocheneck
               </span>
               <span className="sr-only">{settings.portfolio_name || 'STUDIO.X'}</span>
             </span>
