@@ -1812,3 +1812,238 @@ header.header-nav-shell {
     font-size: 64px;
   }
 }
+
+/* =========================================================
+   AJUSTES FINAIS — HERO + DECORAÇÕES POR PÁGINA
+   ========================================================= */
+
+/* O título não invade mais a área da fotografia. O hover continua, mas
+   trabalha apenas com escala e permanece dentro da coluna esquerda. */
+.editorial-home--single .editorial-hero-copy {
+  width: 44%;
+  max-width: 44%;
+  z-index: 5;
+}
+
+.editorial-home--single .editorial-hero-title {
+  font-size: clamp(70px, 6.7vw, 116px);
+  max-width: 100%;
+  transform: rotate(-6deg) translateZ(0);
+  transform-origin: left center;
+}
+
+.editorial-home--single .editorial-hero-title:hover,
+.editorial-home--single .editorial-hero-title:focus-visible {
+  transform: rotate(-6deg) scale(1.07) translateZ(0);
+}
+
+.editorial-home--single .editorial-hero-photo {
+  right: 5.5%;
+  width: 39%;
+  height: 70%;
+  z-index: 3;
+}
+
+/* Todas as animações decorativas ficam presas à página/área onde o elemento
+   realmente existe. Nada daqui é aplicado ao header ou ao layout global. */
+@keyframes editorialPageFloatA {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-12deg) scale(1); }
+  50% { transform: translate3d(10px, -14px, 0) rotate(8deg) scale(1.06); }
+}
+
+@keyframes editorialPageFloatB {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(14deg) scale(1); }
+  50% { transform: translate3d(-12px, 9px, 0) rotate(28deg) scale(.94); }
+}
+
+@keyframes editorialPageSpinFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(8px, -8px, 0) rotate(180deg); }
+}
+
+/* SOBRE */
+.editorial-about-page__panel {
+  isolation: isolate;
+}
+
+.editorial-about-page__floating-star {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--about-pink);
+  line-height: 1;
+  will-change: transform;
+}
+
+.editorial-about-page__floating-star--one {
+  left: 7%;
+  top: 17%;
+  font-size: 58px;
+  animation: editorialPageFloatA 5.2s ease-in-out infinite;
+}
+
+.editorial-about-page__floating-star--two {
+  right: 8%;
+  bottom: 13%;
+  font-size: 72px;
+  animation: editorialPageFloatB 6s ease-in-out infinite;
+}
+
+.editorial-about-page__doodle {
+  animation: editorialPageSpinFloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.editorial-about-page__brush {
+  animation: editorialPageFloatA 6.4s ease-in-out infinite reverse;
+  will-change: transform;
+}
+
+/* PROJETOS / PRINCÍPIOS */
+.editorial-home--projects .editorial-panel {
+  isolation: isolate;
+}
+
+.editorial-page-star {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  line-height: 1;
+  will-change: transform;
+}
+
+.editorial-page-star--projects-one {
+  left: 7%;
+  bottom: 9%;
+  color: #111;
+  font-size: 64px;
+  animation: editorialPageFloatA 5.5s ease-in-out infinite;
+}
+
+.editorial-page-star--projects-two {
+  right: 5%;
+  top: 14%;
+  color: #111;
+  font-size: 82px;
+  animation: editorialPageFloatB 6.7s ease-in-out infinite;
+}
+
+.editorial-page-star--principles {
+  right: 8%;
+  bottom: 14%;
+  color: var(--ed-pink);
+  font-size: 76px;
+  animation: editorialPageSpinFloat 7.2s ease-in-out infinite;
+}
+
+.editorial-footer-star-doodle {
+  position: absolute;
+  right: 35px;
+  bottom: 22px;
+  color: #111;
+  font-size: 55px;
+  line-height: 1;
+  pointer-events: none;
+  animation: editorialPageFloatB 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* CONTATO */
+.editorial-contact-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.editorial-contact-page__star {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--color-accent);
+  line-height: 1;
+  will-change: transform;
+}
+
+.editorial-contact-page__star--one {
+  left: 4%;
+  top: 8%;
+  font-size: 74px;
+  animation: editorialPageFloatA 5.8s ease-in-out infinite;
+}
+
+.editorial-contact-page__star--two {
+  right: 5%;
+  bottom: 7%;
+  font-size: 92px;
+  animation: editorialPageSpinFloat 7.4s ease-in-out infinite;
+}
+
+@media (max-width: 900px) {
+  .editorial-home--single .editorial-hero-copy {
+    width: 46%;
+    max-width: 46%;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(62px, 9vw, 94px);
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 41%;
+    height: 61%;
+    right: 4%;
+    top: 15%;
+    bottom: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero-copy {
+    width: 58%;
+    max-width: 58%;
+    left: 22px;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(54px, 15vw, 82px);
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 48%;
+    height: 48%;
+    right: 3%;
+    top: 13%;
+  }
+
+  .editorial-about-page__floating-star--one {
+    left: 4%;
+    top: 12%;
+    font-size: 44px;
+  }
+
+  .editorial-about-page__floating-star--two {
+    right: 3%;
+    bottom: 8%;
+    font-size: 56px;
+  }
+
+  .editorial-page-star--projects-one,
+  .editorial-page-star--projects-two,
+  .editorial-page-star--principles {
+    font-size: 48px;
+  }
+
+  .editorial-contact-page__star--one { font-size: 54px; }
+  .editorial-contact-page__star--two { font-size: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-about-page__floating-star,
+  .editorial-about-page__doodle,
+  .editorial-about-page__brush,
+  .editorial-page-star,
+  .editorial-footer-star-doodle,
+  .editorial-contact-page__star {
+    animation: none !important;
+  }
+}
