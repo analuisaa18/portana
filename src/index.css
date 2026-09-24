@@ -1135,3 +1135,180 @@ header.header-nav-shell {
   .editorial-principles blockquote { border-left:0; padding-left:0; }
   .editorial-contact { min-height:300px; flex-direction:column; align-items:flex-start; gap:30px; }
 }
+
+
+/* =========================================================
+   FINAL HOME STRUCTURE — SECTIONS SEPARADAS + HEADER PRETO
+   ========================================================= */
+.editorial-home {
+  --ed-pink: #E388A9;
+  --ed-pink-soft: #F0B3C7;
+  --ed-black: #090909;
+  background: var(--ed-black) !important;
+  color: #FFF7FA;
+  min-height: calc(100vh - 80px);
+  padding: 28px 24px 60px;
+}
+
+/* Cada área ocupa sua própria faixa. Nada de duas áreas lado a lado. */
+.editorial-grid {
+  width: min(1480px, 100%);
+  max-width: 1480px;
+  margin: 0 auto;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 26px !important;
+}
+
+.editorial-panel {
+  width: 100% !important;
+  max-width: 100%;
+  flex: none;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 00 — capa */
+.editorial-hero {
+  min-height: 680px !important;
+  background: var(--ed-pink) !important;
+}
+.editorial-hero .editorial-index { color: #090909; }
+
+/* 01 — sobre */
+.editorial-about {
+  min-height: 650px !important;
+  padding: 72px 7% 64px !important;
+  background: #111 !important;
+}
+.editorial-about-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 42%;
+}
+.editorial-about-copy p {
+  max-width: 100%;
+}
+
+/* 02 — projetos */
+.editorial-projects {
+  min-height: 650px !important;
+  padding: 60px 5% 70px !important;
+  background: var(--ed-pink) !important;
+}
+.editorial-project-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+  margin-top: 44px !important;
+}
+
+/* 03 — princípios */
+.editorial-principles {
+  min-height: 520px !important;
+  padding: 70px 7% !important;
+  background: #111 !important;
+}
+
+/* 04 — contato */
+.editorial-contact {
+  min-height: 360px !important;
+  padding: 55px 7% !important;
+}
+
+/* Encerramento também é uma área independente. */
+.editorial-footer-card {
+  min-height: 300px !important;
+  padding: 42px 7% !important;
+}
+
+/* =========================================================
+   HEADER — PRETO COM BOLINHAS ROSAS
+   ========================================================= */
+header.header-nav-shell {
+  background: #090909 !important;
+  background-image: none !important;
+  color: #FFF7FA !important;
+  border-color: #E388A9 !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.30) !important;
+  backdrop-filter: none !important;
+}
+
+.header-nav-shell .header-content-row,
+.header-nav-shell .header-desktop-cluster {
+  position: relative;
+  z-index: 20 !important;
+}
+
+.header-nav-shell .portfolio-brand,
+.header-nav-shell .header-brand-static,
+.header-nav-shell .desktop-centered-nav button {
+  color: #FFF7FA !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: #FFF7FA !important;
+  text-decoration-color: #E388A9 !important;
+}
+
+.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+  color: #FFF7FA !important;
+  border-color: #E388A9 !important;
+}
+
+.header-nav-shell .portfolio-brand svg,
+.header-nav-shell .desktop-centered-nav svg {
+  color: #FFF7FA !important;
+  stroke: currentColor !important;
+}
+
+.header-circle-field {
+  background: transparent !important;
+  z-index: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.header-circle-field__circle {
+  background: #E388A9 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+/* Desktop: mantém a espessura da barra, sem a navegação ser cortada. */
+@media (min-width: 768px) {
+  header.header-nav-shell,
+  header.header-nav-shell .header-content-row {
+    min-height: 190px !important;
+    height: 190px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .editorial-home { padding: 16px 12px 40px; }
+  .editorial-grid { gap: 16px !important; }
+  .editorial-hero { min-height: 620px !important; }
+  .editorial-about { min-height: 650px !important; padding: 58px 28px !important; }
+  .editorial-about-copy { max-width: 52%; }
+  .editorial-projects { min-height: auto !important; padding: 48px 24px 56px !important; }
+  .editorial-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .editorial-principles { min-height: 560px !important; padding: 52px 28px !important; }
+  .editorial-contact { min-height: 340px !important; padding: 48px 28px !important; }
+  .editorial-footer-card { min-height: 260px !important; }
+}
+
+@media (max-width: 767px) {
+  .editorial-home { padding: 12px 10px 34px; }
+  .editorial-hero { min-height: 590px !important; }
+  .editorial-hero-copy { left: 24px; bottom: 32px; }
+  .editorial-hero-photo { width: 56%; height: 54%; right: 4%; top: 14%; bottom: auto; }
+  .editorial-about { min-height: 690px !important; padding: 48px 22px !important; }
+  .editorial-about-copy { max-width: 100%; padding-right: 42%; }
+  .editorial-about img { width: 46%; height: 40%; top: 31%; right: 4%; }
+  .editorial-projects { padding: 42px 18px 48px !important; }
+  .editorial-project-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+  .editorial-principles { min-height: 600px !important; padding: 46px 22px !important; }
+  .editorial-principles-body { grid-template-columns: 1fr !important; }
+  .editorial-contact { min-height: 360px !important; padding: 44px 22px !important; }
+  .editorial-footer-card { min-height: 240px !important; padding: 34px 22px !important; }
+}
