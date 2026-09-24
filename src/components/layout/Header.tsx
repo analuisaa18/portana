@@ -37,6 +37,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const headerStyle = h?.style || 'minimal';
   const navStyle = h?.navStyle || 'underline';
 
+  const brandName = 'Ana Bocheneck';
+
   const navItems = [
     { id: 'sobre', label: 'Sobre' },
     { id: 'projetos', label: 'Projetos' },
@@ -61,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     const base='cursor-pointer transition-all';
     if(navStyle==='pill') return `${base} px-3 py-1.5 rounded-full ${active?'bg-[var(--color-accent)] text-white':'text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50 hover:text-[var(--color-text-primary)]'}`;
     if(navStyle==='simple') return `${base} py-1 ${active?'text-[var(--color-accent)] font-black':'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`;
-    return `${base} py-1 ${active?'text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8 font-black':'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`;
+    return `${base} header-nav-item py-1 ${active?'header-nav-item--active text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8 font-black':'text-[var(--color-text-secondary)]'}`;
   };
 
   return <>
@@ -80,10 +82,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         pointer={pointer}
       />}
       <div className="header-content-row relative z-10 max-w-[var(--layout-max-width)] mx-auto flex items-center justify-center w-full" style={{minHeight:`${Math.max(effectiveHeight, 72)}px`, paddingLeft:`${effectivePadding}px`, paddingRight:`${effectivePadding}px`}}>
-        <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${Math.max(effectiveNavGap * 1.5, 28)}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', maxWidth: isMobile ? '100%' : undefined}}>
-          <button onClick={()=>handleNavClick('home')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', fontSize:`${isMobile ? 13 : 16}px`, fontWeight:h?.navWeight||700, letterSpacing:`${isMobile ? Math.min(h?.navLetterSpacing||.35, .18) : (h?.navLetterSpacing||.35)}em`, fontFamily:'var(--font-body)', color:'#fff', overflow:'hidden'}} aria-label={`Ir para o início — ${settings.portfolio_name || 'STUDIO.X'}`}>
+        <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${isMobile ? Math.max(effectiveNavGap * 0.8, 12) : Math.max(effectiveNavGap * 1.65, 38)}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', maxWidth: isMobile ? '100%' : '1100px'}}>
+          <button onClick={()=>handleNavClick('home')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', fontSize:`${isMobile ? 13 : 16}px`, fontWeight:h?.navWeight||700, letterSpacing:`${isMobile ? Math.min(h?.navLetterSpacing||.35, .18) : (h?.navLetterSpacing||.35)}em`, fontFamily:'var(--font-body)', color:'#fff', overflow:'hidden'}} aria-label={`Ir para o início — ${brandName}`}>
             {(!isMobile || h?.mobileShowBrandIcon !== false) && h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:effectiveIconSize,height:effectiveIconSize}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
-            <span className="header-wrapped-brand header-brand-inline" aria-label={settings.portfolio_name || 'STUDIO.X'} style={{width:'auto', maxWidth:'100%', height:'auto', minWidth:0, overflow:'hidden', display:'block'}}>
+            <span className="header-wrapped-brand header-brand-inline" aria-label={brandName} style={{width:'auto', maxWidth:'100%', height:'auto', minWidth:0, overflow:'hidden', display:'block'}}>
               <span
                 className="portfolio-brand-name-fallback header-brand-static"
                 style={{
@@ -101,15 +103,15 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   lineHeight: 1,
                 }}
               >
-                Ana Bocheneck
+                {brandName}
               </span>
-              <span className="sr-only">{settings.portfolio_name || 'STUDIO.X'}</span>
+              <span className="sr-only">{brandName}</span>
             </span>
           </button>
 
           <nav className="desktop-centered-nav relative z-30 shrink-0 items-center" style={{position:'static', transform:'none', display:'flex', gap:`${isMobile ? Math.max(7, effectiveNavGap * 0.55) : effectiveNavGap}px`, maxWidth:'none', flexShrink:0}} aria-label="Navegação principal">
             {navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} aria-current={currentView===item.id?'page':undefined} className={navClass(currentView===item.id)} style={{fontSize:`${effectiveNavSize}px`,fontWeight:h?.navWeight||700,letterSpacing:`${h?.navLetterSpacing||.35}em`,textTransform:h?.navUppercase===false?'none':'uppercase'}}>{item.label}</button>)}
-            {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]" aria-label="Área administrativa"><Shield className="w-4 h-4" /></button>}
+            {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className={`header-admin-button ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] ${currentView==='admin'?'header-admin-button--active':''}`} aria-current={currentView==='admin'?'page':undefined} aria-label="Área administrativa"><Shield className="w-4 h-4" /></button>}
           </nav>
         </div>
         <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10 shrink-0 ml-2" style={{display:'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-5 h-5"/>:<Menu className="w-5 h-5"/>}</button>
