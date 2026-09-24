@@ -79,7 +79,7 @@ export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
               ['--star-rotate' as any]: `${s.rotate}deg`,
               transform: `translate3d(${x}px, ${y}px, 0) rotate(${s.rotate}deg)`,
             } as React.CSSProperties}
-          >✦</span>
+          ><span className="header-graphic-star-mark" /></span>
         );
       })}
     </div>
