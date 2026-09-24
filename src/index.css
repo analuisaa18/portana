@@ -2099,6 +2099,25 @@ header.header-nav-shell {
   opacity: .5;
 }
 
+.header-graphic-small-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.header-graphic-small-star {
+  position: absolute;
+  display: block;
+  width: var(--small-star-size, 10px);
+  height: var(--small-star-size, 10px);
+  color: var(--reference-pink, #E388A9);
+  opacity: .72;
+  line-height: 1;
+  will-change: transform, opacity;
+  animation: header-star-float var(--star-duration, 8s) ease-in-out var(--star-delay, 0s) infinite;
+  transition: transform 180ms cubic-bezier(.22,.61,.36,1);
+}
+
 .header-graphic-block {
   position: absolute;
   display: block;
@@ -2113,6 +2132,15 @@ header.header-nav-shell {
 @media (min-width: 768px) {
   /* Desktop only: enlarge the same CSS stars used by the mobile layout.
      The mobile sizes remain untouched below. */
+  .header-graphic-small-stars {
+    display: block;
+  }
+
+  .header-graphic-small-star:nth-child(2n) {
+    color: #FFF7FA;
+    opacity: .58;
+  }
+
   .header-graphic-star {
     font-size: calc(var(--star-size, 30px) * 1.65) !important;
   }
@@ -2156,6 +2184,10 @@ header.header-nav-shell {
    MOBILE — mesma composição visual do desktop, sem cortes
    ========================================================= */
 @media (max-width: 767px) {
+  .header-graphic-small-stars {
+    display: none !important;
+  }
+
   .header-graphic-star {
     font-size: var(--star-size, 30px) !important;
   }
