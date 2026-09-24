@@ -2750,3 +2750,14 @@ header.header-nav-shell {
   border-color: #FFF7FA !important;
   box-shadow: 0 3px 0 -1px #E388A9 !important;
 }
+
+/* HOME — desktop: revelar mais do notebook na foto, sem alterar o mobile */
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-hero-photo {
+    width: 40% !important;
+    height: 80% !important;
+    right: 5.5% !important;
+    top: 9% !important;
+    object-position: center 38% !important;
+  }
+}
