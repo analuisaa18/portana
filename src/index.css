@@ -2124,6 +2124,32 @@ header.header-nav-shell {
 }
 
 /* =========================================================
+   DESKTOP HEADER — estrelas maiores
+   O tamanho maior é aplicado somente acima de 767px.
+   ========================================================= */
+@media (min-width: 768px) {
+  .header-graphic-star {
+    transform-origin: center;
+  }
+
+  .header-graphic-star:nth-of-type(1) { font-size: 52px !important; }
+  .header-graphic-star:nth-of-type(2) { font-size: 34px !important; }
+  .header-graphic-star:nth-of-type(3) { font-size: 43px !important; }
+  .header-graphic-star:nth-of-type(4) { font-size: 48px !important; }
+  .header-graphic-star:nth-of-type(5) { font-size: 31px !important; }
+
+  /* Mantém o conjunto centralizado sem reduzir a tipografia. */
+  header.header-nav-shell .header-desktop-cluster {
+    transform: translateX(0);
+  }
+
+  header.header-nav-shell .portfolio-brand {
+    flex: 0 0 auto !important;
+    max-width: none !important;
+  }
+}
+
+/* =========================================================
    MOBILE — mesma composição visual do desktop, sem cortes
    ========================================================= */
 @media (max-width: 767px) {
