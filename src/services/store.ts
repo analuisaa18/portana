@@ -104,7 +104,11 @@ function isLegacyAiDefaultSettings(settings: PortfolioSettings): boolean {
     theme.typography?.fontFamilyBody === 'Space Grotesk, sans-serif' &&
     theme.header?.animation === 'wrapped3d' &&
     theme.header?.wrappedSurfaceColor?.toUpperCase() === '#0A84FF' &&
-    theme.header?.projectTitle3dSurfaceColor?.toUpperCase() === '#9F8CA5'
+    theme.header?.projectTitle3dSurfaceColor?.toUpperCase() === '#9F8CA5' ||
+    (theme.colors?.background?.toUpperCase() === '#050505' &&
+      theme.colors?.accent?.toUpperCase() === '#F87272' &&
+      theme.header?.circleFieldBackground?.toUpperCase() === '#E7E7CE' &&
+      theme.header?.circleFieldColor?.toUpperCase() === '#F87272')
   );
 }
 
