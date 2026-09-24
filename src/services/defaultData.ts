@@ -8,22 +8,22 @@ import {
 
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   colors: {
-    background: '#050505',      // Deep pitch black
-    surface: '#0D0D0E',         // Dark architectural surface
-    textPrimary: '#FFFFFF',     // Crisp stark white typography
-    textSecondary: '#A1A1AA',   // Muted silver gray
-    primary: '#FFFFFF',         // High contrast primary white
-    secondary: '#27272A',       // Dark zinc secondary
-    accent: '#0047FF',          // Electric blue accent
-    border: '#1E1E24',          // Crisp hairline border
-    focus: '#0047FF',           // Electric blue focus ring
-    success: '#22C55E',         // Vibrant emerald green
-    warning: '#F59E0B',         // Amber warning
-    error: '#EF4444',           // Deep crimson
+    background: '#101010',      // Deep pitch black
+    surface: '#171717',         // Dark architectural surface
+    textPrimary: '#FFF7FA',     // Crisp stark white typography
+    textSecondary: '#E39AB5',   // Muted silver gray
+    primary: '#E388A9',         // High contrast primary white
+    secondary: '#2A1F24',       // Dark zinc secondary
+    accent: '#E388A9',          // Electric blue accent
+    border: '#E388A9',          // Crisp hairline border
+    focus: '#E388A9',           // Electric blue focus ring
+    success: '#53D88A',         // Vibrant emerald green
+    warning: '#F2B56B',         // Amber warning
+    error: '#F26F88',           // Deep crimson
   },
   typography: {
-    fontFamilyHeadings: 'Space Grotesk, sans-serif',
-    fontFamilyBody: 'Space Grotesk, sans-serif',
+    fontFamilyHeadings: 'Space Mono, monospace',
+    fontFamilyBody: 'Space Mono, monospace',
     baseSizePx: 16,
     scaleRatio: 1.333,
     headingWeight: 900,
@@ -94,23 +94,23 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     backgroundParallax: 1,
     backgroundGridSize: 42,
     backgroundPerspective: 700,
-    wrappedSurfaceColor: '#0A84FF',
-    wrappedTextColor: '#FFFFFF',
+    wrappedSurfaceColor: '#E388A9',
+    wrappedTextColor: '#171717',
     wrappedCurve: 1.15,
     wrappedTwist: 1.25,
     wrappedBulge: 1.1,
     wrappedGlow: 0.35,
     wrappedScale: 1.0,
     projectTitle3dEnabled: true,
-    projectTitle3dSurfaceColor: '#9F8CA5',
-    projectTitle3dTextColor: '#FFFFFF',
-    projectTitle3dShadowColor: '#4D3B50',
+    projectTitle3dSurfaceColor: '#E388A9',
+    projectTitle3dTextColor: '#E388A9',
+    projectTitle3dShadowColor: '#4A2737',
     projectTitle3dIntensity: 1.2,
     projectTitle3dSpeed: 1,
     projectTitle3dMouseStrength: 1.1,
     circleFieldEnabled: true,
-    circleFieldBackground: '#E7E7CE',
-    circleFieldColor: '#F87272',
+    circleFieldBackground: '#101010',
+    circleFieldColor: '#E388A9',
     circleFieldOpacity: 1,
     circleFieldSize: 190,
     circleFieldMotion: 0.7,
