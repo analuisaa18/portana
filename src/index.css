@@ -1166,6 +1166,7 @@ header.header-nav-shell {
   width:36%;
   height:66%;
   object-fit:cover;
+  object-position:center 48%;
   filter:grayscale(1) contrast(1.18) saturate(.72);
   mix-blend-mode:multiply;
   border:0;
