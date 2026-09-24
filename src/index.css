@@ -570,6 +570,19 @@ img, video, canvas, iframe, svg {
   }
 }
 
+@media (min-width: 768px) {
+  .header-nav-shell .portfolio-brand {
+    max-width: 260px !important;
+    flex: 0 0 auto !important;
+  }
+  .header-nav-shell .header-brand-static {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 16px !important;
+  }
+}
+
 @media (max-width: 767px) {
   :root {
     --layout-padding: 16px !important;
@@ -2066,6 +2079,7 @@ header.header-nav-shell {
   position: absolute;
   display: block;
   color: var(--reference-pink, #E388A9);
+  font-size: var(--star-size, 30px);
   line-height: 1;
   font-family: Arial, sans-serif;
   font-weight: 700;
@@ -2081,7 +2095,7 @@ header.header-nav-shell {
 }
 
 .header-graphic-star:nth-of-type(3n) {
-  font-size: .82em !important;
+  font-size: calc(var(--star-size, 30px) * 1.15) !important;
   opacity: .5;
 }
 
@@ -2094,6 +2108,17 @@ header.header-nav-shell {
   will-change: transform;
   animation: header-block-drift var(--block-duration, 11s) ease-in-out var(--block-delay, 0s) infinite;
   transition: transform 180ms cubic-bezier(.22,.61,.36,1);
+}
+
+@media (min-width: 768px) {
+  /* Desktop only: enlarge the same CSS stars used by the mobile layout.
+     The mobile sizes remain untouched below. */
+  .header-graphic-star {
+    font-size: calc(var(--star-size, 30px) * 1.42) !important;
+  }
+  .header-graphic-star:nth-of-type(3n) {
+    font-size: calc(var(--star-size, 30px) * 1.15) !important;
+  }
 }
 
 @keyframes header-star-float {
@@ -2124,35 +2149,16 @@ header.header-nav-shell {
 }
 
 /* =========================================================
-   DESKTOP HEADER — estrelas maiores
-   O tamanho maior é aplicado somente acima de 767px.
-   ========================================================= */
-@media (min-width: 768px) {
-  .header-graphic-star {
-    transform-origin: center;
-  }
-
-  .header-graphic-star:nth-of-type(1) { font-size: 52px !important; }
-  .header-graphic-star:nth-of-type(2) { font-size: 34px !important; }
-  .header-graphic-star:nth-of-type(3) { font-size: 43px !important; }
-  .header-graphic-star:nth-of-type(4) { font-size: 48px !important; }
-  .header-graphic-star:nth-of-type(5) { font-size: 31px !important; }
-
-  /* Mantém o conjunto centralizado sem reduzir a tipografia. */
-  header.header-nav-shell .header-desktop-cluster {
-    transform: translateX(0);
-  }
-
-  header.header-nav-shell .portfolio-brand {
-    flex: 0 0 auto !important;
-    max-width: none !important;
-  }
-}
-
-/* =========================================================
    MOBILE — mesma composição visual do desktop, sem cortes
    ========================================================= */
 @media (max-width: 767px) {
+  .header-graphic-star {
+    font-size: var(--star-size, 30px) !important;
+  }
+  .header-graphic-star:nth-of-type(3n) {
+    font-size: calc(var(--star-size, 30px) * .82) !important;
+  }
+
   .header-content-row {
     min-width: 0 !important;
     width: 100% !important;
@@ -2619,4 +2625,49 @@ header.header-nav-shell {
   .editorial-home--single [data-emoji] {
     display: none !important;
   }
+}
+
+
+/* HEADER NAV — interação editorial
+   Hover: rosa do portfólio.
+   Área atual: branco + sublinhado rosa. */
+.header-nav-shell .desktop-centered-nav .header-nav-item {
+  color: #FFF7FA !important;
+  text-decoration: none !important;
+  text-decoration-color: #E388A9 !important;
+  text-underline-offset: 8px !important;
+  transition: color 180ms ease, text-decoration-color 180ms ease, transform 180ms ease !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-nav-item:hover,
+.header-nav-shell .desktop-centered-nav .header-nav-item:focus-visible {
+  color: #E388A9 !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-nav-item[aria-current="page"],
+.header-nav-shell .desktop-centered-nav .header-nav-item--active {
+  color: #FFF7FA !important;
+  text-decoration-line: underline !important;
+  text-decoration-color: #E388A9 !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 8px !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button {
+  color: #FFF7FA !important;
+  border-color: #E388A9 !important;
+  transition: color 180ms ease, border-color 180ms ease, box-shadow 180ms ease !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button:hover,
+.header-nav-shell .desktop-centered-nav .header-admin-button:focus-visible {
+  color: #E388A9 !important;
+  border-color: #E388A9 !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button[aria-current="page"],
+.header-nav-shell .desktop-centered-nav .header-admin-button--active {
+  color: #FFF7FA !important;
+  border-color: #FFF7FA !important;
+  box-shadow: 0 3px 0 -1px #E388A9 !important;
 }
