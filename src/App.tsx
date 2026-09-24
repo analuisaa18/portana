@@ -6,6 +6,7 @@ import { AboutSection } from './components/public/AboutSection';
 import { ProjectsGrid } from './components/public/ProjectsGrid';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
+import { EditorialHome } from './components/public/EditorialHome';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { portfolioStore } from './services/store';
@@ -100,10 +101,10 @@ export function PortfolioApp() {
 
             {/* View: Projetos Gallery */}
             {currentView === 'projetos' && !selectedSlug && (
-              <ProjectsGrid
+              <EditorialHome
                 projects={projects}
-                categories={categories}
                 onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
+                onNavigate={handleNavigate}
               />
             )}
 
