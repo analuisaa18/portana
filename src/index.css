@@ -2047,3 +2047,78 @@ header.header-nav-shell {
     animation: none !important;
   }
 }
+
+/* =========================================================
+   HEADER — ELEMENTOS GRÁFICOS DO PORTFÓLIO
+   Substitui as bolinhas por estrelas/doodles e blocos
+   translúcidos, seguindo a linguagem visual das páginas.
+   ========================================================= */
+.header-graphic-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.header-graphic-star {
+  position: absolute;
+  display: block;
+  color: var(--reference-pink, #E388A9);
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(227,136,169,.12);
+  will-change: transform, opacity;
+  animation: header-star-float var(--star-duration, 8s) ease-in-out var(--star-delay, 0s) infinite;
+  transition: transform 180ms cubic-bezier(.22,.61,.36,1);
+}
+
+.header-graphic-star:nth-of-type(2n) {
+  color: #FFF7FA;
+  opacity: .72;
+}
+
+.header-graphic-star:nth-of-type(3n) {
+  font-size: .82em !important;
+  opacity: .5;
+}
+
+.header-graphic-block {
+  position: absolute;
+  display: block;
+  border: 1px solid rgba(227,136,169,.32);
+  background: rgba(227,136,169,.10);
+  transform-origin: center;
+  will-change: transform;
+  animation: header-block-drift var(--block-duration, 11s) ease-in-out var(--block-delay, 0s) infinite;
+  transition: transform 180ms cubic-bezier(.22,.61,.36,1);
+}
+
+@keyframes header-star-float {
+  0%, 100% {
+    margin-top: 0;
+    opacity: .62;
+  }
+  50% {
+    margin-top: -7px;
+    opacity: 1;
+  }
+}
+
+@keyframes header-block-drift {
+  0%, 100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-graphic-star,
+  .header-graphic-block {
+    animation: none !important;
+  }
+}
