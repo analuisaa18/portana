@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Menu, Star, Mail, Instagram, MapPin } from 'lucide-react';
+import { ArrowUpRight, Star, Mail, Instagram, MapPin } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { Project } from '../../types/portfolio';
 
@@ -11,11 +11,8 @@ interface EditorialHomeProps {
   onNavigate: (view: string) => void;
 }
 
-export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelectProject, onNavigate }) => {
+export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelectProject }) => {
   const { settings } = useTheme();
-  const accent = '#E388A9';
-  const black = '#090909';
-  const pink = '#E388A9';
 
   const cards = projects.slice(0, 4);
   const fallbackTitles = ['IDENTIDADE VISUAL', 'PROJETO GRÁFICO', 'INTERFACES', 'DESENHOS E PINTURAS'];
@@ -28,18 +25,10 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
 
   return (
     <main className="editorial-home">
-      <section className="editorial-grid">
-        {/* HERO */}
-        <article className="editorial-panel editorial-panel--pink editorial-hero">
-          <div className="editorial-mini-nav">
-            <button onClick={() => onNavigate('projetos')} className="editorial-brand"><Star size={17} strokeWidth={2.2} /> ANA BOCHENECK</button>
-            <nav>
-              <button onClick={() => onNavigate('sobre')}>SOBRE</button>
-              <button onClick={() => onNavigate('projetos')}>PROJETOS</button>
-              <button onClick={() => onNavigate('contato')}>CONTATO</button>
-              <button aria-label="Menu"><Menu size={19}/></button>
-            </nav>
-          </div>
+      <div className="editorial-grid">
+        {/* 00 — HERO */}
+        <section className="editorial-panel editorial-panel--pink editorial-hero" aria-label="Portfólio">
+          <div className="editorial-index">00 / 05</div>
           <div className="editorial-hero-copy">
             <h1>PORTFÓLIO</h1>
             <p>DESIGN DE INTERFACES,<br/>PROJETOS GRÁFICOS E<br/>EXPERIÊNCIAS VISUAIS.</p>
@@ -47,24 +36,26 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
           </div>
           <img className="editorial-hero-photo" src={settings.profile_image || photo('portana-profile')} alt="Imagem editorial" />
           <div className="editorial-hero-scribble">✦</div>
-        </article>
+        </section>
 
-        {/* ABOUT */}
-        <article className="editorial-panel editorial-panel--black editorial-about">
-          <div className="editorial-index">01 / 04</div>
+        {/* 01 — ABOUT */}
+        <section className="editorial-panel editorial-panel--black editorial-about" aria-label="Sobre mim">
+          <div className="editorial-index">01 / 05</div>
           <h2>SOBRE<br/>MIM</h2>
-          <p>Olá, eu sou Ana.<br/><br/>Sou estudante e tenho interesse por design de interfaces, tipografia, fotografia e tudo que envolve comunicação visual.</p>
-          <p>Gosto de transformar ideias em projetos que conectam pessoas, com soluções simples, funcionais e cheias de personalidade.</p>
+          <div className="editorial-about-copy">
+            <p>Olá, eu sou Ana.<br/><br/>Sou estudante e tenho interesse por design de interfaces, tipografia, fotografia e tudo que envolve comunicação visual.</p>
+            <p>Gosto de transformar ideias em projetos que conectam pessoas, com soluções simples, funcionais e cheias de personalidade.</p>
+          </div>
           <img src={settings.profile_image || photo('portana-about')} alt="Retrato editorial" />
           <div className="editorial-doodle">✳</div>
-        </article>
+        </section>
 
-        {/* PROJECTS */}
-        <article className="editorial-panel editorial-panel--pink editorial-projects">
-          <div className="editorial-index">02 / 04</div>
+        {/* 02 — PROJECTS */}
+        <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
+          <div className="editorial-index">02 / 05</div>
           <h2>PROJETOS</h2>
           <div className="editorial-project-grid">
-            {[0,1,2,3].map((i) => {
+            {[0, 1, 2, 3].map((i) => {
               const p = cards[i];
               return (
                 <button key={p?.id || i} className="editorial-project-card" onClick={() => p && onSelectProject(p.slug)}>
@@ -76,11 +67,11 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
               );
             })}
           </div>
-        </article>
+        </section>
 
-        {/* PRINCIPLES */}
-        <article className="editorial-panel editorial-panel--black editorial-principles">
-          <div className="editorial-index">03 / 04</div>
+        {/* 03 — PRINCIPLES */}
+        <section className="editorial-panel editorial-panel--black editorial-principles" aria-label="Princípios">
+          <div className="editorial-index">03 / 05</div>
           <h2>PRINCÍPIOS</h2>
           <div className="editorial-principles-body">
             <ul>
@@ -89,25 +80,25 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ projects, onSelect
             <div className="editorial-quote-mark">✳</div>
             <blockquote>“boas ideias<br/>também são<br/>formas de<br/>cuidado.”</blockquote>
           </div>
-        </article>
+        </section>
 
-        {/* CONTACT */}
-        <article className="editorial-panel editorial-panel--black editorial-contact">
+        {/* 04 — CONTACT */}
+        <section className="editorial-panel editorial-panel--black editorial-contact" aria-label="Contato">
           <div className="editorial-contact-title">VAMOS<br/>CONVERSAR?</div>
           <div className="editorial-contact-links">
             {settings.email_public && <a href={`mailto:${settings.email_public}`}><Mail size={16}/> {settings.email_public}</a>}
             {settings.social_links?.[0]?.url && <a href={settings.social_links[0].url} target="_blank" rel="noreferrer"><Instagram size={16}/> {settings.social_links[0].platform}</a>}
             {settings.location && <span><MapPin size={16}/> {settings.location}</span>}
           </div>
-        </article>
+        </section>
 
         {/* FOOTER */}
-        <article className="editorial-panel editorial-panel--pink editorial-footer-card">
+        <section className="editorial-panel editorial-panel--pink editorial-footer-card" aria-label="Encerramento">
           <div className="editorial-brand"><Star size={16}/> ANA BOCHENECK</div>
           <div className="editorial-footer-copy">OBRIGADA<br/>POR AQUI!</div>
           <div className="editorial-star-doodle">✳</div>
-        </article>
-      </section>
+        </section>
+      </div>
       <footer className="editorial-footer">© {new Date().getFullYear()} {settings.portfolio_name || 'Ana Bochenek'} — Portfólio Autoral</footer>
     </main>
   );
