@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const effectiveIconSize = isMobile ? (useCustomMobile ? (h?.mobileIconSizePx ?? 22) : 20) : (h?.iconSizePx ?? 28);
   const effectiveNavSize = isMobile ? (useCustomMobile ? (h?.mobileNavFontSizePx ?? 10) : 10) : (h?.navFontSizePx ?? 11);
   const effectiveNavGap = isMobile ? (useCustomMobile ? (h?.mobileNavGapPx ?? 12) : 10) : (h?.desktopNavGapPx ?? 24);
-  const effectiveBrandMaxWidth = isMobile ? (useCustomMobile ? (h?.mobileBrandMaxWidthPx ?? 260) : 240) : (h?.desktopBrandMaxWidthPx ?? 560);
+  const effectiveBrandMaxWidth = isMobile ? (useCustomMobile ? (h?.mobileBrandMaxWidthPx ?? 205) : 210) : (h?.desktopBrandMaxWidthPx ?? 560);
   const effectiveBackgroundEnabled = isMobile ? (useCustomMobile ? h?.mobileBackgroundEnabled !== false : true) : true;
 
   const navClass = (active:boolean) => {
@@ -80,10 +80,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
         pointer={pointer}
       />}
       <div className="header-content-row relative z-10 max-w-[var(--layout-max-width)] mx-auto flex items-center justify-center w-full" style={{minHeight:`${Math.max(effectiveHeight, 72)}px`, paddingLeft:`${effectivePadding}px`, paddingRight:`${effectivePadding}px`}}>
-        <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${Math.max(effectiveNavGap * 1.5, 28)}px`}}>
-          <button onClick={()=>handleNavClick('home')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 shrink-0 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, fontSize:`${isMobile ? 12 : 16}px`, fontWeight:h?.navWeight||700, letterSpacing:`${h?.navLetterSpacing||.35}em`, fontFamily:'var(--font-body)', color:'#fff'}} aria-label={`Ir para o início — ${settings.portfolio_name || 'STUDIO.X'}`}>
+        <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${Math.max(effectiveNavGap * 1.5, 28)}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', maxWidth: isMobile ? '100%' : undefined}}>
+          <button onClick={()=>handleNavClick('home')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', fontSize:`${isMobile ? 13 : 16}px`, fontWeight:h?.navWeight||700, letterSpacing:`${isMobile ? Math.min(h?.navLetterSpacing||.35, .18) : (h?.navLetterSpacing||.35)}em`, fontFamily:'var(--font-body)', color:'#fff', overflow:'hidden'}} aria-label={`Ir para o início — ${settings.portfolio_name || 'STUDIO.X'}`}>
             {(!isMobile || h?.mobileShowBrandIcon !== false) && h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:effectiveIconSize,height:effectiveIconSize}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
-            <span className="header-wrapped-brand header-brand-inline" aria-label={settings.portfolio_name || 'STUDIO.X'} style={{width:'auto', maxWidth:'100%', height:'auto', minWidth:0, overflow:'visible'}}>
+            <span className="header-wrapped-brand header-brand-inline" aria-label={settings.portfolio_name || 'STUDIO.X'} style={{width:'auto', maxWidth:'100%', height:'auto', minWidth:0, overflow:'hidden', display:'block'}}>
               <span
                 className="portfolio-brand-name-fallback header-brand-static"
                 style={{
@@ -91,8 +91,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                   width: 'auto',
                   maxWidth: '100%',
                   whiteSpace: 'nowrap',
-                  overflow: 'visible',
-                  textOverflow: 'clip',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
                   fontFamily: 'var(--font-body)',
                   fontSize: 'inherit',
                   fontWeight: 'inherit',
@@ -112,7 +112,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]" aria-label="Área administrativa"><Shield className="w-4 h-4" /></button>}
           </nav>
         </div>
-        <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2.5 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10" style={{display:isMobile ? 'block' : 'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-6 h-6"/>:<Menu className="w-6 h-6"/>}</button>
+        <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2.5 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10 shrink-0 ml-3" style={{display:isMobile ? 'block' : 'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-6 h-6"/>:<Menu className="w-6 h-6"/>}</button>
       </div>
       {mobileMenuOpen && <div id="mobile-menu" className="relative z-10 border-b border-[var(--color-border)] bg-[var(--color-surface)] py-4 space-y-2" style={{paddingLeft:`${effectivePadding}px`,paddingRight:`${effectivePadding}px`}}><nav className="flex flex-col space-y-1">{navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} className={`w-full text-left px-4 py-3 rounded-[var(--radius-md)] ${currentView===item.id?'bg-[var(--color-primary)] text-white':'text-[var(--color-text-primary)] hover:bg-black/5'}`}>{item.label}</button>)}{h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="w-full text-left px-4 py-3 rounded-[var(--radius-md)] border border-[var(--color-border)] flex items-center justify-between"><span className="flex items-center gap-2"><Shield className="w-4 h-4 text-[var(--color-accent)]"/>Área Administrativa</span><Sparkles className="w-4 h-4 text-[var(--color-accent)]"/></button>}</nav></div>}
     </header>
