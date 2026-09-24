@@ -11,7 +11,7 @@
     --color-accent: #E388A9;
     --color-border: #E388A9;
     --color-focus: #E388A9;
-    --color-success: #22C55E;
+    --color-success: #E388A9;
     --color-warning: #F59E0B;
     --color-error: #EF4444;
 
@@ -2455,12 +2455,22 @@ header.header-nav-shell {
     z-index: 7 !important;
   }
 
-  /* Nunca mostrar widgets/elementos de estado verdes na composição editorial. */
+  /* Remover apenas resíduos antigos de stickers/emojis/estado verde.
+     As estrelas, papéis, foto e doodles editoriais permanecem. */
   .editorial-home--single [class*="success"],
   .editorial-home--single [class*="emerald"],
-  .editorial-home--single [style*="#22C55E"],
-  .editorial-home--single [style*="#53D88A"] {
+  .editorial-home--single [class*="sticker"],
+  .editorial-home--single [class*="emoji"],
+  .editorial-home--single [data-sticker],
+  .editorial-home--single [data-emoji] {
     display: none !important;
+  }
+
+  /* Mesma linguagem gráfica do desktop: preto + rosa editorial. */
+  .editorial-home--single .editorial-star-doodle,
+  .editorial-home--single .editorial-hero-scribble,
+  .editorial-home--single .editorial-hero-star {
+    color: #111 !important;
   }
 }
 
