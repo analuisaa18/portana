@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+aimport React, { useEffect, useState } from 'react';
 import { Menu, X, Shield, Sparkles } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
@@ -107,12 +107,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             </span>
           </button>
 
-          <nav className="desktop-centered-nav relative z-30 shrink-0 items-center" style={{position:'static', transform:'none', display:isMobile ? 'none' : 'flex', gap:`${effectiveNavGap}px`, maxWidth:'none'}} aria-label="Navegação principal">
+          <nav className="desktop-centered-nav relative z-30 shrink-0 items-center" style={{position:'static', transform:'none', display:'flex', gap:`${isMobile ? Math.max(7, effectiveNavGap * 0.55) : effectiveNavGap}px`, maxWidth:'none', flexShrink:0}} aria-label="Navegação principal">
             {navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} aria-current={currentView===item.id?'page':undefined} className={navClass(currentView===item.id)} style={{fontSize:`${effectiveNavSize}px`,fontWeight:h?.navWeight||700,letterSpacing:`${h?.navLetterSpacing||.35}em`,textTransform:h?.navUppercase===false?'none':'uppercase'}}>{item.label}</button>)}
             {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]" aria-label="Área administrativa"><Shield className="w-4 h-4" /></button>}
           </nav>
         </div>
-        <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2.5 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10 shrink-0 ml-3" style={{display:isMobile ? 'block' : 'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-6 h-6"/>:<Menu className="w-6 h-6"/>}</button>
+        <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10 shrink-0 ml-2" style={{display:'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-5 h-5"/>:<Menu className="w-5 h-5"/>}</button>
       </div>
       {mobileMenuOpen && <div id="mobile-menu" className="relative z-10 border-b border-[var(--color-border)] bg-[var(--color-surface)] py-4 space-y-2" style={{paddingLeft:`${effectivePadding}px`,paddingRight:`${effectivePadding}px`}}><nav className="flex flex-col space-y-1">{navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} className={`w-full text-left px-4 py-3 rounded-[var(--radius-md)] ${currentView===item.id?'bg-[var(--color-primary)] text-white':'text-[var(--color-text-primary)] hover:bg-black/5'}`}>{item.label}</button>)}{h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="w-full text-left px-4 py-3 rounded-[var(--radius-md)] border border-[var(--color-border)] flex items-center justify-between"><span className="flex items-center gap-2"><Shield className="w-4 h-4 text-[var(--color-accent)]"/>Área Administrativa</span><Sparkles className="w-4 h-4 text-[var(--color-accent)]"/></button>}</nav></div>}
     </header>
