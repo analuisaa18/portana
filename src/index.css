@@ -2869,59 +2869,86 @@ header.header-nav-shell {
 }
 
 /* =========================================================
-   MOBILE HOME — COMPOSIÇÃO FINAL / MOCKUP APROVADO
+   MOBILE HOME — COMPOSIÇÃO APROVADA
+   Foto -> PORTFÓLIO -> texto -> botão
    Desktop permanece intacto.
    ========================================================= */
 @media (max-width: 767px) {
   .editorial-home--single .editorial-hero {
     min-height: 700px !important;
     height: 700px !important;
+    overflow: hidden !important;
+    position: relative !important;
   }
 
-  /* Foto: protagonista no topo, com mais notebook e Pantone visíveis. */
+  /* Índice */
+  .editorial-home--single .editorial-index {
+    top: 4% !important;
+    right: 7% !important;
+    z-index: 12 !important;
+  }
+
+  /*
+     FOTO — protagonista no alto, horizontal e centralizada.
+     Mais notebook visível e sem os grandes blocos escuros por cima.
+  */
   .editorial-home--single .editorial-hero-photo {
-    width: 74% !important;
-    height: 43% !important;
-    right: 8% !important;
-    top: 5% !important;
+    width: 68% !important;
+    height: 39% !important;
+    left: 24% !important;
+    right: auto !important;
+    top: 6% !important;
     object-fit: cover !important;
-    object-position: center 38% !important;
-    z-index: 4 !important;
+    object-position: center center !important;
+    z-index: 5 !important;
     box-shadow: 10px 12px 0 rgba(9,9,9,.10) !important;
   }
 
-  /* Papéis acompanham a foto, sem criar um segundo bloco visual. */
+  /* Folhas ficam suaves atrás da fotografia, como no mockup. */
   .editorial-home--single .editorial-hero-paper.paper-one {
-    width: 69% !important;
-    height: 31% !important;
-    right: 4% !important;
-    top: 2% !important;
+    width: 67% !important;
+    height: 40% !important;
+    left: 20% !important;
+    right: auto !important;
+    top: 4% !important;
+    background: rgba(227,136,169,.18) !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
     z-index: 2 !important;
+    transform: rotate(-5deg) !important;
   }
 
   .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 64% !important;
-    height: 29% !important;
-    right: 2% !important;
-    top: 18% !important;
-    z-index: 2 !important;
+    width: 63% !important;
+    height: 36% !important;
+    left: 17% !important;
+    right: auto !important;
+    top: 8% !important;
+    background: rgba(9,9,9,.08) !important;
+    opacity: 1 !important;
+    mix-blend-mode: multiply !important;
+    z-index: 1 !important;
+    transform: rotate(5deg) !important;
   }
 
-  /* O título passa a ser a segunda leitura, logo abaixo da foto. */
+  /*
+     BLOCO DE TEXTO — começa depois da fotografia.
+     Nada fica sobreposto à imagem.
+  */
   .editorial-home--single .editorial-hero-copy {
-    left: 6% !important;
-    top: 47% !important;
+    left: 7% !important;
+    top: 49% !important;
     bottom: auto !important;
     width: 88% !important;
     max-width: 88% !important;
-    z-index: 8 !important;
+    z-index: 10 !important;
   }
 
   .editorial-home--single .editorial-hero-title {
     display: block !important;
     width: max-content !important;
-    max-width: 100% !important;
-    font-size: clamp(40px, 11.8vw, 58px) !important;
+    max-width: 96% !important;
+    font-size: clamp(48px, 12.4vw, 72px) !important;
     line-height: .82 !important;
     white-space: nowrap !important;
     transform: rotate(-6deg) translateZ(0) !important;
@@ -2929,77 +2956,82 @@ header.header-nav-shell {
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    max-width: 76% !important;
-    margin-top: 24px !important;
+    max-width: 72% !important;
+    margin-top: 28px !important;
     font-size: 10.5px !important;
     line-height: 1.5 !important;
   }
 
   .editorial-home--single .editorial-hero-projects-cta {
-    margin-top: 18px !important;
+    margin-top: 20px !important;
+    padding: 12px 16px !important;
+    font-size: 10px !important;
+    gap: 10px !important;
   }
 
-  /* Estrelas: distribuídas pela composição, sem acumular no rodapé. */
+  .editorial-home--single .editorial-hero-projects-cta svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  /*
+     DECORAÇÃO — poucas estrelas, distribuídas como no mockup.
+     Nenhuma estrela gigante atrás do botão.
+  */
   .editorial-home--single .editorial-hero-star--one {
-    left: 16% !important;
-    top: 25% !important;
-    font-size: 34px !important;
-    z-index: 6 !important;
+    left: 18% !important;
+    top: 16% !important;
+    font-size: 32px !important;
+    z-index: 7 !important;
+    opacity: .85 !important;
   }
 
   .editorial-home--single .editorial-hero-star--two {
-    right: 9% !important;
-    top: 55% !important;
+    right: 8% !important;
+    top: 57% !important;
     bottom: auto !important;
-    font-size: 27px !important;
-    z-index: 7 !important;
+    font-size: 24px !important;
+    z-index: 11 !important;
+    opacity: .75 !important;
   }
 
   .editorial-home--single .editorial-hero-scribble {
-    right: 7% !important;
-    top: 66% !important;
-    bottom: auto !important;
-    font-size: 43px !important;
-    z-index: 2 !important;
-  }
-
-  /* Estrela de fundo média ao lado do texto, não atrás do botão. */
-  .editorial-home--single .editorial-hero::after {
-    right: 22% !important;
+    right: 17% !important;
     top: 65% !important;
     bottom: auto !important;
-    width: 62px !important;
-    height: 62px !important;
-    opacity: .65 !important;
+    font-size: 38px !important;
+    opacity: .55 !important;
+    z-index: 4 !important;
+  }
+
+  /* Estrela média ao lado do texto. */
+  .editorial-home--single .editorial-hero::after {
+    right: 22% !important;
+    top: 64% !important;
+    bottom: auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    opacity: .72 !important;
     transform: rotate(18deg) !important;
+  }
+
+  /* Mantém o desenho do rodapé discreto. */
+  .editorial-home--single .editorial-star-doodle {
+    display: none !important;
   }
 }
 
 @media (max-width: 380px) {
-  .editorial-home--single .editorial-hero {
-    min-height: 670px !important;
-    height: 670px !important;
-  }
-
-  .editorial-home--single .editorial-hero-photo {
-    width: 73% !important;
-    height: 42% !important;
-    right: 8% !important;
-    top: 5% !important;
+  .editorial-home--single .editorial-hero-title {
+    font-size: 45px !important;
   }
 
   .editorial-home--single .editorial-hero-copy {
-    top: 47% !important;
-    width: 89% !important;
-    max-width: 89% !important;
-  }
-
-  .editorial-home--single .editorial-hero-title {
-    font-size: 38px !important;
+    top: 50% !important;
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    max-width: 78% !important;
+    max-width: 76% !important;
     font-size: 10px !important;
   }
 }
