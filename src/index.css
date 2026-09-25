@@ -2867,3 +2867,139 @@ header.header-nav-shell {
     font-size: 35px !important;
   }
 }
+
+/* =========================================================
+   MOBILE HOME — COMPOSIÇÃO FINAL / MOCKUP APROVADO
+   Desktop permanece intacto.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 700px !important;
+    height: 700px !important;
+  }
+
+  /* Foto: protagonista no topo, com mais notebook e Pantone visíveis. */
+  .editorial-home--single .editorial-hero-photo {
+    width: 74% !important;
+    height: 43% !important;
+    right: 8% !important;
+    top: 5% !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
+    z-index: 4 !important;
+    box-shadow: 10px 12px 0 rgba(9,9,9,.10) !important;
+  }
+
+  /* Papéis acompanham a foto, sem criar um segundo bloco visual. */
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 69% !important;
+    height: 31% !important;
+    right: 4% !important;
+    top: 2% !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 64% !important;
+    height: 29% !important;
+    right: 2% !important;
+    top: 18% !important;
+    z-index: 2 !important;
+  }
+
+  /* O título passa a ser a segunda leitura, logo abaixo da foto. */
+  .editorial-home--single .editorial-hero-copy {
+    left: 6% !important;
+    top: 47% !important;
+    bottom: auto !important;
+    width: 88% !important;
+    max-width: 88% !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: block !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    font-size: clamp(40px, 11.8vw, 58px) !important;
+    line-height: .82 !important;
+    white-space: nowrap !important;
+    transform: rotate(-6deg) translateZ(0) !important;
+    transform-origin: left center !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 76% !important;
+    margin-top: 24px !important;
+    font-size: 10.5px !important;
+    line-height: 1.5 !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 18px !important;
+  }
+
+  /* Estrelas: distribuídas pela composição, sem acumular no rodapé. */
+  .editorial-home--single .editorial-hero-star--one {
+    left: 16% !important;
+    top: 25% !important;
+    font-size: 34px !important;
+    z-index: 6 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 9% !important;
+    top: 55% !important;
+    bottom: auto !important;
+    font-size: 27px !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 7% !important;
+    top: 66% !important;
+    bottom: auto !important;
+    font-size: 43px !important;
+    z-index: 2 !important;
+  }
+
+  /* Estrela de fundo média ao lado do texto, não atrás do botão. */
+  .editorial-home--single .editorial-hero::after {
+    right: 22% !important;
+    top: 65% !important;
+    bottom: auto !important;
+    width: 62px !important;
+    height: 62px !important;
+    opacity: .65 !important;
+    transform: rotate(18deg) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 670px !important;
+    height: 670px !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 73% !important;
+    height: 42% !important;
+    right: 8% !important;
+    top: 5% !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    top: 47% !important;
+    width: 89% !important;
+    max-width: 89% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 38px !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 78% !important;
+    font-size: 10px !important;
+  }
+}
