@@ -2761,3 +2761,183 @@ header.header-nav-shell {
     object-position: center 38% !important;
   }
 }
+
+
+/* =========================================================
+   HOME MOBILE — COMPOSIÇÃO DA REFERÊNCIA
+   SOMENTE <= 767px. Desktop não é alterado.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single {
+    padding: 10px 8px 24px !important;
+    overflow-x: hidden !important;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Altura da composição inteira da Home mobile */
+  .editorial-home--single .editorial-hero {
+    min-height: 716px !important;
+    height: 716px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  /* Índice no canto superior direito, como na referência */
+  .editorial-home--single .editorial-index {
+    top: 28px !important;
+    right: 24px !important;
+    z-index: 9 !important;
+    font-size: 12px !important;
+    letter-spacing: .12em !important;
+  }
+
+  /* FOTO — grande, centralizada e ocupando a parte superior */
+  .editorial-home--single .editorial-hero-photo {
+    width: 72% !important;
+    height: 47% !important;
+    left: 20% !important;
+    right: auto !important;
+    top: 6% !important;
+    bottom: auto !important;
+    z-index: 4 !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
+  }
+
+  /* Papéis translúcidos acompanham a foto, sem mudar o desktop */
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 68% !important;
+    height: 45% !important;
+    left: 16% !important;
+    right: auto !important;
+    top: 8% !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 63% !important;
+    height: 43% !important;
+    left: 20% !important;
+    right: auto !important;
+    top: 13% !important;
+    z-index: 2 !important;
+  }
+
+  /* BLOCO DO TÍTULO + TEXTO + BOTÃO */
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    top: 51% !important;
+    bottom: auto !important;
+    width: 88% !important;
+    max-width: 88% !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    font-size: clamp(52px, 15vw, 68px) !important;
+    line-height: .78 !important;
+    letter-spacing: -.07em !important;
+    white-space: nowrap !important;
+    transform: rotate(-6deg) translateZ(0) !important;
+    transform-origin: left center !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    width: 72% !important;
+    max-width: 72% !important;
+    margin-top: 28px !important;
+    font-size: 11px !important;
+    line-height: 1.52 !important;
+    letter-spacing: .055em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 22px !important;
+    width: 49% !important;
+    min-height: 48px !important;
+    justify-content: space-between !important;
+    padding: 11px 16px !important;
+    font-size: 10px !important;
+    letter-spacing: .13em !important;
+    gap: 8px !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta svg {
+    width: 19px !important;
+    height: 19px !important;
+    flex: 0 0 19px !important;
+  }
+
+  /* ESTRELAS — posições inspiradas na referência */
+  .editorial-home--single .editorial-star-doodle {
+    position: absolute !important;
+    left: 2% !important;
+    top: 20% !important;
+    margin: 0 !important;
+    font-size: 74px !important;
+    z-index: 7 !important;
+    color: #111 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 87% !important;
+    top: 61% !important;
+    font-size: 30px !important;
+    z-index: 7 !important;
+    color: #111 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    left: 64% !important;
+    right: auto !important;
+    top: 70% !important;
+    bottom: auto !important;
+    font-size: 58px !important;
+    z-index: 7 !important;
+    color: #111 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: -5% !important;
+    bottom: -5% !important;
+    top: auto !important;
+    font-size: 104px !important;
+    z-index: 2 !important;
+    color: #111 !important;
+    opacity: .22 !important;
+  }
+
+  /* Estrela geométrica que vem do ::after: somente no mobile */
+  .editorial-home--single .editorial-hero::after {
+    right: 5% !important;
+    bottom: 29% !important;
+    width: 62px !important;
+    height: 62px !important;
+    background: rgba(0,0,0,.82) !important;
+    transform: rotate(18deg) !important;
+    z-index: 7 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 690px !important;
+    height: 690px !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 15vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    width: 76% !important;
+    max-width: 76% !important;
+  }
+}
