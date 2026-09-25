@@ -3035,3 +3035,437 @@ header.header-nav-shell {
     font-size: 10px !important;
   }
 }
+/* =========================================================
+   PORTANA — MOBILE HOME
+   COMPOSIÇÃO FINAL BASEADA NO MOCKUP APROVADO
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+  /* =====================================================
+     HOME
+     ===================================================== */
+
+  .editorial-home--single {
+    padding: 12px 10px 24px !important;
+  }
+
+  .editorial-grid--single {
+    gap: 0 !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    position: relative !important;
+
+    width: 100% !important;
+
+    /*
+      A altura aumenta para dar o mesmo respiro
+      vertical do mockup.
+    */
+    height: 760px !important;
+    min-height: 760px !important;
+
+    overflow: hidden !important;
+
+    background: #E388A9 !important;
+
+    isolation: isolate !important;
+  }
+
+
+  /* =====================================================
+     00 / 05
+     ===================================================== */
+
+  .editorial-home--single .editorial-index {
+    position: absolute !important;
+
+    top: 31px !important;
+    right: 8% !important;
+
+    z-index: 20 !important;
+
+    font-family: monospace !important;
+    font-size: 12px !important;
+
+    color: #090909 !important;
+
+    letter-spacing: .15em !important;
+  }
+
+
+  /* =====================================================
+     FOTO
+     
+     No mockup ela ocupa a parte superior central,
+     deixando uma margem rosa generosa ao redor.
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-photo {
+    position: absolute !important;
+
+    top: 58px !important;
+    left: 16% !important;
+    right: auto !important;
+
+    width: 68% !important;
+    height: 39% !important;
+
+    z-index: 5 !important;
+
+    object-fit: cover !important;
+    object-position: center center !important;
+
+    filter:
+      grayscale(1)
+      contrast(1.15)
+      saturate(.72) !important;
+
+    mix-blend-mode: multiply !important;
+
+    box-shadow:
+      10px 13px 0 rgba(9,9,9,.08) !important;
+  }
+
+
+  /* =====================================================
+     PAPÉIS ATRÁS DA FOTO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    position: absolute !important;
+
+    top: 48px !important;
+    right: 8% !important;
+
+    width: 67% !important;
+    height: 40% !important;
+
+    z-index: 2 !important;
+
+    background: #171717 !important;
+
+    opacity: .78 !important;
+
+    transform: rotate(5deg) !important;
+
+    mix-blend-mode: multiply !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    position: absolute !important;
+
+    top: 70px !important;
+    left: 13% !important;
+
+    width: 68% !important;
+    height: 39% !important;
+
+    z-index: 1 !important;
+
+    background: rgba(255,255,255,.10) !important;
+
+    opacity: .7 !important;
+
+    transform: rotate(-4deg) !important;
+
+    mix-blend-mode: multiply !important;
+  }
+
+
+  /* =====================================================
+     BLOCO DE TEXTO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-copy {
+    position: absolute !important;
+
+    left: 7% !important;
+    right: auto !important;
+
+    /*
+      No mockup o título começa logo depois
+      da fotografia.
+    */
+    top: 48.5% !important;
+
+    bottom: auto !important;
+
+    width: 88% !important;
+    max-width: 88% !important;
+
+    z-index: 15 !important;
+  }
+
+
+  /* =====================================================
+     PORTFÓLIO
+     
+     Maior e ocupando praticamente toda a largura,
+     como no mockup.
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-title {
+    display: block !important;
+
+    width: max-content !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #080808 !important;
+
+    font-family: var(--font-headings) !important;
+
+    font-size: clamp(
+      66px,
+      17vw,
+      105px
+    ) !important;
+
+    font-weight: 1000 !important;
+
+    line-height: .76 !important;
+
+    letter-spacing: -.075em !important;
+
+    white-space: nowrap !important;
+
+    transform:
+      rotate(-6deg)
+      translateZ(0) !important;
+
+    transform-origin: left center !important;
+
+    text-shadow:
+      6px 7px 0 rgba(0,0,0,.08) !important;
+  }
+
+
+  /* =====================================================
+     TEXTO DESCRITIVO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-copy p {
+    display: block !important;
+
+    width: 60% !important;
+    max-width: 430px !important;
+
+    margin: 36px 0 0 !important;
+
+    color: #090909 !important;
+
+    font-family: monospace !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.48 !important;
+
+    letter-spacing: .015em !important;
+  }
+
+
+  /* =====================================================
+     BOTÃO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    display: inline-flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 13px !important;
+
+    width: 220px !important;
+    height: 62px !important;
+
+    margin-top: 25px !important;
+
+    padding: 0 20px !important;
+
+    background: #090909 !important;
+
+    border: 0 !important;
+
+    color: #E388A9 !important;
+
+    font-family: var(--font-body) !important;
+
+    font-size: 12px !important;
+    font-weight: 900 !important;
+
+    letter-spacing: .13em !important;
+
+    text-transform: uppercase !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta svg {
+    width: 21px !important;
+    height: 21px !important;
+  }
+
+
+  /* =====================================================
+     ESTRELA GRANDE À ESQUERDA DA FOTO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-star--one {
+    position: absolute !important;
+
+    left: 16% !important;
+    top: 30% !important;
+
+    z-index: 8 !important;
+
+    font-size: 48px !important;
+
+    color: #090909 !important;
+
+    opacity: .95 !important;
+  }
+
+
+  /* =====================================================
+     ESTRELA PEQUENA AO LADO DO TÍTULO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-star--two {
+    position: absolute !important;
+
+    right: 10% !important;
+    top: 60% !important;
+
+    bottom: auto !important;
+
+    z-index: 16 !important;
+
+    font-size: 31px !important;
+
+    color: #090909 !important;
+
+    opacity: .75 !important;
+  }
+
+
+  /* =====================================================
+     ESTRELA MÉDIA ENTRE TEXTO E BOTÃO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero-scribble {
+    position: absolute !important;
+
+    right: 19% !important;
+    top: 67% !important;
+
+    bottom: auto !important;
+
+    z-index: 4 !important;
+
+    font-size: 65px !important;
+
+    color: #090909 !important;
+
+    opacity: .30 !important;
+  }
+
+
+  /* =====================================================
+     ESTRELA PRETA INFERIOR ESQUERDA
+     ===================================================== */
+
+  .editorial-home--single .editorial-star-doodle {
+    position: absolute !important;
+
+    left: 3% !important;
+    bottom: -4px !important;
+
+    z-index: 8 !important;
+
+    font-size: 62px !important;
+
+    color: #090909 !important;
+
+    margin: 0 !important;
+  }
+
+
+  /* =====================================================
+     ELEMENTO GRÁFICO ROSA ESCURO INFERIOR DIREITO
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    right: -7% !important;
+    bottom: -9% !important;
+
+    width: 58% !important;
+    height: 34% !important;
+
+    z-index: 1 !important;
+
+    background: rgba(130,73,98,.18) !important;
+
+    transform: rotate(-7deg) !important;
+
+    pointer-events: none !important;
+  }
+
+
+  /* =====================================================
+     LIMPEZA DOS ELEMENTOS ANTIGOS
+     ===================================================== */
+
+  .editorial-home--single .editorial-hero [class*="sticker"],
+  .editorial-home--single .editorial-hero [class*="emoji"],
+  .editorial-home--single .editorial-hero [data-sticker],
+  .editorial-home--single .editorial-hero [data-emoji] {
+    display: none !important;
+  }
+
+
+  /* =====================================================
+     TELAS PEQUENAS
+     ===================================================== */
+
+  @media (max-width: 380px) {
+
+    .editorial-home--single .editorial-hero {
+      height: 730px !important;
+      min-height: 730px !important;
+    }
+
+    .editorial-home--single .editorial-hero-photo {
+      top: 55px !important;
+
+      left: 15% !important;
+
+      width: 70% !important;
+      height: 39% !important;
+    }
+
+    .editorial-home--single .editorial-hero-copy {
+      top: 48% !important;
+    }
+
+    .editorial-home--single .editorial-hero-title {
+      font-size: 60px !important;
+    }
+
+    .editorial-home--single .editorial-hero-copy p {
+      width: 65% !important;
+      font-size: 12px !important;
+    }
+
+    .editorial-home--single .editorial-hero-projects-cta {
+      width: 205px !important;
+      height: 58px !important;
+    }
+  }
+}
