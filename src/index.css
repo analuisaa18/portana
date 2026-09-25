@@ -2761,3 +2761,109 @@ header.header-nav-shell {
     object-position: center 38% !important;
   }
 }
+
+
+/* =========================================================
+   MOBILE HOME — REEQUILÍBRIO DA COMPOSIÇÃO
+   Foto, título e elementos gráficos ficam em zonas separadas.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 650px !important;
+    height: 650px !important;
+  }
+
+  /* Foto: menor e mais acima, mostrando mais notebook sem dominar a Home. */
+  .editorial-home--single .editorial-hero-photo {
+    width: 47% !important;
+    height: 38% !important;
+    right: 5% !important;
+    top: 7% !important;
+    bottom: auto !important;
+    object-fit: cover !important;
+    object-position: center 32% !important;
+    z-index: 3 !important;
+  }
+
+  /* Título: sobe para a região central e deixa a foto respirar. */
+  .editorial-home--single .editorial-hero-copy {
+    left: 6% !important;
+    top: 43% !important;
+    bottom: auto !important;
+    width: 82% !important;
+    max-width: 82% !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    width: auto !important;
+    max-width: 100% !important;
+    font-size: clamp(38px, 10.5vw, 52px) !important;
+    line-height: .84 !important;
+    white-space: nowrap !important;
+    transform: rotate(-6deg) translateZ(0) !important;
+    transform-origin: left center !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 62% !important;
+    margin-top: 22px !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 18px !important;
+  }
+
+  /* Estrelas menores: sobem junto da composição, sem ficar concentradas no rodapé. */
+  .editorial-home--single .editorial-hero-star--one {
+    left: 39% !important;
+    top: 39% !important;
+    font-size: 27px !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 10% !important;
+    bottom: auto !important;
+    top: 57% !important;
+    font-size: 29px !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 4% !important;
+    bottom: auto !important;
+    top: 51% !important;
+    font-size: 48px !important;
+    z-index: 2 !important;
+  }
+
+  /* Grande estrela de fundo: sobe e diminui para não competir com o texto. */
+  .editorial-home--single .editorial-hero::after {
+    right: 27% !important;
+    bottom: auto !important;
+    top: 57% !important;
+    width: 88px !important;
+    height: 88px !important;
+    transform: rotate(18deg) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 630px !important;
+    height: 630px !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    top: 42% !important;
+    width: 84% !important;
+    max-width: 84% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 35px !important;
+  }
+}
