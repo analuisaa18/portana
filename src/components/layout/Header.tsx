@@ -77,14 +77,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       onPointerLeave={()=>setPointer({x:0,y:0,active:false})}
       style={{ minHeight:`${Math.max(effectiveHeight, 72)}px`, backgroundColor:`color-mix(in srgb, var(--color-surface) ${Math.round((h?.opacity ?? .62)*100)}%, transparent)`, backdropFilter:h?.blur===false?'none':'blur(8px)', isolation:'isolate' }}
     >
-      <div className="reference-navbar-stars" aria-hidden="true">
-        <span className="reference-navbar-star reference-navbar-star--1">✦</span>
-        <span className="reference-navbar-star reference-navbar-star--2">✦</span>
-        <span className="reference-navbar-star reference-navbar-star--3">✦</span>
-        <span className="reference-navbar-star reference-navbar-star--4">✦</span>
-        <span className="reference-navbar-star reference-navbar-star--5">✦</span>
-        <span className="reference-navbar-star reference-navbar-star--6">✦</span>
-      </div>
       {effectiveBackgroundEnabled && <HeaderCircleField
         header={{...(h || ({} as any)), circleFieldOpacity: isMobile ? ((h?.circleFieldOpacity ?? 1) * (h?.mobileBackgroundOpacity ?? 0.85)) : h?.circleFieldOpacity}}
         pointer={pointer}
