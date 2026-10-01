@@ -3192,177 +3192,169 @@ header.header-nav-shell {
     top: 362px;
   }
 }
-/* FINAL MOBILE HOME MATCH — reference composition only */
+/* FINAL — HOME MOBILE REFERENCE MATCH ONLY */
 @media (max-width: 767px) {
   .editorial-home--single .editorial-hero {
-    height: 720px !important;
-    min-height: 720px !important;
+    height: clamp(620px, 172vw, 680px) !important;
+    min-height: clamp(620px, 172vw, 680px) !important;
   }
 
-  /* PHOTO: same visual scale/placement as the reference */
+  /* FOTO — proporção/enquadramento da referência mobile */
   .editorial-home--single .editorial-hero-photo {
-    left: 13% !important;
-    top: 42px !important;
-    width: 74% !important;
-    height: 330px !important;
+    left: 24% !important;
+    right: auto !important;
+    top: 8vw !important;
+    width: 66% !important;
+    height: 64vw !important;
     object-fit: cover !important;
-    object-position: center 42% !important;
+    object-position: center center !important;
     opacity: 1 !important;
-    filter: grayscale(.68) contrast(1.02) brightness(1.03) sepia(.20) hue-rotate(316deg) saturate(1.22) !important;
+    filter: grayscale(.72) contrast(1.08) brightness(1.03) sepia(.22) hue-rotate(315deg) saturate(1.18) !important;
     mix-blend-mode: normal !important;
-    box-shadow: 9px 11px 0 rgba(9,9,9,.07) !important;
+    box-shadow: none !important;
     z-index: 4 !important;
   }
 
-  /* Transparent collage sheets, behind/around the photo like the reference. */
+  /* Folhas/fitas da colagem — leves, como na referência */
   .editorial-home--single .editorial-hero-paper.paper-one {
-    width: 69% !important;
-    height: 316px !important;
-    left: 9% !important;
-    top: 58px !important;
+    width: 64% !important;
+    height: 60vw !important;
+    left: 20% !important;
+    top: 11vw !important;
     transform: rotate(-5deg) !important;
-    opacity: .48 !important;
+    opacity: .34 !important;
     z-index: 2 !important;
   }
 
   .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 70% !important;
-    height: 300px !important;
-    left: 16% !important;
-    top: 76px !important;
+    width: 64% !important;
+    height: 58vw !important;
+    left: 25% !important;
+    top: 13vw !important;
     transform: rotate(4deg) !important;
-    opacity: .42 !important;
+    opacity: .28 !important;
     z-index: 2 !important;
   }
 
-  /* Fitas: visible, subtle and attached to the photo, not over-darkening it. */
   .editorial-home--single .editorial-mobile-photo-tape--one {
-    width: 180px !important;
-    height: 56px !important;
+    width: 43vw !important;
+    height: 13vw !important;
     right: 3% !important;
-    top: 64px !important;
+    left: auto !important;
+    top: 13vw !important;
     transform: rotate(7deg) !important;
-    background: rgba(245, 205, 218, .28) !important;
+    background: rgba(244, 190, 211, .27) !important;
     z-index: 5 !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--two {
-    width: 205px !important;
-    height: 58px !important;
-    right: -3% !important;
-    top: 300px !important;
+    width: 48vw !important;
+    height: 13vw !important;
+    right: -4% !important;
+    left: auto !important;
+    top: 77vw !important;
     transform: rotate(-6deg) !important;
-    background: rgba(239, 194, 210, .24) !important;
+    background: rgba(238, 184, 207, .22) !important;
     z-index: 5 !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--three {
-    width: 126px !important;
-    height: 42px !important;
-    left: 4% !important;
-    top: 318px !important;
+    width: 29vw !important;
+    height: 10vw !important;
+    left: 8% !important;
+    top: 82vw !important;
     transform: rotate(9deg) !important;
-    background: rgba(245, 211, 221, .24) !important;
+    background: rgba(245, 205, 218, .23) !important;
     z-index: 5 !important;
   }
 
-  /* TITLE starts AFTER the photo — no overlap. */
+  /* TÍTULO — separado da foto, inteiro dentro da tela */
   .editorial-home--single .editorial-hero-copy {
     left: 6% !important;
     right: 4% !important;
-    top: 375px !important;
-    width: 92% !important;
-    max-width: 92% !important;
+    top: 74vw !important;
+    bottom: auto !important;
+    width: 90% !important;
+    max-width: 90% !important;
     z-index: 10 !important;
   }
 
   .editorial-home--single .editorial-hero-title {
+    display: block !important;
     width: max-content !important;
     max-width: none !important;
-    font-size: clamp(54px, 15.2vw, 62px) !important;
-    line-height: .80 !important;
-    letter-spacing: -.078em !important;
+    font-size: clamp(52px, 14.8vw, 62px) !important;
+    line-height: .82 !important;
+    letter-spacing: -.075em !important;
     white-space: nowrap !important;
     transform: rotate(-6deg) !important;
     transform-origin: left center !important;
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    margin-top: 31px !important;
-    width: 78% !important;
+    margin-top: 25px !important;
+    width: 82% !important;
     max-width: 310px !important;
     font-size: 12px !important;
-    line-height: 1.52 !important;
+    line-height: 1.55 !important;
     letter-spacing: .035em !important;
   }
 
   .editorial-home--single .editorial-hero-projects-cta {
-    margin-top: 25px !important;
+    margin-top: 20px !important;
     width: 235px !important;
-    min-height: 56px !important;
-    padding: 13px 18px !important;
+    min-height: 54px !important;
+    padding: 12px 18px !important;
     font-size: 10.5px !important;
   }
 
-  /* Stars stay visible and retain the existing motion/animation. */
+  /* Estrelas: preservadas e com movimento */
   .editorial-home--single .editorial-hero-star--one {
-    left: 5% !important;
-    top: 158px !important;
+    left: 12% !important;
+    top: 18vw !important;
     font-size: 48px !important;
     z-index: 7 !important;
   }
 
   .editorial-home--single .editorial-hero-star--two {
     right: 7% !important;
-    top: 458px !important;
+    top: 105vw !important;
     font-size: 34px !important;
     z-index: 9 !important;
   }
 
   .editorial-home--single .editorial-hero-scribble {
-    right: -4% !important;
-    bottom: 18px !important;
-    font-size: 94px !important;
-    opacity: .20 !important;
+    right: -3% !important;
+    bottom: 4% !important;
+    font-size: 88px !important;
+    opacity: .22 !important;
     z-index: 2 !important;
   }
 
   .editorial-home--single .editorial-hero::after {
-    right: 4% !important;
-    bottom: 34px !important;
-    width: 100px !important;
-    height: 100px !important;
+    right: 5% !important;
+    bottom: 7% !important;
+    width: 94px !important;
+    height: 94px !important;
     z-index: 2 !important;
   }
 }
 
 @media (max-width: 380px) {
   .editorial-home--single .editorial-hero {
-    height: 700px !important;
-    min-height: 700px !important;
-  }
-
-  .editorial-home--single .editorial-hero-photo {
-    left: 12% !important;
-    width: 76% !important;
-    height: 315px !important;
-    top: 40px !important;
-  }
-
-  .editorial-home--single .editorial-hero-copy {
-    top: 360px !important;
+    height: 590px !important;
+    min-height: 590px !important;
   }
 
   .editorial-home--single .editorial-hero-title {
-    font-size: 15vw !important;
+    font-size: 14.8vw !important;
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    margin-top: 29px !important;
     font-size: 11.5px !important;
   }
 
   .editorial-home--single .editorial-hero-projects-cta {
-    width: 225px !important;
+    width: 220px !important;
   }
 }
