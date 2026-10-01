@@ -1,4 +1,4 @@
-import React from 'react';
+aimport React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { Project } from '../../types/portfolio';
