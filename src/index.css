@@ -6196,3 +6196,28 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
     height: 20px !important;
   }
 }
+
+
+/* =========================================================
+   PORTFÓLIO — ZOOM AO PASSAR O MOUSE
+   Exclusivo do título da Home. Nenhum outro elemento é afetado.
+   ========================================================= */
+.editorial-home--single button.editorial-hero-title {
+  cursor: pointer !important;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  will-change: transform;
+}
+
+.editorial-home--single button.editorial-hero-title:hover {
+  transform: rotate(-6deg) scale(1.12) translateZ(0) !important;
+}
+
+.editorial-home--single button.editorial-hero-title:focus-visible {
+  transform: rotate(-6deg) scale(1.12) translateZ(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-home--single button.editorial-hero-title {
+    transition: none !important;
+  }
+}
