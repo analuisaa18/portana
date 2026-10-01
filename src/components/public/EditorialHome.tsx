@@ -1,45 +1,148 @@
 import React from 'react';
-import { BrikTicker } from './BrikTicker';
-import ProjectsGrid from './ProjectsGrid';
-import KineticBrand from '../layout/KineticBrand';
+import { ArrowUpRight } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+import { Project } from '../../types/portfolio';
+import homeEditorialPhoto from '../../assets/home-editorial-experiment.jpg';
 
-export default function EditorialHome() {
-  return (
-    <section className="px-4 md:px-8 max-w-7xl mx-auto py-12">
-      {/* Título Principal Editorial */}
-      <div className="mb-12">
-        <KineticBrand text="ATHENAS" subtitle="CREATIVE DEVELOPER & UI DESIGNER" />
-        <p className="mt-6 text-xl text-neutral-400 max-w-2xl leading-relaxed">
-          Especializada em criar experiências digitais memoráveis através de código limpo, design intuitivo e interações fluidas.
+const photo = (seed: string) => `https://picsum.photos/seed/${seed}/1000/760`;
+
+interface EditorialHomeProps {
+  projects: Project[];
+  onSelectProject: (slug: string) => void;
+  onNavigate: (view: string) => void;
+  view?: 'home' | 'projetos';
+}
+
+export const EditorialHome: React.FC<EditorialHomeProps> = ({
+  projects,
+  onSelectProject,
+  onNavigate,
+  view = 'home',
+}) => {
+  const { settings } = useTheme();
+  const cards = projects.slice(0, 4);
+
+  const imageFor = (p: Project | undefined, i: number) => {
+    const src = (p as any)?.cover_image || (p as any)?.thumbnail || (p as any)?.image_url;
+    return src || photo(`portana-editorial-${i + 1}`);
+  };
+
+  const Hero = () => (
+    <section className="editorial-panel editorial-panel--pink editorial-hero" aria-label="Portfólio">
+      <div className="editorial-index">00 / 05</div>
+
+      <div className="editorial-hero-copy">
+        <button type="button" className="editorial-hero-title" aria-label="Portfólio — interação">
+          PORTFÓLIO
+        </button>
+
+        <p>
+          DESIGN DE INTERFACES,<br />
+          PROJETOS GRÁFICOS E<br />
+          EXPERIÊNCIAS VISUAIS.
         </p>
-      </div>
 
-      {/* Banner Editorial Imersivo */}
-      <div className="relative w-full h-[60vh] rounded-2xl overflow-hidden mb-16 border border-neutral-800">
-        <picture>
-          <source 
-            media="(max-width: 768px)" 
-            srcSet="/src/assets/home-editorial-mobile.jpg" 
-          />
-          <img 
-            src="/src/assets/home-editorial-experiment.jpg" 
-            alt="Editorial Experiment Showcase" 
-            className="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-transform duration-700 ease-out"
-          />
-        </picture>
-        <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs tracking-widest uppercase">
-          ✦ Visual & Creative Dev Portfolio
+        <button
+          type="button"
+          className="editorial-hero-projects-cta"
+          onClick={() => onNavigate('projetos')}
+          aria-label="Ver projetos"
+        >
+          <span>VER PROJETOS</span>
+          <ArrowUpRight size={18} strokeWidth={2.2} aria-hidden="true" />
+        </button>
+
+        <div className="editorial-star-doodle" aria-hidden="true">
+          <span className="editorial-star-mark editorial-star-mark--burst" />
         </div>
       </div>
 
-      {/* Ticker Infinito */}
-      <BrikTicker items={['REACT', 'TYPESCRIPT', 'TAILWIND CSS', 'THREE.JS', 'UI/UX DESIGN', 'NEXT.JS', 'WEBGL']} />
+      <div className="editorial-hero-paper paper-one" aria-hidden="true" />
+      <div className="editorial-hero-paper paper-two" aria-hidden="true" />
 
-      {/* Grade de Projetos */}
-      <div className="mt-20">
-        <h2 className="text-3xl font-extrabold mb-8 tracking-tight uppercase">Projetos Selecionados</h2>
-        <ProjectsGrid />
+      <img
+        className="editorial-hero-photo"
+        src={homeEditorialPhoto}
+        alt="Processo criativo com computador e referências de cor"
+      />
+
+      {/* Fitas da colagem: exclusivas da composição mobile. */}
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--one" aria-hidden="true" />
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--two" aria-hidden="true" />
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--three" aria-hidden="true" />
+
+      <div className="editorial-hero-scribble" aria-hidden="true">
+        <span className="editorial-star-mark editorial-star-mark--diamond" />
+      </div>
+      <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true">
+        <span className="editorial-star-mark editorial-star-mark--burst" />
+      </div>
+      <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true">
+        <span className="editorial-star-mark editorial-star-mark--diamond" />
       </div>
     </section>
   );
-}
+
+  const Projects = () => (
+    <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
+      <div className="editorial-index">02 / 05</div>
+      <div className="editorial-projects-head">
+        <h2>PROJETOS</h2>
+        <p>Identidades, interfaces e experimentações visuais.</p>
+      </div>
+      <div className="editorial-project-grid">
+        {cards.map((project, index) => (
+          <button
+            type="button"
+            className="editorial-project-card"
+            key={project.slug || index}
+            onClick={() => onSelectProject(project.slug)}
+          >
+            <img src={imageFor(project, index)} alt={project.title} />
+            <span>{project.title}</span>
+            <ArrowUpRight size={18} aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+
+  const Principles = () => (
+    <section className="editorial-panel editorial-panel--black editorial-principles" aria-label="Princípios">
+      <div className="editorial-index">03 / 05</div>
+      <blockquote>
+        “Criar é transformar referências, processos e ideias em experiências visuais.”
+      </blockquote>
+    </section>
+  );
+
+  const FooterCard = () => (
+    <section className="editorial-panel editorial-panel--pink editorial-footer-card" aria-label="Contato">
+      <div className="editorial-index">05 / 05</div>
+      <h2>VAMOS CRIAR?</h2>
+      <button type="button" onClick={() => onNavigate('contato')}>
+        ENTRAR EM CONTATO <ArrowUpRight size={18} aria-hidden="true" />
+      </button>
+    </section>
+  );
+
+  if (view === 'home') {
+    return (
+      <main className="editorial-home editorial-home--single">
+        <div className="editorial-grid editorial-grid--single">
+          <Hero />
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="editorial-home editorial-home--single editorial-home--projects">
+      <div className="editorial-grid editorial-grid--single">
+        <Projects />
+        <Principles />
+        <FooterCard />
+      </div>
+    </main>
+  );
+};
