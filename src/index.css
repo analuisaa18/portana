@@ -3183,3 +3183,263 @@ header.header-nav-shell {
     min-width: 205px !important;
   }
 }
+
+/* =========================================================
+   MOBILE HOME — REFERÊNCIA EXATA / BLOCO FINAL
+   Este bloco existe SOMENTE para <= 767px.
+   Não altera o desktop.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single {
+    padding: 0 8px 24px !important;
+    overflow-x: hidden !important;
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    width: 100% !important;
+    max-width: none !important;
+    gap: 0 !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    position: relative !important;
+    width: 100% !important;
+    height: 172vw !important;
+    min-height: 172vw !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    background: #e388a9 !important;
+    isolation: isolate !important;
+  }
+
+  /* 00 / 05 */
+  .editorial-home--single .editorial-index {
+    top: 6.5vw !important;
+    right: 6.5vw !important;
+    z-index: 30 !important;
+    font-size: clamp(11px, 3.2vw, 16px) !important;
+    letter-spacing: .08em !important;
+  }
+
+  /* FOTO — proporção, ângulo e posição da referência */
+  .editorial-home--single .editorial-hero-photo {
+    position: absolute !important;
+    left: 23% !important;
+    right: auto !important;
+    top: 9.5vw !important;
+    width: 69.5% !important;
+    height: 79vw !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center 45% !important;
+    transform: rotate(4deg) !important;
+    transform-origin: center center !important;
+    opacity: 1 !important;
+    filter: grayscale(.82) sepia(.34) hue-rotate(305deg) saturate(1.55) contrast(1.10) brightness(1.02) !important;
+    mix-blend-mode: normal !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    z-index: 5 !important;
+  }
+
+  /* Folhas translúcidas da colagem ao redor da fotografia. */
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    left: 17% !important;
+    right: auto !important;
+    top: 35vw !important;
+    width: 18% !important;
+    height: 23vw !important;
+    background: rgba(255, 205, 224, .34) !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+    transform: rotate(-10deg) !important;
+    z-index: 3 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    right: -1% !important;
+    left: auto !important;
+    top: 8vw !important;
+    width: 20% !important;
+    height: 28vw !important;
+    background: rgba(255, 208, 226, .28) !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+    transform: rotate(8deg) !important;
+    z-index: 3 !important;
+  }
+
+  /* Fitas/folhas sobre a foto, sem esconder a imagem. */
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 18% !important;
+    right: auto !important;
+    top: 67vw !important;
+    width: 22vw !important;
+    height: 9vw !important;
+    background: rgba(244, 184, 207, .34) !important;
+    transform: rotate(-7deg) !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    right: -1% !important;
+    left: auto !important;
+    top: 73vw !important;
+    width: 28vw !important;
+    height: 10vw !important;
+    background: rgba(235, 176, 199, .30) !important;
+    transform: rotate(-8deg) !important;
+    z-index: 8 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    left: 5% !important;
+    top: 76vw !important;
+    width: 19vw !important;
+    height: 8vw !important;
+    background: rgba(249, 214, 226, .34) !important;
+    transform: rotate(9deg) !important;
+    z-index: 8 !important;
+  }
+
+  /* ESTRELA PRETA GRANDE — esquerda da foto */
+  .editorial-home--single .editorial-hero-star--one {
+    left: 10% !important;
+    right: auto !important;
+    top: 18vw !important;
+    bottom: auto !important;
+    font-size: 12vw !important;
+    color: #090909 !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    animation: editorialStarFloatOne 4.2s ease-in-out infinite !important;
+  }
+
+  /* ESTRELA PEQUENA — direita do título */
+  .editorial-home--single .editorial-hero-star--two {
+    right: 7% !important;
+    left: auto !important;
+    top: 107vw !important;
+    bottom: auto !important;
+    font-size: 5.2vw !important;
+    color: #090909 !important;
+    opacity: 1 !important;
+    z-index: 16 !important;
+    animation: editorialStarFloatTwo 5.1s ease-in-out infinite !important;
+  }
+
+  /* TÍTULO — grande, inteiro e abaixo da foto */
+  .editorial-home--single .editorial-hero-copy {
+    position: absolute !important;
+    left: 7.5% !important;
+    right: 2% !important;
+    top: 90vw !important;
+    bottom: auto !important;
+    width: 91% !important;
+    max-width: 91% !important;
+    z-index: 15 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    font-size: 13.8vw !important;
+    line-height: .82 !important;
+    letter-spacing: -.075em !important;
+    transform: rotate(-6deg) !important;
+    transform-origin: left center !important;
+  }
+
+  /* TEXTO — distância e proporção da referência */
+  .editorial-home--single .editorial-hero-copy p {
+    width: 67% !important;
+    max-width: none !important;
+    margin: 11.5vw 0 0 !important;
+    font-size: clamp(11px, 3.0vw, 16px) !important;
+    line-height: 1.55 !important;
+    letter-spacing: .035em !important;
+  }
+
+  /* ESTRELA GRANDE AO LADO DO TEXTO */
+  .editorial-home--single .editorial-hero-scribble {
+    right: 18% !important;
+    left: auto !important;
+    top: 119vw !important;
+    bottom: auto !important;
+    font-size: 12vw !important;
+    color: #090909 !important;
+    opacity: 1 !important;
+    z-index: 14 !important;
+    animation: editorialStarFloatFour 5.7s ease-in-out infinite !important;
+  }
+
+  /* BOTÃO — largura e posição da referência */
+  .editorial-home--single .editorial-hero-projects-cta {
+    width: 47vw !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 12vw !important;
+    margin-top: 7vw !important;
+    padding: 3.2vw 4.2vw !important;
+    gap: 0 !important;
+    justify-content: space-between !important;
+    font-size: clamp(10px, 2.75vw, 15px) !important;
+    letter-spacing: .13em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta svg {
+    width: 5vw !important;
+    height: 5vw !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+  }
+
+  /* Grande folha translúcida no canto inferior direito. */
+  .editorial-home--single .editorial-hero::after {
+    right: -5% !important;
+    bottom: -4% !important;
+    width: 39vw !important;
+    height: 28vw !important;
+    background: rgba(255, 212, 227, .28) !important;
+    clip-path: polygon(0 17%, 96% 0, 100% 100%, 15% 100%) !important;
+    transform: rotate(-16deg) !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero .editorial-star-doodle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    height: 172vw !important;
+    min-height: 172vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    left: 23% !important;
+    width: 69.5% !important;
+    height: 79vw !important;
+    top: 9.5vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 13.5vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    width: 70% !important;
+    font-size: 11px !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    width: 48vw !important;
+  }
+}
