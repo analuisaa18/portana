@@ -118,11 +118,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 aria-current={currentView === 'admin' ? 'page' : undefined}
                 aria-label="Área administrativa"
               >
-                <span className="reference-navbar__admin-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 3.5L19 6.2V11.4C19 16.1 16.2 19.2 12 20.5C7.8 19.2 5 16.1 5 11.4V6.2L12 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                  </svg>
-                </span>
+                <svg className="reference-navbar__admin-shield" viewBox="0 0 16 18" aria-hidden="true">
+                  <path d="M8 1.25 13.2 3.15v4.3c0 3.45-2.02 6.72-5.2 8.3-3.18-1.58-5.2-4.85-5.2-8.3v-4.3L8 1.25Z" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round"/>
+                </svg>
                 <span className="sr-only">Adim</span>
               </button>
             )}
