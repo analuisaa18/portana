@@ -1,122 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { Menu, X, Shield, Sparkles } from 'lucide-react';
+import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
-import { ThemeIcon } from '../common/ThemeIcon';
-import { HeaderCircleField } from './HeaderCircleField';
 
-interface HeaderProps { currentView: string; onNavigate: (view: string, param?: string) => void; }
+interface HeaderProps {
+  currentView: string;
+  onNavigate: (view: string, param?: string) => void;
+}
+
+const stars = [
+  { left: '7%', top: '42%', size: 16, delay: '0s', duration: '6.5s' },
+  { left: '29%', top: '18%', size: 8, delay: '-2s', duration: '7.5s' },
+  { left: '53%', top: '20%', size: 15, delay: '-3.4s', duration: '8s' },
+  { left: '79%', top: '63%', size: 10, delay: '-1.2s', duration: '6.8s' },
+  { left: '93%', top: '32%', size: 15, delay: '-4s', duration: '8.5s' },
+  { left: '40%', top: '73%', size: 7, delay: '-5s', duration: '7s' },
+  { left: '68%', top: '32%', size: 7, delay: '-2.8s', duration: '6s' },
+];
+
+const navItems = [
+  { id: 'sobre', label: 'SOBRE' },
+  { id: 'projetos', label: 'PROJETOS' },
+  { id: 'contato', label: 'CONTATO' },
+];
 
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const { settings } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pointer, setPointer] = useState({ x: 0, y: 0, active: false });
-  const [viewportWidth, setViewportWidth] = useState(() => typeof window === 'undefined' ? 1280 : window.innerWidth);
-  const header = settings.theme_config?.header;
-  const h = header;
-  const breakpoint = h?.responsiveBreakpointPx ?? 768;
-  const responsive = h?.responsiveEnabled !== false;
-  // O layout móvel precisa continuar funcional mesmo quando a personalização
-  // responsiva está desligada; nesse caso usamos os valores padrão do mobile.
-  const isMobile = viewportWidth < breakpoint;
-
-  useEffect(() => {
-    const onResize = () => setViewportWidth(window.visualViewport?.width || window.innerWidth);
-    onResize();
-    window.addEventListener('resize', onResize, { passive: true });
-    window.visualViewport?.addEventListener('resize', onResize, { passive: true });
-    return () => {
-      window.removeEventListener('resize', onResize);
-      window.visualViewport?.removeEventListener('resize', onResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile) setMobileMenuOpen(false);
-  }, [isMobile]);
-  const headerStyle = h?.style || 'minimal';
-  const navStyle = h?.navStyle || 'underline';
-
   const brandName = 'Ana Bocheneck';
 
-  const navItems = [
-    { id: 'sobre', label: 'Sobre' },
-    { id: 'projetos', label: 'Projetos' },
-    { id: 'contato', label: 'Contato' },
-  ];
+  return (
+    <>
+      <SkipLink />
+      <header className="reference-navbar" aria-label="Navegação principal">
+        <div className="reference-navbar__stars" aria-hidden="true">
+          {stars.map((star, index) => (
+            <span
+              key={index}
+              className={`reference-navbar__star reference-navbar__star--${index + 1}`}
+              style={{
+                left: star.left,
+                top: star.top,
+                fontSize: `${star.size}px`,
+                animationDelay: star.delay,
+                animationDuration: star.duration,
+              }}
+            >✦</span>
+          ))}
+        </div>
 
-  const handleNavClick = (id: string) => { onNavigate(id); setMobileMenuOpen(false); };
-  const headerStyleClass = headerStyle === 'boxed' ? 'mx-3 mt-3 rounded-[var(--radius-xl)] border' : headerStyle === 'floating' ? 'mx-3 mt-3 rounded-full border shadow-lg' : headerStyle === 'editorial' ? 'border-b-2' : 'border-b';
-  const useCustomMobile = isMobile && responsive;
-  const effectiveHeight = isMobile ? (useCustomMobile ? (h?.mobileHeightPx ?? 104) : 88) : (h?.heightPx ?? 80);
-  const effectivePadding = isMobile ? (useCustomMobile ? (h?.mobileContainerPaddingPx ?? 16) : 16) : (h?.desktopContainerPaddingPx ?? 32);
-  const effectiveBrandSize = isMobile ? (useCustomMobile ? (h?.mobileBrandFontSizePx ?? 18) : 18) : (h?.brandFontSizePx ?? 24);
-  const effectiveBrandWeight = isMobile ? (useCustomMobile ? (h?.mobileBrandWeight ?? h?.brandWeight ?? 900) : (h?.brandWeight ?? 900)) : (h?.brandWeight ?? 900);
-  const effectiveBrandSpacing = isMobile ? (useCustomMobile ? (h?.mobileBrandLetterSpacing ?? h?.brandLetterSpacing ?? -0.04) : (h?.brandLetterSpacing ?? -0.04)) : (h?.brandLetterSpacing ?? -0.04);
-  const effectiveIconSize = isMobile ? (useCustomMobile ? (h?.mobileIconSizePx ?? 22) : 20) : (h?.iconSizePx ?? 28);
-  const effectiveNavSize = isMobile ? (useCustomMobile ? (h?.mobileNavFontSizePx ?? 10) : 10) : (h?.navFontSizePx ?? 11);
-  const effectiveNavGap = isMobile ? (useCustomMobile ? (h?.mobileNavGapPx ?? 12) : 10) : (h?.desktopNavGapPx ?? 24);
-  const effectiveBrandMaxWidth = isMobile ? (useCustomMobile ? (h?.mobileBrandMaxWidthPx ?? 205) : 210) : (h?.desktopBrandMaxWidthPx ?? 560);
-  const effectiveBackgroundEnabled = isMobile ? (useCustomMobile ? h?.mobileBackgroundEnabled !== false : true) : true;
-
-  const navClass = (active:boolean) => {
-    const base='cursor-pointer transition-all';
-    if(navStyle==='pill') return `${base} px-3 py-1.5 rounded-full ${active?'bg-[var(--color-accent)] text-white':'text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50 hover:text-[var(--color-text-primary)]'}`;
-    if(navStyle==='simple') return `${base} py-1 ${active?'text-[var(--color-accent)] font-black':'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`;
-    return `${base} header-nav-item py-1 ${active?'header-nav-item--active text-[var(--color-accent)] underline decoration-[var(--color-accent)] underline-offset-8 font-black':'text-[var(--color-text-secondary)]'}`;
-  };
-
-  return <>
-    <SkipLink />
-    <header
-      className={`header-nav-shell ${h?.sticky === false ? 'relative' : 'sticky top-0'} z-40 w-full overflow-hidden ${headerStyleClass} ${h?.showBorder === false ? 'border-transparent' : 'border-[var(--color-border)]'}`}
-      onPointerMove={(e) => {
-        const r=e.currentTarget.getBoundingClientRect();
-        setPointer({ x: ((e.clientX-r.left)/Math.max(r.width,1)-.5)*2, y: ((e.clientY-r.top)/Math.max(r.height,1)-.5)*2, active:true });
-      }}
-      onPointerLeave={()=>setPointer({x:0,y:0,active:false})}
-      style={{ minHeight:`${Math.max(effectiveHeight, 72)}px`, backgroundColor:`color-mix(in srgb, var(--color-surface) ${Math.round((h?.opacity ?? .62)*100)}%, transparent)`, backdropFilter:h?.blur===false?'none':'blur(8px)', isolation:'isolate' }}
-    >
-      {effectiveBackgroundEnabled && <HeaderCircleField
-        header={{...(h || ({} as any)), circleFieldOpacity: isMobile ? ((h?.circleFieldOpacity ?? 1) * (h?.mobileBackgroundOpacity ?? 0.85)) : h?.circleFieldOpacity}}
-        pointer={pointer}
-      />}
-      <div className="header-content-row relative z-10 max-w-[var(--layout-max-width)] mx-auto flex items-center justify-center w-full" style={{minHeight:`${Math.max(effectiveHeight, 72)}px`, paddingLeft:`${effectivePadding}px`, paddingRight:`${effectivePadding}px`}}>
-        <div className="header-desktop-cluster flex items-center justify-center min-w-0" style={{gap:`${isMobile ? Math.max(effectiveNavGap * 0.8, 12) : Math.max(effectiveNavGap * 1.65, 38)}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', maxWidth: isMobile ? '100%' : '1100px'}}>
-          <button onClick={()=>handleNavClick('home')} className="portfolio-brand cursor-pointer focus:outline-none relative z-10 min-w-0" style={{maxWidth:`${effectiveBrandMaxWidth}px`, flex: isMobile ? '1 1 auto' : '0 1 auto', fontSize:`${isMobile ? 13 : 16}px`, fontWeight:h?.navWeight||700, letterSpacing:`${isMobile ? Math.min(h?.navLetterSpacing||.35, .18) : (h?.navLetterSpacing||.35)}em`, fontFamily:'var(--font-body)', color:'#fff', overflow:'hidden'}} aria-label={`Ir para o início — ${brandName}`}>
-            {(!isMobile || h?.mobileShowBrandIcon !== false) && h?.showBrandIcon !== false && <span className="shrink-0 flex items-center justify-center text-[var(--color-accent)]" style={{width:effectiveIconSize,height:effectiveIconSize}}><ThemeIcon icon={settings.theme_config?.brandIcon} className="w-full h-full" /></span>}
-            <span className="header-wrapped-brand header-brand-inline" aria-label={brandName} style={{width:'auto', maxWidth:'100%', height:'auto', minWidth:0, overflow:'hidden', display:'block'}}>
-              <span
-                className="portfolio-brand-name-fallback header-brand-static"
-                style={{
-                  display: 'block',
-                  width: 'auto',
-                  maxWidth: '100%',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'inherit',
-                  fontWeight: 'inherit',
-                  letterSpacing: 'inherit',
-                  color: '#fff',
-                  lineHeight: 1,
-                }}
-              >
-                {brandName}
-              </span>
-              <span className="sr-only">{brandName}</span>
-            </span>
+        <div className="reference-navbar__inner">
+          <button
+            type="button"
+            className="reference-navbar__brand"
+            onClick={() => onNavigate('home')}
+            aria-label={`Ir para o início — ${brandName}`}
+          >
+            <span className="reference-navbar__brand-mark" aria-hidden="true">✦</span>
+            <span>{brandName}</span>
           </button>
 
-          <nav className="desktop-centered-nav relative z-30 shrink-0 items-center" style={{position:'static', transform:'none', display:'flex', gap:`${isMobile ? Math.max(7, effectiveNavGap * 0.55) : effectiveNavGap}px`, maxWidth:'none', flexShrink:0}} aria-label="Navegação principal">
-            {navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} aria-current={currentView===item.id?'page':undefined} className={navClass(currentView===item.id)} style={{fontSize:`${effectiveNavSize}px`,fontWeight:h?.navWeight||700,letterSpacing:`${h?.navLetterSpacing||.35}em`,textTransform:h?.navUppercase===false?'none':'uppercase'}}>{item.label}</button>)}
-            {h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className={`header-admin-button ml-1 p-2 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] ${currentView==='admin'?'header-admin-button--active':''}`} aria-current={currentView==='admin'?'page':undefined} aria-label="Área administrativa">Adim</button>}
+          <nav className="reference-navbar__links">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onNavigate(item.id)}
+                aria-current={currentView === item.id ? 'page' : undefined}
+              >
+                {item.label}
+              </button>
+            ))}
+
+            {settings.theme_config?.header?.showAdminButton !== false && (
+              <button
+                type="button"
+                className="reference-navbar__admin"
+                onClick={() => onNavigate('admin')}
+                aria-current={currentView === 'admin' ? 'page' : undefined}
+                aria-label="Área administrativa"
+              >
+                <span aria-hidden="true">○</span>
+                <span className="sr-only">Adim</span>
+              </button>
+            )}
           </nav>
         </div>
-        <button type="button" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-[var(--radius-md)] text-[var(--color-text-primary)] border border-[var(--color-border)] relative z-10 shrink-0 ml-2" style={{display:'none'}} aria-expanded={mobileMenuOpen}>{mobileMenuOpen?<X className="w-5 h-5"/>:<Menu className="w-5 h-5"/>}</button>
-      </div>
-      {mobileMenuOpen && <div id="mobile-menu" className="relative z-10 border-b border-[var(--color-border)] bg-[var(--color-surface)] py-4 space-y-2" style={{paddingLeft:`${effectivePadding}px`,paddingRight:`${effectivePadding}px`}}><nav className="flex flex-col space-y-1">{navItems.map(item=><button key={item.id} onClick={()=>handleNavClick(item.id)} className={`w-full text-left px-4 py-3 rounded-[var(--radius-md)] ${currentView===item.id?'bg-[var(--color-primary)] text-white':'text-[var(--color-text-primary)] hover:bg-black/5'}`}>{item.label}</button>)}{h?.showAdminButton !== false && <button onClick={()=>handleNavClick('admin')} className="w-full text-left px-4 py-3 rounded-[var(--radius-md)] border border-[var(--color-border)] flex items-center justify-between"><span className="flex items-center gap-2"><Shield className="w-4 h-4 text-[var(--color-accent)]"/>Área Administrativa</span><Sparkles className="w-4 h-4 text-[var(--color-accent)]"/></button>}</nav></div>}
-    </header>
-  </>;
+      </header>
+    </>
+  );
 };
+
+export default Header;
