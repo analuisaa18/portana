@@ -121,7 +121,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 <span className="reference-navbar__admin-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 3.5L19 6.2V11.4C19 16.1 16.2 19.2 12 20.5C7.8 19.2 5 16.1 5 11.4V6.2L12 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                    <circle cx="12" cy="10.5" r="2" stroke="currentColor" strokeWidth="1.4"/>
                   </svg>
                 </span>
                 <span className="sr-only">Adim</span>
