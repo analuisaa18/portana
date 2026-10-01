@@ -4069,3 +4069,277 @@ header.header-nav-shell {
     );
   }
 }
+
+
+/* =========================================================
+   COLLAGE — MODELO OPÇÃO 2 (DIREITA)
+   Implementação fiel da referência: folha rosa rasgada sobre
+   uma base preta. Navbar permanece totalmente limpa.
+   ========================================================= */
+.editorial-home--single .editorial-hero {
+  position: relative !important;
+  background: #090909 !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+/* A folha rosa é a peça principal da colagem. O preto continua
+   aparecendo nas bordas através do recorte irregular. */
+.editorial-home--single .editorial-hero::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-color: #e388a9 !important;
+  background-image:
+    radial-gradient(circle at 18% 28%, rgba(20,10,14,.075) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 72% 61%, rgba(255,255,255,.10) 0 1px, transparent 1.5px),
+    repeating-linear-gradient(0deg, rgba(20,10,14,.018) 0 1px, transparent 1px 4px) !important;
+  background-size: 10px 10px, 15px 15px, auto !important;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 96%,
+    97% 96.8%, 94% 95.8%, 91% 99%, 87% 97.1%,
+    83% 100%, 79% 97.2%, 75% 98.8%, 70% 96.5%,
+    65% 99.5%, 60% 97%, 55% 100%, 50% 97.3%,
+    45% 99%, 40% 96.8%, 35% 99.5%, 30% 97%,
+    25% 100%, 20% 97.2%, 15% 99%, 10% 96.7%,
+    5% 98.5%, 0 96%,
+    1.2% 89%, 0 82%, 1.5% 75%, 0 68%, 1.2% 61%,
+    0 54%, 1.5% 47%, 0 40%, 1.2% 33%, 0 26%,
+    1.4% 19%, 0 12%, 1.2% 6%
+  ) !important;
+}
+
+/* Foto: fica SOBRE a folha rosa, como na referência. */
+.editorial-home--single .editorial-hero-photo {
+  z-index: 4 !important;
+  mix-blend-mode: multiply !important;
+  filter: grayscale(1) contrast(1.12) saturate(.8) !important;
+  box-shadow: 12px 14px 0 rgba(9,9,9,.10) !important;
+}
+
+.editorial-home--single .editorial-hero-copy {
+  z-index: 8 !important;
+}
+
+.editorial-home--single .editorial-index {
+  z-index: 9 !important;
+}
+
+/* Os recortes geométricos ficam atrás da foto e do texto. */
+.editorial-home--single .editorial-hero-paper {
+  z-index: 3 !important;
+  opacity: .72 !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Fitas discretas, fora da navbar. */
+.editorial-home--single .editorial-mobile-photo-tape {
+  display: block !important;
+  z-index: 6 !important;
+  background: rgba(35,24,29,.24) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-hero {
+    min-height: 760px !important;
+    height: min(760px, calc(100vh - 120px)) !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 12% !important;
+    width: 46% !important;
+    max-width: 46% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(82px, 8.6vw, 142px) !important;
+    transform: rotate(-6deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    right: 4.5% !important;
+    top: 10% !important;
+    width: 43% !important;
+    height: 72% !important;
+    object-fit: cover !important;
+    object-position: center 48% !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 22% !important;
+    height: 31% !important;
+    right: 1.5% !important;
+    top: 9% !important;
+    transform: rotate(7deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 18% !important;
+    height: 26% !important;
+    right: 3% !important;
+    top: 49% !important;
+    transform: rotate(-5deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 48% !important;
+    top: 4% !important;
+    width: 180px !important;
+    height: 48px !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    right: 4% !important;
+    top: 68% !important;
+    width: 150px !important;
+    height: 44px !important;
+    transform: rotate(8deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single {
+    padding: 0 8px 24px !important;
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    gap: 0 !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    height: 720px !important;
+    min-height: 720px !important;
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-hero::before {
+    clip-path: polygon(
+      0 0, 100% 0, 100% 95%,
+      95% 96%, 91% 94.5%, 87% 98%, 82% 96%,
+      77% 100%, 72% 97%, 66% 99%, 60% 96%,
+      54% 100%, 48% 97%, 42% 99%, 36% 96%,
+      30% 100%, 24% 97%, 18% 99%, 12% 96%,
+      6% 98%, 0 95%, 2% 86%, 0 77%, 2% 68%,
+      0 59%, 2% 50%, 0 41%, 2% 32%, 0 23%, 2% 13%, 0 5%
+    ) !important;
+  }
+
+  .editorial-home--single .editorial-index {
+    top: 24px !important;
+    right: 22px !important;
+    font-size: 10px !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    left: auto !important;
+    right: 5% !important;
+    top: 11% !important;
+    width: 78% !important;
+    height: 47% !important;
+    object-fit: cover !important;
+    object-position: center 48% !important;
+    transform: rotate(0deg) !important;
+    border: 0 !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 8% !important;
+    width: 88% !important;
+    max-width: 88% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(58px, 15.5vw, 86px) !important;
+    line-height: .8 !important;
+    transform: rotate(-6deg) !important;
+    white-space: nowrap !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    margin-top: 30px !important;
+    max-width: 270px !important;
+    font-size: 11.5px !important;
+    line-height: 1.5 !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 18px !important;
+    width: 190px !important;
+    min-height: 44px !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 34% !important;
+    height: 24% !important;
+    right: -2% !important;
+    top: 8% !important;
+    transform: rotate(7deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 28% !important;
+    height: 21% !important;
+    right: 1% !important;
+    top: 45% !important;
+    transform: rotate(-5deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 8% !important;
+    top: 8% !important;
+    width: 25% !important;
+    height: 7% !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    right: 1% !important;
+    top: 61% !important;
+    width: 25% !important;
+    height: 7% !important;
+    transform: rotate(8deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+
+  .editorial-home--single .editorial-hero .editorial-star-doodle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    height: 690px !important;
+    min-height: 690px !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    width: 80% !important;
+    height: 45% !important;
+    right: 4% !important;
+    top: 12% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 14.5vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 8% !important;
+  }
+}
