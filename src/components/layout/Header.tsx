@@ -31,6 +31,7 @@ const navItems = [
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const { settings } = useTheme();
   const brandName = 'Ana Bocheneck';
+  const referenceNavStyle = settings.theme_config?.header?.referenceNavStyle ?? 'simple';
 
   const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -60,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     <>
       <SkipLink />
       <header
-        className="reference-navbar"
+        className={`reference-navbar reference-navbar--nav-${referenceNavStyle}`}
         aria-label="Navegação principal"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
