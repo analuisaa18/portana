@@ -3675,3 +3675,95 @@ header.header-nav-shell {
     width: 185px !important;
   }
 }
+
+/* =========================================================
+   MOBILE — PROPORÇÕES FINAIS
+   Desktop permanece intocado. Estas regras só valem até 767px.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero {
+    height: 570px !important;
+    min-height: 570px !important;
+  }
+
+  /* Foto: mantém exatamente o tratamento/cor já usado no mobile. */
+  .editorial-home--single .editorial-hero-photo {
+    right: 5% !important;
+    top: 8.5% !important;
+    width: 48% !important;
+    height: 38% !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
+    filter: grayscale(1) contrast(1.18) saturate(.72) !important;
+    mix-blend-mode: multiply !important;
+  }
+
+  /* Título usa a mesma fonte do desktop, só com escala mais equilibrada. */
+  .editorial-home--single .editorial-hero-title {
+    font-family: var(--font-headings) !important;
+    font-size: clamp(48px, 12.8vw, 64px) !important;
+    line-height: .80 !important;
+    letter-spacing: -.07em !important;
+    white-space: nowrap !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 42px !important;
+    width: 57% !important;
+    max-width: 57% !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    font-family: var(--font-body) !important;
+    width: 100% !important;
+    max-width: 215px !important;
+    margin-top: 24px !important;
+    font-size: 10.5px !important;
+    line-height: 1.5 !important;
+    letter-spacing: .04em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    font-family: var(--font-body) !important;
+    width: 190px !important;
+    min-height: 46px !important;
+    margin-top: 18px !important;
+    padding: 10px 14px !important;
+    font-size: 9.5px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    height: 540px !important;
+    min-height: 540px !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    right: 4.5% !important;
+    top: 8.5% !important;
+    width: 49% !important;
+    height: 37% !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 38px !important;
+    width: 59% !important;
+    max-width: 59% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 12.8vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 200px !important;
+    font-size: 10px !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    width: 180px !important;
+  }
+}
