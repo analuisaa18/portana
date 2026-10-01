@@ -5423,3 +5423,234 @@ header.header-nav-shell .header-graphic-block {
     font-size: 15vw !important;
   }
 }
+
+
+/* =========================================================
+   NAVBAR — AJUSTE FINAL À REFERÊNCIA ENVIADA PELO USUÁRIO
+   Somente a barra de navegação é afetada por este bloco.
+   ========================================================= */
+header.header-nav-shell {
+  position: sticky !important;
+  top: 8px !important;
+  z-index: 40 !important;
+  width: calc(100% - 32px) !important;
+  max-width: 1100px !important;
+  min-height: 58px !important;
+  height: 58px !important;
+  margin: 8px auto 0 !important;
+  padding: 0 !important;
+  border: 1px solid rgba(255,255,255,.34) !important;
+  border-radius: 999px !important;
+  background: #090909 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  overflow: hidden !important;
+}
+
+header.header-nav-shell .header-content-row {
+  min-height: 58px !important;
+  height: 58px !important;
+  padding: 0 30px !important;
+  justify-content: center !important;
+}
+
+header.header-nav-shell .header-desktop-cluster {
+  width: auto !important;
+  max-width: 100% !important;
+  gap: 28px !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+header.header-nav-shell .portfolio-brand {
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  gap: 5px !important;
+  color: #fff !important;
+  z-index: 30 !important;
+}
+
+header.header-nav-shell .portfolio-brand > span:first-child {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+header.header-nav-shell .header-brand-inline,
+header.header-nav-shell .header-brand-static {
+  font-size: 9px !important;
+  line-height: 1 !important;
+  letter-spacing: .13em !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+}
+
+header.header-nav-shell .desktop-centered-nav {
+  gap: 18px !important;
+  align-items: center !important;
+  z-index: 30 !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button {
+  padding: 2px 0 !important;
+  font-size: 8px !important;
+  line-height: 1 !important;
+  letter-spacing: .16em !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button:hover,
+header.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: #fff !important;
+  text-decoration: none !important;
+  opacity: .78 !important;
+}
+
+/* "Adim" fica como o pequeno botão circular da referência. */
+header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+  width: 19px !important;
+  height: 19px !important;
+  min-width: 19px !important;
+  margin-left: 2px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(240,138,174,.85) !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  font-size: 4.8px !important;
+  line-height: 1 !important;
+  letter-spacing: .04em !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+/* Campo gráfico da navbar: somente estrelas, sem blocos. */
+header.header-nav-shell .header-graphic-field {
+  z-index: 1 !important;
+  opacity: 1 !important;
+}
+
+header.header-nav-shell .header-graphic-block {
+  display: none !important;
+}
+
+header.header-nav-shell .header-graphic-star {
+  z-index: 2 !important;
+  font-size: var(--star-size, 22px) !important;
+  color: #fff !important;
+  opacity: .95 !important;
+  text-shadow: none !important;
+  animation: header-reference-star-float var(--star-duration, 7s) ease-in-out var(--star-delay, 0s) infinite !important;
+}
+
+header.header-nav-shell .header-graphic-star:nth-of-type(2n) {
+  color: #F08AAE !important;
+  opacity: 1 !important;
+}
+
+header.header-nav-shell .header-graphic-star:nth-of-type(3n) {
+  font-size: 15px !important;
+  opacity: .9 !important;
+}
+
+header.header-nav-shell .header-graphic-small-star {
+  z-index: 2 !important;
+  color: #fff !important;
+  opacity: .72 !important;
+  animation: header-reference-star-float var(--star-duration, 8s) ease-in-out var(--star-delay, 0s) infinite !important;
+}
+
+header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
+  color: #F08AAE !important;
+}
+
+@keyframes header-reference-star-float {
+  0%, 100% {
+    margin-top: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    margin-top: -4px;
+    transform: translate3d(3px, -2px, 0) rotate(8deg) scale(1.08);
+  }
+}
+
+@media (max-width: 767px) {
+  header.header-nav-shell {
+    top: 5px !important;
+    width: calc(100% - 20px) !important;
+    max-width: none !important;
+    min-height: 46px !important;
+    height: 46px !important;
+    margin: 6px auto 0 !important;
+    border-radius: 999px !important;
+  }
+
+  header.header-nav-shell .header-content-row {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 12px !important;
+  }
+
+  header.header-nav-shell .header-desktop-cluster {
+    gap: 10px !important;
+    max-width: 100% !important;
+  }
+
+  header.header-nav-shell .portfolio-brand {
+    max-width: 155px !important;
+    gap: 4px !important;
+  }
+
+  header.header-nav-shell .portfolio-brand > span:first-child {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  header.header-nav-shell .header-brand-inline,
+  header.header-nav-shell .header-brand-static {
+    font-size: 6.5px !important;
+    letter-spacing: .08em !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav {
+    gap: 7px !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button {
+    font-size: 5.7px !important;
+    letter-spacing: .09em !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    font-size: 3.5px !important;
+    margin-left: 0 !important;
+  }
+
+  header.header-nav-shell .header-graphic-star {
+    font-size: var(--star-size, 12px) !important;
+  }
+
+  header.header-nav-shell .header-graphic-star:nth-of-type(3n) {
+    font-size: 9px !important;
+  }
+
+  header.header-nav-shell .header-graphic-small-stars {
+    display: block !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header.header-nav-shell .header-graphic-star,
+  header.header-nav-shell .header-graphic-small-star {
+    animation: none !important;
+  }
+}
