@@ -8,22 +8,18 @@ interface HeaderProps {
 }
 
 const stars = [
-  { left: '5%', top: '24%', size: 34, delay: '0s', duration: '6.8s' },
-  { left: '12%', top: '67%', size: 19, delay: '-1.2s', duration: '7.4s' },
-  { left: '19%', top: '39%', size: 15, delay: '-2s', duration: '8.2s' },
-  { left: '27%', top: '16%', size: 24, delay: '-3s', duration: '6.9s' },
-  { left: '35%', top: '72%', size: 17, delay: '-4s', duration: '7.8s' },
-  { left: '43%', top: '29%', size: 29, delay: '-1.8s', duration: '8.4s' },
-  { left: '50%', top: '73%', size: 14, delay: '-5s', duration: '7.1s' },
-  { left: '57%', top: '18%', size: 21, delay: '-2.6s', duration: '6.5s' },
-  { left: '65%', top: '63%', size: 32, delay: '-4.5s', duration: '8.2s' },
-  { left: '73%', top: '28%', size: 16, delay: '-1s', duration: '7.6s' },
-  { left: '82%', top: '70%', size: 23, delay: '-3.6s', duration: '6.9s' },
-  { left: '90%', top: '22%', size: 36, delay: '-5.4s', duration: '8.1s' },
-  { left: '96%', top: '63%', size: 17, delay: '-2.4s', duration: '7.3s' },
-  { left: '58%', top: '43%', size: 13, delay: '-1.7s', duration: '7.9s' },
-  { left: '78%', top: '17%', size: 18, delay: '-3.1s', duration: '8.6s' },
-  { left: '46%', top: '51%', size: 12, delay: '-4.8s', duration: '6.6s' },
+  { left: '7%', top: '31%', size: 25, delay: '-1.2s', duration: '8.5s' },
+  { left: '16%', top: '78%', size: 12, delay: '-2.8s', duration: '9.2s' },
+  { left: '28%', top: '20%', size: 11, delay: '-4.1s', duration: '8.8s' },
+  { left: '38%', top: '67%', size: 10, delay: '-1.7s', duration: '9.6s' },
+  { left: '48%', top: '30%', size: 13, delay: '-3.4s', duration: '8.9s' },
+  { left: '58%', top: '17%', size: 9, delay: '-5.2s', duration: '9.4s' },
+  { left: '68%', top: '74%', size: 12, delay: '-2.2s', duration: '8.7s' },
+  { left: '78%', top: '26%', size: 10, delay: '-4.8s', duration: '9.8s' },
+  { left: '88%', top: '62%', size: 14, delay: '-1.4s', duration: '9.1s' },
+  { left: '94%', top: '22%', size: 24, delay: '-3.9s', duration: '8.6s' },
+  { left: '22%', top: '47%', size: 8, delay: '-5.8s', duration: '10s' },
+  { left: '73%', top: '48%', size: 7, delay: '-2.9s', duration: '9.5s' },
 ];
 
 const navItems = [
@@ -45,9 +41,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     event.currentTarget.style.setProperty('--pointer-y', y.toFixed(3));
 
     event.currentTarget.querySelectorAll<HTMLElement>('.reference-navbar__star').forEach((star, index) => {
-      const depth = 0.75 + (index % 5) * 0.22;
-      star.style.setProperty('--hover-x', `${(x * 34 * depth).toFixed(1)}px`);
-      star.style.setProperty('--hover-y', `${(y * 22 * depth).toFixed(1)}px`);
+      const depth = 0.55 + (index % 4) * 0.10;
+      star.style.setProperty('--hover-x', `${(x * 4.5 * depth).toFixed(2)}px`);
+      star.style.setProperty('--hover-y', `${(y * 3.5 * depth).toFixed(2)}px`);
     });
   };
 
@@ -77,12 +73,16 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
               style={{
                 left: star.left,
                 top: star.top,
-                fontSize: `${star.size}px`,
+                ['--star-size' as string]: `${star.size}px`,
                 ['--star-delay' as string]: star.delay,
                 ['--star-duration' as string]: star.duration,
               }}
             >
-              <span className="reference-navbar__star-glyph">✦</span>
+              <span className="reference-navbar__star-glyph">
+                <svg viewBox="0 0 32 32" aria-hidden="true">
+                  <path d="M16 0 L17.4 13.6 L28.5 3.5 L18.4 14.6 L32 16 L18.4 17.4 L28.5 28.5 L17.4 18.4 L16 32 L14.6 18.4 L3.5 28.5 L13.6 17.4 L0 16 L13.6 14.6 L3.5 3.5 L14.6 13.6 Z" />
+                </svg>
+              </span>
             </span>
           ))}
         </div>
