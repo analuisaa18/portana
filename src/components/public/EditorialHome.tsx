@@ -66,6 +66,11 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
         alt="Processo criativo com computador e referências de cor"
       />
 
+      {/* Fitas da colagem: exclusivas da composição mobile. */}
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--one" aria-hidden="true" />
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--two" aria-hidden="true" />
+      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--three" aria-hidden="true" />
+
       <div className="editorial-hero-scribble" aria-hidden="true">
         <span className="editorial-star-mark editorial-star-mark--diamond" />
       </div>
