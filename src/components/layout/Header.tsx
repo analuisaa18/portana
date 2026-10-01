@@ -8,18 +8,22 @@ interface HeaderProps {
 }
 
 const stars = [
-  { left: '6%', top: '28%', size: 24, delay: '0s', duration: '7s', color: 'white' },
-  { left: '13%', top: '68%', size: 13, delay: '-1.2s', duration: '6.2s', color: 'pink' },
-  { left: '22%', top: '18%', size: 10, delay: '-2s', duration: '8s', color: 'white' },
-  { left: '31%', top: '72%', size: 15, delay: '-3s', duration: '7.4s', color: 'pink' },
-  { left: '39%', top: '28%', size: 12, delay: '-4s', duration: '6.7s', color: 'white' },
-  { left: '47%', top: '67%', size: 21, delay: '-1.8s', duration: '8.4s', color: 'pink' },
-  { left: '56%', top: '17%', size: 11, delay: '-5s', duration: '7.1s', color: 'white' },
-  { left: '64%', top: '74%', size: 14, delay: '-2.6s', duration: '6.5s', color: 'pink' },
-  { left: '72%', top: '31%', size: 19, delay: '-4.5s', duration: '8.2s', color: 'white' },
-  { left: '81%', top: '69%', size: 11, delay: '-1s', duration: '7.6s', color: 'pink' },
-  { left: '90%', top: '22%', size: 23, delay: '-3.6s', duration: '6.9s', color: 'white' },
-  { left: '95%', top: '70%', size: 10, delay: '-5.4s', duration: '8.1s', color: 'pink' },
+  { left: '5%', top: '24%', size: 34, delay: '0s', duration: '6.8s' },
+  { left: '12%', top: '67%', size: 19, delay: '-1.2s', duration: '7.4s' },
+  { left: '19%', top: '39%', size: 15, delay: '-2s', duration: '8.2s' },
+  { left: '27%', top: '16%', size: 24, delay: '-3s', duration: '6.9s' },
+  { left: '35%', top: '72%', size: 17, delay: '-4s', duration: '7.8s' },
+  { left: '43%', top: '29%', size: 29, delay: '-1.8s', duration: '8.4s' },
+  { left: '50%', top: '73%', size: 14, delay: '-5s', duration: '7.1s' },
+  { left: '57%', top: '18%', size: 21, delay: '-2.6s', duration: '6.5s' },
+  { left: '65%', top: '63%', size: 32, delay: '-4.5s', duration: '8.2s' },
+  { left: '73%', top: '28%', size: 16, delay: '-1s', duration: '7.6s' },
+  { left: '82%', top: '70%', size: 23, delay: '-3.6s', duration: '6.9s' },
+  { left: '90%', top: '22%', size: 36, delay: '-5.4s', duration: '8.1s' },
+  { left: '96%', top: '63%', size: 17, delay: '-2.4s', duration: '7.3s' },
+  { left: '58%', top: '43%', size: 13, delay: '-1.7s', duration: '7.9s' },
+  { left: '78%', top: '17%', size: 18, delay: '-3.1s', duration: '8.6s' },
+  { left: '46%', top: '51%', size: 12, delay: '-4.8s', duration: '6.6s' },
 ];
 
 const navItems = [
@@ -36,13 +40,14 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+
     event.currentTarget.style.setProperty('--pointer-x', x.toFixed(3));
     event.currentTarget.style.setProperty('--pointer-y', y.toFixed(3));
 
     event.currentTarget.querySelectorAll<HTMLElement>('.reference-navbar__star').forEach((star, index) => {
-      const depth = 0.7 + (index % 4) * 0.25;
-      star.style.setProperty('--hover-x', `${(x * 22 * depth).toFixed(1)}px`);
-      star.style.setProperty('--hover-y', `${(y * 14 * depth).toFixed(1)}px`);
+      const depth = 0.75 + (index % 5) * 0.22;
+      star.style.setProperty('--hover-x', `${(x * 34 * depth).toFixed(1)}px`);
+      star.style.setProperty('--hover-y', `${(y * 22 * depth).toFixed(1)}px`);
     });
   };
 
@@ -58,7 +63,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   return (
     <>
       <SkipLink />
-      <header className="reference-navbar" aria-label="Navegação principal" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+      <header
+        className="reference-navbar"
+        aria-label="Navegação principal"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="reference-navbar__stars" aria-hidden="true">
           {stars.map((star, index) => (
             <span
@@ -68,11 +78,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 left: star.left,
                 top: star.top,
                 fontSize: `${star.size}px`,
-                animationDelay: star.delay,
-                animationDuration: star.duration,
-                  ['--star-depth' as string]: `${0.65 + (index % 4) * 0.18}`,
+                ['--star-delay' as string]: star.delay,
+                ['--star-duration' as string]: star.duration,
               }}
-            >✷</span>
+            >
+              <span className="reference-navbar__star-glyph">✦</span>
+            </span>
           ))}
         </div>
 
@@ -83,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             onClick={() => onNavigate('home')}
             aria-label={`Ir para o início — ${brandName}`}
           >
-            <span className="reference-navbar__brand-mark" aria-hidden="true">✷</span>
+            <span className="reference-navbar__brand-mark" aria-hidden="true">✦</span>
             <span>{brandName}</span>
           </button>
 
