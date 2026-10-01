@@ -5656,9 +5656,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 }
 
 /* =========================================================
-   REFERENCE NAVBAR — editorial black capsule
-   Visual treatment matched to the supplied reference:
-   black pill, compact mono typography, thin eight-point stars.
+   REFERENCE NAVBAR — oversized editorial capsule
    ========================================================= */
 .reference-navbar {
   position: sticky;
@@ -5697,7 +5695,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   border: 0;
   background: transparent;
   color: #fff;
-  font-family: 'Space Mono', 'Courier New', monospace;
+  font-family: var(--font-body), Arial, sans-serif;
   cursor: pointer;
 }
 
@@ -5707,24 +5705,24 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   gap: 13px;
   padding: 0;
   flex: 0 0 auto;
-  font-size: 15px;
+  font-size: 24px;
   line-height: 1;
-  font-weight: 700;
-  letter-spacing: .055em;
+  font-weight: 800;
+  letter-spacing: .08em;
   white-space: nowrap;
-  transition: opacity .25s ease;
+  transition: transform .25s ease;
 }
 
-.reference-navbar__brand:hover { opacity: .72; }
+.reference-navbar__brand:hover { transform: translateY(-2px); }
 
 .reference-navbar__brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   color: #fff;
-  font-size: 19px;
+  font-size: 27px;
   line-height: 1;
 }
 
@@ -5732,44 +5730,45 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 31px;
+  gap: 40px;
   flex: 0 0 auto;
 }
 
 .reference-navbar__links button:not(.reference-navbar__admin) {
   padding: 0;
-  font-size: 9px;
+  font-size: 15px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: .14em;
   text-transform: uppercase;
-  transition: opacity .25s ease;
+  transition: opacity .2s ease, transform .2s ease;
 }
 
 .reference-navbar__links button:not(.reference-navbar__admin):hover,
 .reference-navbar__links button:not(.reference-navbar__admin)[aria-current="page"] {
   opacity: .62;
+  transform: translateY(-2px);
 }
 
 .reference-navbar__admin {
-  width: 27px;
-  height: 27px;
+  width: 40px;
+  height: 40px;
   padding: 0 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.4px solid rgba(240, 138, 174, .98) !important;
+  border: 1.8px solid rgba(240, 138, 174, .98) !important;
   border-radius: 50%;
   color: #fff !important;
-  font-size: 15px;
+  font-size: 22px;
   line-height: 1;
-  transition: transform .25s ease, background .25s ease;
+  transition: transform .22s ease, background .22s ease;
 }
 
 .reference-navbar__admin:hover,
 .reference-navbar__admin[aria-current="page"] {
-  background: rgba(240, 138, 174, .12);
-  transform: scale(1.04);
+  background: rgba(240, 138, 174, .18);
+  transform: scale(1.1);
 }
 
 .reference-navbar__stars {
@@ -5782,41 +5781,35 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .reference-navbar__star {
   position: absolute;
   display: block;
-  width: var(--star-size, 12px);
-  height: var(--star-size, 12px);
   color: #fff;
-  line-height: 0;
-  opacity: .94;
+  line-height: 1;
+  opacity: .98;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(255,255,255,.14);
   --hover-x: 0px;
   --hover-y: 0px;
   will-change: transform;
   transform: translate3d(var(--hover-x), var(--hover-y), 0);
-  transition: transform .42s cubic-bezier(.22,.61,.36,1);
+  transition: transform .12s cubic-bezier(.22,.61,.36,1), filter .16s ease;
 }
 
 .reference-navbar__star-glyph {
   display: block;
-  width: 100%;
-  height: 100%;
-  animation: reference-navbar-star-float var(--star-duration, 9s) ease-in-out var(--star-delay, 0s) infinite;
+  animation: reference-navbar-star-float var(--star-duration, 7s) ease-in-out var(--star-delay, 0s) infinite;
   transform-origin: center;
 }
 
-.reference-navbar__star-glyph svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: currentColor;
-  filter: drop-shadow(0 0 4px rgba(255,255,255,.10));
-}
+.reference-navbar__star:nth-child(even) { color: #f08aae; }
 
-.reference-navbar__star:nth-child(3n) { color: #f08aae; }
-.reference-navbar__star:nth-child(5n) { opacity: .72; }
+.reference-navbar__star:nth-child(3n) { font-size: 1.28em; }
+.reference-navbar__star:nth-child(4n) { opacity: .82; }
 
 @keyframes reference-navbar-star-float {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-  50% { transform: translate3d(1px, -2px, 0) rotate(3deg) scale(1.025); }
+  25% { transform: translate3d(4px, -5px, 0) rotate(9deg) scale(1.05); }
+  50% { transform: translate3d(-3px, -9px, 0) rotate(-10deg) scale(1.16); }
+  75% { transform: translate3d(-5px, 3px, 0) rotate(7deg) scale(1.04); }
 }
 
 .reference-navbar::after {
@@ -5825,21 +5818,17 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   inset: -30%;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(
-    circle at calc(50% + var(--pointer-x) * 5%) calc(50% + var(--pointer-y) * 5%),
-    rgba(240,138,174,.045),
-    transparent 22%
-  );
-  transition: background .35s ease;
+  background: radial-gradient(circle at calc(50% + var(--pointer-x) * 18%) calc(50% + var(--pointer-y) * 18%), rgba(240,138,174,.10), transparent 25%);
+  transition: background .08s linear;
 }
 
 @media (max-width: 1100px) {
   .reference-navbar { min-height: 98px; }
   .reference-navbar__inner { min-height: 98px; gap: 50px; padding: 0 46px; }
-  .reference-navbar__brand { font-size: 14px; }
-  .reference-navbar__links { gap: 24px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 8px; }
-  .reference-navbar__admin { width: 25px; height: 25px; }
+  .reference-navbar__brand { font-size: 20px; }
+  .reference-navbar__links { gap: 29px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 13px; }
+  .reference-navbar__admin { width: 35px; height: 35px; }
 }
 
 @media (max-width: 767px) {
@@ -5852,24 +5841,346 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 
   .reference-navbar__inner {
     min-height: 72px;
-    gap: 13px;
+    gap: 17px;
     padding: 0 18px;
   }
 
   .reference-navbar__brand {
-    gap: 5px;
-    font-size: 8px;
-    letter-spacing: .045em;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: .06em;
   }
 
-  .reference-navbar__brand-mark { width: 10px; height: 10px; font-size: 12px; }
-  .reference-navbar__links { gap: 8px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 6px; letter-spacing: .09em; }
-  .reference-navbar__admin { width: 18px; height: 18px; font-size: 9px; }
+  .reference-navbar__brand-mark { width: 12px; height: 12px; font-size: 14px; }
+  .reference-navbar__links { gap: 11px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 7.5px; letter-spacing: .09em; }
+  .reference-navbar__admin { width: 20px; height: 20px; font-size: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reference-navbar__star-glyph { animation: none; }
-  .reference-navbar__star { transition: none; }
 }
 
+/* =========================================================
+   HERO — TRATAMENTO DE FOTO + COLAGEM DA REFERÊNCIA
+   ========================================================= */
+
+/* A fotografia recebe o mesmo tratamento monocromático rosado da referência:
+   preto profundo, contraste alto e uma camada rosa impressa sobre a imagem. */
+.editorial-home--single .editorial-hero-photo {
+  filter: grayscale(1) contrast(1.28) brightness(.92) !important;
+  mix-blend-mode: multiply !important;
+}
+
+.editorial-home--single .editorial-hero-photo-tint {
+  position: absolute !important;
+  right: 5.5% !important;
+  top: 9% !important;
+  width: 40% !important;
+  height: 80% !important;
+  z-index: 4 !important;
+  pointer-events: none !important;
+  background: #e388a9 !important;
+  opacity: .46 !important;
+  mix-blend-mode: color !important;
+}
+
+/* Segunda camada escura, como a impressão fotográfica da referência. */
+.editorial-home--single .editorial-hero-photo-tint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(0,0,0,.10), rgba(0,0,0,.32)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+}
+
+/* Fitas adesivas: translúcidas, irregulares e com textura, sem parecerem
+   retângulos digitais perfeitos. */
+.editorial-home--single .editorial-mobile-photo-tape {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.19), rgba(255,255,255,.06) 48%, rgba(20,12,15,.13)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 3px) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  box-shadow: inset 0 0 14px rgba(255,255,255,.05) !important;
+  opacity: .88 !important;
+  mix-blend-mode: screen !important;
+  clip-path: polygon(1% 7%, 97% 0, 100% 90%, 93% 100%, 4% 94%, 0 18%) !important;
+}
+
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-hero-photo-tint {
+    right: 5.5% !important;
+    top: 9% !important;
+    width: 40% !important;
+    height: 80% !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 18% !important;
+    top: 8% !important;
+    width: 23% !important;
+    height: 11% !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    left: 45% !important;
+    top: 67% !important;
+    width: 20% !important;
+    height: 10% !important;
+    transform: rotate(-13deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    right: 1% !important;
+    top: 22% !important;
+    width: 17% !important;
+    height: 11% !important;
+    transform: rotate(8deg) !important;
+    display: block !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--four {
+    right: 5% !important;
+    bottom: 5% !important;
+    width: 20% !important;
+    height: 10% !important;
+    transform: rotate(-8deg) !important;
+    display: block !important;
+  }
+}
+
+/* Estrelas gráficas: a mesma estrela pontiaguda, preta/branca/rosa, da
+   composição de papel. Elas ficam independentes da foto e da tipografia. */
+.editorial-collage-star {
+  position: absolute !important;
+  width: 28px !important;
+  height: 28px !important;
+  z-index: 6 !important;
+  pointer-events: none !important;
+  background: #090909 !important;
+  clip-path: polygon(
+    50% 0%, 57% 37%, 76% 19%, 63% 42%,
+    100% 50%, 63% 58%, 76% 81%, 57% 63%,
+    50% 100%, 43% 63%, 24% 81%, 37% 58%,
+    0% 50%, 37% 42%, 24% 19%, 43% 37%
+  ) !important;
+}
+
+.editorial-collage-star--a { left: 8%; top: 25%; width: 34px !important; height: 34px !important; }
+.editorial-collage-star--b { left: 40%; top: 17%; width: 31px !important; height: 31px !important; }
+.editorial-collage-star--c { left: 44%; top: 46%; width: 26px !important; height: 26px !important; }
+.editorial-collage-star--d { left: 5%; top: 72%; width: 25px !important; height: 25px !important; }
+.editorial-collage-star--e { left: 42%; bottom: 12%; width: 36px !important; height: 36px !important; background: #fff7fa !important; }
+.editorial-collage-star--f { right: 3%; bottom: 5%; width: 27px !important; height: 27px !important; }
+
+/* Uma pequena estrela rosa, igual às intervenções coloridas do mockup. */
+.editorial-collage-star--c::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #e388a9;
+  clip-path: inherit;
+  transform: scale(.56);
+  transform-origin: center;
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero-photo-tint {
+    right: 5% !important;
+    top: 8.5% !important;
+    width: 48% !important;
+    height: 38% !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 8% !important;
+    top: 12% !important;
+    width: 29% !important;
+    height: 7% !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    left: 43% !important;
+    top: 61% !important;
+    width: 28% !important;
+    height: 7% !important;
+    transform: rotate(-10deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    right: 1% !important;
+    top: 23% !important;
+    width: 25% !important;
+    height: 7% !important;
+    transform: rotate(8deg) !important;
+    display: block !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--four {
+    right: 4% !important;
+    bottom: 6% !important;
+    width: 29% !important;
+    height: 7% !important;
+    transform: rotate(-8deg) !important;
+    display: block !important;
+  }
+
+  .editorial-collage-star--a { left: 7%; top: 27%; width: 23px !important; height: 23px !important; }
+  .editorial-collage-star--b { left: 42%; top: 17%; width: 20px !important; height: 20px !important; }
+  .editorial-collage-star--c { left: 45%; top: 46%; width: 18px !important; height: 18px !important; }
+  .editorial-collage-star--d { left: 5%; top: 69%; width: 18px !important; height: 18px !important; }
+  .editorial-collage-star--e { left: 43%; bottom: 13%; width: 25px !important; height: 25px !important; }
+  .editorial-collage-star--f { right: 3%; bottom: 6%; width: 20px !important; height: 20px !important; }
+}
+
+/* =========================================================
+   HOME — AJUSTE FINAL DA COLAGEM DA REFERÊNCIA
+   Escopo exclusivo: foto + fitas + estrelas do HERO.
+   ========================================================= */
+.editorial-home--single .editorial-hero-photo {
+  filter: grayscale(1) contrast(1.34) brightness(.88) !important;
+  mix-blend-mode: multiply !important;
+}
+
+.editorial-home--single .editorial-hero-photo-tint {
+  background:
+    linear-gradient(rgba(227,136,169,.72), rgba(227,136,169,.72)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px) !important;
+  opacity: .72 !important;
+  mix-blend-mode: color !important;
+  filter: saturate(1.08) contrast(1.04) !important;
+}
+
+.editorial-home--single .editorial-hero-photo-tint::after {
+  background:
+    linear-gradient(135deg, rgba(0,0,0,.08), rgba(0,0,0,.38)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 4px) !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Fitas com aparência de fita adesiva física: translúcidas, granuladas,
+   ligeiramente irregulares e sem aspecto de bloco digital. */
+.editorial-home--single .editorial-mobile-photo-tape {
+  z-index: 7 !important;
+  background:
+    linear-gradient(90deg,
+      rgba(232,224,219,.40) 0%,
+      rgba(255,248,244,.24) 48%,
+      rgba(195,184,181,.30) 100%) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  box-shadow:
+    inset 0 0 12px rgba(255,255,255,.10),
+    0 1px 2px rgba(0,0,0,.12) !important;
+  opacity: .78 !important;
+  mix-blend-mode: screen !important;
+  clip-path: polygon(1% 9%, 8% 3%, 47% 1%, 96% 5%, 100% 17%, 98% 90%, 91% 97%, 53% 95%, 7% 100%, 0 87%, 3% 45%) !important;
+}
+
+.editorial-home--single .editorial-mobile-photo-tape::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(93deg,
+      transparent 0 3px,
+      rgba(255,255,255,.055) 3px 4px,
+      transparent 4px 8px),
+    radial-gradient(circle at 22% 40%, rgba(255,255,255,.12), transparent 24%),
+    radial-gradient(circle at 74% 65%, rgba(0,0,0,.08), transparent 30%);
+  opacity: .75;
+  pointer-events: none;
+}
+
+/* Estrelas de oito pontas, como as marcas gráficas da referência. */
+.editorial-home--single .editorial-collage-star {
+  z-index: 8 !important;
+  background: #090909 !important;
+  clip-path: polygon(
+    50% 0%, 58% 40%, 100% 50%, 58% 60%,
+    50% 100%, 42% 60%, 0% 50%, 42% 40%
+  ) !important;
+  filter: none !important;
+}
+
+.editorial-home--single .editorial-collage-star--a {
+  left: 7.5% !important;
+  top: 24% !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.editorial-home--single .editorial-collage-star--b {
+  left: 39% !important;
+  top: 17% !important;
+  width: 29px !important;
+  height: 29px !important;
+}
+
+.editorial-home--single .editorial-collage-star--c {
+  left: 43% !important;
+  top: 45% !important;
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.editorial-home--single .editorial-collage-star--d {
+  left: 5% !important;
+  top: 71% !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.editorial-home--single .editorial-collage-star--e {
+  left: 42% !important;
+  bottom: 12% !important;
+  width: 34px !important;
+  height: 34px !important;
+  background: #fff7fa !important;
+}
+
+.editorial-home--single .editorial-collage-star--f {
+  right: 3% !important;
+  bottom: 5% !important;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.editorial-home--single .editorial-collage-star--c::after {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero-photo {
+    filter: grayscale(1) contrast(1.34) brightness(.88) !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo-tint {
+    opacity: .72 !important;
+  }
+
+  .editorial-home--single .editorial-collage-star--a {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .editorial-home--single .editorial-collage-star--b {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .editorial-home--single .editorial-collage-star--c,
+  .editorial-home--single .editorial-collage-star--d {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .editorial-home--single .editorial-collage-star--e {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .editorial-home--single .editorial-collage-star--f {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
