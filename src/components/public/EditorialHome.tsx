@@ -1,5 +1,5 @@
 import React from 'react';
-import BrikTicker from './BrikTicker';
+import { BrikTicker } from './BrikTicker';
 import ProjectsGrid from './ProjectsGrid';
 import KineticBrand from '../layout/KineticBrand';
 
