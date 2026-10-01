@@ -5656,7 +5656,9 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 }
 
 /* =========================================================
-   REFERENCE NAVBAR — oversized editorial capsule
+   REFERENCE NAVBAR — editorial black capsule
+   Visual treatment matched to the supplied reference:
+   black pill, compact mono typography, thin eight-point stars.
    ========================================================= */
 .reference-navbar {
   position: sticky;
@@ -5695,7 +5697,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   border: 0;
   background: transparent;
   color: #fff;
-  font-family: var(--font-body), Arial, sans-serif;
+  font-family: 'Space Mono', 'Courier New', monospace;
   cursor: pointer;
 }
 
@@ -5705,24 +5707,24 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   gap: 13px;
   padding: 0;
   flex: 0 0 auto;
-  font-size: 24px;
+  font-size: 15px;
   line-height: 1;
-  font-weight: 800;
-  letter-spacing: .08em;
+  font-weight: 700;
+  letter-spacing: .055em;
   white-space: nowrap;
-  transition: transform .25s ease;
+  transition: opacity .25s ease;
 }
 
-.reference-navbar__brand:hover { transform: translateY(-2px); }
+.reference-navbar__brand:hover { opacity: .72; }
 
 .reference-navbar__brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   color: #fff;
-  font-size: 27px;
+  font-size: 19px;
   line-height: 1;
 }
 
@@ -5730,45 +5732,44 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 31px;
   flex: 0 0 auto;
 }
 
 .reference-navbar__links button:not(.reference-navbar__admin) {
   padding: 0;
-  font-size: 15px;
+  font-size: 9px;
   line-height: 1;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
-  transition: opacity .2s ease, transform .2s ease;
+  transition: opacity .25s ease;
 }
 
 .reference-navbar__links button:not(.reference-navbar__admin):hover,
 .reference-navbar__links button:not(.reference-navbar__admin)[aria-current="page"] {
   opacity: .62;
-  transform: translateY(-2px);
 }
 
 .reference-navbar__admin {
-  width: 40px;
-  height: 40px;
+  width: 27px;
+  height: 27px;
   padding: 0 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.8px solid rgba(240, 138, 174, .98) !important;
+  border: 1.4px solid rgba(240, 138, 174, .98) !important;
   border-radius: 50%;
   color: #fff !important;
-  font-size: 22px;
+  font-size: 15px;
   line-height: 1;
-  transition: transform .22s ease, background .22s ease;
+  transition: transform .25s ease, background .25s ease;
 }
 
 .reference-navbar__admin:hover,
 .reference-navbar__admin[aria-current="page"] {
-  background: rgba(240, 138, 174, .18);
-  transform: scale(1.1);
+  background: rgba(240, 138, 174, .12);
+  transform: scale(1.04);
 }
 
 .reference-navbar__stars {
@@ -5781,35 +5782,41 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .reference-navbar__star {
   position: absolute;
   display: block;
+  width: var(--star-size, 12px);
+  height: var(--star-size, 12px);
   color: #fff;
-  line-height: 1;
-  opacity: .98;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 400;
-  text-shadow: 0 0 10px rgba(255,255,255,.14);
+  line-height: 0;
+  opacity: .94;
   --hover-x: 0px;
   --hover-y: 0px;
   will-change: transform;
   transform: translate3d(var(--hover-x), var(--hover-y), 0);
-  transition: transform .12s cubic-bezier(.22,.61,.36,1), filter .16s ease;
+  transition: transform .42s cubic-bezier(.22,.61,.36,1);
 }
 
 .reference-navbar__star-glyph {
   display: block;
-  animation: reference-navbar-star-float var(--star-duration, 7s) ease-in-out var(--star-delay, 0s) infinite;
+  width: 100%;
+  height: 100%;
+  animation: reference-navbar-star-float var(--star-duration, 9s) ease-in-out var(--star-delay, 0s) infinite;
   transform-origin: center;
 }
 
-.reference-navbar__star:nth-child(even) { color: #f08aae; }
+.reference-navbar__star-glyph svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.10));
+}
 
-.reference-navbar__star:nth-child(3n) { font-size: 1.28em; }
-.reference-navbar__star:nth-child(4n) { opacity: .82; }
+.reference-navbar__star:nth-child(3n) { color: #f08aae; }
+.reference-navbar__star:nth-child(5n) { opacity: .72; }
 
 @keyframes reference-navbar-star-float {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-  25% { transform: translate3d(4px, -5px, 0) rotate(9deg) scale(1.05); }
-  50% { transform: translate3d(-3px, -9px, 0) rotate(-10deg) scale(1.16); }
-  75% { transform: translate3d(-5px, 3px, 0) rotate(7deg) scale(1.04); }
+  50% { transform: translate3d(1px, -2px, 0) rotate(3deg) scale(1.025); }
 }
 
 .reference-navbar::after {
@@ -5818,17 +5825,21 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   inset: -30%;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(circle at calc(50% + var(--pointer-x) * 18%) calc(50% + var(--pointer-y) * 18%), rgba(240,138,174,.10), transparent 25%);
-  transition: background .08s linear;
+  background: radial-gradient(
+    circle at calc(50% + var(--pointer-x) * 5%) calc(50% + var(--pointer-y) * 5%),
+    rgba(240,138,174,.045),
+    transparent 22%
+  );
+  transition: background .35s ease;
 }
 
 @media (max-width: 1100px) {
   .reference-navbar { min-height: 98px; }
   .reference-navbar__inner { min-height: 98px; gap: 50px; padding: 0 46px; }
-  .reference-navbar__brand { font-size: 20px; }
-  .reference-navbar__links { gap: 29px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 13px; }
-  .reference-navbar__admin { width: 35px; height: 35px; }
+  .reference-navbar__brand { font-size: 14px; }
+  .reference-navbar__links { gap: 24px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 8px; }
+  .reference-navbar__admin { width: 25px; height: 25px; }
 }
 
 @media (max-width: 767px) {
@@ -5841,24 +5852,25 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 
   .reference-navbar__inner {
     min-height: 72px;
-    gap: 17px;
+    gap: 13px;
     padding: 0 18px;
   }
 
   .reference-navbar__brand {
-    gap: 6px;
-    font-size: 11px;
-    letter-spacing: .06em;
+    gap: 5px;
+    font-size: 8px;
+    letter-spacing: .045em;
   }
 
-  .reference-navbar__brand-mark { width: 12px; height: 12px; font-size: 14px; }
-  .reference-navbar__links { gap: 11px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 7.5px; letter-spacing: .09em; }
-  .reference-navbar__admin { width: 20px; height: 20px; font-size: 11px; }
+  .reference-navbar__brand-mark { width: 10px; height: 10px; font-size: 12px; }
+  .reference-navbar__links { gap: 8px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 6px; letter-spacing: .09em; }
+  .reference-navbar__admin { width: 18px; height: 18px; font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reference-navbar__star-glyph { animation: none; }
+  .reference-navbar__star { transition: none; }
 }
 
 /* =========================================================
