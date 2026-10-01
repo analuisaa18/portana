@@ -3769,509 +3769,303 @@ header.header-nav-shell {
 }
 
 /* =========================================================
-   FINAL MOCKUP MATCH — COLLAGE/PAPER, CONTROLLED
-   Reproduces the approved desktop + mobile direction without
-   putting collage pieces over the navigation bar.
+   FINAL COLLAGE / TORN-PAPER DIRECTION
+   Referência: modelo "OPÇÃO 2".
+   A navbar permanece limpa e separada; os rasgos ficam apenas
+   nas áreas de conteúdo.
    ========================================================= */
-:root {
-  --mock-pink: #e388a9;
-  --mock-pink-soft: #f0b3c7;
-  --mock-black: #090909;
-  --mock-cream: #fff7fa;
-}
 
-/* ---------- GLOBAL EDITORIAL FRAME ---------- */
-body {
-  background: var(--mock-black) !important;
-  color: var(--mock-cream) !important;
-}
-
-/* ---------- NAVBAR: same pill language as the desktop reference ---------- */
+/* NAVBAR: cápsula preta limpa, sem papel rasgado */
 header.header-nav-shell {
-  position: relative !important;
-  top: auto !important;
-  margin: 20px 28px 0 !important;
-  width: calc(100% - 56px) !important;
-  min-height: 70px !important;
-  height: 70px !important;
-  border: 1px solid rgba(227,136,169,.9) !important;
+  background: #090909 !important;
+  border: 1px solid #e388a9 !important;
   border-radius: 999px !important;
-  background: var(--mock-black) !important;
   box-shadow: none !important;
-  backdrop-filter: none !important;
   overflow: hidden !important;
 }
-header.header-nav-shell .header-content-row {
-  min-height: 70px !important;
-  height: 70px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
-header.header-nav-shell .header-desktop-cluster {
-  width: 100% !important;
-  max-width: none !important;
-  justify-content: space-between !important;
-  gap: 24px !important;
-}
-header.header-nav-shell .portfolio-brand {
-  max-width: none !important;
-  flex: 0 0 auto !important;
-}
-header.header-nav-shell .desktop-centered-nav {
-  display: flex !important;
-  align-items: center !important;
-  gap: 24px !important;
-}
-header.header-nav-shell .desktop-centered-nav button {
-  color: #fff7fa !important;
-  font-size: 10px !important;
-  letter-spacing: .16em !important;
-}
-header.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
-  color: var(--mock-pink) !important;
-  text-decoration: none !important;
-}
-header.header-nav-shell .header-circle-field {
-  opacity: .9 !important;
-}
-header.header-nav-shell .header-circle-field__circle {
-  background: var(--mock-pink) !important;
+
+.header-nav-shell .header-circle-field__circle {
+  background: #e388a9 !important;
   opacity: .9 !important;
 }
 
-/* ---------- SHARED COLLAGE MATERIAL ---------- */
-.editorial-panel,
-.editorial-about-page__panel,
-.editorial-contact-page {
-  isolation: isolate;
+/* HOME — desktop e mobile compartilham a mesma linguagem */
+.editorial-home--single .editorial-hero {
+  background: #090909 !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
 }
 
-.editorial-panel::before,
-.editorial-panel::after,
-.editorial-about-page__panel::before,
-.editorial-about-page__panel::after,
-.editorial-contact-page::before,
-.editorial-contact-page::after {
+.editorial-home--single .editorial-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
+  background-color: #e388a9;
+  background-image:
+    radial-gradient(circle at 17% 23%, rgba(20,10,14,.08) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 74% 67%, rgba(255,255,255,.08) 0 1px, transparent 1.5px),
+    repeating-linear-gradient(8deg, rgba(255,255,255,.025) 0 1px, transparent 1px 5px);
+  background-size: 11px 11px, 15px 15px, auto;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 96%,
+    97% 97.5%, 93% 96.5%, 88% 100%, 83% 97.2%,
+    77% 99.2%, 71% 96.8%, 64% 100%, 58% 97%,
+    51% 99.5%, 44% 96.7%, 37% 100%, 30% 97.2%,
+    23% 99.4%, 16% 96.8%, 9% 100%, 0 96%,
+    1.5% 88%, 0 80%, 1.8% 71%, 0 63%, 1.4% 54%,
+    0 45%, 1.7% 36%, 0 27%, 1.5% 18%, 0 9%
+  );
 }
 
-/* A restrained paper sheet: one per major area, never the navbar. */
-.editorial-hero::before {
-  content: "";
-  position: absolute;
-  left: 5%;
-  top: 8%;
-  width: 30%;
-  height: 18%;
-  background: rgba(255,247,250,.18);
-  clip-path: polygon(0 5%, 96% 0, 100% 89%, 94% 100%, 4% 94%, 0 18%);
-  transform: rotate(-3deg);
-  z-index: 1;
-}
-.editorial-hero::after {
-  content: "";
-  position: absolute;
-  right: 3%;
-  bottom: 8%;
-  width: 26%;
-  height: 24%;
-  background: rgba(9,9,9,.10);
-  clip-path: polygon(5% 0, 100% 6%, 96% 95%, 7% 100%, 0 18%);
-  transform: rotate(4deg);
-  z-index: 1;
+/* pequenos pedaços de fita/textura — sem exagero */
+.editorial-home--single .editorial-mobile-photo-tape {
+  display: block !important;
+  position: absolute !important;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,.03)),
+    rgba(28,17,21,.28) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
 }
 
-/* Hero photo gets the same small collage treatment as the mockup. */
-.editorial-hero-photo {
+/* desktop: só dois recortes discretos */
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    display: block !important;
+    width: 180px !important;
+    height: 48px !important;
+    left: 48% !important;
+    right: auto !important;
+    top: 4% !important;
+    transform: rotate(-7deg) !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    display: block !important;
+    width: 150px !important;
+    height: 44px !important;
+    right: 4% !important;
+    left: auto !important;
+    top: 68% !important;
+    transform: rotate(8deg) !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    background: rgba(255,205,224,.28) !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    background: rgba(20,10,14,.34) !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+}
+
+/* mobile: mantém o mesmo recorte, com apenas duas intervenções */
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero {
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-hero::before {
+    clip-path: polygon(
+      0 0, 100% 0, 100% 95%,
+      94% 97%, 88% 95.5%, 81% 100%, 74% 96%,
+      67% 99%, 60% 96%, 53% 100%, 46% 97%,
+      39% 99.5%, 31% 96%, 24% 100%, 16% 97%,
+      8% 100%, 0 96%, 2% 88%, 0 79%, 2% 69%,
+      0 59%, 2% 49%, 0 39%, 2% 29%, 0 18%, 2% 9%
+    );
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    display: block !important;
+    left: 8% !important;
+    right: auto !important;
+    top: 12% !important;
+    width: 24% !important;
+    height: 7% !important;
+    transform: rotate(-7deg) !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    display: block !important;
+    right: 1% !important;
+    left: auto !important;
+    top: 70% !important;
+    width: 25% !important;
+    height: 7% !important;
+    transform: rotate(8deg) !important;
+    z-index: 7 !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    background: rgba(255,205,224,.25) !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    background: rgba(20,10,14,.28) !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+}
+
+/* SOBRE — papel rasgado como moldura, sem transformar a página em colagem */
+.editorial-about-page__panel {
+  background: #090909 !important;
   border: 0 !important;
-  box-shadow: 10px 12px 0 rgba(9,9,9,.10) !important;
-  z-index: 4 !important;
-}
-.editorial-hero-paper.paper-one {
-  background: rgba(255,247,250,.22) !important;
-  mix-blend-mode: normal !important;
-  opacity: 1 !important;
-}
-.editorial-hero-paper.paper-two {
-  background: rgba(9,9,9,.12) !important;
-  mix-blend-mode: normal !important;
-  opacity: 1 !important;
+  isolation: isolate !important;
 }
 
-/* ---------- ABOUT ---------- */
 .editorial-about-page__panel::before {
   content: "";
   position: absolute;
-  right: 7%;
-  top: 13%;
-  width: 38%;
-  height: 62%;
-  background: var(--mock-pink);
-  clip-path: polygon(2% 5%, 95% 0, 100% 93%, 91% 100%, 4% 96%, 0 12%);
-  transform: rotate(3deg);
+  inset: 0;
   z-index: 0;
-  opacity: .92;
+  pointer-events: none;
+  background: #e388a9;
+  opacity: .96;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 97%, 94% 96%, 87% 100%, 79% 97%,
+    70% 99%, 61% 96%, 52% 100%, 43% 97%, 34% 99%,
+    25% 96%, 16% 100%, 8% 97%, 0 99%, 2% 86%, 0 72%,
+    2% 58%, 0 43%, 2% 28%, 0 14%
+  );
 }
-.editorial-about-page__panel::after {
-  content: "✦";
-  position: absolute;
-  right: 4%;
-  bottom: 7%;
-  color: var(--mock-pink);
-  font-size: 90px;
-  transform: rotate(12deg);
-  opacity: .28;
-  z-index: 1;
-}
-.editorial-about-page__visual,
-.editorial-about-page__content {
+
+.editorial-about-page__content,
+.editorial-about-page__index,
+.editorial-about-page__floating-star {
   position: relative;
   z-index: 2;
 }
-.editorial-about-page__paper {
-  transform: rotate(-4deg) !important;
-  box-shadow: 10px 12px 0 rgba(227,136,169,.14);
+
+.editorial-about-page__text h1 {
+  color: #090909 !important;
 }
 
-/* ---------- PROJECTS ---------- */
-.editorial-home--projects .editorial-projects {
-  position: relative;
+.editorial-about-page__intro,
+.editorial-about-page__body p,
+.editorial-about-page__details {
+  color: #151015 !important;
 }
+
+.editorial-about-page__paper {
+  box-shadow: 10px 12px 0 rgba(9,9,9,.22) !important;
+}
+
+/* PROJETOS — fundo preto + folha rosa irregular e cards limpos */
+.editorial-home--projects .editorial-projects {
+  background: #090909 !important;
+  color: #090909 !important;
+  isolation: isolate !important;
+}
+
 .editorial-home--projects .editorial-projects::before {
   content: "";
   position: absolute;
-  left: 4%;
-  top: 8%;
-  width: 27%;
-  height: 15%;
-  background: rgba(255,247,250,.18);
-  clip-path: polygon(3% 4%, 96% 0, 100% 88%, 93% 100%, 4% 94%, 0 14%);
-  transform: rotate(-2deg);
+  inset: 0;
   z-index: 0;
+  background: #e388a9;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 96%, 96% 98%, 90% 96%, 84% 100%, 76% 97%,
+    68% 99%, 60% 96%, 52% 100%, 44% 97%, 36% 99%, 28% 96%,
+    20% 100%, 12% 97%, 0 100%, 2% 86%, 0 72%, 2% 58%, 0 44%,
+    2% 29%, 0 14%
+  );
+  pointer-events: none;
 }
-.editorial-home--projects .editorial-projects-head,
-.editorial-home--projects .editorial-project-grid {
+
+.editorial-home--projects .editorial-projects > * {
   position: relative;
   z-index: 2;
 }
-.editorial-home--projects .editorial-project-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
-.editorial-home--projects .editorial-project-card {
-  position: relative;
-  border: 0 !important;
-  box-shadow: 8px 9px 0 rgba(9,9,9,.08);
-  transform: rotate(-1deg);
-}
-.editorial-home--projects .editorial-project-card:nth-child(2) { transform: rotate(1.2deg); }
-.editorial-home--projects .editorial-project-card:nth-child(3) { transform: rotate(-.7deg); }
-.editorial-home--projects .editorial-project-card:nth-child(4) { transform: rotate(1deg); }
-.editorial-home--projects .editorial-project-card::before {
-  content: "";
-  position: absolute;
-  left: 12%;
-  top: -7px;
-  width: 76px;
-  height: 20px;
-  background: rgba(255,247,250,.30);
-  transform: rotate(-3deg);
-  z-index: 3;
+
+.editorial-home--projects .editorial-projects h2,
+.editorial-home--projects .editorial-projects-head p {
+  color: #090909 !important;
 }
 
-/* ---------- CONTACT ---------- */
-.editorial-contact-page {
-  position: relative;
-  overflow: hidden;
-  padding-top: 56px !important;
-  padding-bottom: 70px !important;
+.editorial-home--projects .editorial-project-card {
+  border: 0 !important;
+  box-shadow: 7px 8px 0 rgba(9,9,9,.18) !important;
 }
+
+.editorial-home--projects .editorial-project-card:nth-child(2) { transform: rotate(1.2deg); }
+.editorial-home--projects .editorial-project-card:nth-child(3) { transform: rotate(-1deg); }
+.editorial-home--projects .editorial-project-card:nth-child(4) { transform: rotate(.7deg); }
+
+/* CONTATO — mesma folha rosa, porém com bastante área limpa */
+.editorial-contact-page {
+  background: #090909 !important;
+  padding-top: 24px !important;
+  padding-bottom: 56px !important;
+  isolation: isolate !important;
+}
+
 .editorial-contact-page::before {
   content: "";
   position: absolute;
-  left: -4%;
-  top: 15%;
-  width: 44%;
-  height: 54%;
-  background: var(--mock-pink);
-  clip-path: polygon(4% 0, 96% 5%, 100% 92%, 7% 100%, 0 12%);
-  transform: rotate(-3deg);
-  opacity: .95;
-  z-index: 0;
+  inset: 0 2% 0 2%;
+  z-index: -1;
+  background: #e388a9;
+  clip-path: polygon(
+    0 0, 100% 0, 98% 100%, 91% 98%, 84% 100%, 76% 97%,
+    68% 100%, 59% 97%, 50% 100%, 41% 98%, 32% 100%,
+    23% 97%, 14% 100%, 6% 98%, 0 100%, 2% 82%, 0 66%,
+    2% 49%, 0 32%, 2% 16%
+  );
 }
-.editorial-contact-page > * {
+
+.editorial-contact-page .grid > div,
+.editorial-contact-page form {
   position: relative;
   z-index: 2;
 }
-.editorial-contact-page .bg-\[var\(--color-surface\)\],
-.editorial-contact-page form,
-.editorial-contact-page .grid > div > div {
-  border-radius: 0 !important;
-  box-shadow: 8px 9px 0 rgba(227,136,169,.10) !important;
-}
-.editorial-contact-page form,
-.editorial-contact-page .grid > div > div {
-  background: #111 !important;
+
+.editorial-contact-page .bg-\[var\(--color-surface\)\] {
+  background: #090909 !important;
+  border-color: rgba(227,136,169,.45) !important;
 }
 
-/* ---------- PROJECT DETAIL ---------- */
-article.animate-fade-in {
-  position: relative;
-  overflow: hidden;
-}
-article.animate-fade-in::before {
-  content: "";
-  position: absolute;
-  right: -5%;
-  top: 15%;
-  width: 25%;
-  height: 180px;
-  background: rgba(227,136,169,.92);
-  clip-path: polygon(0 5%, 94% 0, 100% 90%, 6% 100%);
-  transform: rotate(5deg);
-  z-index: -1;
-}
-
-/* ---------- MOBILE: vertical mockup, same language, fewer elements ---------- */
 @media (max-width: 767px) {
-  header.header-nav-shell {
-    margin: 10px 10px 0 !important;
-    width: calc(100% - 20px) !important;
-    min-height: 64px !important;
-    height: 64px !important;
-    border-radius: 999px !important;
-  }
-  header.header-nav-shell .header-content-row {
-    min-height: 64px !important;
-    height: 64px !important;
-    padding-left: 15px !important;
-    padding-right: 15px !important;
-  }
-  header.header-nav-shell .header-desktop-cluster {
-    gap: 9px !important;
-  }
-  header.header-nav-shell .portfolio-brand {
-    min-width: 0 !important;
-  }
-  header.header-nav-shell .portfolio-brand > span:first-child {
-    display: none !important;
-  }
-  header.header-nav-shell .header-brand-static {
-    font-size: 11px !important;
-    letter-spacing: .03em !important;
-  }
-  header.header-nav-shell .desktop-centered-nav {
-    display: flex !important;
-    gap: 8px !important;
-    min-width: 0 !important;
-  }
-  header.header-nav-shell .desktop-centered-nav button {
-    font-size: 7.5px !important;
-    letter-spacing: .08em !important;
-    padding: 3px 0 !important;
-  }
-  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
-    padding: 5px !important;
-  }
-  header.header-nav-shell .header-circle-field__circle {
-    opacity: .72 !important;
-  }
-  header.header-nav-shell > .header-content-row > button {
-    display: none !important;
-  }
-
-  .editorial-home--single {
-    padding: 14px 10px 34px !important;
-  }
-  .editorial-home--single .editorial-hero {
-    min-height: 720px !important;
-    border-radius: 0 !important;
-  }
-  .editorial-home--single .editorial-hero-photo {
-    left: 14% !important;
-    right: auto !important;
-    top: 72px !important;
-    width: 72% !important;
-    height: 300px !important;
-    object-position: center !important;
-  }
-  .editorial-home--single .editorial-hero-paper.paper-one {
-    left: 10% !important;
-    right: auto !important;
-    top: 86px !important;
-    width: 70% !important;
-    height: 286px !important;
-    transform: rotate(-4deg) !important;
-  }
-  .editorial-home--single .editorial-hero-paper.paper-two {
-    left: 18% !important;
-    right: auto !important;
-    top: 98px !important;
-    width: 68% !important;
-    height: 274px !important;
-    transform: rotate(4deg) !important;
-  }
-  .editorial-home--single .editorial-hero-copy {
-    left: 7% !important;
-    bottom: 45px !important;
-    width: 88% !important;
-  }
-  .editorial-home--single .editorial-hero-title {
-    font-size: clamp(58px, 16.8vw, 78px) !important;
-    line-height: .80 !important;
-    transform: rotate(-7deg) !important;
-  }
-  .editorial-home--single .editorial-hero-copy p {
-    margin-top: 30px !important;
-    max-width: 290px !important;
-    font-size: 11px !important;
-    line-height: 1.5 !important;
-  }
-  .editorial-home--single .editorial-hero-projects-cta {
-    margin-top: 21px !important;
-    min-height: 50px !important;
-    padding: 11px 15px !important;
-    font-size: 9.5px !important;
-  }
-  .editorial-home--single .editorial-hero-star--one {
-    left: 7% !important;
-    top: 56px !important;
-    font-size: 36px !important;
-  }
-  .editorial-home--single .editorial-hero-star--two {
-    right: 8% !important;
-    bottom: 24% !important;
-    font-size: 30px !important;
-  }
-  .editorial-home--single .editorial-hero-scribble {
-    right: -5% !important;
-    bottom: 7% !important;
-    font-size: 90px !important;
-    opacity: .18 !important;
-  }
-  .editorial-home--single .editorial-hero::before {
-    left: 5% !important;
-    top: 5% !important;
-    width: 42% !important;
-    height: 12% !important;
-  }
-  .editorial-home--single .editorial-hero::after {
-    right: -2% !important;
-    bottom: 9% !important;
-    width: 32% !important;
-    height: 16% !important;
-  }
-
-  .editorial-about-page {
-    padding: 14px 10px 38px !important;
-  }
-  .editorial-about-page__panel {
-    min-height: auto !important;
-    padding: 54px 22px 50px !important;
-  }
-  .editorial-about-page__content {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 34px !important;
-    min-height: 0 !important;
-  }
-  .editorial-about-page__text {
-    max-width: 100% !important;
-  }
-  .editorial-about-page__text h1 {
-    font-size: clamp(60px, 18vw, 88px) !important;
-    margin-bottom: 28px !important;
-  }
-  .editorial-about-page__intro {
-    font-size: 15px !important;
-  }
-  .editorial-about-page__body p {
-    font-size: 12px !important;
-    line-height: 1.65 !important;
-  }
-  .editorial-about-page__visual {
-    min-height: 360px !important;
-    width: 100% !important;
-  }
-  .editorial-about-page__paper {
-    width: 74% !important;
-    height: 320px !important;
-    margin-left: 13% !important;
-  }
-  .editorial-about-page__panel::before {
-    right: 9% !important;
-    top: 54% !important;
-    width: 78% !important;
-    height: 300px !important;
-  }
-
-  .editorial-home--projects {
-    padding-top: 14px !important;
-  }
-  .editorial-home--projects .editorial-projects {
-    min-height: auto !important;
-    padding: 50px 18px 54px !important;
-  }
-  .editorial-home--projects .editorial-project-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 13px !important;
-    margin-top: 32px !important;
-  }
-  .editorial-home--projects .editorial-project-card::before {
-    width: 46px;
-    height: 14px;
-    top: -5px;
-  }
-  .editorial-home--projects .editorial-project-card span {
-    font-size: 8px !important;
-  }
-  .editorial-home--projects .editorial-project-card svg {
-    width: 14px;
-    height: 14px;
-  }
-  .editorial-home--projects .editorial-principles {
-    min-height: 360px !important;
-    padding: 48px 22px !important;
-  }
-  .editorial-home--projects .editorial-footer-card {
-    min-height: 240px !important;
-  }
-
+  .editorial-about-page,
   .editorial-contact-page {
-    padding: 48px 16px 58px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
   }
+
+  .editorial-about-page__panel::before,
+  .editorial-home--projects .editorial-projects::before,
   .editorial-contact-page::before {
-    left: -18%;
-    top: 8%;
-    width: 90%;
-    height: 33%;
+    clip-path: polygon(
+      0 0, 100% 0, 100% 97%, 93% 96%, 86% 100%, 78% 97%,
+      70% 99%, 61% 96%, 52% 100%, 43% 97%, 34% 99%,
+      25% 96%, 16% 100%, 8% 97%, 0 99%, 2% 83%, 0 67%,
+      2% 51%, 0 35%, 2% 18%
+    );
   }
-  .editorial-contact-page .grid {
-    gap: 24px !important;
-  }
-  .editorial-contact-page form,
-  .editorial-contact-page .grid > div > div {
-    padding: 22px !important;
-  }
-
-  article.animate-fade-in {
-    padding: 28px 16px 48px !important;
-  }
-  article.animate-fade-in::before {
-    width: 42%;
-    height: 130px;
-    right: -10%;
-  }
-}
-
-@media (max-width: 390px) {
-  header.header-nav-shell .header-brand-static { font-size: 10px !important; }
-  header.header-nav-shell .desktop-centered-nav { gap: 6px !important; }
-  header.header-nav-shell .desktop-centered-nav button { font-size: 6.8px !important; }
-  .editorial-home--single .editorial-hero { min-height: 690px !important; }
-  .editorial-home--single .editorial-hero-photo { top: 66px !important; height: 282px !important; }
-  .editorial-home--single .editorial-hero-paper.paper-one { top: 78px !important; height: 270px !important; }
-  .editorial-home--single .editorial-hero-paper.paper-two { top: 90px !important; height: 258px !important; }
-  .editorial-home--single .editorial-hero-copy { bottom: 40px !important; }
-  .editorial-home--single .editorial-hero-title { font-size: 16vw !important; }
-  .editorial-home--projects .editorial-project-grid { gap: 10px !important; }
 }
