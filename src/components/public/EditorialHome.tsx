@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { Project } from '../../types/portfolio';
-import homeEditorialPhoto from '../../assets/home-editorial-experiment.jpg';
+import homeEditorialPhoto from '../../assets/home-editorial-mobile.jpg';
 
 const photo = (seed: string) => `https://picsum.photos/seed/${seed}/1000/760`;
 
