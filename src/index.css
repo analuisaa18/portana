@@ -4838,3 +4838,588 @@ header.header-nav-shell .header-content-row {
     z-index: 3 !important;
   }
 }
+
+
+/* =========================================================
+   FINAL REFERENCE MATCH — OPÇÃO 2 / TORN PAPER COLLAGE
+   Desktop + mobile are based on the supplied visual mockup.
+   ========================================================= */
+
+:root {
+  --mockup-pink: #F08AAE;
+  --mockup-pink-light: #F39AB9;
+  --mockup-black: #090909;
+  --mockup-paper: rgba(29, 16, 23, .28);
+  --mockup-tape: rgba(246, 222, 231, .30);
+}
+
+/* -----------------------------
+   NAVBAR — clean black capsule
+   ----------------------------- */
+header.header-nav-shell {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 40 !important;
+  width: calc(100% - 30px) !important;
+  max-width: none !important;
+  min-height: 60px !important;
+  height: 60px !important;
+  margin: 0 auto !important;
+  border: 1px solid rgba(240, 138, 174, .68) !important;
+  border-radius: 999px !important;
+  background: #090909 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  overflow: hidden !important;
+}
+
+header.header-nav-shell .header-content-row {
+  min-height: 60px !important;
+  height: 60px !important;
+  padding: 0 28px !important;
+  justify-content: center !important;
+}
+
+header.header-nav-shell .header-desktop-cluster {
+  width: auto !important;
+  max-width: 100% !important;
+  gap: 28px !important;
+  justify-content: center !important;
+}
+
+header.header-nav-shell .portfolio-brand {
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  gap: 5px !important;
+}
+
+header.header-nav-shell .portfolio-brand > span:first-child {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+header.header-nav-shell .header-brand-inline,
+header.header-nav-shell .header-brand-static {
+  font-size: 9px !important;
+  line-height: 1 !important;
+  letter-spacing: .12em !important;
+  font-weight: 800 !important;
+  color: #FFF7FA !important;
+}
+
+header.header-nav-shell .desktop-centered-nav {
+  gap: 18px !important;
+  align-items: center !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button {
+  padding: 2px 0 !important;
+  font-size: 8px !important;
+  line-height: 1 !important;
+  letter-spacing: .18em !important;
+  font-weight: 800 !important;
+  color: #FFF7FA !important;
+  text-decoration: none !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button:hover {
+  color: var(--mockup-pink-light) !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: #FFF7FA !important;
+  text-decoration: none !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+  width: 17px !important;
+  height: 17px !important;
+  margin-left: 1px !important;
+  padding: 2px !important;
+  border: 1px solid rgba(240, 138, 174, .72) !important;
+  border-radius: 50% !important;
+  color: #FFF7FA !important;
+}
+
+header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] svg {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+header.header-nav-shell .portfolio-brand svg {
+  color: var(--mockup-pink-light) !important;
+}
+
+/* Stars and scraps inside the capsule: small, airy and animated. */
+header.header-nav-shell .header-graphic-field {
+  z-index: 1 !important;
+  opacity: 1 !important;
+}
+
+header.header-nav-shell .header-graphic-star {
+  font-size: 13px !important;
+  color: #FFF7FA !important;
+  text-shadow: none !important;
+}
+
+header.header-nav-shell .header-graphic-star:nth-of-type(2n) {
+  color: var(--mockup-pink-light) !important;
+  opacity: .92 !important;
+}
+
+header.header-nav-shell .header-graphic-star:nth-of-type(3n) {
+  font-size: 10px !important;
+  opacity: .9 !important;
+}
+
+header.header-nav-shell .header-graphic-small-star {
+  opacity: .8 !important;
+}
+
+header.header-nav-shell .header-graphic-block {
+  border: 0 !important;
+  background: rgba(255,255,255,.035) !important;
+}
+
+/* -----------------------------
+   HERO — pink torn paper
+   ----------------------------- */
+.editorial-home--single {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 14px 42px !important;
+  background: var(--mockup-black) !important;
+  overflow-x: hidden !important;
+}
+
+.editorial-home--single .editorial-grid--single {
+  width: 100% !important;
+  max-width: none !important;
+  gap: 0 !important;
+}
+
+.editorial-home--single .editorial-hero {
+  position: relative !important;
+  width: 100% !important;
+  height: clamp(430px, 44vw, 680px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  background-color: var(--mockup-pink) !important;
+  background-image:
+    radial-gradient(rgba(55, 15, 31, .10) .7px, transparent .7px),
+    radial-gradient(rgba(255,255,255,.12) .65px, transparent .65px) !important;
+  background-size: 7px 7px, 11px 11px !important;
+  background-position: 0 0, 4px 5px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    0 2%, 5% 1%, 11% 3%, 17% 1%, 23% 3%, 30% 2%, 37% 3%,
+    44% 1.5%, 51% 3%, 58% 2%, 65% 3%, 72% 1.5%, 79% 3%, 86% 2%,
+    93% 3%, 100% 1.5%,
+    99% 9%, 100% 17%, 98.6% 26%, 100% 35%, 98.5% 44%,
+    100% 53%, 98.5% 62%, 100% 71%, 98.5% 80%, 100% 90%, 97% 98%,
+    90% 97%, 83% 99%, 76% 97%, 69% 99%, 62% 97%, 55% 99%, 48% 97%,
+    41% 99%, 34% 97%, 27% 99%, 20% 97%, 13% 99%, 6% 97%, 1% 99%,
+    2% 91%, 0 82%, 1.5% 73%, 0 64%, 1.3% 55%, 0 46%, 1.4% 37%,
+    0 28%, 1.3% 19%, 0 10%
+  ) !important;
+}
+
+/* Irregular dark scraps make the sheet read as torn paper instead of a clean card. */
+.editorial-home--single .editorial-hero::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(ellipse 9% 19% at 0% 34%, #090909 0 72%, transparent 74%),
+    radial-gradient(ellipse 8% 12% at 1% 79%, #090909 0 68%, transparent 71%),
+    radial-gradient(ellipse 13% 9% at 11% 100%, #090909 0 62%, transparent 65%),
+    radial-gradient(ellipse 10% 7% at 47% 100%, #090909 0 60%, transparent 64%),
+    radial-gradient(ellipse 12% 8% at 76% 100%, #090909 0 58%, transparent 63%);
+  opacity: .98;
+}
+
+/* Keep the actual artwork above the torn-edge overlay. */
+.editorial-home--single .editorial-hero-copy,
+.editorial-home--single .editorial-index,
+.editorial-home--single .editorial-hero-photo,
+.editorial-home--single .editorial-hero-paper,
+.editorial-home--single .editorial-mobile-photo-tape,
+.editorial-home--single .editorial-hero-star,
+.editorial-home--single .editorial-star-doodle,
+.editorial-home--single .editorial-hero-scribble {
+  position: absolute !important;
+}
+
+.editorial-home--single .editorial-index {
+  top: 27px !important;
+  right: 28px !important;
+  z-index: 16 !important;
+  color: #090909 !important;
+  font-size: 10px !important;
+  letter-spacing: .14em !important;
+}
+
+/* Title / copy — left of the image, like the mockup. */
+.editorial-home--single .editorial-hero-copy {
+  left: 7% !important;
+  top: 31% !important;
+  bottom: auto !important;
+  width: 46% !important;
+  max-width: 46% !important;
+  z-index: 14 !important;
+}
+
+.editorial-home--single .editorial-hero-title {
+  display: block !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  color: #090909 !important;
+  font-family: var(--font-headings) !important;
+  font-size: clamp(68px, 7.1vw, 118px) !important;
+  font-weight: 1000 !important;
+  line-height: .78 !important;
+  letter-spacing: -.075em !important;
+  transform: rotate(-6deg) !important;
+  transform-origin: left center !important;
+  white-space: nowrap !important;
+  text-shadow: none !important;
+}
+
+.editorial-home--single .editorial-hero-copy p {
+  margin-top: 34px !important;
+  max-width: 305px !important;
+  color: #090909 !important;
+  font-family: var(--font-body) !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+  letter-spacing: .035em !important;
+}
+
+.editorial-home--single .editorial-hero-projects-cta {
+  margin-top: 22px !important;
+  min-height: 46px !important;
+  padding: 11px 16px !important;
+  background: #090909 !important;
+  border: 1px solid #090909 !important;
+  color: var(--mockup-pink) !important;
+  font-size: 10px !important;
+}
+
+/* Photo — square source, landscape presentation, pink/black print treatment. */
+.editorial-home--single .editorial-hero-photo {
+  right: 3.4% !important;
+  top: 16% !important;
+  width: 40% !important;
+  height: 78% !important;
+  object-fit: cover !important;
+  object-position: center 50% !important;
+  z-index: 8 !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  filter: grayscale(.50) sepia(.35) hue-rotate(307deg) saturate(1.20) contrast(1.05) brightness(.94) !important;
+  box-shadow: 9px 11px 0 rgba(45, 16, 27, .10) !important;
+}
+
+/* Loose sheets behind the photo. */
+.editorial-home--single .editorial-hero-paper {
+  display: block !important;
+  z-index: 6 !important;
+  pointer-events: none !important;
+  background: var(--mockup-paper) !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+.editorial-home--single .editorial-hero-paper.paper-one {
+  width: 22% !important;
+  height: 31% !important;
+  right: 1.2% !important;
+  top: 9% !important;
+  transform: rotate(7deg) !important;
+  clip-path: polygon(4% 5%, 98% 0, 100% 94%, 1% 100%) !important;
+}
+
+.editorial-home--single .editorial-hero-paper.paper-two {
+  width: 19% !important;
+  height: 27% !important;
+  right: 2.3% !important;
+  top: 51% !important;
+  transform: rotate(-6deg) !important;
+  background: rgba(43, 20, 29, .18) !important;
+  clip-path: polygon(0 6%, 95% 0, 100% 96%, 5% 100%) !important;
+}
+
+/* Translucent tape. */
+.editorial-home--single .editorial-mobile-photo-tape {
+  display: block !important;
+  z-index: 11 !important;
+  pointer-events: none !important;
+  background: var(--mockup-tape) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+}
+
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 49% !important;
+    top: 6% !important;
+    width: 180px !important;
+    height: 44px !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    right: 2.5% !important;
+    top: 70% !important;
+    width: 150px !important;
+    height: 43px !important;
+    transform: rotate(8deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 39% !important;
+    top: 34% !important;
+    color: #090909 !important;
+    font-size: 42px !important;
+    opacity: .9 !important;
+    z-index: 13 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 38% !important;
+    bottom: 9% !important;
+    color: #F7E8EE !important;
+    font-size: 30px !important;
+    opacity: .8 !important;
+    z-index: 13 !important;
+  }
+}
+
+/* -----------------------------
+   MOBILE — same identity, vertical composition
+   ----------------------------- */
+@media (max-width: 767px) {
+  header.header-nav-shell {
+    width: calc(100% - 20px) !important;
+    min-height: 46px !important;
+    height: 46px !important;
+    margin: 7px auto 0 !important;
+    border-radius: 999px !important;
+  }
+
+  header.header-nav-shell .header-content-row {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 10px !important;
+  }
+
+  header.header-nav-shell .header-desktop-cluster {
+    gap: 10px !important;
+    max-width: 100% !important;
+  }
+
+  header.header-nav-shell .portfolio-brand {
+    max-width: 155px !important;
+    gap: 4px !important;
+  }
+
+  header.header-nav-shell .portfolio-brand > span:first-child {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  header.header-nav-shell .header-brand-inline,
+  header.header-nav-shell .header-brand-static {
+    font-size: 6.5px !important;
+    letter-spacing: .09em !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav {
+    gap: 7px !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button {
+    font-size: 5.7px !important;
+    letter-spacing: .10em !important;
+    padding: 2px 0 !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] {
+    width: 13px !important;
+    height: 13px !important;
+    padding: 1px !important;
+  }
+
+  header.header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] svg {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  header.header-nav-shell .header-graphic-star {
+    font-size: 8px !important;
+  }
+
+  header.header-nav-shell .header-graphic-star:nth-of-type(3n) {
+    font-size: 7px !important;
+  }
+
+  header.header-nav-shell .header-graphic-small-star {
+    display: none !important;
+  }
+
+  .editorial-home--single {
+    padding: 0 7px 24px !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    width: 100% !important;
+    height: clamp(620px, 172vw, 720px) !important;
+    min-height: 0 !important;
+    clip-path: polygon(
+      0 1.5%, 8% 1%, 16% 2%, 24% 1%, 32% 2%, 40% 1%, 48% 2%, 56% 1%,
+      64% 2%, 72% 1%, 80% 2%, 88% 1%, 100% 2%,
+      98.5% 9%, 100% 18%, 98.5% 27%, 100% 36%, 98.5% 45%, 100% 54%,
+      98.5% 63%, 100% 72%, 98.5% 81%, 100% 90%, 98% 98%,
+      90% 97%, 80% 100%, 70% 98%, 60% 100%, 50% 98%, 40% 100%,
+      30% 98%, 20% 100%, 10% 98%, 0 100%,
+      1.5% 90%, 0 80%, 1.5% 70%, 0 60%, 1.5% 50%, 0 40%,
+      1.5% 30%, 0 20%, 1.5% 10%
+    ) !important;
+  }
+
+  .editorial-home--single .editorial-index {
+    top: 28px !important;
+    right: 16px !important;
+    font-size: 7px !important;
+  }
+
+  .editorial-home--single .editorial-hero-photo {
+    right: 7% !important;
+    top: 7% !important;
+    width: 79% !important;
+    height: 45% !important;
+    object-position: center 50% !important;
+    filter: grayscale(.48) sepia(.38) hue-rotate(307deg) saturate(1.22) contrast(1.04) brightness(.95) !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    width: 71% !important;
+    height: 28% !important;
+    right: 1% !important;
+    top: 8% !important;
+    transform: rotate(6deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 61% !important;
+    height: 25% !important;
+    right: 1% !important;
+    top: 44% !important;
+    transform: rotate(-6deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    left: 8% !important;
+    top: 8% !important;
+    width: 28% !important;
+    height: 30px !important;
+    transform: rotate(-7deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    right: 2% !important;
+    top: 46% !important;
+    width: 30% !important;
+    height: 32px !important;
+    transform: rotate(8deg) !important;
+  }
+
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    display: none !important;
+  }
+
+  /* Text starts below the photo, never over it. */
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    top: 53% !important;
+    bottom: auto !important;
+    width: 88% !important;
+    max-width: 88% !important;
+    z-index: 14 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(54px, 15.4vw, 78px) !important;
+    line-height: .80 !important;
+    letter-spacing: -.078em !important;
+    transform: rotate(-6deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    margin-top: 27px !important;
+    max-width: 245px !important;
+    font-size: 9px !important;
+    line-height: 1.48 !important;
+    letter-spacing: .03em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 17px !important;
+    min-height: 39px !important;
+    padding: 9px 13px !important;
+    font-size: 8px !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 4% !important;
+    top: 31% !important;
+    font-size: 38px !important;
+    color: #090909 !important;
+    z-index: 13 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 7% !important;
+    bottom: 18% !important;
+    font-size: 32px !important;
+    color: #FFF0F5 !important;
+    z-index: 13 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 1% !important;
+    bottom: 3% !important;
+    font-size: 76px !important;
+    opacity: .28 !important;
+    z-index: 3 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  header.header-nav-shell {
+    min-height: 43px !important;
+    height: 43px !important;
+  }
+
+  header.header-nav-shell .header-content-row {
+    min-height: 43px !important;
+    height: 43px !important;
+  }
+
+  .editorial-home--single .editorial-hero {
+    height: 620px !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 15vw !important;
+  }
+}
