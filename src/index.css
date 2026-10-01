@@ -5707,7 +5707,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   gap: 13px;
   padding: 0;
   flex: 0 0 auto;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
   font-weight: 700;
   letter-spacing: .055em;
@@ -5738,7 +5738,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 
 .reference-navbar__links button:not(.reference-navbar__admin) {
   padding: 0;
-  font-size: 9px;
+  font-size: 10.5px;
   line-height: 1;
   font-weight: 700;
   letter-spacing: .14em;
@@ -5752,8 +5752,8 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 }
 
 .reference-navbar__admin {
-  width: 27px;
-  height: 27px;
+  width: 29px;
+  height: 29px;
   padding: 0 !important;
   display: inline-flex;
   align-items: center;
@@ -5761,7 +5761,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   border: 1.4px solid rgba(240, 138, 174, .98) !important;
   border-radius: 50%;
   color: #fff !important;
-  font-size: 15px;
+  font-size: 0;
   line-height: 1;
   transition: transform .25s ease, background .25s ease;
 }
@@ -5770,6 +5770,16 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .reference-navbar__admin[aria-current="page"] {
   background: rgba(240, 138, 174, .12);
   transform: scale(1.04);
+}
+
+.reference-navbar__admin > span:first-child {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-size: 0;
 }
 
 .reference-navbar__stars {
@@ -5782,8 +5792,8 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .reference-navbar__star {
   position: absolute;
   display: block;
-  width: var(--star-size, 12px);
-  height: var(--star-size, 12px);
+  width: calc(var(--star-size, 12px) * 1.22);
+  height: calc(var(--star-size, 12px) * 1.22);
   color: #fff;
   line-height: 0;
   opacity: .94;
@@ -5816,7 +5826,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 
 @keyframes reference-navbar-star-float {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-  50% { transform: translate3d(1px, -2px, 0) rotate(3deg) scale(1.025); }
+  50% { transform: translate3d(2px, -4px, 0) rotate(3deg) scale(1.025); }
 }
 
 .reference-navbar::after {
@@ -5836,10 +5846,10 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 @media (max-width: 1100px) {
   .reference-navbar { min-height: 98px; }
   .reference-navbar__inner { min-height: 98px; gap: 50px; padding: 0 46px; }
-  .reference-navbar__brand { font-size: 14px; }
+  .reference-navbar__brand { font-size: 15.5px; }
   .reference-navbar__links { gap: 24px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 8px; }
-  .reference-navbar__admin { width: 25px; height: 25px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 9.5px; }
+  .reference-navbar__admin { width: 27px; height: 27px; }
 }
 
 @media (max-width: 767px) {
@@ -5858,14 +5868,14 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 
   .reference-navbar__brand {
     gap: 5px;
-    font-size: 8px;
+    font-size: 8.5px;
     letter-spacing: .045em;
   }
 
   .reference-navbar__brand-mark { width: 10px; height: 10px; font-size: 12px; }
   .reference-navbar__links { gap: 8px; }
-  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 6px; letter-spacing: .09em; }
-  .reference-navbar__admin { width: 18px; height: 18px; font-size: 9px; }
+  .reference-navbar__links button:not(.reference-navbar__admin) { font-size: 6.5px; letter-spacing: .09em; }
+  .reference-navbar__admin { width: 19px; height: 19px; font-size: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6194,30 +6204,5 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   .editorial-home--single .editorial-collage-star--f {
     width: 20px !important;
     height: 20px !important;
-  }
-}
-
-
-/* =========================================================
-   PORTFÓLIO — ZOOM AO PASSAR O MOUSE
-   Exclusivo do título da Home. Nenhum outro elemento é afetado.
-   ========================================================= */
-.editorial-home--single button.editorial-hero-title {
-  cursor: pointer !important;
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-  will-change: transform;
-}
-
-.editorial-home--single button.editorial-hero-title:hover {
-  transform: rotate(-6deg) scale(1.12) translateZ(0) !important;
-}
-
-.editorial-home--single button.editorial-hero-title:focus-visible {
-  transform: rotate(-6deg) scale(1.12) translateZ(0) !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .editorial-home--single button.editorial-hero-title {
-    transition: none !important;
   }
 }
