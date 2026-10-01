@@ -3443,3 +3443,235 @@ header.header-nav-shell {
     width: 48vw !important;
   }
 }
+
+/* =========================================================
+   MOBILE — MESMA COMPOSIÇÃO DA HOME DESKTOP
+   SOMENTE <= 767px. NENHUMA REGRA DE DESKTOP É ALTERADA.
+   ========================================================= */
+@media (max-width: 767px) {
+  .editorial-home--single {
+    padding: 0 8px 24px !important;
+    overflow-x: hidden !important;
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    width: 100% !important;
+    max-width: none !important;
+    gap: 0 !important;
+  }
+
+  /* Estrutura igual à desktop: foto à direita e conteúdo na parte inferior esquerda. */
+  .editorial-home--single .editorial-hero {
+    width: 100% !important;
+    height: 560px !important;
+    min-height: 560px !important;
+    max-height: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background: #e388a9 !important;
+    isolation: isolate !important;
+  }
+
+  .editorial-home--single .editorial-index {
+    top: 24px !important;
+    right: 22px !important;
+    z-index: 20 !important;
+    font-size: 10px !important;
+    letter-spacing: .14em !important;
+  }
+
+  /* FOTO — mesma posição relativa da versão desktop. */
+  .editorial-home--single .editorial-hero-photo {
+    left: auto !important;
+    right: 5.5% !important;
+    top: 9% !important;
+    width: 40% !important;
+    height: 66% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: grayscale(1) contrast(1.18) saturate(.72) !important;
+    mix-blend-mode: multiply !important;
+    box-shadow: 12px 14px 0 rgba(9,9,9,.08) !important;
+    z-index: 4 !important;
+  }
+
+  /* Mesmos papéis pretos da composição desktop. */
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    left: auto !important;
+    right: 1.5% !important;
+    top: 9% !important;
+    width: 22% !important;
+    height: 31% !important;
+    transform: rotate(7deg) !important;
+    background: #111 !important;
+    opacity: .82 !important;
+    mix-blend-mode: multiply !important;
+    z-index: 2 !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    left: auto !important;
+    right: 3% !important;
+    top: 49% !important;
+    width: 18% !important;
+    height: 26% !important;
+    transform: rotate(-5deg) !important;
+    background: #111 !important;
+    opacity: .65 !important;
+    mix-blend-mode: multiply !important;
+    z-index: 2 !important;
+  }
+
+  /* As fitas são exclusivas dos experimentos mobile anteriores: não aparecem na versão desktop. */
+  .editorial-home--single .editorial-mobile-photo-tape {
+    display: none !important;
+  }
+
+  /* Copy no mesmo lugar estrutural do desktop: canto inferior esquerdo. */
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 48px !important;
+    width: 58% !important;
+    max-width: 58% !important;
+    z-index: 12 !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    display: inline-block !important;
+    width: max-content !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    font-size: clamp(54px, 14vw, 82px) !important;
+    line-height: .78 !important;
+    letter-spacing: -.07em !important;
+    transform: rotate(-6deg) translateZ(0) !important;
+    transform-origin: left center !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    width: 100% !important;
+    max-width: 230px !important;
+    margin: 25px 0 0 !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    letter-spacing: .04em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 20px !important;
+    width: 198px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 48px !important;
+    padding: 11px 16px !important;
+    gap: 10px !important;
+    justify-content: space-between !important;
+    font-size: 10px !important;
+    letter-spacing: .14em !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+  }
+
+  /* Mesmas estrelas da versão desktop, apenas redimensionadas para a tela. */
+  .editorial-home--single .editorial-star-doodle {
+    display: block !important;
+    font-size: 42px !important;
+    margin-top: 14px !important;
+    color: #111 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 36% !important;
+    right: auto !important;
+    top: 32% !important;
+    bottom: auto !important;
+    font-size: 42px !important;
+    color: #111 !important;
+    opacity: .55 !important;
+    z-index: 6 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 39% !important;
+    left: auto !important;
+    top: auto !important;
+    bottom: 8% !important;
+    font-size: 42px !important;
+    color: #111 !important;
+    opacity: .3 !important;
+    z-index: 6 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 3% !important;
+    left: auto !important;
+    top: auto !important;
+    bottom: 7% !important;
+    font-size: 78px !important;
+    opacity: .35 !important;
+    color: #111 !important;
+    z-index: 5 !important;
+  }
+
+  .editorial-home--single .editorial-hero::before {
+    width: 48% !important;
+    height: 52% !important;
+    right: -2% !important;
+    bottom: -10% !important;
+    background: rgba(0,0,0,.10) !important;
+    transform: rotate(-5deg) !important;
+    z-index: 0 !important;
+  }
+
+  .editorial-home--single .editorial-hero::after {
+    right: 31% !important;
+    bottom: 18% !important;
+    width: 76px !important;
+    height: 76px !important;
+    background: rgba(0,0,0,.35) !important;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%) !important;
+    transform: rotate(18deg) !important;
+    z-index: 1 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-hero {
+    height: 530px !important;
+    min-height: 530px !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 40px !important;
+    width: 59% !important;
+    max-width: 59% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: 13.5vw !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    max-width: 205px !important;
+    font-size: 10.5px !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    width: 185px !important;
+  }
+}
