@@ -42,8 +42,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
 
     event.currentTarget.querySelectorAll<HTMLElement>('.reference-navbar__star').forEach((star, index) => {
       const depth = 0.55 + (index % 4) * 0.10;
-      star.style.setProperty('--hover-x', `${(x * 4.5 * depth).toFixed(2)}px`);
-      star.style.setProperty('--hover-y', `${(y * 3.5 * depth).toFixed(2)}px`);
+      star.style.setProperty('--hover-x', `${(x * 6.0 * depth).toFixed(2)}px`);
+      star.style.setProperty('--hover-y', `${(y * 4.6 * depth).toFixed(2)}px`);
     });
   };
 
@@ -118,7 +118,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 aria-current={currentView === 'admin' ? 'page' : undefined}
                 aria-label="Área administrativa"
               >
-                <span aria-hidden="true">○</span>
+                <span className="reference-navbar__admin-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3.5L19 6.2V11.4C19 16.1 16.2 19.2 12 20.5C7.8 19.2 5 16.1 5 11.4V6.2L12 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <circle cx="12" cy="10.5" r="2" stroke="currentColor" strokeWidth="1.4"/>
+                  </svg>
+                </span>
                 <span className="sr-only">Adim</span>
               </button>
             )}
