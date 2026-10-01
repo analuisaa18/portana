@@ -4071,130 +4071,191 @@ header.header-nav-shell {
 }
 
 
+
 /* =========================================================
-   COLLAGE — MODELO OPÇÃO 2 (DIREITA)
-   Implementação fiel da referência: folha rosa rasgada sobre
-   uma base preta. Navbar permanece totalmente limpa.
+   COLLAGE — OPÇÃO 2 / PAPEL RASGADO — IMPLEMENTAÇÃO FINAL
+   A navbar permanece intacta. O efeito de papel existe somente
+   na área de conteúdo e segue a composição da referência.
    ========================================================= */
+
+/* HERO: a folha rosa ocupa a área inteira e o preto aparece apenas
+   nos recortes irregulares das bordas. */
 .editorial-home--single .editorial-hero {
   position: relative !important;
-  background: #090909 !important;
-  overflow: hidden !important;
   isolation: isolate !important;
+  overflow: hidden !important;
+  background: #E388A9 !important;
+  color: #090909 !important;
+  clip-path: polygon(
+    0 1.5%, 8% 0, 16% 1.2%, 24% 0, 33% 1%, 42% 0,
+    51% 1.2%, 60% 0, 69% 1%, 78% 0, 87% 1.1%, 94% 0, 100% 1.5%,
+    99% 9%, 100% 18%, 98.7% 27%, 100% 36%, 98.8% 45%, 100% 54%,
+    98.5% 63%, 100% 72%, 98.8% 81%, 100% 90%, 99% 96%,
+    94% 98%, 88% 96.5%, 82% 100%, 75% 97%, 68% 99%, 61% 96.5%,
+    54% 100%, 47% 97%, 40% 99%, 33% 96.5%, 26% 100%, 19% 97%,
+    12% 99%, 6% 96.5%, 0 98%, 1.5% 90%, 0 82%, 1.3% 73%,
+    0 64%, 1.5% 55%, 0 46%, 1.2% 37%, 0 28%, 1.4% 19%, 0 10%
+  ) !important;
 }
 
-/* A folha rosa é a peça principal da colagem. O preto continua
-   aparecendo nas bordas através do recorte irregular. */
+/* textura de papel diretamente na folha, sem criar outro bloco rosa */
 .editorial-home--single .editorial-hero::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
   z-index: 0 !important;
   pointer-events: none !important;
-  background-color: #e388a9 !important;
-  background-image:
-    radial-gradient(circle at 18% 28%, rgba(20,10,14,.075) 0 1px, transparent 1.4px),
-    radial-gradient(circle at 72% 61%, rgba(255,255,255,.10) 0 1px, transparent 1.5px),
+  background:
+    radial-gradient(circle at 14% 20%, rgba(20,10,14,.07) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 73% 62%, rgba(255,255,255,.10) 0 1px, transparent 1.5px),
     repeating-linear-gradient(0deg, rgba(20,10,14,.018) 0 1px, transparent 1px 4px) !important;
   background-size: 10px 10px, 15px 15px, auto !important;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 96%,
-    97% 96.8%, 94% 95.8%, 91% 99%, 87% 97.1%,
-    83% 100%, 79% 97.2%, 75% 98.8%, 70% 96.5%,
-    65% 99.5%, 60% 97%, 55% 100%, 50% 97.3%,
-    45% 99%, 40% 96.8%, 35% 99.5%, 30% 97%,
-    25% 100%, 20% 97.2%, 15% 99%, 10% 96.7%,
-    5% 98.5%, 0 96%,
-    1.2% 89%, 0 82%, 1.5% 75%, 0 68%, 1.2% 61%,
-    0 54%, 1.5% 47%, 0 40%, 1.2% 33%, 0 26%,
-    1.4% 19%, 0 12%, 1.2% 6%
-  ) !important;
+  opacity: 1 !important;
+  clip-path: none !important;
+  transform: none !important;
 }
 
-/* Foto: fica SOBRE a folha rosa, como na referência. */
-.editorial-home--single .editorial-hero-photo {
-  z-index: 4 !important;
-  mix-blend-mode: multiply !important;
-  filter: grayscale(1) contrast(1.12) saturate(.8) !important;
-  box-shadow: 12px 14px 0 rgba(9,9,9,.10) !important;
+/* elimina o antigo quadrado/estrela pseudo-elemento que estava competindo
+   com a composição. As estrelas reais continuam sendo usadas. */
+.editorial-home--single .editorial-hero::after {
+  display: none !important;
+}
+
+/* Conteúdo acima da textura */
+.editorial-home--single .editorial-hero-copy,
+.editorial-home--single .editorial-index,
+.editorial-home--single .editorial-hero-star,
+.editorial-home--single .editorial-star-doodle,
+.editorial-home--single .editorial-hero-scribble,
+.editorial-home--single .editorial-hero-photo,
+.editorial-home--single .editorial-hero-paper,
+.editorial-home--single .editorial-mobile-photo-tape {
+  position: absolute !important;
 }
 
 .editorial-home--single .editorial-hero-copy {
-  z-index: 8 !important;
+  left: 7% !important;
+  bottom: 11% !important;
+  width: 45% !important;
+  max-width: 45% !important;
+  z-index: 10 !important;
+}
+
+.editorial-home--single .editorial-hero-title {
+  color: #090909 !important;
+  font-family: var(--font-headings) !important;
+  font-weight: 1000 !important;
+  font-size: clamp(76px, 8.2vw, 138px) !important;
+  line-height: .78 !important;
+  letter-spacing: -.075em !important;
+  transform: rotate(-6deg) !important;
+  transform-origin: left center !important;
+  text-shadow: none !important;
+}
+
+.editorial-home--single .editorial-hero-copy p {
+  color: #090909 !important;
+  margin-top: 38px !important;
+  font-family: var(--font-body) !important;
+  font-size: 14px !important;
+  line-height: 1.48 !important;
+  letter-spacing: .035em !important;
+  max-width: 300px !important;
+}
+
+.editorial-home--single .editorial-hero-projects-cta {
+  background: #090909 !important;
+  color: #E388A9 !important;
+  border: 1px solid #090909 !important;
+  margin-top: 25px !important;
+  padding: 12px 17px !important;
 }
 
 .editorial-home--single .editorial-index {
-  z-index: 9 !important;
+  top: 27px !important;
+  right: 30px !important;
+  color: #090909 !important;
+  z-index: 11 !important;
 }
 
-/* Os recortes geométricos ficam atrás da foto e do texto. */
+/* FOTO: clara e visível, com o mesmo rosa/preto do mockup, sem o
+   multiply excessivo que estava deixando a foto quase preta. */
+.editorial-home--single .editorial-hero-photo {
+  right: 4.5% !important;
+  top: 10% !important;
+  width: 43% !important;
+  height: 72% !important;
+  object-fit: cover !important;
+  object-position: center 48% !important;
+  z-index: 5 !important;
+  opacity: .96 !important;
+  mix-blend-mode: normal !important;
+  filter: grayscale(.62) sepia(.16) hue-rotate(315deg) saturate(.82) contrast(1.08) brightness(.96) !important;
+  box-shadow: 10px 12px 0 rgba(20,10,14,.10) !important;
+}
+
+/* overlays de papel atrás/ao redor da foto */
 .editorial-home--single .editorial-hero-paper {
-  z-index: 3 !important;
-  opacity: .72 !important;
-  mix-blend-mode: multiply !important;
+  z-index: 4 !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
 }
 
-/* Fitas discretas, fora da navbar. */
+.editorial-home--single .editorial-hero-paper.paper-one {
+  width: 22% !important;
+  height: 31% !important;
+  right: 1.5% !important;
+  top: 9% !important;
+  background: rgba(31,20,25,.34) !important;
+  transform: rotate(7deg) !important;
+  clip-path: polygon(8% 3%,96% 0,100% 94%,2% 100%) !important;
+}
+
+.editorial-home--single .editorial-hero-paper.paper-two {
+  width: 18% !important;
+  height: 26% !important;
+  right: 3% !important;
+  top: 49% !important;
+  background: rgba(31,20,25,.26) !important;
+  transform: rotate(-5deg) !important;
+  clip-path: polygon(0 6%,95% 0,100% 96%,5% 100%) !important;
+}
+
+/* fita: poucos elementos, como no mockup */
 .editorial-home--single .editorial-mobile-photo-tape {
   display: block !important;
-  z-index: 6 !important;
-  background: rgba(35,24,29,.24) !important;
-  border: 1px solid rgba(255,255,255,.10) !important;
+  z-index: 8 !important;
+  pointer-events: none !important;
+  background: rgba(235,214,222,.24) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
   box-shadow: none !important;
+  mix-blend-mode: normal !important;
 }
 
 @media (min-width: 768px) {
+  .editorial-home--single {
+    padding: 18px 14px 42px !important;
+    background: #090909 !important;
+  }
+
   .editorial-home--single .editorial-hero {
-    min-height: 760px !important;
-    height: min(760px, calc(100vh - 120px)) !important;
-  }
-
-  .editorial-home--single .editorial-hero-copy {
-    left: 7% !important;
-    bottom: 12% !important;
-    width: 46% !important;
-    max-width: 46% !important;
-  }
-
-  .editorial-home--single .editorial-hero-title {
-    font-size: clamp(82px, 8.6vw, 142px) !important;
-    transform: rotate(-6deg) !important;
-  }
-
-  .editorial-home--single .editorial-hero-photo {
-    right: 4.5% !important;
-    top: 10% !important;
-    width: 43% !important;
-    height: 72% !important;
-    object-fit: cover !important;
-    object-position: center 48% !important;
-  }
-
-  .editorial-home--single .editorial-hero-paper.paper-one {
-    width: 22% !important;
-    height: 31% !important;
-    right: 1.5% !important;
-    top: 9% !important;
-    transform: rotate(7deg) !important;
-  }
-
-  .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 18% !important;
-    height: 26% !important;
-    right: 3% !important;
-    top: 49% !important;
-    transform: rotate(-5deg) !important;
+    width: 100% !important;
+    min-height: 610px !important;
+    height: min(610px, calc(100vh - 235px)) !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--one {
-    left: 48% !important;
+    display: block !important;
+    left: 49% !important;
     top: 4% !important;
     width: 180px !important;
-    height: 48px !important;
+    height: 46px !important;
     transform: rotate(-7deg) !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--two {
+    display: block !important;
     right: 4% !important;
     top: 68% !important;
     width: 150px !important;
@@ -4205,110 +4266,94 @@ header.header-nav-shell {
   .editorial-home--single .editorial-mobile-photo-tape--three {
     display: none !important;
   }
-}
 
-@media (max-width: 767px) {
-  .editorial-home--single {
-    padding: 0 8px 24px !important;
-    background: #090909 !important;
+  .editorial-home--single .editorial-hero-star--one {
+    left: 37% !important;
+    top: 31% !important;
+    color: #111 !important;
+    z-index: 9 !important;
   }
 
-  .editorial-home--single .editorial-grid--single {
-    gap: 0 !important;
+  .editorial-home--single .editorial-hero-star--two {
+    right: 39% !important;
+    bottom: 8% !important;
+    color: #111 !important;
+    z-index: 9 !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   MOBILE: mesma OPÇÃO 2, reorganizada verticalmente.
+   --------------------------------------------------------- */
+@media (max-width: 767px) {
+  .editorial-home--single {
+    padding: 8px 8px 28px !important;
+    background: #090909 !important;
   }
 
   .editorial-home--single .editorial-hero {
-    height: 720px !important;
     min-height: 720px !important;
-    background: #090909 !important;
-  }
-
-  .editorial-home--single .editorial-hero::before {
+    height: 720px !important;
     clip-path: polygon(
-      0 0, 100% 0, 100% 95%,
-      95% 96%, 91% 94.5%, 87% 98%, 82% 96%,
-      77% 100%, 72% 97%, 66% 99%, 60% 96%,
-      54% 100%, 48% 97%, 42% 99%, 36% 96%,
-      30% 100%, 24% 97%, 18% 99%, 12% 96%,
-      6% 98%, 0 95%, 2% 86%, 0 77%, 2% 68%,
-      0 59%, 2% 50%, 0 41%, 2% 32%, 0 23%, 2% 13%, 0 5%
+      0 1%, 8% 0, 17% 1%, 26% 0, 35% 1%, 44% 0, 53% 1%,
+      62% 0, 71% 1%, 80% 0, 89% 1%, 100% 0,
+      99% 8%, 100% 17%, 98.5% 26%, 100% 35%, 98.8% 44%,
+      100% 53%, 98.5% 62%, 100% 71%, 98.7% 80%, 100% 90%,
+      98% 96%, 93% 98%, 87% 96%, 80% 100%, 73% 97%, 66% 99%,
+      59% 96%, 52% 100%, 45% 97%, 38% 99%, 31% 96%, 24% 100%,
+      17% 97%, 10% 99%, 4% 96%, 0 98%, 1.5% 89%, 0 80%,
+      1.5% 71%, 0 62%, 1.5% 53%, 0 44%, 1.2% 35%, 0 26%,
+      1.4% 17%, 0 9%
     ) !important;
   }
 
   .editorial-home--single .editorial-index {
-    top: 24px !important;
-    right: 22px !important;
+    top: 22px !important;
+    right: 20px !important;
     font-size: 10px !important;
   }
 
   .editorial-home--single .editorial-hero-photo {
     left: auto !important;
-    right: 5% !important;
-    top: 11% !important;
-    width: 78% !important;
-    height: 47% !important;
-    object-fit: cover !important;
-    object-position: center 48% !important;
-    transform: rotate(0deg) !important;
-    border: 0 !important;
-  }
-
-  .editorial-home--single .editorial-hero-copy {
-    left: 7% !important;
-    bottom: 8% !important;
-    width: 88% !important;
-    max-width: 88% !important;
-  }
-
-  .editorial-home--single .editorial-hero-title {
-    font-size: clamp(58px, 15.5vw, 86px) !important;
-    line-height: .8 !important;
-    transform: rotate(-6deg) !important;
-    white-space: nowrap !important;
-  }
-
-  .editorial-home--single .editorial-hero-copy p {
-    margin-top: 30px !important;
-    max-width: 270px !important;
-    font-size: 11.5px !important;
-    line-height: 1.5 !important;
-  }
-
-  .editorial-home--single .editorial-hero-projects-cta {
-    margin-top: 18px !important;
-    width: 190px !important;
-    min-height: 44px !important;
+    right: 6% !important;
+    top: 12% !important;
+    width: 76% !important;
+    height: 43% !important;
+    object-position: center 46% !important;
+    opacity: .96 !important;
   }
 
   .editorial-home--single .editorial-hero-paper.paper-one {
-    width: 34% !important;
-    height: 24% !important;
-    right: -2% !important;
-    top: 8% !important;
-    transform: rotate(7deg) !important;
+    width: 68% !important;
+    height: 31% !important;
+    right: 1% !important;
+    top: 10% !important;
+    transform: rotate(6deg) !important;
   }
 
   .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 28% !important;
-    height: 21% !important;
-    right: 1% !important;
-    top: 45% !important;
+    width: 57% !important;
+    height: 26% !important;
+    right: 3% !important;
+    top: 43% !important;
     transform: rotate(-5deg) !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--one {
+    display: block !important;
     left: 8% !important;
-    top: 8% !important;
+    top: 10% !important;
     width: 25% !important;
-    height: 7% !important;
+    height: 6% !important;
     transform: rotate(-7deg) !important;
   }
 
   .editorial-home--single .editorial-mobile-photo-tape--two {
-    right: 1% !important;
-    top: 61% !important;
-    width: 25% !important;
-    height: 7% !important;
+    display: block !important;
+    right: 2% !important;
+    top: 49% !important;
+    width: 27% !important;
+    height: 6% !important;
     transform: rotate(8deg) !important;
   }
 
@@ -4316,30 +4361,75 @@ header.header-nav-shell {
     display: none !important;
   }
 
-  .editorial-home--single .editorial-hero .editorial-star-doodle {
-    display: none !important;
+  .editorial-home--single .editorial-hero-copy {
+    left: 7% !important;
+    bottom: 9% !important;
+    width: 88% !important;
+    max-width: 88% !important;
+  }
+
+  .editorial-home--single .editorial-hero-title {
+    font-size: clamp(58px, 16vw, 88px) !important;
+    line-height: .79 !important;
+    letter-spacing: -.075em !important;
+    transform: rotate(-6deg) !important;
+  }
+
+  .editorial-home--single .editorial-hero-copy p {
+    margin-top: 29px !important;
+    max-width: 280px !important;
+    font-size: 11.5px !important;
+    line-height: 1.5 !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    margin-top: 19px !important;
+    width: 194px !important;
+    min-height: 46px !important;
+    padding: 11px 15px !important;
+    font-size: 10px !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--one {
+    left: 5% !important;
+    top: 31% !important;
+    font-size: 46px !important;
+    z-index: 9 !important;
+  }
+
+  .editorial-home--single .editorial-hero-star--two {
+    right: 7% !important;
+    bottom: 22% !important;
+    font-size: 36px !important;
+    z-index: 9 !important;
+  }
+
+  .editorial-home--single .editorial-hero-scribble {
+    right: 1% !important;
+    bottom: 3% !important;
+    font-size: 90px !important;
+    opacity: .22 !important;
+    z-index: 2 !important;
   }
 }
 
 @media (max-width: 380px) {
   .editorial-home--single .editorial-hero {
-    height: 690px !important;
     min-height: 690px !important;
+    height: 690px !important;
   }
 
   .editorial-home--single .editorial-hero-photo {
-    width: 80% !important;
-    height: 45% !important;
-    right: 4% !important;
-    top: 12% !important;
+    right: 5% !important;
+    width: 78% !important;
+    height: 42% !important;
   }
 
   .editorial-home--single .editorial-hero-title {
-    font-size: 14.5vw !important;
+    font-size: 14vw !important;
   }
 
   .editorial-home--single .editorial-hero-copy {
-    left: 7% !important;
     bottom: 8% !important;
   }
 }
