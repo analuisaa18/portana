@@ -2943,189 +2943,183 @@ header.header-nav-shell {
 }
 
 /* =========================================================
-   HOME MOBILE — AJUSTE FINAL DA COMPOSIÇÃO
-   SOMENTE <= 767px. O desktop permanece intacto.
+   HOME MOBILE — COMPOSIÇÃO FINAL
+   Somente <= 767px. Desktop permanece intocado.
    ========================================================= */
-.editorial-hero-photo--mobile { display: none; }
-
 @media (max-width: 767px) {
   .editorial-home--single {
-    padding: 10px 8px 24px !important;
-    overflow-x: hidden !important;
+    padding: 12px 10px 28px !important;
+    background: #090909 !important;
+  }
+
+  .editorial-home--single .editorial-grid--single {
+    width: 100% !important;
+    max-width: none !important;
+    gap: 0 !important;
   }
 
   .editorial-home--single .editorial-hero {
-    min-height: 716px !important;
-    height: 716px !important;
-    position: relative !important;
+    width: 100% !important;
+    height: 780px !important;
+    min-height: 780px !important;
     overflow: hidden !important;
+    background: #e388a9 !important;
+    isolation: isolate !important;
   }
 
-  .editorial-home--single .editorial-index {
-    top: 4.2% !important;
-    right: 7% !important;
+  /* Índice no topo, como na referência. */
+  .editorial-home--single .editorial-hero .editorial-index {
+    top: 22px !important;
+    right: 20px !important;
     z-index: 12 !important;
     font-size: 12px !important;
-    letter-spacing: .12em !important;
+    letter-spacing: .08em !important;
   }
 
-  /* A foto mobile usa um recorte próprio para manter notebook, garrafa e Pantone visíveis. */
-  .editorial-home--single .editorial-hero-photo--desktop {
-    display: none !important;
-  }
-
-  .editorial-home--single .editorial-hero-photo--mobile {
-    display: block !important;
-    width: 72% !important;
-    height: 46% !important;
-    left: 18% !important;
+  /* FOTO: grande, centralizada e totalmente visível antes do título. */
+  .editorial-home--single .editorial-hero-photo {
+    position: absolute !important;
+    z-index: 4 !important;
+    left: 11% !important;
     right: auto !important;
-    top: 5.8% !important;
-    bottom: auto !important;
+    top: 58px !important;
+    width: 78% !important;
+    height: 405px !important;
+    max-width: none !important;
     object-fit: cover !important;
     object-position: center center !important;
-    filter: grayscale(1) contrast(1.18) saturate(.72) !important;
+    opacity: .92 !important;
+    filter: grayscale(1) contrast(1.08) brightness(1.04) !important;
     mix-blend-mode: multiply !important;
-    box-shadow: 10px 12px 0 rgba(9,9,9,.10) !important;
-    z-index: 5 !important;
-    transform: rotate(-2deg) !important;
+    box-shadow: 10px 12px 0 rgba(9,9,9,.08) !important;
   }
 
-  .editorial-home--single .editorial-hero-paper.paper-one {
-    width: 72% !important;
-    height: 45% !important;
-    left: 14% !important;
-    right: auto !important;
-    top: 7% !important;
-    transform: rotate(-6deg) !important;
+  /* As folhas ficam atrás da foto e não podem escurecê-la. */
+  .editorial-home--single .editorial-hero-paper {
     z-index: 2 !important;
+    pointer-events: none !important;
   }
 
-  .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 68% !important;
-    height: 43% !important;
-    left: 19% !important;
-    right: auto !important;
-    top: 10% !important;
-    transform: rotate(4deg) !important;
-    z-index: 1 !important;
-  }
-
-  /* PORTFÓLIO começa logo depois da foto e ocupa a largura como na referência. */
+  /* O conteúdo começa somente depois da foto. */
   .editorial-home--single .editorial-hero-copy {
-    left: 7% !important;
-    top: 51.5% !important;
+    position: absolute !important;
+    left: 6% !important;
+    right: 4% !important;
+    top: 470px !important;
     bottom: auto !important;
-    width: 89% !important;
-    max-width: 89% !important;
+    width: 90% !important;
+    max-width: 90% !important;
     z-index: 10 !important;
   }
 
   .editorial-home--single .editorial-hero-title {
     display: block !important;
-    width: max-content !important;
+    width: 100% !important;
     max-width: none !important;
-    font-size: clamp(60px, 16vw, 76px) !important;
-    line-height: .80 !important;
-    letter-spacing: -.075em !important;
     white-space: nowrap !important;
-    transform: rotate(-6deg) translateZ(0) !important;
+    overflow: visible !important;
+    font-size: clamp(48px, 15vw, 72px) !important;
+    line-height: .78 !important;
+    letter-spacing: -.075em !important;
+    transform: rotate(-6deg) !important;
     transform-origin: left center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    width: 76% !important;
-    max-width: 76% !important;
-    margin-top: 29px !important;
-    font-size: 11px !important;
-    line-height: 1.52 !important;
-    letter-spacing: .055em !important;
+    margin: 34px 0 0 !important;
+    max-width: 310px !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    letter-spacing: .025em !important;
   }
 
   .editorial-home--single .editorial-hero-projects-cta {
-    margin-top: 23px !important;
-    width: 50% !important;
-    min-height: 52px !important;
+    margin-top: 26px !important;
+    width: 245px !important;
+    min-height: 58px !important;
+    padding: 14px 18px !important;
+    font-size: 11px !important;
+    letter-spacing: .14em !important;
     justify-content: space-between !important;
-    padding: 12px 15px !important;
-    font-size: 10px !important;
-    letter-spacing: .13em !important;
-    gap: 8px !important;
   }
 
   .editorial-home--single .editorial-hero-projects-cta svg {
-    width: 20px !important;
-    height: 20px !important;
-    flex: 0 0 20px !important;
+    width: 19px !important;
+    height: 19px !important;
   }
 
-  /* Elementos gráficos distribuídos como na referência. */
+  /* Decoração: livre ao redor da composição, sem atravessar o título. */
   .editorial-home--single .editorial-hero-star--one {
-    left: 12% !important;
-    top: 19% !important;
-    font-size: 66px !important;
-    z-index: 8 !important;
-    opacity: .96 !important;
+    left: 6% !important;
+    top: 165px !important;
+    z-index: 7 !important;
+    font-size: 54px !important;
+    opacity: .9 !important;
   }
 
   .editorial-home--single .editorial-hero-star--two {
     right: 7% !important;
-    left: auto !important;
-    top: 62% !important;
+    top: 520px !important;
     bottom: auto !important;
-    font-size: 29px !important;
-    z-index: 11 !important;
-    opacity: .88 !important;
+    z-index: 8 !important;
+    font-size: 38px !important;
+    opacity: .75 !important;
   }
 
   .editorial-home--single .editorial-hero-scribble {
-    right: 18% !important;
-    top: 67% !important;
-    bottom: auto !important;
-    font-size: 70px !important;
-    opacity: .55 !important;
-    z-index: 4 !important;
+    right: 2% !important;
+    bottom: 30px !important;
+    z-index: 2 !important;
+    font-size: 92px !important;
+    opacity: .22 !important;
   }
 
-  .editorial-home--single .editorial-hero::after {
-    right: 8% !important;
-    top: 75% !important;
-    bottom: auto !important;
-    width: 72px !important;
-    height: 72px !important;
-    background: rgba(0,0,0,.82) !important;
-    transform: rotate(18deg) !important;
-    z-index: 7 !important;
-  }
-
-  .editorial-home--single .editorial-star-doodle {
+  .editorial-home--single .editorial-hero .editorial-star-doodle {
     display: none !important;
+  }
+
+  /* Mantém a estrela gráfica grande no fundo, sem interferir no texto. */
+  .editorial-home--single .editorial-hero::after {
+    right: 3% !important;
+    bottom: 58px !important;
+    z-index: 1 !important;
+    width: 110px !important;
+    height: 110px !important;
   }
 }
 
 @media (max-width: 380px) {
   .editorial-home--single .editorial-hero {
-    min-height: 700px !important;
-    height: 700px !important;
+    height: 750px !important;
+    min-height: 750px !important;
   }
 
-  .editorial-home--single .editorial-hero-photo--mobile {
-    width: 73% !important;
-    height: 45% !important;
-    left: 17% !important;
+  .editorial-home--single .editorial-hero-photo {
+    left: 9% !important;
+    width: 82% !important;
+    height: 382px !important;
   }
 
   .editorial-home--single .editorial-hero-copy {
-    top: 51% !important;
+    top: 448px !important;
+    left: 6% !important;
+    width: 91% !important;
+    max-width: 91% !important;
   }
 
   .editorial-home--single .editorial-hero-title {
-    font-size: 15vw !important;
+    font-size: 14.3vw !important;
   }
 
   .editorial-home--single .editorial-hero-copy p {
-    width: 78% !important;
-    max-width: 78% !important;
-    font-size: 10px !important;
+    margin-top: 31px !important;
+    font-size: 12px !important;
+  }
+
+  .editorial-home--single .editorial-hero-projects-cta {
+    width: 228px !important;
+    min-height: 55px !important;
   }
 }
