@@ -20,7 +20,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
   view = 'home',
 }) => {
   const { settings } = useTheme();
-  const cards = projects.slice(0, 4);
+  const cards = projects.slice(0, 6);
 
   const imageFor = (p: Project | undefined, i: number) => {
     const src = (p as any)?.cover_image || (p as any)?.thumbnail || (p as any)?.image_url;
@@ -99,7 +99,10 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
             onClick={() => onSelectProject(project.slug)}
           >
             <img src={imageFor(project, index)} alt={project.title} />
-            <span>{project.title}</span>
+            <span className="editorial-project-card__title">{project.title}</span>
+            {project.category?.name && (
+              <small className="editorial-project-card__meta">{project.category.name}{project.year ? ` · ${project.year}` : ''}</small>
+            )}
             <ArrowUpRight size={18} aria-hidden="true" />
           </button>
         ))}
