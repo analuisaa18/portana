@@ -5654,3 +5654,256 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
     animation: none !important;
   }
 }
+
+
+
+/* =========================================================
+   NAVBAR — REFERÊNCIA COLAGEM / PAPEL RASGADO
+   Escopo exclusivo da navegação pública.
+   ========================================================= */
+
+.header-nav-shell {
+  position: sticky !important;
+  top: 12px !important;
+  width: calc(100% - 32px) !important;
+  max-width: 1100px !important;
+  min-height: 64px !important;
+  height: 64px !important;
+  margin: 12px auto 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(227,136,169,.9) !important;
+  border-radius: 999px !important;
+  background: #090909 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.28) !important;
+  isolation: isolate !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Keep the existing animated star field, but remove the paper blocks. */
+.header-nav-shell .header-graphic-field {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.header-nav-shell .header-graphic-block {
+  display: none !important;
+}
+
+.header-nav-shell .header-graphic-star {
+  z-index: 1 !important;
+  color: #fff7fa !important;
+  opacity: .9 !important;
+  text-shadow: none !important;
+}
+
+.header-nav-shell .header-graphic-star:nth-of-type(2n) {
+  color: #fff7fa !important;
+  opacity: 1 !important;
+}
+
+.header-nav-shell .header-graphic-star:nth-of-type(3n) {
+  color: #e388a9 !important;
+  opacity: 1 !important;
+}
+
+.header-nav-shell .header-graphic-small-star {
+  z-index: 1 !important;
+  color: #e388a9 !important;
+  opacity: .95 !important;
+}
+
+/* The content sits cleanly above the moving stars. */
+.header-nav-shell .header-content-row {
+  position: relative !important;
+  z-index: 10 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 64px !important;
+  height: 64px !important;
+  padding: 0 34px !important;
+  box-sizing: border-box !important;
+}
+
+.header-nav-shell .header-desktop-cluster {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  flex: 0 1 auto !important;
+  gap: 28px !important;
+  overflow: visible !important;
+}
+
+.header-nav-shell .portfolio-brand {
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+  color: #fff7fa !important;
+}
+
+.header-nav-shell .portfolio-brand > span:first-child {
+  display: none !important;
+}
+
+.header-nav-shell .header-brand-inline,
+.header-nav-shell .header-brand-static {
+  overflow: visible !important;
+  max-width: none !important;
+  color: #fff7fa !important;
+  font-family: var(--font-body) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+  text-transform: none !important;
+}
+
+.header-nav-shell .desktop-centered-nav {
+  position: relative !important;
+  z-index: 30 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  flex-shrink: 0 !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-nav-item,
+.header-nav-shell .desktop-centered-nav button {
+  position: relative !important;
+  z-index: 30 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #fff7fa !important;
+  font-family: var(--font-body) !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: .20em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  transition: color .2s ease, transform .2s ease !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-nav-item:hover,
+.header-nav-shell .desktop-centered-nav button:hover,
+.header-nav-shell .desktop-centered-nav .header-nav-item:focus-visible {
+  color: #e388a9 !important;
+  transform: translateY(-1px);
+}
+
+.header-nav-shell .desktop-centered-nav .header-nav-item[aria-current="page"] {
+  color: #e388a9 !important;
+  text-decoration: none !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  padding: 0 !important;
+  margin-left: 2px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(227,136,169,.9) !important;
+  border-radius: 50% !important;
+  color: #fff7fa !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  background: transparent !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button::after {
+  content: '✦' !important;
+  font-size: 8px !important;
+  color: #e388a9 !important;
+}
+
+.header-nav-shell .desktop-centered-nav .header-admin-button:hover::after {
+  color: #fff7fa !important;
+}
+
+@media (max-width: 767px) {
+  .header-nav-shell {
+    top: 8px !important;
+    width: calc(100% - 16px) !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    margin-top: 8px !important;
+    border-radius: 999px !important;
+  }
+
+  .header-nav-shell .header-content-row {
+    min-height: 52px !important;
+    height: 52px !important;
+    padding: 0 14px !important;
+  }
+
+  .header-nav-shell .header-desktop-cluster {
+    width: 100% !important;
+    gap: 10px !important;
+    justify-content: space-between !important;
+  }
+
+  .header-nav-shell .portfolio-brand {
+    flex: 0 0 auto !important;
+  }
+
+  .header-nav-shell .header-brand-inline,
+  .header-nav-shell .header-brand-static {
+    font-size: 8px !important;
+    letter-spacing: .07em !important;
+  }
+
+  .header-nav-shell .desktop-centered-nav {
+    gap: 9px !important;
+    overflow: visible !important;
+  }
+
+  .header-nav-shell .desktop-centered-nav .header-nav-item,
+  .header-nav-shell .desktop-centered-nav button {
+    font-size: 6px !important;
+    letter-spacing: .10em !important;
+  }
+
+  .header-nav-shell .desktop-centered-nav .header-admin-button {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+  }
+
+  .header-nav-shell .desktop-centered-nav .header-admin-button::after {
+    font-size: 6px !important;
+  }
+
+  .header-nav-shell .header-graphic-star {
+    font-size: calc(var(--star-size, 30px) * .58) !important;
+  }
+
+  .header-nav-shell .header-graphic-star:nth-of-type(3n) {
+    font-size: calc(var(--star-size, 30px) * .50) !important;
+  }
+
+  .header-nav-shell .header-graphic-small-star {
+    display: block !important;
+  }
+
+  .header-nav-shell > .header-content-row > button {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-nav-shell .header-graphic-star,
+  .header-nav-shell .header-graphic-small-star {
+    animation: none !important;
+  }
+}
