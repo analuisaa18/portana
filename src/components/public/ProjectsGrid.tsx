@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Project, Category } from '../../types/portfolio';
 import { CategoryFilter } from './CategoryFilter';
 import { ProjectCard } from './ProjectCard';
-import { GitHubShowcase } from './GitHubShowcase';
+import GitHubShowcase from './GitHubShowcase';
 import { useTheme } from '../../context/ThemeContext';
 import { FolderOpen } from 'lucide-react';
 import { AnimatedTitle3D } from './AnimatedTitle3D';
