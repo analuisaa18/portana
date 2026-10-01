@@ -2988,9 +2988,10 @@ header.header-nav-shell {
     max-width: none !important;
     object-fit: cover !important;
     object-position: center center !important;
-    opacity: .92 !important;
-    filter: grayscale(1) contrast(1.08) brightness(1.04) !important;
-    mix-blend-mode: multiply !important;
+    opacity: 1 !important;
+    filter: grayscale(.82) contrast(1.06) brightness(1.03) sepia(.18) hue-rotate(292deg) saturate(1.22) !important;
+    mix-blend-mode: normal !important;
+    background: transparent !important;
     box-shadow: 10px 12px 0 rgba(9,9,9,.08) !important;
   }
 
@@ -3121,5 +3122,73 @@ header.header-nav-shell {
   .editorial-home--single .editorial-hero-projects-cta {
     width: 228px !important;
     min-height: 55px !important;
+  }
+}
+
+/* =========================================================
+   FITAS DA FOTO — SOMENTE MOBILE
+   A composição desktop não é afetada.
+   ========================================================= */
+.editorial-mobile-photo-tape {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-mobile-photo-tape {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    background: rgba(225, 178, 194, .34);
+    border: 1px solid rgba(255, 241, 247, .10);
+    box-shadow: 0 0 0 1px rgba(9,9,9,.035);
+    mix-blend-mode: normal;
+  }
+
+  /* Fita diagonal no canto superior direito da fotografia. */
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    width: 205px;
+    height: 64px;
+    right: 1.5%;
+    top: 73px;
+    transform: rotate(7deg);
+  }
+
+  /* Fita atravessando a região central/inferior da fotografia. */
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    width: 235px;
+    height: 72px;
+    right: -2%;
+    top: 330px;
+    transform: rotate(-6deg);
+    background: rgba(229, 183, 198, .27);
+  }
+
+  /* Pequena folha/fita no canto inferior esquerdo, como na colagem desktop. */
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    width: 145px;
+    height: 48px;
+    left: 5%;
+    top: 385px;
+    transform: rotate(9deg);
+    background: rgba(241, 201, 214, .24);
+  }
+}
+
+@media (max-width: 380px) {
+  .editorial-home--single .editorial-mobile-photo-tape--one {
+    width: 190px;
+    height: 58px;
+    top: 69px;
+  }
+  .editorial-home--single .editorial-mobile-photo-tape--two {
+    width: 220px;
+    height: 66px;
+    top: 311px;
+  }
+  .editorial-home--single .editorial-mobile-photo-tape--three {
+    width: 132px;
+    height: 44px;
+    top: 362px;
   }
 }
