@@ -29,7 +29,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
 
   const Hero = () => (
     <section className="editorial-panel editorial-panel--pink editorial-hero" aria-label="Portfólio">
-      <div className="editorial-index">00 / 05</div>
+      <div className="editorial-index">00 / 04</div>
 
       <div className="editorial-hero-copy">
         <button type="button" className="editorial-hero-title" aria-label="Portfólio — interação">
@@ -90,7 +90,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
 
   const Projects = () => (
     <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
-      <div className="editorial-index">02 / 05</div>
+      <div className="editorial-index">02 / 04</div>
       <div className="editorial-projects-head">
         <h2>PROJETOS</h2>
         <p>Identidades, interfaces e experimentações visuais.</p>
@@ -112,25 +112,6 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
     </section>
   );
 
-  const Principles = () => (
-    <section className="editorial-panel editorial-panel--black editorial-principles" aria-label="Princípios">
-      <div className="editorial-index">03 / 05</div>
-      <blockquote>
-        “Criar é transformar referências, processos e ideias em experiências visuais.”
-      </blockquote>
-    </section>
-  );
-
-  const FooterCard = () => (
-    <section className="editorial-panel editorial-panel--pink editorial-footer-card" aria-label="Contato">
-      <div className="editorial-index">05 / 05</div>
-      <h2>VAMOS CRIAR?</h2>
-      <button type="button" onClick={() => onNavigate('contato')}>
-        ENTRAR EM CONTATO <ArrowUpRight size={18} aria-hidden="true" />
-      </button>
-    </section>
-  );
-
   if (view === 'home') {
     return (
       <main className="editorial-home editorial-home--single">
@@ -145,8 +126,6 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
     <main className="editorial-home editorial-home--single editorial-home--projects">
       <div className="editorial-grid editorial-grid--single">
         <Projects />
-        <Principles />
-        <FooterCard />
       </div>
     </main>
   );
