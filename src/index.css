@@ -6271,3 +6271,13 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   background-color: transparent !important;
   color: #fff !important;
 }
+
+
+/* Navbar — apenas ajuste de tamanho da tipografia */
+.reference-navbar__brand {
+  font-size: 19px !important;
+}
+
+.reference-navbar__links button:not(.reference-navbar__admin) {
+  font-size: 12px !important;
+}
