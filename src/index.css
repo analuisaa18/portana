@@ -6621,3 +6621,70 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   background: #191919 !important;
   box-shadow: 8px 10px 0 rgba(9,9,9,.28) !important;
 }
+
+
+/* AJUSTE REAL — SOBRE: fundo rosa + moldura cinza + painel preto */
+.editorial-about-page {
+  background: #e388a9 !important;
+}
+
+.editorial-about-page__panel {
+  background: #2a2a2a !important;
+  padding: 48px 46px 44px !important;
+}
+
+.editorial-about-page__panel::before {
+  display: block !important;
+  inset: 28px !important;
+  background: #111111 !important;
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+
+/* enquadramento da foto mais equilibrado, mantendo a mesma imagem */
+.editorial-about-page__visual {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.editorial-about-page__paper {
+  width: min(370px, 92%) !important;
+  aspect-ratio: 1.18 !important;
+  transform: rotate(-4deg) !important;
+}
+
+.editorial-about-page__paper img,
+.editorial-about-page__placeholder {
+  object-fit: cover !important;
+  object-position: center 38% !important;
+}
+
+@media (max-width: 900px) {
+  .editorial-about-page {
+    background: #e388a9 !important;
+  }
+
+  .editorial-about-page__panel {
+    background: #2a2a2a !important;
+  }
+
+  .editorial-about-page__panel::before {
+    inset: 24px !important;
+  }
+
+  .editorial-about-page__paper {
+    width: min(390px, 82%) !important;
+    aspect-ratio: 1.12 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .editorial-about-page__panel::before {
+    inset: 18px !important;
+  }
+
+  .editorial-about-page__paper {
+    width: 82% !important;
+    aspect-ratio: 1.08 !important;
+  }
+}
