@@ -1,274 +1,126 @@
-export type UXVoice = 
-  | 'direto' 
-  | 'informal' 
-  | 'poético' 
-  | 'acadêmico' 
-  | 'experimental' 
-  | 'profissional' 
-  | 'acolhedor' 
-  | 'minimalista';
+import React from 'react';
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+import { Project } from '../../types/portfolio';
+import homeEditorialPhoto from '../../assets/home-editorial-experiment.jpg';
 
-export type CtaLabel = 
-  | 'Ver projeto' 
-  | 'Explorar' 
-  | 'Conhecer' 
-  | 'Abrir projeto' 
-  | 'Entrar' 
-  | 'Descobrir';
-
-export interface ThemeColors {
-  background: string;
-  surface: string;
-  textPrimary: string;
-  textSecondary: string;
-  primary: string;
-  secondary: string;
-  accent: string;
-  border: string;
-  focus: string;
-  success: string;
-  warning: string;
-  error: string;
+interface PortfolioCollageProps {
+  projects: Project[];
+  onSelectProject: (slug: string) => void;
+  onNavigate: (view: string) => void;
+  view?: 'home' | 'sobre' | 'projetos' | 'contato';
 }
 
-export interface ThemeTypographyLab {
-  text: string;
-  speed: number;
-  depth: number;
-  perspective: number;
-  curvature: number;
-  spacing: number;
-  rotateX: number;
-  rotateY: number;
-  rotateZ: number;
-  mouseStrength: number;
-  autoRotate: boolean;
-}
+export const PortfolioCollage: React.FC<PortfolioCollageProps> = ({
+  projects,
+  onSelectProject,
+  onNavigate,
+  view = 'home',
+}) => {
+  const { settings } = useTheme();
+  const cards = projects.slice(0, 4);
 
-export interface ThemeTypography {
-  fontFamilyHeadings: string;
-  fontFamilyBody: string;
-  baseSizePx: number;
-  scaleRatio: number;
-  headingWeight: number;
-  bodyWeight: number;
-  lineHeight: number;
-  headingLineHeight: number;
-  letterSpacing: number;
-  lab?: ThemeTypographyLab;
-}
+  const renderCard = () => {
+    if (view === 'sobre') {
+      return (
+        <section className="portfolio-collage__card portfolio-collage__about portfolio-collage__single-card" id="sobre" aria-label="Sobre mim">
+          <span className="portfolio-collage__index">01 / 04</span>
+          <div className="portfolio-collage__about-copy">
+            <h2>SOBRE<br />MIM</h2>
+            {settings.short_bio && <p className="portfolio-collage__intro">{settings.short_bio}</p>}
+            <div className="portfolio-collage__body">
+              {(settings.about_text || '').split('\n\n').filter(Boolean).map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+          <div className="portfolio-collage__portrait">
+            {settings.profile_image ? (
+              <img src={settings.profile_image} alt={`Fotografia de ${settings.portfolio_name}`} />
+            ) : (
+              <div className="portfolio-collage__portrait-placeholder">AB</div>
+            )}
+            <span className="portfolio-collage__portrait-paper" />
+            <span className="portfolio-collage__portrait-star">✦</span>
+          </div>
+        </section>
+      );
+    }
 
-export type IconProvider = 'material' | 'apple' | 'feather' | 'lucide' | 'custom';
+    if (view === 'projetos') {
+      return (
+        <section className="portfolio-collage__card portfolio-collage__projects portfolio-collage__single-card" id="projetos" aria-label="Projetos">
+          <span className="portfolio-collage__index">02 / 04</span>
+          <h2>PROJETOS</h2>
+          <div className="portfolio-collage__project-grid">
+            {cards.map((project, index) => (
+              <button
+                key={project.slug || index}
+                type="button"
+                className="portfolio-collage__project"
+                onClick={() => onSelectProject(project.slug)}
+              >
+                <span className="portfolio-collage__project-image">
+                  <img src={project.cover_image} alt={project.title} />
+                </span>
+                <strong>{project.title}</strong>
+                <small>{project.short_description}</small>
+                <ArrowUpRight size={15} aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+        </section>
+      );
+    }
 
-export interface ThemeIcon {
-  provider: IconProvider;
-  name: string;
-  url?: string;
-  alt?: string;
-}
+    if (view === 'contato') {
+      return (
+        <section className="portfolio-collage__card portfolio-collage__contact portfolio-collage__single-card" id="contato" aria-label="Contato">
+          <div className="portfolio-collage__contact-image" aria-hidden="true">
+            <img src={homeEditorialPhoto} alt="" />
+          </div>
+          <div className="portfolio-collage__contact-copy">
+            <h2>VAMOS<br />CONVERSAR?</h2>
+            <div className="portfolio-collage__contact-data">
+              {settings.email_public && <span><Mail size={14} /> {settings.email_public}</span>}
+              {settings.location && <span><MapPin size={14} /> {settings.location}</span>}
+            </div>
+          </div>
+        </section>
+      );
+    }
 
+    return (
+      <section className="portfolio-collage__card portfolio-collage__home portfolio-collage__single-card" aria-label="Portfólio">
+        <span className="portfolio-collage__index">00 / 04</span>
+        <div className="portfolio-collage__home-copy">
+          <h1>PORTFÓLIO</h1>
+          <p>
+            DESIGN DE INTERFACES,<br />
+            PROJETOS GRÁFICOS E<br />
+            EXPERIÊNCIAS VISUAIS.
+          </p>
+          <button type="button" onClick={() => onNavigate('projetos')}>
+            VER PROJETOS <ArrowUpRight size={17} />
+          </button>
+        </div>
+        <div className="portfolio-collage__home-photo-wrap" aria-hidden="true">
+          <img src={homeEditorialPhoto} alt="" />
+          <span className="portfolio-collage__torn-paper" />
+          <span className="portfolio-collage__pink-mark">✦</span>
+        </div>
+        <span className="portfolio-collage__star portfolio-collage__star--home" aria-hidden="true" />
+      </section>
+    );
+  };
 
-export interface ThemeRadius {
-  none: string;
-  sm: string;
-  md: string;
-  lg: string;
-  xl: string;
-  full: string;
-}
+  return (
+    <main className={`portfolio-collage portfolio-collage--single portfolio-collage--${view}`} aria-label="Portfólio autoral">
+      <div className="portfolio-collage__single-grid">
+        {renderCard()}
+      </div>
+    </main>
+  );
+};
 
-export type ThemeGridStyle = 'standard' | 'dense' | 'masonry' | 'featured' | 'list';
-
-export interface ThemeLayout {
-  maxWidthPx: number;
-  gridColumns: number;
-  gridStyle: ThemeGridStyle;
-  gapPx: number;
-  containerPaddingPx: number;
-}
-
-export interface ThemeMotion {
-  durationFastMs: number;
-  durationNormalMs: number;
-  durationSlowMs: number;
-  easing: string;
-  reducedMotionFallback: boolean;
-}
-
-export type HeaderStyle = 'minimal' | 'boxed' | 'editorial' | 'floating';
-export type HeaderNavStyle = 'simple' | 'underline' | 'pill';
-export type HeaderAnimation = 'none' | 'lift' | 'wave' | 'magnetic' | 'wrapped3d';
-
-export interface ThemeHeader {
-  style: HeaderStyle;
-  sticky: boolean;
-  showBorder: boolean;
-  blur: boolean;
-  opacity: number;
-  heightPx: number;
-  showBrandIcon: boolean;
-  iconSizePx: number;
-  brandFontSizePx: number;
-  brandWeight: number;
-  brandLetterSpacing: number;
-  showTagline: boolean;
-  navStyle: HeaderNavStyle;
-  /** Style used by the custom reference navbar; omitted means the current visual style. */
-  referenceNavStyle?: HeaderNavStyle;
-  navFontSizePx: number;
-  navWeight: number;
-  navLetterSpacing: number;
-  navUppercase: boolean;
-  showAdminButton: boolean;
-  animation: HeaderAnimation;
-  animationIntensity: number;
-  animationPerspective: number;
-  animationDepth: number;
-  animationSpeed: number;
-  animationMouseStrength: number;
-  animationRepeat: number;
-  animationDepthPx?: number;
-  animationSpread?: number;
-  animationAutoPlay?: boolean;
-  animationPointer?: boolean;
-  animationColorMode?: 'theme' | 'accent' | 'alternating' | 'pulse';
-  brandFontFamily?: string;
-  backgroundEnabled?: boolean;
-  backgroundType?: 'grid' | 'orbits' | 'particles' | 'hybrid';
-  backgroundOpacity?: number;
-  backgroundIntensity?: number;
-  backgroundParallax?: number;
-  backgroundGridSize?: number;
-  backgroundPerspective?: number;
-  wrappedSurfaceColor?: string;
-  wrappedTextColor?: string;
-  wrappedCurve?: number;
-  wrappedTwist?: number;
-  wrappedBulge?: number;
-  wrappedGlow?: number;
-  wrappedScale?: number;
-  projectTitle3dEnabled?: boolean;
-  projectTitle3dSurfaceColor?: string;
-  projectTitle3dTextColor?: string;
-  projectTitle3dShadowColor?: string;
-  projectTitle3dIntensity?: number;
-  projectTitle3dSpeed?: number;
-  projectTitle3dMouseStrength?: number;
-  circleFieldEnabled?: boolean;
-  circleFieldBackground?: string;
-  circleFieldColor?: string;
-  circleFieldOpacity?: number;
-  circleFieldSize?: number;
-  circleFieldMotion?: number;
-  circleFieldMouse?: number;
-
-  /** Responsive header controls */
-  responsiveEnabled?: boolean;
-  responsiveBreakpointPx?: number;
-  mobileHeightPx?: number;
-  mobileContainerPaddingPx?: number;
-  mobileBrandFontSizePx?: number;
-  mobileBrandWeight?: number;
-  mobileBrandLetterSpacing?: number;
-  mobileIconSizePx?: number;
-  mobileNavFontSizePx?: number;
-  mobileNavGapPx?: number;
-  mobileBrandMaxWidthPx?: number;
-  desktopNavGapPx?: number;
-  desktopContainerPaddingPx?: number;
-  desktopBrandMaxWidthPx?: number;
-  mobileShowBrandIcon?: boolean;
-  mobileShowTagline?: boolean;
-  mobile3dScale?: number;
-  mobile3dDepth?: number;
-  mobile3dMouseStrength?: number;
-  mobileAnimationEnabled?: boolean;
-  mobileBackgroundEnabled?: boolean;
-  mobileBackgroundOpacity?: number;
-}
-
-export interface ThemeConfig {
-  colors: ThemeColors;
-  typography: ThemeTypography;
-  radius: ThemeRadius;
-  layout: ThemeLayout;
-  motion: ThemeMotion;
-  header: ThemeHeader;
-  brandIcon: ThemeIcon;
-  customImage: string;
-  ctaLabel: CtaLabel;
-  uxVoice: UXVoice;
-}
-
-export interface SocialLink {
-  id: string;
-  platform: string;
-  url: string;
-  label: string;
-}
-
-export interface PortfolioSettings {
-  id?: string;
-  owner_id?: string;
-  portfolio_name: string;
-  tagline: string;
-  about_title: string;
-  about_text: string;
-  short_bio: string;
-  profile_image: string;
-  whatsapp: string;
-  email_public: string;
-  location: string;
-  github_username?: string;
-  social_links: SocialLink[];
-  ux_voice: UXVoice;
-  theme_config: ThemeConfig;
-  created_at?: string;
-  updated_at?: string;
-}
-
-export interface Category {
-  id: string;
-  owner_id?: string;
-  name: string;
-  slug: string;
-  description: string;
-  display_order: number;
-  created_at?: string;
-}
-
-export type ProjectStatus = 'rascunho' | 'publicado';
-
-export interface Project {
-  id: string;
-  owner_id?: string;
-  category_id: string | null;
-  title: string;
-  slug: string;
-  short_description: string;
-  cover_image: string;
-  year: number;
-  status: ProjectStatus;
-  featured: boolean;
-  display_order: number;
-  created_at?: string;
-  updated_at?: string;
-  // Relationship helpers
-  category?: Category;
-  blocks?: ProjectBlock[];
-}
-
-export type BlockType = 'texto' | 'imagem' | 'video' | 'audio' | 'p5';
-
-export interface ProjectBlock {
-  id: string;
-  project_id: string;
-  type: BlockType;
-  content: string;      // Used for markdown/text or video title or audio title
-  media_url: string;    // Image URL, YouTube URL, Audio URL
-  alt_text: string;     // Alt text for images
-  caption: string;      // Subtitle / caption
-  transcript: string;   // Text transcript for audio
-  display_order: number;
-  created_at?: string;
-}
+export default PortfolioCollage;
