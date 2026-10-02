@@ -6279,3 +6279,119 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .editorial-home--single .editorial-hero::before {
   background: none !important;
 }
+
+/* HOME — ajuste solicitado: pequeno respiro entre a navbar e o fundo rosa.
+   Escopo exclusivo do hero; a navbar e todo o restante permanecem intactos. */
+@media (min-width: 768px) {
+  .editorial-home--single .editorial-hero {
+    margin-top: 12px !important;
+    height: calc(clamp(430px, 44vw, 680px) - 12px) !important;
+  }
+}
+
+/* HOME — estrelas extras com a mesma forma gráfica e movimento das existentes.
+   Escopo exclusivo do hero. */
+.editorial-home--single .editorial-extra-star {
+  position: absolute !important;
+  z-index: 9 !important;
+  width: 22px !important;
+  height: 22px !important;
+  pointer-events: none !important;
+  background: #090909 !important;
+  clip-path: polygon(
+    50% 0%, 58% 40%, 100% 50%, 58% 60%,
+    50% 100%, 42% 60%, 0% 50%, 42% 40%
+  ) !important;
+  will-change: transform;
+}
+
+@keyframes editorialExtraStarFloatA {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(8px, -10px, 0) rotate(12deg) scale(1.08);
+  }
+}
+
+@keyframes editorialExtraStarFloatB {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(-9px, 8px, 0) rotate(-14deg) scale(.94);
+  }
+}
+
+@keyframes editorialExtraStarFloatC {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(6px, 9px, 0) rotate(180deg) scale(1.05);
+  }
+}
+
+.editorial-home--single .editorial-extra-star--one {
+  left: 27% !important;
+  top: 20% !important;
+  width: 18px !important;
+  height: 18px !important;
+  animation: editorialExtraStarFloatA 6.2s ease-in-out infinite;
+}
+
+.editorial-home--single .editorial-extra-star--two {
+  left: 53% !important;
+  top: 24% !important;
+  width: 14px !important;
+  height: 14px !important;
+  animation: editorialExtraStarFloatB 7.1s ease-in-out infinite;
+}
+
+.editorial-home--single .editorial-extra-star--three {
+  right: 23% !important;
+  top: 62% !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: #fff7fa !important;
+  animation: editorialExtraStarFloatC 7.8s ease-in-out infinite;
+}
+
+.editorial-home--single .editorial-extra-star--four {
+  left: 56% !important;
+  bottom: 12% !important;
+  width: 13px !important;
+  height: 13px !important;
+  animation: editorialExtraStarFloatA 6.8s ease-in-out infinite reverse;
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-extra-star--one {
+    width: 14px !important;
+    height: 14px !important;
+    left: 25% !important;
+    top: 21% !important;
+  }
+
+  .editorial-home--single .editorial-extra-star--two {
+    width: 11px !important;
+    height: 11px !important;
+    left: 54% !important;
+    top: 24% !important;
+  }
+
+  .editorial-home--single .editorial-extra-star--three {
+    width: 15px !important;
+    height: 15px !important;
+    right: 20% !important;
+    top: 62% !important;
+  }
+
+  .editorial-home--single .editorial-extra-star--four {
+    width: 10px !important;
+    height: 10px !important;
+    left: 58% !important;
+    bottom: 12% !important;
+  }
+}
+
