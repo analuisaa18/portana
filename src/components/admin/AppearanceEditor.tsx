@@ -255,7 +255,7 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
             ['underline', 'Sublinhado'],
             ['pill', 'Pílula'],
           ].map(([value, label]) => (
-            <button key={value} type="button" onClick={() => setConfig(prev => ({ ...prev, header: { ...prev.header, referenceNavStyle: value as ThemeConfig['header']['navStyle'] } }))} className={`p-3 rounded-[var(--radius-md)] border text-left ${(config.header.referenceNavStyle ?? 'simple') === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] font-bold' : 'border-[var(--color-border)]'}`}>
+            <button key={value} type="button" onClick={() => setConfig(prev => ({ ...prev, header: { ...prev.header, navStyle: value as ThemeConfig['header']['navStyle'] } }))} className={`p-3 rounded-[var(--radius-md)] border text-left ${config.header.navStyle === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] font-bold' : 'border-[var(--color-border)]'}`}>
               <span className="block font-bold">Navegação {label}</span>
             </button>
           ))}
