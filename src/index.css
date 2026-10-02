@@ -6262,3 +6262,12 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .editorial-home--single .editorial-hero-title:hover {
   transform: rotate(-6deg) scale(1.10) translateZ(0);
 }
+
+/* NAV SUBLINHADA — item ativo permanece branco, somente o sublinhado fica rosa */
+.reference-navbar--nav-underline .reference-navbar__links button:not(.reference-navbar__admin)[aria-current="page"],
+.reference-navbar--nav-underline .reference-navbar__links button:not(.reference-navbar__admin):hover {
+  opacity: 1 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #fff !important;
+}
