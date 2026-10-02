@@ -1622,7 +1622,7 @@ header.header-nav-shell {
 
 
 /* =========================================================
-   SOBRE — página editorial inspirada no painel "SOBRE MIM"
+   SOBRE — composição editorial inspirada na referência
    ========================================================= */
 .editorial-about-page {
   --about-pink: #E388A9;
@@ -1632,35 +1632,35 @@ header.header-nav-shell {
   width: 100%;
   background: var(--about-pink);
   color: var(--about-pink-soft);
-  padding: 30px 24px 64px;
+  padding: 28px 28px 58px;
 }
 
 .editorial-about-page__panel {
   position: relative;
-  width: min(1480px, 100%);
-  min-height: calc(100vh - 150px);
+  width: min(1380px, 100%);
+  min-height: 700px;
   margin: 0 auto;
-  padding: 94px 8% 96px;
+  padding: 34px;
   overflow: hidden;
   background: var(--about-gray);
-  border: 0;
 }
 
 .editorial-about-page__panel::before {
   content: '';
   position: absolute;
-  inset: 34px;
+  inset: 28px;
   z-index: 0;
   background: var(--about-black);
 }
 
 .editorial-about-page__index {
   position: absolute;
-  top: 28px;
-  right: 32px;
+  top: 54px;
+  right: 58px;
+  z-index: 3;
   color: var(--about-pink-soft);
   font-family: var(--font-body), monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: .16em;
 }
 
@@ -1668,21 +1668,22 @@ header.header-nav-shell {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 44%);
-  gap: clamp(40px, 7vw, 110px);
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 42%);
+  gap: clamp(45px, 6vw, 90px);
   align-items: center;
-  min-height: 620px;
+  min-height: 632px;
+  padding: 62px 62px 54px;
 }
 
 .editorial-about-page__text {
-  max-width: 610px;
+  max-width: 570px;
 }
 
 .editorial-about-page__text h1 {
-  margin: 0 0 42px;
+  margin: 0 0 34px;
   color: var(--about-pink);
   font-family: var(--font-headings);
-  font-size: clamp(72px, 8vw, 128px);
+  font-size: clamp(64px, 7vw, 104px);
   font-weight: 1000;
   line-height: .78;
   letter-spacing: -.065em;
@@ -1696,9 +1697,9 @@ header.header-nav-shell {
 }
 
 .editorial-about-page__intro {
-  max-width: 580px;
-  margin: 0 0 28px;
-  font-size: clamp(16px, 1.4vw, 20px);
+  max-width: 570px;
+  margin: 0 0 24px;
+  font-size: clamp(15px, 1.2vw, 18px);
   line-height: 1.55;
 }
 
@@ -1707,16 +1708,16 @@ header.header-nav-shell {
 }
 
 .editorial-about-page__body p {
-  margin: 0 0 22px;
-  font-size: 14px;
-  line-height: 1.72;
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.68;
 }
 
 .editorial-about-page__details {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 22px;
-  margin-top: 30px;
+  margin-top: 26px;
   color: var(--about-pink-soft);
   font-family: var(--font-body), monospace;
   font-size: 11px;
@@ -1733,7 +1734,7 @@ header.header-nav-shell {
 }
 
 .editorial-about-page__button {
-  margin-top: 30px;
+  margin-top: 26px;
   background: var(--about-pink) !important;
   color: #111 !important;
   border-color: var(--about-pink) !important;
@@ -1741,7 +1742,7 @@ header.header-nav-shell {
 
 .editorial-about-page__visual {
   position: relative;
-  min-height: 560px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1749,24 +1750,24 @@ header.header-nav-shell {
 
 .editorial-about-page__paper {
   position: relative;
-  width: min(430px, 88%);
-  aspect-ratio: 1.02;
+  width: min(350px, 86%);
+  aspect-ratio: .82;
   padding: 0;
   background: #d8d8d8;
   transform: rotate(-4deg);
-  box-shadow: 0 24px 50px rgba(0,0,0,.42);
+  box-shadow: 0 18px 34px rgba(0,0,0,.34);
 }
 
 .editorial-about-page__paper::before {
   content: '';
   position: absolute;
-  width: 150px;
-  height: 42px;
-  top: -18px;
-  left: 50%;
+  width: 132px;
+  height: 38px;
+  top: -17px;
+  left: 25%;
   z-index: 3;
-  background: rgba(227,136,169,.88);
-  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(227,136,169,.9);
+  transform: translateX(-50%) rotate(-4deg);
   pointer-events: none;
 }
 
@@ -1776,7 +1777,7 @@ header.header-nav-shell {
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.15);
+  filter: grayscale(1) contrast(1.12);
   object-position: center center;
   background: #292929;
 }
@@ -1791,11 +1792,11 @@ header.header-nav-shell {
 
 .editorial-about-page__doodle {
   position: absolute;
-  right: 2%;
-  bottom: 5%;
+  right: 3%;
+  bottom: 8%;
   z-index: 4;
   color: var(--about-pink);
-  font-size: 82px;
+  font-size: 72px;
   line-height: 1;
   transform: rotate(17deg);
 }
@@ -1805,8 +1806,8 @@ header.header-nav-shell {
   left: 0;
   bottom: 13%;
   color: var(--about-pink);
-  font-size: 110px;
-  opacity: .22;
+  font-size: 96px;
+  opacity: .18;
   transform: rotate(-18deg);
 }
 
@@ -1817,16 +1818,17 @@ header.header-nav-shell {
 
   .editorial-about-page__panel {
     min-height: auto;
-    padding: 72px 52px 78px;
+    padding: 24px;
   }
 
   .editorial-about-page__panel::before {
-    inset: 24px;
+    inset: 20px;
   }
 
   .editorial-about-page__content {
     grid-template-columns: 1fr;
-    gap: 46px;
+    gap: 42px;
+    padding: 72px 38px 54px;
   }
 
   .editorial-about-page__text {
@@ -1834,31 +1836,35 @@ header.header-nav-shell {
   }
 
   .editorial-about-page__visual {
-    min-height: 500px;
+    min-height: 450px;
   }
 
   .editorial-about-page__paper {
-    width: min(410px, 82%);
+    width: min(370px, 82%);
   }
 }
 
 @media (max-width: 560px) {
   .editorial-about-page__panel {
-    padding: 58px 38px 60px;
+    padding: 18px;
   }
 
   .editorial-about-page__panel::before {
-    inset: 18px;
+    inset: 16px;
+  }
+
+  .editorial-about-page__content {
+    padding: 58px 26px 46px;
   }
 
   .editorial-about-page__index {
-    top: 20px;
-    right: 20px;
+    top: 34px;
+    right: 34px;
   }
 
   .editorial-about-page__text h1 {
-    font-size: clamp(62px, 19vw, 92px);
-    margin-bottom: 32px;
+    font-size: clamp(58px, 18vw, 88px);
+    margin-bottom: 30px;
   }
 
   .editorial-about-page__body p {
@@ -1866,16 +1872,16 @@ header.header-nav-shell {
   }
 
   .editorial-about-page__visual {
-    min-height: 410px;
+    min-height: 390px;
   }
 
   .editorial-about-page__paper {
-    width: 78%;
+    width: 76%;
   }
 
   .editorial-about-page__doodle {
     right: 0;
-    font-size: 64px;
+    font-size: 60px;
   }
 }
 
