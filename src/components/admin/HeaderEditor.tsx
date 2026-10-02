@@ -137,8 +137,8 @@ export const HeaderEditor: React.FC<HeaderEditorProps> = ({ onSaved }) => {
             ['underline', 'Sublinhado'],
             ['pill', 'Pílula'],
           ].map(([value, label]) => (
-            <button key={value} type="button" onClick={() => update({ navStyle: value as ThemeHeader['navStyle'] })}
-              className={`p-3 rounded-[var(--radius-md)] border text-left ${header.navStyle === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10' : 'border-[var(--color-border)]'}`}>
+            <button key={value} type="button" onClick={() => update({ referenceNavStyle: value as ThemeHeader['navStyle'] })}
+              className={`p-3 rounded-[var(--radius-md)] border text-left ${(header.referenceNavStyle ?? 'simple') === value ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10' : 'border-[var(--color-border)]'}`}>
               <span className="font-bold">Navegação {label}</span>
             </button>
           ))}
