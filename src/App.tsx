@@ -7,6 +7,7 @@ import { ProjectsGrid } from './components/public/ProjectsGrid';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
 import { EditorialHome } from './components/public/EditorialHome';
+import { ProjectsEditorial } from './components/public/ProjectsEditorial';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { portfolioStore } from './services/store';
@@ -109,13 +110,11 @@ export function PortfolioApp() {
               <AboutSection onNavigateContact={() => handleNavigate('contato')} />
             )}
 
-            {/* Projetos: identidade visual, desenhos/pinturas e interfaces */}
+            {/* Projetos: composição editorial da referência */}
             {currentView === 'projetos' && !selectedSlug && (
-              <EditorialHome
-                view="projetos"
+              <ProjectsEditorial
                 projects={projects}
                 onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
-                onNavigate={handleNavigate}
               />
             )}
 
