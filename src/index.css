@@ -5897,7 +5897,7 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   right: 0;
   bottom: -7px;
   height: 1px;
-  background: currentColor;
+  background: #e388a9;
   transform: scaleX(0);
   transform-origin: center;
   opacity: .9;
