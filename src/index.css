@@ -3125,3 +3125,47 @@ header.header-nav-shell {
     font-size: 8px;
   }
 }
+
+
+/* =========================================================
+   PAPER COLLAGE OVERLAY — visual-only layer
+   Added as decorative layers only: no layout/content/navigation changes.
+   ========================================================= */
+.editorial-home--single .editorial-hero,
+.editorial-about-page__panel,
+.projects-reference-page,
+.editorial-contact-page { position: relative; isolation: isolate; }
+
+.editorial-home--single .editorial-hero::before,
+.projects-reference-page::before,
+.editorial-about-page__panel::before,
+.editorial-contact-page::before {
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:20;
+  background-repeat:no-repeat; background-position:center; background-size:100% 100%;
+}
+.editorial-home--single .editorial-hero::before,
+.projects-reference-page::before { background-image:url('./assets/paper-torn-black-on-pink.svg'); opacity:.92; }
+.editorial-about-page__panel::before,
+.editorial-contact-page::before { background-image:url('./assets/paper-torn-pink-on-black.svg'); opacity:.78; }
+
+.editorial-home--single .editorial-hero::after,
+.projects-reference-page::after,
+.editorial-about-page__panel::after,
+.editorial-contact-page::after {
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:21;
+  background:url('./assets/paper-torn-tape.svg') no-repeat 5% 3% / 190px 61px,
+             url('./assets/paper-torn-tape.svg') no-repeat 95% 94% / 190px 61px;
+  opacity:.62;
+}
+@media (max-width:767px){
+  .editorial-home--single .editorial-hero::before,
+  .projects-reference-page::before,
+  .editorial-about-page__panel::before,
+  .editorial-contact-page::before { background-size:100% 100%; opacity:.9; }
+  .editorial-home--single .editorial-hero::after,
+  .projects-reference-page::after,
+  .editorial-about-page__panel::after,
+  .editorial-contact-page::after {
+    background-size:120px 38px,120px 38px; opacity:.55;
+  }
+}
