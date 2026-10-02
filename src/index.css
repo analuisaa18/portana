@@ -3126,649 +3126,173 @@ header.header-nav-shell {
   }
 }
 
-
 /* =========================================================
-   EDITORIAL PAPER COLLAGE — reference treatment
-   Decorative only: no content, navigation or typography changes.
+   PAPEL RASGADO / COLAGEM — camada decorativa
+   IMPORTANTE: não altera a navbar nem o conteúdo existente.
    ========================================================= */
 
-/* The collage lives only inside public page surfaces. */
-.editorial-home--single,
-.projects-reference-page,
-.editorial-about-page__panel,
-.editorial-contact-page {
-  isolation: isolate;
-}
-
-/* ---------------- HOME ----------------
-   Reuse the two existing paper nodes instead of changing the DOM. */
-.editorial-home--single .editorial-hero {
-  background: #090909 !important;
-  overflow: hidden !important;
-}
-
-.editorial-home--single .editorial-hero-paper.paper-one {
-  z-index: 1 !important;
-  left: 1.4% !important;
-  top: 2.2% !important;
-  right: auto !important;
-  width: 97.2% !important;
-  height: 95% !important;
-  opacity: 1 !important;
-  mix-blend-mode: normal !important;
-  background:
-    radial-gradient(circle at 17% 22%, rgba(255,255,255,.10) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 76% 68%, rgba(0,0,0,.09) 0 1px, transparent 1.8px),
-    repeating-linear-gradient(2deg, rgba(255,255,255,.032) 0 1px, transparent 1px 7px),
-    #E388A9 !important;
-  background-size: 13px 13px, 17px 17px, auto, auto !important;
-  transform: rotate(-.25deg) !important;
-  clip-path: polygon(
-    1.2% 1.8%, 9% .8%, 18% 2%, 28% .9%, 39% 2.2%, 50% 1%, 61% 2.3%, 73% .9%, 84% 2%, 98.2% 1.3%,
-    97% 12%, 98.7% 23%, 96.9% 35%, 98.3% 47%, 97% 59%, 98.5% 71%, 96.8% 84%, 98.1% 97%,
-    87% 95.9%, 76% 98%, 64% 96.4%, 52% 98.2%, 40% 96.8%, 28% 98.1%, 17% 96.4%, 5% 98%,
-    2% 88%, 3.2% 76%, 1.4% 64%, 3% 52%, 1.5% 40%, 3.1% 28%, 1.4% 16%
-  ) !important;
-  filter: drop-shadow(0 18px 18px rgba(0,0,0,.24));
-}
-
-/* Black scrap / tape already present in the component. */
-.editorial-home--single .editorial-hero-paper.paper-two {
-  z-index: 2 !important;
-  right: 2% !important;
-  top: 48% !important;
-  width: 23% !important;
-  height: 24% !important;
-  opacity: .82 !important;
-  mix-blend-mode: normal !important;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.08), transparent 42%),
-    repeating-linear-gradient(-7deg, rgba(255,255,255,.035) 0 1px, transparent 1px 7px),
-    #111 !important;
-  clip-path: polygon(0 9%, 18% 2%, 39% 6%, 62% 0, 83% 8%, 100% 2%, 96% 82%, 77% 92%, 54% 85%, 31% 100%, 8% 91%) !important;
-  transform: rotate(-5deg) !important;
-}
-
-/* Small translucent tape strips, using existing mobile tape nodes as decoration. */
-.editorial-home--single .editorial-mobile-photo-tape {
-  z-index: 6 !important;
-  background: rgba(240,240,240,.16) !important;
-  border: 1px solid rgba(255,255,255,.08) !important;
-  box-shadow: 0 1px 5px rgba(0,0,0,.10) !important;
-  mix-blend-mode: screen;
-}
-
-/* ---------------- PROJECTS ---------------- */
-.projects-reference-page {
-  position: relative;
-  overflow: hidden;
-  background: #090909 !important;
-}
-
-.projects-reference-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 13% 19%, rgba(255,255,255,.10) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 78% 74%, rgba(0,0,0,.11) 0 1px, transparent 1.8px),
-    repeating-linear-gradient(-3deg, rgba(255,255,255,.03) 0 1px, transparent 1px 7px),
-    #E388A9;
-  background-size: 15px 15px, 19px 19px, auto, auto;
-  clip-path: polygon(
-    0 2.5%, 8% 1%, 18% 2.6%, 29% 1.1%, 41% 2.8%, 53% 1%, 65% 2.4%, 77% 1.2%, 89% 2.6%, 100% 1%,
-    98.5% 14%, 100% 27%, 98% 40%, 99.5% 53%, 97.7% 66%, 100% 79%, 98% 91%, 100% 98%,
-    88% 96.5%, 77% 98.4%, 65% 96.8%, 53% 98.5%, 41% 96.7%, 29% 98%, 16% 96.5%, 4% 98%,
-    2% 89%, 3.4% 77%, 1.5% 64%, 3.2% 51%, 1.6% 39%, 3% 26%, 1.2% 14%
-  );
-  filter: drop-shadow(0 18px 22px rgba(0,0,0,.28));
-}
-
-.projects-reference-page::after {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  top: 3%;
-  right: 3%;
-  width: 23%;
-  height: 12%;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
-    repeating-linear-gradient(3deg, rgba(0,0,0,.15) 0 2px, transparent 2px 8px),
-    rgba(25,25,25,.70);
-  clip-path: polygon(0 11%, 18% 2%, 47% 8%, 71% 0, 100% 14%, 93% 85%, 62% 96%, 32% 87%, 6% 100%);
-  transform: rotate(2.5deg);
-}
-
-.projects-reference__inner {
-  position: relative;
-  z-index: 2;
-}
-
-/* ---------------- SOBRE ---------------- */
-.editorial-about-page__panel {
-  background: #090909 !important;
-  overflow: hidden;
-}
-
-.editorial-about-page__panel::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  left: -2%;
-  top: 2%;
-  width: 37%;
-  height: 20%;
-  pointer-events: none;
-  background:
-    linear-gradient(8deg, rgba(255,255,255,.10), transparent 42%),
-    repeating-linear-gradient(-5deg, rgba(0,0,0,.12) 0 2px, transparent 2px 8px),
-    #E388A9;
-  clip-path: polygon(0 8%, 19% 0, 43% 6%, 66% 1%, 100% 13%, 94% 70%, 76% 88%, 51% 79%, 25% 100%, 5% 84%);
-  transform: rotate(-4deg);
-}
-
-.editorial-about-page__panel::after {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  right: -2%;
-  bottom: 3%;
-  width: 30%;
-  height: 18%;
-  pointer-events: none;
-  background:
-    linear-gradient(4deg, rgba(255,255,255,.12), transparent 45%),
-    repeating-linear-gradient(4deg, rgba(0,0,0,.08) 0 1px, transparent 1px 7px),
-    #E388A9;
-  clip-path: polygon(4% 13%, 28% 4%, 54% 10%, 76% 0, 100% 17%, 94% 83%, 72% 94%, 47% 84%, 20% 100%, 0 79%);
-  transform: rotate(3deg);
-}
-
-.editorial-about-page__content,
-.editorial-about-page__index,
-.editorial-about-page__floating-star,
-.editorial-about-page__visual {
-  position: relative;
-  z-index: 2;
-}
-
-/* ---------------- CONTATO ---------------- */
-.editorial-contact-page {
-  min-height: 560px;
-  background: #090909;
-}
-
-.editorial-contact-page::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: -2%;
-  right: 15%;
-  bottom: -2%;
-  height: 28%;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(-7deg, rgba(0,0,0,.12) 0 2px, transparent 2px 8px),
-    linear-gradient(4deg, rgba(255,255,255,.10), transparent 50%),
-    #E388A9;
-  clip-path: polygon(0 15%, 9% 6%, 21% 12%, 34% 0, 48% 9%, 62% 3%, 76% 12%, 91% 4%, 100% 17%, 97% 100%, 0 100%);
-}
-
-.editorial-contact-page::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: 7%;
-  bottom: 7%;
-  width: 22%;
-  height: 10%;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,255,255,.03)),
-    rgba(20,20,20,.58);
-  clip-path: polygon(0 16%, 25% 3%, 51% 12%, 77% 0, 100% 18%, 94% 91%, 68% 100%, 38% 88%, 9% 100%);
-  transform: rotate(-2deg);
-}
-
-@media (max-width: 767px) {
-  .editorial-home--single .editorial-hero-paper.paper-one {
-    left: 2% !important;
-    top: 2% !important;
-    width: 96% !important;
-    height: 96% !important;
-    clip-path: polygon(
-      2% 2%, 19% 1%, 37% 3%, 54% 1%, 72% 2.5%, 98% 1.5%,
-      96% 14%, 98% 28%, 96% 42%, 98% 56%, 96% 71%, 98% 86%, 95% 98%,
-      78% 96%, 60% 98%, 43% 96%, 26% 98%, 4% 96%, 3% 82%, 1% 67%, 3% 53%, 1% 38%, 3% 23%
-    ) !important;
-  }
-
-  .editorial-home--single .editorial-hero-paper.paper-two {
-    width: 31% !important;
-    height: 18% !important;
-    right: 1% !important;
-    top: 67% !important;
-  }
-
-  .projects-reference-page::before {
-    clip-path: polygon(
-      2% 2%, 20% 1%, 39% 3%, 58% 1%, 77% 3%, 98% 1%,
-      97% 18%, 99% 34%, 97% 51%, 99% 67%, 97% 83%, 99% 98%,
-      80% 96%, 61% 98%, 42% 96%, 22% 98%, 3% 96%, 2% 81%, 1% 64%, 3% 47%, 1% 30%
-    );
-  }
-
-  .projects-reference-page::after {
-    width: 38%;
-    height: 10%;
-    right: -3%;
-    top: 2%;
-  }
-
-  .editorial-about-page__panel::before {
-    width: 50%;
-    height: 14%;
-    left: -6%;
-  }
-
-  .editorial-about-page__panel::after {
-    width: 45%;
-    height: 13%;
-    right: -6%;
-  }
-
-  .editorial-contact-page::before {
-    right: -4%;
-    height: 22%;
-  }
-
-  .editorial-contact-page::after {
-    width: 34%;
-    left: 4%;
-  }
-}
-
-/* =========================================================
-   HAND-TORE PAPER COLLAGE — FINAL VISUAL LAYER
-   Decorative only. No navbar/content/functionality changes.
-   ========================================================= */
-
-:root {
-  --paper-pink: #e388a9;
-  --paper-pink-light: #ee9fba;
-  --paper-black: #090909;
-  --paper-ink: #141414;
-}
-
-/* A subtle print/paper surface: texture comes from very low-contrast
-   ink/scan lines rather than a heavy bitmap. */
+/* O papel é desenhado em pseudo-elementos/folhas decorativas.
+   O fundo original das páginas permanece intacto. */
 .editorial-home--single .editorial-hero,
 .projects-reference-page,
-.editorial-about-page__panel,
+.editorial-about-page,
 .editorial-contact-page {
-  background-color: var(--paper-black) !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-/* ---------------- HOME: one large torn sheet ---------------- */
-.editorial-home--single .editorial-hero {
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
-
+/* HOME — folha rosa principal sobre o fundo escuro */
 .editorial-home--single .editorial-hero-paper.paper-one {
-  position: absolute !important;
-  z-index: 1 !important;
-  left: 1.6% !important;
-  top: 2.4% !important;
-  right: auto !important;
-  width: 96.8% !important;
-  height: 94.8% !important;
-  opacity: 1 !important;
-  mix-blend-mode: normal !important;
   background:
-    radial-gradient(circle at 18% 24%, rgba(255,255,255,.085) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 72% 63%, rgba(0,0,0,.075) 0 1px, transparent 1.8px),
-    repeating-linear-gradient(4deg, rgba(255,255,255,.026) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(-7deg, rgba(0,0,0,.018) 0 1px, transparent 1px 11px),
-    linear-gradient(180deg, var(--paper-pink-light), var(--paper-pink)) !important;
-  background-blend-mode: normal, normal, soft-light, multiply, normal !important;
-  -webkit-mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  transform: rotate(-0.2deg) !important;
-  filter: drop-shadow(0 15px 16px rgba(0,0,0,.28)) !important;
-  clip-path: none !important;
+    radial-gradient(circle at 18% 22%, rgba(255,255,255,.08) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 66%, rgba(0,0,0,.07) 0 1px, transparent 2px),
+    linear-gradient(180deg, #ee9fba, #e388a9);
+  -webkit-mask: url('./assets/paper-torn-wide-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-wide-v2.svg') center / 100% 100% no-repeat;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,.25));
 }
 
-/* A second, slightly offset torn sheet creates the black ripped layer
-   visible behind/over the pink paper in the reference. */
+/* Recortes pretos e fitas continuam atrás do conteúdo. */
 .editorial-home--single .editorial-hero-paper.paper-two {
-  z-index: 2 !important;
-  right: 2.2% !important;
-  top: 48% !important;
-  width: 24% !important;
-  height: 25% !important;
-  opacity: .9 !important;
-  mix-blend-mode: normal !important;
-  background:
-    repeating-linear-gradient(-8deg, rgba(255,255,255,.045) 0 1px, transparent 1px 8px),
-    linear-gradient(135deg, #242424, #0c0c0c 62%, #171717) !important;
-  -webkit-mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  transform: rotate(-4.5deg) !important;
-  filter: drop-shadow(0 9px 10px rgba(0,0,0,.32)) !important;
+  background: #111;
+  -webkit-mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  filter: drop-shadow(0 7px 8px rgba(0,0,0,.28));
 }
 
-/* Existing tape nodes become actual translucent paper tape strips.
-   They stay decorative and never intercept interaction. */
-.editorial-home--single .editorial-mobile-photo-tape {
-  display: block !important;
-  position: absolute !important;
-  pointer-events: none !important;
-  z-index: 5 !important;
-  height: 7% !important;
-  border: 0 !important;
-  background:
-    linear-gradient(90deg, rgba(255,245,238,.25), rgba(255,255,255,.09), rgba(80,65,65,.13)) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,.16) !important;
-  opacity: .78 !important;
-  -webkit-mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
+.editorial-home--single .editorial-hero > *:not(.editorial-hero-paper) {
+  position: relative;
+  z-index: 6;
 }
-.editorial-home--single .editorial-mobile-photo-tape--one {
-  left: 15%; top: 2.8%; width: 24%; transform: rotate(-2deg) !important;
-}
-.editorial-home--single .editorial-mobile-photo-tape--two {
-  left: 4%; bottom: 3.5%; width: 15%; transform: rotate(8deg) !important;
-}
-.editorial-home--single .editorial-mobile-photo-tape--three {
-  right: 5%; bottom: 9%; width: 18%; transform: rotate(-6deg) !important;
-}
-
-/* Reuse the existing hero pseudo-layer as a translucent scrap/tape piece.
-   The existing star pseudo-layer is intentionally left untouched. */
-.editorial-home--single .editorial-hero::before {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 2 !important;
-  left: 14% !important;
-  top: 2% !important;
-  width: 27% !important;
-  height: 10% !important;
-  background:
-    linear-gradient(90deg, rgba(245,230,235,.28), rgba(120,95,105,.16)),
-    repeating-linear-gradient(-4deg, rgba(0,0,0,.10) 0 2px, transparent 2px 7px) !important;
-  -webkit-mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  transform: rotate(-2deg) !important;
-  filter: drop-shadow(0 4px 5px rgba(0,0,0,.12)) !important;
-}
-
-/* ---------------- PROJECTS: full torn pink sheet ---------------- */
-.projects-reference-page {
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
-.projects-reference-page::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 2.4% 1.4% 2.6% 1.4% !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-  background:
-    radial-gradient(circle at 22% 28%, rgba(255,255,255,.085) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 78% 69%, rgba(0,0,0,.07) 0 1px, transparent 1.8px),
-    repeating-linear-gradient(3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(-8deg, rgba(0,0,0,.016) 0 1px, transparent 1px 12px),
-    linear-gradient(180deg, var(--paper-pink-light), var(--paper-pink)) !important;
-  -webkit-mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  filter: drop-shadow(0 17px 19px rgba(0,0,0,.30)) !important;
-}
-
-/* Black scrap/tape crossing the pink sheet near the top-right. */
-.projects-reference-page::after {
-  content: '' !important;
-  position: absolute !important;
+.editorial-home--single .editorial-hero-paper {
   z-index: 1 !important;
-  top: 4% !important;
-  right: 3% !important;
-  width: 24% !important;
-  height: 12% !important;
-  pointer-events: none !important;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.015)),
-    repeating-linear-gradient(4deg, rgba(255,255,255,.035) 0 1px, transparent 1px 8px),
-    #151515 !important;
-  -webkit-mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  transform: rotate(2.5deg) !important;
-  filter: drop-shadow(0 7px 8px rgba(0,0,0,.24)) !important;
 }
 
-/* ---------------- SOBRE: small physical pink scraps over black paper ---------------- */
+/* Fitas físicas da colagem */
+.editorial-home--single .editorial-mobile-photo-tape {
+  -webkit-mask: url('./assets/paper-torn-tape-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-tape-v2.svg') center / 100% 100% no-repeat;
+  background: rgba(235,220,220,.30) !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,.12);
+}
+
+/* PROJETOS — folha rosa sobre o fundo preto */
+.projects-reference-page::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255,255,255,.07) 0 1px, transparent 2px),
+    radial-gradient(circle at 74% 68%, rgba(0,0,0,.06) 0 1px, transparent 2px),
+    linear-gradient(180deg, #ee9fba, #e388a9);
+  -webkit-mask: url('./assets/paper-torn-wide-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-wide-v2.svg') center / 100% 100% no-repeat;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,.25));
+}
+
+.projects-reference-page::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: 0;
+  width: 28%;
+  height: 20%;
+  background: #111;
+  -webkit-mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  transform: rotate(-3deg);
+  opacity: .9;
+}
+.projects-reference-page > * { position: relative; z-index: 2; }
+
+/* SOBRE — preserva o painel existente e adiciona somente recortes */
 .editorial-about-page__panel {
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 .editorial-about-page__panel::before {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 0 !important;
-  left: -3% !important;
-  top: 2% !important;
-  width: 39% !important;
-  height: 21% !important;
-  pointer-events: none !important;
-  background:
-    repeating-linear-gradient(-5deg, rgba(0,0,0,.08) 0 1px, transparent 1px 8px),
-    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.02)),
-    var(--paper-pink) !important;
-  -webkit-mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  transform: rotate(-4deg) !important;
-  filter: drop-shadow(0 7px 9px rgba(0,0,0,.30)) !important;
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: -2%;
+  top: 0;
+  width: 34%;
+  height: 20%;
+  background: #e388a9;
+  -webkit-mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  transform: rotate(-4deg);
+  opacity: .9;
 }
 .editorial-about-page__panel::after {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 0 !important;
-  right: -3% !important;
-  bottom: 4% !important;
-  width: 33% !important;
-  height: 19% !important;
-  pointer-events: none !important;
-  background:
-    repeating-linear-gradient(4deg, rgba(0,0,0,.07) 0 1px, transparent 1px 8px),
-    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.02)),
-    var(--paper-pink) !important;
-  -webkit-mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-scrap-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  transform: rotate(4deg) !important;
-  filter: drop-shadow(0 7px 9px rgba(0,0,0,.28)) !important;
+  content: '';
+  position: absolute;
+  z-index: 0;
+  right: -3%;
+  bottom: -1%;
+  width: 38%;
+  height: 22%;
+  background: #e388a9;
+  -webkit-mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  transform: rotate(5deg);
+  opacity: .92;
 }
-.editorial-about-page__content,
-.editorial-about-page__index,
-.editorial-about-page__floating-star,
-.editorial-about-page__visual {
-  z-index: 3 !important;
-}
+.editorial-about-page__panel > * { position: relative; z-index: 2; }
 
-/* ---------------- CONTATO: torn pink sheet + dark scrap ---------------- */
-.editorial-contact-page {
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
+/* CONTATO — pequenos pedaços sobre o fundo existente */
 .editorial-contact-page::before {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 0 !important;
-  left: -3% !important;
-  right: 10% !important;
-  bottom: -3% !important;
-  height: 31% !important;
-  pointer-events: none !important;
-  background:
-    repeating-linear-gradient(-6deg, rgba(0,0,0,.07) 0 1px, transparent 1px 8px),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
-    var(--paper-pink) !important;
-  -webkit-mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-wide-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  clip-path: none !important;
-  filter: drop-shadow(0 -8px 12px rgba(0,0,0,.28)) !important;
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: -2%;
+  bottom: -2%;
+  width: 34%;
+  height: 22%;
+  background: #e388a9;
+  -webkit-mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-scrap-v2.svg') center / 100% 100% no-repeat;
+  transform: rotate(3deg);
+  opacity: .88;
 }
 .editorial-contact-page::after {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 1 !important;
-  left: 7% !important;
-  bottom: 7% !important;
-  width: 22% !important;
-  height: 11% !important;
-  pointer-events: none !important;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.025)),
-    #171717 !important;
-  -webkit-mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  mask-image: url('./assets/paper-torn-tape-v2.svg') !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  transform: rotate(-3deg) !important;
-  filter: drop-shadow(0 6px 8px rgba(0,0,0,.30)) !important;
+  content: '';
+  position: absolute;
+  z-index: 0;
+  right: -2%;
+  top: 2%;
+  width: 30%;
+  height: 18%;
+  background: #e388a9;
+  -webkit-mask: url('./assets/paper-torn-tape-v2.svg') center / 100% 100% no-repeat;
+  mask: url('./assets/paper-torn-tape-v2.svg') center / 100% 100% no-repeat;
+  transform: rotate(-5deg);
+  opacity: .65;
 }
-.editorial-contact-page > * {
-  position: relative;
-  z-index: 3;
-}
+.editorial-contact-page > * { position: relative; z-index: 2; }
 
-/* Mobile: use the taller torn contour so the irregularity remains visible
-   instead of becoming a stretched horizontal zig-zag. */
+/* Mobile: mantém a folha visível sem esmagar o conteúdo. */
 @media (max-width: 767px) {
-  .editorial-home--single .editorial-hero-paper.paper-one,
-  .projects-reference-page::before,
-  .editorial-contact-page::before {
-    -webkit-mask-image: url('./assets/paper-torn-vertical-v2.svg') !important;
-    mask-image: url('./assets/paper-torn-vertical-v2.svg') !important;
-  }
-
   .editorial-home--single .editorial-hero-paper.paper-one {
-    left: 1.8% !important;
-    top: 2.5% !important;
-    width: 96.4% !important;
-    height: 94% !important;
+    -webkit-mask-image: url('./assets/paper-torn-vertical-v2.svg');
+    mask-image: url('./assets/paper-torn-vertical-v2.svg');
   }
-
-  .editorial-home--single .editorial-hero-paper.paper-two {
-    right: 2% !important;
-    top: 57% !important;
-    width: 31% !important;
-    height: 23% !important;
-  }
-
-  .editorial-home--single .editorial-mobile-photo-tape--one {
-    left: 13% !important;
-    top: 3% !important;
-    width: 32% !important;
-    height: 6% !important;
-  }
-  .editorial-home--single .editorial-mobile-photo-tape--two {
-    left: 3% !important;
-    bottom: 4% !important;
-    width: 25% !important;
-    height: 6% !important;
-  }
-  .editorial-home--single .editorial-mobile-photo-tape--three {
-    right: 4% !important;
-    bottom: 8% !important;
-    width: 28% !important;
-    height: 6% !important;
-  }
-
-  .editorial-home--single .editorial-hero::before {
-    left: 13% !important;
-    top: 2.5% !important;
-    width: 35% !important;
-    height: 9% !important;
-  }
-
   .projects-reference-page::before {
-    inset: 2% 1.5% 2.5% 1.5% !important;
+    -webkit-mask-image: url('./assets/paper-torn-vertical-v2.svg');
+    mask-image: url('./assets/paper-torn-vertical-v2.svg');
   }
   .projects-reference-page::after {
-    width: 37% !important;
-    height: 9% !important;
-    top: 3% !important;
-    right: -2% !important;
+    width: 44%;
+    height: 18%;
   }
-
-  .editorial-about-page__panel::before {
-    width: 52% !important;
-    height: 15% !important;
-    left: -6% !important;
-  }
-  .editorial-about-page__panel::after {
-    width: 48% !important;
-    height: 14% !important;
-    right: -6% !important;
-  }
-
+  .editorial-about-page__panel::before,
+  .editorial-about-page__panel::after,
   .editorial-contact-page::before {
-    left: -6% !important;
-    right: -4% !important;
-    height: 25% !important;
-  }
-  .editorial-contact-page::after {
-    width: 35% !important;
-    left: 4% !important;
+    width: 48%;
+    height: 17%;
   }
 }
