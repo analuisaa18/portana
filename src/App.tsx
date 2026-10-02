@@ -5,7 +5,6 @@ import { Footer } from './components/layout/Footer';
 import { AboutSection } from './components/public/AboutSection';
 import { ProjectsGrid } from './components/public/ProjectsGrid';
 import { ProjectDetail } from './components/public/ProjectDetail';
-import { ContactSection } from './components/public/ContactSection';
 import { EditorialHome } from './components/public/EditorialHome';
 import { PortfolioCollage } from './components/public/PortfolioCollage';
 import { AdminLogin } from './components/admin/AdminLogin';
@@ -113,9 +112,6 @@ export function PortfolioApp() {
               />
             )}
 
-            {/* View: Contato */}
-            {currentView === 'contato' && <ContactSection />}
-
             {/* View: Admin */}
             {currentView === 'admin' && (
               <>
@@ -137,7 +133,7 @@ export function PortfolioApp() {
         )}
       </main>
 
-      {currentView !== 'home' && <Footer />}
+      {!['home', 'sobre', 'projetos', 'contato'].includes(currentView) && <Footer />}
     </div>
   );
 }
