@@ -12,23 +12,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact })
 
   return (
     <main className="editorial-about-page" aria-label="Sobre mim">
-      <div className="editorial-about-page__ambient-stars" aria-hidden="true">
-        {Array.from({ length: 14 }).map((_, index) => (
-          <span
-            key={index}
-            className={`editorial-about-page__ambient-star editorial-about-page__ambient-star--${index % 3 === 0 ? 'burst' : 'diamond'}`}
-            style={{
-              ['--star-left' as string]: `${[5, 12, 21, 30, 39, 48, 57, 66, 75, 84, 92, 16, 71, 88][index]}%`,
-              ['--star-top' as string]: `${[18, 42, 12, 74, 28, 56, 20, 68, 36, 76, 14, 86, 88, 50][index]}%`,
-              ['--star-size' as string]: `${[18, 10, 13, 8, 15, 9, 12, 7, 16, 11, 20, 9, 12, 8][index]}px`,
-              ['--star-delay' as string]: `${-(index * 0.7).toFixed(1)}s`,
-            }}
-          >
-            <span className={`editorial-star-mark editorial-star-mark--${index % 3 === 0 ? 'burst' : 'diamond'}`} aria-hidden="true" />
-          </span>
-        ))}
-      </div>
-
       <section className="editorial-about-page__panel">
         <div className="editorial-about-page__index">01 / 04</div>
         <div className="editorial-about-page__floating-star editorial-about-page__floating-star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
