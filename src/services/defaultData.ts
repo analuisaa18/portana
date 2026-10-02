@@ -69,6 +69,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     brandLetterSpacing: -0.04,
     showTagline: true,
     navStyle: 'underline',
+    referenceNavStyle: 'simple',
     navFontSizePx: 11,
     navWeight: 700,
     navLetterSpacing: 0.35,
