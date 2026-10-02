@@ -2950,6 +2950,7 @@ header.header-nav-shell {
 
 .projects-reference-page {
   width: 100%;
+  margin-top: 16px;
   background: #E388A9;
   color: #111111;
   padding: 22px 26px 28px;
