@@ -6395,3 +6395,10 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   }
 }
 
+
+/* AJUSTE FINAL — fundos de SOBRE, PROJETOS e CONTATO retos, como a HOME */
+.editorial-about-page__panel::before,
+.editorial-home--projects .editorial-projects::before,
+.editorial-contact-page::before {
+  clip-path: none !important;
+}
