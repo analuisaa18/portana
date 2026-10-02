@@ -1,132 +1,119 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
-import { Project } from '../../types/portfolio';
-import homeEditorialPhoto from '../../assets/home-editorial-experiment.jpg';
+import { ThemeHeader } from '../../types/portfolio';
 
-const photo = (seed: string) => `https://picsum.photos/seed/${seed}/1000/760`;
-
-interface EditorialHomeProps {
-  projects: Project[];
-  onSelectProject: (slug: string) => void;
-  onNavigate: (view: string) => void;
-  view?: 'home' | 'projetos';
+interface Props {
+  header: ThemeHeader;
+  pointer: { x: number; y: number; active: boolean };
 }
 
-export const EditorialHome: React.FC<EditorialHomeProps> = ({
-  projects,
-  onSelectProject,
-  onNavigate,
-  view = 'home',
-}) => {
-  const { settings } = useTheme();
-  const cards = projects.slice(0, 4);
+const clamp = (v:number,min:number,max:number) => Math.min(max, Math.max(min, v));
 
-  const imageFor = (p: Project | undefined, i: number) => {
-    const src = (p as any)?.cover_image || (p as any)?.thumbnail || (p as any)?.image_url;
-    return src || photo(`portana-editorial-${i + 1}`);
-  };
+/**
+ * Editorial graphic field used inside the navigation capsule.
+ * The old circles are intentionally replaced by the same visual language
+ * used throughout the portfolio: floating stars/doodles + translucent blocks.
+ */
+export const HeaderCircleField: React.FC<Props> = ({ header, pointer }) => {
+  if (header.circleFieldEnabled === false) return null;
 
-  const Hero = () => (
-    <section className="editorial-panel editorial-panel--pink editorial-hero" aria-label="Portfólio">
-      <div className="editorial-index">00 / 04</div>
+  const opacity = clamp(header.circleFieldOpacity ?? 1, 0, 1);
+  const pointerStrength = clamp(header.circleFieldMouse ?? 0.55, 0, 2);
+  const px = pointer.active ? pointer.x : 0;
+  const py = pointer.active ? pointer.y : 0;
 
-      <div className="editorial-hero-copy">
-        <button type="button" className="editorial-hero-title" aria-label="Portfólio — interação">
-          PORTFÓLIO
-        </button>
+  const stars = [
+    { left: '7%', top: '18%', size: 37, delay: '0s', duration: '6.8s', dx: -16, dy: -10, rotate: -12 },
+    { left: '28%', top: '68%', size: 24, delay: '-2.2s', duration: '7.8s', dx: 12, dy: -14, rotate: 8 },
+    { left: '51%', top: '10%', size: 30, delay: '-4.1s', duration: '8.6s', dx: -10, dy: 12, rotate: -8 },
+    { left: '78%', top: '70%', size: 34, delay: '-1.4s', duration: '7.2s', dx: 14, dy: 8, rotate: 13 },
+    { left: '93%', top: '20%', size: 22, delay: '-3.4s', duration: '9s', dx: -10, dy: -12, rotate: -6 },
+  ];
 
-        <p>
-          DESIGN DE INTERFACES,<br />
-          PROJETOS GRÁFICOS E<br />
-          EXPERIÊNCIAS VISUAIS.
-        </p>
+  const blocks = [
+    { left: '17%', top: '8%', width: 104, height: 41, rotate: -9, opacity: .16, delay: '-1s', duration: '10s', dx: 10, dy: 8 },
+    { left: '63%', top: '58%', width: 126, height: 48, rotate: 8, opacity: .12, delay: '-5s', duration: '12s', dx: -12, dy: -8 },
+    { left: '86%', top: '8%', width: 86, height: 35, rotate: -15, opacity: .14, delay: '-7s', duration: '11s', dx: 8, dy: 10 },
+  ];
 
-        <button
-          type="button"
-          className="editorial-hero-projects-cta"
-          onClick={() => onNavigate('projetos')}
-          aria-label="Ver projetos"
-        >
-          <span>VER PROJETOS</span>
-          <ArrowUpRight size={18} strokeWidth={2.2} aria-hidden="true" />
-        </button>
-
-        <div className="editorial-star-doodle" aria-hidden="true">
-          <span className="editorial-star-mark editorial-star-mark--burst" />
-        </div>
-      </div>
-
-      <div className="editorial-hero-paper paper-one" aria-hidden="true" />
-      <div className="editorial-hero-paper paper-two" aria-hidden="true" />
-
-      <img
-        className="editorial-hero-photo"
-        src={homeEditorialPhoto}
-        alt="Processo criativo com computador e referências de cor"
-      />
-
-      {/* Fitas da colagem: exclusivas da composição mobile. */}
-      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--one" aria-hidden="true" />
-      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--two" aria-hidden="true" />
-      <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--three" aria-hidden="true" />
-
-      <div className="editorial-hero-scribble" aria-hidden="true">
-        <span className="editorial-star-mark editorial-star-mark--diamond" />
-      </div>
-      <div className="editorial-hero-star editorial-hero-star--one" aria-hidden="true">
-        <span className="editorial-star-mark editorial-star-mark--burst" />
-      </div>
-      <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true">
-        <span className="editorial-star-mark editorial-star-mark--diamond" />
-      </div>
-
-      <span className="editorial-extra-star editorial-extra-star--one" aria-hidden="true" />
-      <span className="editorial-extra-star editorial-extra-star--two" aria-hidden="true" />
-      <span className="editorial-extra-star editorial-extra-star--three" aria-hidden="true" />
-      <span className="editorial-extra-star editorial-extra-star--four" aria-hidden="true" />
-    </section>
-  );
-
-  const Projects = () => (
-    <section className="editorial-panel editorial-panel--pink editorial-projects" aria-label="Projetos">
-      <div className="editorial-index">02 / 04</div>
-      <div className="editorial-projects-head">
-        <h2>PROJETOS</h2>
-        <p>Identidades, interfaces e experimentações visuais.</p>
-      </div>
-      <div className="editorial-project-grid">
-        {cards.map((project, index) => (
-          <button
-            type="button"
-            className="editorial-project-card"
-            key={project.slug || index}
-            onClick={() => onSelectProject(project.slug)}
-          >
-            <img src={imageFor(project, index)} alt={project.title} />
-            <span>{project.title}</span>
-            <ArrowUpRight size={18} aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-    </section>
-  );
-
-  if (view === 'home') {
-    return (
-      <main className="editorial-home editorial-home--single">
-        <div className="editorial-grid editorial-grid--single">
-          <Hero />
-        </div>
-      </main>
-    );
-  }
+  // Pequenos pontos de ritmo visual: ficam entre as estrelas maiores,
+  // sem competir com o nome e os links da navegação.
+  const smallStars = [
+    { left: '37%', top: '24%', size: 12, delay: '-1.8s', duration: '7.4s', dx: -5, dy: 4, rotate: 10 },
+    { left: '49%', top: '76%', size: 9, delay: '-3.1s', duration: '8.2s', dx: 5, dy: -4, rotate: -8 },
+    { left: '70%', top: '25%', size: 13, delay: '-4.6s', duration: '7.8s', dx: -4, dy: 5, rotate: 14 },
+    { left: '87%', top: '72%', size: 10, delay: '-5.7s', duration: '8.8s', dx: 4, dy: -5, rotate: -12 },
+  ];
 
   return (
-    <main className="editorial-home editorial-home--single editorial-home--projects">
-      <div className="editorial-grid editorial-grid--single">
-        <Projects />
+    <div
+      className="header-graphic-field"
+      aria-hidden="true"
+      style={{ opacity }}
+    >
+      {blocks.map((b, i) => {
+        const x = px * b.dx * pointerStrength;
+        const y = py * b.dy * pointerStrength;
+        return (
+          <span
+            key={`block-${i}`}
+            className="header-graphic-block"
+            style={{
+              left: b.left,
+              top: b.top,
+              width: `${b.width}px`,
+              height: `${b.height}px`,
+              opacity: b.opacity,
+              ['--block-rotate' as any]: `${b.rotate}deg`,
+              ['--block-delay' as any]: b.delay,
+              ['--block-duration' as any]: b.duration,
+              transform: `translate3d(${x}px, ${y}px, 0) rotate(${b.rotate}deg)`,
+            } as React.CSSProperties}
+          />
+        );
+      })}
+
+      {stars.map((s, i) => {
+        const x = px * s.dx * pointerStrength;
+        const y = py * s.dy * pointerStrength;
+        return (
+          <span
+            key={`star-${i}`}
+            className="header-graphic-star"
+            style={{
+              left: s.left,
+              top: s.top,
+              ['--star-size' as any]: `${s.size}px`,
+              ['--star-delay' as any]: s.delay,
+              ['--star-duration' as any]: s.duration,
+              ['--star-rotate' as any]: `${s.rotate}deg`,
+              transform: `translate3d(${x}px, ${y}px, 0) rotate(${s.rotate}deg)`,
+            } as React.CSSProperties}
+          ><span className="header-graphic-star-mark" /></span>
+        );
+      })}
+
+      <div className="header-graphic-small-stars">
+        {smallStars.map((s, i) => {
+          const x = px * s.dx * pointerStrength;
+          const y = py * s.dy * pointerStrength;
+          return (
+            <span
+              key={`small-star-${i}`}
+              className="header-graphic-small-star"
+              style={{
+                left: s.left,
+                top: s.top,
+                ['--small-star-size' as any]: `${s.size}px`,
+                ['--star-delay' as any]: s.delay,
+                ['--star-duration' as any]: s.duration,
+                transform: `translate3d(${x}px, ${y}px, 0) rotate(${s.rotate}deg)`,
+              } as React.CSSProperties}
+            ><span className="header-graphic-star-mark" /></span>
+          );
+        })}
       </div>
-    </main>
+    </div>
   );
 };
+
+export default HeaderCircleField;
