@@ -1499,7 +1499,7 @@ header.header-nav-shell {
   font-family: monospace;
   font-size: 11px;
   letter-spacing: .12em;
-  z-index: 6;
+  z-index: 1;
 }
 .editorial-hero-copy {
   left: 7%;
@@ -3123,5 +3123,128 @@ header.header-nav-shell {
 
   .projects-reference__description {
     font-size: 8px;
+  }
+}
+
+
+/* =========================================================
+   TORN PAPER COLLAGE — decorative edges only
+   This block does not change content, images, typography or layout.
+   ========================================================= */
+
+/* The torn treatment is deliberately kept on the page edges. */
+.editorial-hero,
+.editorial-projects,
+.projects-reference-page,
+.editorial-about-page__panel,
+.editorial-contact-page {
+  position: relative;
+  overflow: hidden;
+}
+
+/* PINK PAPER: black paper tears into the composition. */
+.editorial-hero::before,
+.editorial-projects::before,
+.projects-reference-page::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 42px;
+  background: #090909;
+  clip-path: polygon(
+    0 0, 72% 0, 52% 3%, 86% 7%, 42% 11%, 78% 16%,
+    34% 20%, 91% 25%, 48% 30%, 74% 35%, 28% 40%,
+    83% 45%, 40% 50%, 70% 55%, 24% 61%, 87% 66%,
+    46% 71%, 77% 76%, 31% 82%, 91% 87%, 44% 92%,
+    70% 96%, 0 100%
+  );
+}
+
+.editorial-hero::after,
+.editorial-projects::after,
+.projects-reference-page::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 48px;
+  background: #090909;
+  clip-path: polygon(
+    0 73%, 4% 58%, 9% 70%, 15% 49%, 21% 67%, 27% 54%,
+    33% 72%, 39% 44%, 46% 64%, 53% 51%, 60% 69%,
+    67% 42%, 74% 62%, 81% 48%, 88% 65%, 94% 45%, 100% 56%,
+    100% 100%, 0 100%
+  );
+}
+
+/* Black paper: pink paper tears into the composition. */
+.editorial-about-page__panel::before,
+.editorial-contact-page::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 38px;
+  background: #E388A9;
+  clip-path: polygon(
+    0 0, 76% 0, 48% 4%, 87% 9%, 39% 14%, 80% 19%,
+    29% 24%, 92% 30%, 44% 36%, 73% 42%, 24% 48%,
+    86% 54%, 35% 60%, 78% 67%, 27% 74%, 90% 80%,
+    43% 87%, 76% 93%, 0 100%
+  );
+}
+
+.editorial-about-page__panel::after,
+.editorial-contact-page::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  right: -2px;
+  top: 0;
+  width: 120px;
+  height: 78px;
+  background: #E388A9;
+  opacity: .92;
+  clip-path: polygon(
+    16% 0, 100% 0, 100% 72%, 90% 58%, 79% 82%, 68% 61%,
+    55% 92%, 43% 65%, 30% 84%, 18% 54%, 0 72%, 7% 30%
+  );
+  transform: rotate(-4deg);
+  transform-origin: top right;
+}
+
+@media (max-width: 680px) {
+  .editorial-hero::before,
+  .editorial-projects::before,
+  .projects-reference-page::before {
+    width: 27px;
+  }
+
+  .editorial-hero::after,
+  .editorial-projects::after,
+  .projects-reference-page::after {
+    height: 32px;
+  }
+
+  .editorial-about-page__panel::before,
+  .editorial-contact-page::before {
+    width: 25px;
+  }
+
+  .editorial-about-page__panel::after,
+  .editorial-contact-page::after {
+    width: 82px;
+    height: 54px;
   }
 }
