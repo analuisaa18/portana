@@ -6402,3 +6402,200 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
 .editorial-contact-page::before {
   clip-path: none !important;
 }
+
+/* =========================================================
+   SOBRE — composição da referência
+   Somente a área SOBRE é ajustada aqui.
+   ========================================================= */
+.editorial-about-page {
+  background: #242424 !important;
+  padding: 28px 30px 54px !important;
+  color: #f0b3c7 !important;
+}
+
+.editorial-about-page__panel {
+  width: min(1180px, 100%) !important;
+  min-height: 0 !important;
+  height: min(650px, calc(100vh - 190px)) !important;
+  margin: 0 auto !important;
+  padding: 48px 46px 44px !important;
+  background: #111111 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18) !important;
+}
+
+.editorial-about-page__panel::before {
+  display: none !important;
+}
+
+.editorial-about-page__index {
+  top: 28px !important;
+  right: 30px !important;
+  color: #f0b3c7 !important;
+  font-size: 10px !important;
+}
+
+.editorial-about-page__content {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 38%) !important;
+  gap: 58px !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  align-items: center !important;
+}
+
+.editorial-about-page__text {
+  max-width: 520px !important;
+}
+
+.editorial-about-page__text h1 {
+  margin: 0 0 30px !important;
+  color: #e388a9 !important;
+  font-size: clamp(64px, 6vw, 92px) !important;
+  line-height: .78 !important;
+  letter-spacing: -.055em !important;
+}
+
+.editorial-about-page__intro,
+.editorial-about-page__body p,
+.editorial-about-page__details {
+  color: #e8a8bd !important;
+}
+
+.editorial-about-page__intro {
+  margin-bottom: 18px !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+}
+
+.editorial-about-page__body p {
+  margin-bottom: 18px !important;
+  font-size: 11px !important;
+  line-height: 1.65 !important;
+}
+
+.editorial-about-page__details,
+.editorial-about-page__button {
+  display: none !important;
+}
+
+.editorial-about-page__visual {
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+.editorial-about-page__paper {
+  width: min(330px, 90%) !important;
+  aspect-ratio: .82 !important;
+  padding: 10px !important;
+  background: transparent !important;
+  transform: rotate(-4deg) !important;
+  box-shadow: none !important;
+}
+
+.editorial-about-page__paper::before {
+  inset: -7px !important;
+  border: 10px solid #e388a9 !important;
+  opacity: 1 !important;
+  transform: rotate(1deg) !important;
+}
+
+.editorial-about-page__paper img,
+.editorial-about-page__placeholder {
+  position: relative !important;
+  z-index: 1 !important;
+  filter: grayscale(1) contrast(1.18) !important;
+  background: #191919 !important;
+}
+
+.editorial-about-page__doodle {
+  right: 2% !important;
+  bottom: 12% !important;
+  color: #e388a9 !important;
+  font-size: 70px !important;
+}
+
+.editorial-about-page__brush {
+  display: none !important;
+}
+
+.editorial-about-page__floating-star--one {
+  left: 4% !important;
+  top: 15% !important;
+  color: #e388a9 !important;
+  font-size: 42px !important;
+}
+
+.editorial-about-page__floating-star--two {
+  right: 4% !important;
+  bottom: 10% !important;
+  color: #e388a9 !important;
+  font-size: 52px !important;
+}
+
+@media (max-width: 900px) {
+  .editorial-about-page {
+    background: #242424 !important;
+    padding: 12px 10px 34px !important;
+  }
+
+  .editorial-about-page__panel {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 620px !important;
+    padding: 48px 28px 54px !important;
+  }
+
+  .editorial-about-page__content {
+    height: auto !important;
+  }
+}
+
+/* SOBRE — foto com aparência de colagem, como se tivesse sido colada no painel */
+.editorial-about-page__paper {
+  padding: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+  transform: rotate(-4deg) !important;
+}
+
+.editorial-about-page__paper::before {
+  content: "" !important;
+  position: absolute !important;
+  width: 112px !important;
+  height: 30px !important;
+  top: -10px !important;
+  left: 50% !important;
+  inset: auto !important;
+  border: 0 !important;
+  background: rgba(227,136,169,.88) !important;
+  opacity: 1 !important;
+  transform: translateX(-50%) rotate(-3deg) !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.editorial-about-page__paper::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 96px !important;
+  height: 28px !important;
+  right: -20px !important;
+  bottom: 28px !important;
+  background: rgba(227,136,169,.88) !important;
+  transform: rotate(92deg) !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.editorial-about-page__paper img,
+.editorial-about-page__placeholder {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  filter: grayscale(1) contrast(1.18) !important;
+  background: #191919 !important;
+  box-shadow: 8px 10px 0 rgba(9,9,9,.28) !important;
+}
