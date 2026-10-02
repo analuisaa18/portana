@@ -3128,44 +3128,216 @@ header.header-nav-shell {
 
 
 /* =========================================================
-   PAPER COLLAGE OVERLAY — visual-only layer
-   Added as decorative layers only: no layout/content/navigation changes.
+   GLOBAL EDITORIAL PAPER COLLAGE — decorative layer only
+   Independent graphic pieces; no layout dimensions are changed.
    ========================================================= */
-.editorial-home--single .editorial-hero,
-.editorial-about-page__panel,
-.projects-reference-page,
-.editorial-contact-page { position: relative; isolation: isolate; }
-
-.editorial-home--single .editorial-hero::before,
-.projects-reference-page::before,
-.editorial-about-page__panel::before,
-.editorial-contact-page::before {
-  content:''; position:absolute; inset:0; pointer-events:none; z-index:20;
-  background-repeat:no-repeat; background-position:center; background-size:100% 100%;
+.paper-collage-overlay {
+  position: absolute;
+  inset: 0;
+  min-height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  isolation: isolate;
 }
-.editorial-home--single .editorial-hero::before,
-.projects-reference-page::before { background-image:url('./assets/paper-torn-black-on-pink.svg'); opacity:.92; }
-.editorial-about-page__panel::before,
-.editorial-contact-page::before { background-image:url('./assets/paper-torn-pink-on-black.svg'); opacity:.78; }
 
-.editorial-home--single .editorial-hero::after,
-.projects-reference-page::after,
-.editorial-about-page__panel::after,
-.editorial-contact-page::after {
-  content:''; position:absolute; inset:0; pointer-events:none; z-index:21;
-  background:url('./assets/paper-torn-tape.svg') no-repeat 5% 3% / 190px 61px,
-             url('./assets/paper-torn-tape.svg') no-repeat 95% 94% / 190px 61px;
-  opacity:.62;
+.paper-collage-piece {
+  position: absolute;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 5px 7px rgba(0,0,0,.16));
 }
-@media (max-width:767px){
-  .editorial-home--single .editorial-hero::before,
-  .projects-reference-page::before,
-  .editorial-about-page__panel::before,
-  .editorial-contact-page::before { background-size:100% 100%; opacity:.9; }
-  .editorial-home--single .editorial-hero::after,
-  .projects-reference-page::after,
-  .editorial-about-page__panel::after,
-  .editorial-contact-page::after {
-    background-size:120px 38px,120px 38px; opacity:.55;
+
+.paper-collage-piece--pink-top {
+  width: min(52vw, 760px);
+  height: min(20vw, 285px);
+  left: 2.5vw;
+  top: 3.5%;
+  transform: rotate(-1.8deg);
+  opacity: .96;
+}
+
+.paper-collage-piece--black-left {
+  width: min(14vw, 205px);
+  height: min(58vw, 790px);
+  left: -4vw;
+  top: 13%;
+  transform: rotate(2.2deg);
+  opacity: .98;
+}
+
+.paper-collage-piece--black-top-right {
+  width: min(25vw, 350px);
+  height: min(13vw, 180px);
+  right: -2.5vw;
+  top: 5%;
+  transform: rotate(5deg);
+  opacity: .9;
+}
+
+.paper-collage-piece--pink-right {
+  width: min(24vw, 350px);
+  height: min(36vw, 500px);
+  right: -4vw;
+  top: 29%;
+  transform: rotate(-3.4deg);
+  opacity: .9;
+}
+
+.paper-collage-piece--black-bottom {
+  width: min(37vw, 520px);
+  height: min(17vw, 235px);
+  left: -2vw;
+  bottom: -2%;
+  transform: rotate(1.7deg);
+  opacity: .98;
+}
+
+.paper-collage-piece--pink-bottom {
+  width: min(31vw, 430px);
+  height: min(13vw, 180px);
+  right: 17%;
+  bottom: 4%;
+  transform: rotate(-4deg);
+  opacity: .84;
+}
+
+.paper-collage-texture {
+  position: absolute;
+  pointer-events: none;
+  opacity: .16;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(circle at 13% 24%, rgba(0,0,0,.26) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 68%, rgba(255,255,255,.22) 0 1px, transparent 1.5px),
+    repeating-linear-gradient(103deg, transparent 0 9px, rgba(0,0,0,.045) 10px 11px, transparent 12px 19px);
+  background-size: 17px 19px, 23px 21px, 29px 29px;
+}
+
+.paper-collage-texture--one {
+  width: min(48vw, 680px);
+  height: min(16vw, 220px);
+  left: 5%;
+  top: 6%;
+  transform: rotate(-2deg);
+}
+
+.paper-collage-texture--two {
+  width: min(28vw, 390px);
+  height: min(24vw, 330px);
+  right: 4%;
+  bottom: 8%;
+  transform: rotate(3deg);
+}
+
+.paper-collage-tape {
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,.09);
+  background:
+    linear-gradient(101deg, rgba(242,188,204,.27), rgba(242,188,204,.12) 48%, rgba(255,255,255,.18)),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.055) 0 2px, transparent 2px 5px);
+  box-shadow: 0 3px 8px rgba(0,0,0,.17);
+  opacity: .68;
+  mix-blend-mode: screen;
+}
+
+.paper-collage-tape--one {
+  left: 13%;
+  top: 7%;
+  transform: rotate(-7deg);
+}
+
+.paper-collage-tape--two {
+  right: 14%;
+  top: 31%;
+  transform: rotate(10deg);
+}
+
+.paper-collage-tape--three {
+  left: 44%;
+  bottom: 7%;
+  transform: rotate(-12deg);
+  opacity: .48;
+}
+
+#main-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 767px) {
+  .paper-collage-piece--pink-top {
+    width: 83vw;
+    height: 30vw;
+    left: -7vw;
+    top: 4%;
+  }
+
+  .paper-collage-piece--black-left {
+    width: 25vw;
+    height: 86vw;
+    left: -9vw;
+    top: 14%;
+  }
+
+  .paper-collage-piece--black-top-right {
+    width: 40vw;
+    height: 22vw;
+    right: -7vw;
+    top: 5%;
+  }
+
+  .paper-collage-piece--pink-right {
+    width: 39vw;
+    height: 61vw;
+    right: -10vw;
+    top: 31%;
+  }
+
+  .paper-collage-piece--black-bottom {
+    width: 60vw;
+    height: 28vw;
+    left: -8vw;
+    bottom: -2%;
+  }
+
+  .paper-collage-piece--pink-bottom {
+    width: 51vw;
+    height: 24vw;
+    right: 8%;
+    bottom: 5%;
+  }
+
+  .paper-collage-texture--one {
+    width: 78vw;
+    height: 27vw;
+    left: 2%;
+    top: 5%;
+  }
+
+  .paper-collage-texture--two {
+    width: 48vw;
+    height: 40vw;
+    right: 0;
+    bottom: 7%;
+  }
+
+  .paper-collage-tape {
+    width: 88px;
+    height: 27px;
+  }
+
+  .paper-collage-tape--one { left: 10%; top: 6%; }
+  .paper-collage-tape--two { right: 7%; top: 32%; }
+  .paper-collage-tape--three { left: 36%; bottom: 6%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-collage-piece,
+  .paper-collage-tape {
+    transition: none !important;
   }
 }
