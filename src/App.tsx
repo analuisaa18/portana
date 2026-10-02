@@ -7,6 +7,7 @@ import { ProjectsGrid } from './components/public/ProjectsGrid';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
 import { EditorialHome } from './components/public/EditorialHome';
+import { PortfolioCollage } from './components/public/PortfolioCollage';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { portfolioStore } from './services/store';
@@ -86,7 +87,7 @@ export function PortfolioApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-bg)] text-[var(--color-text-primary)] transition-colors">
+    <div className={`min-h-screen flex flex-col justify-between text-[var(--color-text-primary)] transition-colors ${currentView === 'home' ? 'portfolio-app--collage' : 'bg-[var(--color-bg)]'}`}>
       <Header currentView={currentView} onNavigate={handleNavigate} />
 
       <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
@@ -94,25 +95,10 @@ export function PortfolioApp() {
           <LoadingState message="Carregando portfólio autoral..." />
         ) : (
           <>
-            {/* Home: somente a abertura/portfólio */}
-            {currentView === 'home' && !selectedSlug && (
-              <EditorialHome
-                view="home"
-                projects={projects}
-                onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
-                onNavigate={handleNavigate}
-              />
-            )}
-
-            {/* Sobre: aparece somente ao clicar em Sobre */}
-            {currentView === 'sobre' && (
-              <AboutSection onNavigateContact={() => handleNavigate('contato')} />
-            )}
-
-            {/* Projetos: identidade visual, desenhos/pinturas e interfaces */}
-            {currentView === 'projetos' && !selectedSlug && (
-              <EditorialHome
-                view="projetos"
+            {/* Home: composição editorial em grade, mantendo a navbar existente */}
+            {['home', 'sobre', 'projetos', 'contato'].includes(currentView) && !selectedSlug && (
+              <PortfolioCollage
+                view={currentView as 'home' | 'sobre' | 'projetos' | 'contato'}
                 projects={projects}
                 onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
                 onNavigate={handleNavigate}
@@ -151,7 +137,7 @@ export function PortfolioApp() {
         )}
       </main>
 
-      <Footer />
+      {currentView !== 'home' && <Footer />}
     </div>
   );
 }
