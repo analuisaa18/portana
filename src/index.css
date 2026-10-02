@@ -6272,12 +6272,10 @@ header.header-nav-shell .header-graphic-small-star:nth-child(2n) {
   color: #fff !important;
 }
 
-
-/* Navbar — apenas ajuste de tamanho da tipografia */
-.reference-navbar__brand {
-  font-size: 19px !important;
+/* HOME — fundo rosa reto, sem bordas recortadas */
+.editorial-home--single .editorial-hero {
+  clip-path: none !important;
 }
-
-.reference-navbar__links button:not(.reference-navbar__admin) {
-  font-size: 12px !important;
+.editorial-home--single .editorial-hero::before {
+  background: none !important;
 }
