@@ -80,6 +80,11 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
       <div className="editorial-hero-star editorial-hero-star--two" aria-hidden="true">
         <span className="editorial-star-mark editorial-star-mark--diamond" />
       </div>
+
+      <span className="editorial-extra-star editorial-extra-star--one" aria-hidden="true" />
+      <span className="editorial-extra-star editorial-extra-star--two" aria-hidden="true" />
+      <span className="editorial-extra-star editorial-extra-star--three" aria-hidden="true" />
+      <span className="editorial-extra-star editorial-extra-star--four" aria-hidden="true" />
     </section>
   );
 
