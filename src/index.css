@@ -1499,7 +1499,7 @@ header.header-nav-shell {
   font-family: monospace;
   font-size: 11px;
   letter-spacing: .12em;
-  z-index: 1;
+  z-index: 6;
 }
 .editorial-hero-copy {
   left: 7%;
@@ -3128,123 +3128,266 @@ header.header-nav-shell {
 
 
 /* =========================================================
-   TORN PAPER COLLAGE — decorative edges only
-   This block does not change content, images, typography or layout.
+   EDITORIAL PAPER COLLAGE — reference treatment
+   Decorative only: no content, navigation or typography changes.
    ========================================================= */
 
-/* The torn treatment is deliberately kept on the page edges. */
-.editorial-hero,
-.editorial-projects,
+/* The collage lives only inside public page surfaces. */
+.editorial-home--single,
 .projects-reference-page,
 .editorial-about-page__panel,
 .editorial-contact-page {
+  isolation: isolate;
+}
+
+/* ---------------- HOME ----------------
+   Reuse the two existing paper nodes instead of changing the DOM. */
+.editorial-home--single .editorial-hero {
+  background: #090909 !important;
+  overflow: hidden !important;
+}
+
+.editorial-home--single .editorial-hero-paper.paper-one {
+  z-index: 1 !important;
+  left: 1.4% !important;
+  top: 2.2% !important;
+  right: auto !important;
+  width: 97.2% !important;
+  height: 95% !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  background:
+    radial-gradient(circle at 17% 22%, rgba(255,255,255,.10) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 76% 68%, rgba(0,0,0,.09) 0 1px, transparent 1.8px),
+    repeating-linear-gradient(2deg, rgba(255,255,255,.032) 0 1px, transparent 1px 7px),
+    #E388A9 !important;
+  background-size: 13px 13px, 17px 17px, auto, auto !important;
+  transform: rotate(-.25deg) !important;
+  clip-path: polygon(
+    1.2% 1.8%, 9% .8%, 18% 2%, 28% .9%, 39% 2.2%, 50% 1%, 61% 2.3%, 73% .9%, 84% 2%, 98.2% 1.3%,
+    97% 12%, 98.7% 23%, 96.9% 35%, 98.3% 47%, 97% 59%, 98.5% 71%, 96.8% 84%, 98.1% 97%,
+    87% 95.9%, 76% 98%, 64% 96.4%, 52% 98.2%, 40% 96.8%, 28% 98.1%, 17% 96.4%, 5% 98%,
+    2% 88%, 3.2% 76%, 1.4% 64%, 3% 52%, 1.5% 40%, 3.1% 28%, 1.4% 16%
+  ) !important;
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.24));
+}
+
+/* Black scrap / tape already present in the component. */
+.editorial-home--single .editorial-hero-paper.paper-two {
+  z-index: 2 !important;
+  right: 2% !important;
+  top: 48% !important;
+  width: 23% !important;
+  height: 24% !important;
+  opacity: .82 !important;
+  mix-blend-mode: normal !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08), transparent 42%),
+    repeating-linear-gradient(-7deg, rgba(255,255,255,.035) 0 1px, transparent 1px 7px),
+    #111 !important;
+  clip-path: polygon(0 9%, 18% 2%, 39% 6%, 62% 0, 83% 8%, 100% 2%, 96% 82%, 77% 92%, 54% 85%, 31% 100%, 8% 91%) !important;
+  transform: rotate(-5deg) !important;
+}
+
+/* Small translucent tape strips, using existing mobile tape nodes as decoration. */
+.editorial-home--single .editorial-mobile-photo-tape {
+  z-index: 6 !important;
+  background: rgba(240,240,240,.16) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,.10) !important;
+  mix-blend-mode: screen;
+}
+
+/* ---------------- PROJECTS ---------------- */
+.projects-reference-page {
   position: relative;
+  overflow: hidden;
+  background: #090909 !important;
+}
+
+.projects-reference-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 13% 19%, rgba(255,255,255,.10) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 78% 74%, rgba(0,0,0,.11) 0 1px, transparent 1.8px),
+    repeating-linear-gradient(-3deg, rgba(255,255,255,.03) 0 1px, transparent 1px 7px),
+    #E388A9;
+  background-size: 15px 15px, 19px 19px, auto, auto;
+  clip-path: polygon(
+    0 2.5%, 8% 1%, 18% 2.6%, 29% 1.1%, 41% 2.8%, 53% 1%, 65% 2.4%, 77% 1.2%, 89% 2.6%, 100% 1%,
+    98.5% 14%, 100% 27%, 98% 40%, 99.5% 53%, 97.7% 66%, 100% 79%, 98% 91%, 100% 98%,
+    88% 96.5%, 77% 98.4%, 65% 96.8%, 53% 98.5%, 41% 96.7%, 29% 98%, 16% 96.5%, 4% 98%,
+    2% 89%, 3.4% 77%, 1.5% 64%, 3.2% 51%, 1.6% 39%, 3% 26%, 1.2% 14%
+  );
+  filter: drop-shadow(0 18px 22px rgba(0,0,0,.28));
+}
+
+.projects-reference-page::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 3%;
+  right: 3%;
+  width: 23%;
+  height: 12%;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+    repeating-linear-gradient(3deg, rgba(0,0,0,.15) 0 2px, transparent 2px 8px),
+    rgba(25,25,25,.70);
+  clip-path: polygon(0 11%, 18% 2%, 47% 8%, 71% 0, 100% 14%, 93% 85%, 62% 96%, 32% 87%, 6% 100%);
+  transform: rotate(2.5deg);
+}
+
+.projects-reference__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------------- SOBRE ---------------- */
+.editorial-about-page__panel {
+  background: #090909 !important;
   overflow: hidden;
 }
 
-/* PINK PAPER: black paper tears into the composition. */
-.editorial-hero::before,
-.editorial-projects::before,
-.projects-reference-page::before {
-  content: "";
+.editorial-about-page__panel::before {
+  content: '';
   position: absolute;
-  z-index: 1;
+  z-index: 0;
+  left: -2%;
+  top: 2%;
+  width: 37%;
+  height: 20%;
   pointer-events: none;
-  left: -2px;
-  top: 0;
-  bottom: 0;
-  width: 42px;
-  background: #090909;
-  clip-path: polygon(
-    0 0, 72% 0, 52% 3%, 86% 7%, 42% 11%, 78% 16%,
-    34% 20%, 91% 25%, 48% 30%, 74% 35%, 28% 40%,
-    83% 45%, 40% 50%, 70% 55%, 24% 61%, 87% 66%,
-    46% 71%, 77% 76%, 31% 82%, 91% 87%, 44% 92%,
-    70% 96%, 0 100%
-  );
-}
-
-.editorial-hero::after,
-.editorial-projects::after,
-.projects-reference-page::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 48px;
-  background: #090909;
-  clip-path: polygon(
-    0 73%, 4% 58%, 9% 70%, 15% 49%, 21% 67%, 27% 54%,
-    33% 72%, 39% 44%, 46% 64%, 53% 51%, 60% 69%,
-    67% 42%, 74% 62%, 81% 48%, 88% 65%, 94% 45%, 100% 56%,
-    100% 100%, 0 100%
-  );
-}
-
-/* Black paper: pink paper tears into the composition. */
-.editorial-about-page__panel::before,
-.editorial-contact-page::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  left: -2px;
-  top: 0;
-  bottom: 0;
-  width: 38px;
-  background: #E388A9;
-  clip-path: polygon(
-    0 0, 76% 0, 48% 4%, 87% 9%, 39% 14%, 80% 19%,
-    29% 24%, 92% 30%, 44% 36%, 73% 42%, 24% 48%,
-    86% 54%, 35% 60%, 78% 67%, 27% 74%, 90% 80%,
-    43% 87%, 76% 93%, 0 100%
-  );
-}
-
-.editorial-about-page__panel::after,
-.editorial-contact-page::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  right: -2px;
-  top: 0;
-  width: 120px;
-  height: 78px;
-  background: #E388A9;
-  opacity: .92;
-  clip-path: polygon(
-    16% 0, 100% 0, 100% 72%, 90% 58%, 79% 82%, 68% 61%,
-    55% 92%, 43% 65%, 30% 84%, 18% 54%, 0 72%, 7% 30%
-  );
+  background:
+    linear-gradient(8deg, rgba(255,255,255,.10), transparent 42%),
+    repeating-linear-gradient(-5deg, rgba(0,0,0,.12) 0 2px, transparent 2px 8px),
+    #E388A9;
+  clip-path: polygon(0 8%, 19% 0, 43% 6%, 66% 1%, 100% 13%, 94% 70%, 76% 88%, 51% 79%, 25% 100%, 5% 84%);
   transform: rotate(-4deg);
-  transform-origin: top right;
 }
 
-@media (max-width: 680px) {
-  .editorial-hero::before,
-  .editorial-projects::before,
+.editorial-about-page__panel::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  right: -2%;
+  bottom: 3%;
+  width: 30%;
+  height: 18%;
+  pointer-events: none;
+  background:
+    linear-gradient(4deg, rgba(255,255,255,.12), transparent 45%),
+    repeating-linear-gradient(4deg, rgba(0,0,0,.08) 0 1px, transparent 1px 7px),
+    #E388A9;
+  clip-path: polygon(4% 13%, 28% 4%, 54% 10%, 76% 0, 100% 17%, 94% 83%, 72% 94%, 47% 84%, 20% 100%, 0 79%);
+  transform: rotate(3deg);
+}
+
+.editorial-about-page__content,
+.editorial-about-page__index,
+.editorial-about-page__floating-star,
+.editorial-about-page__visual {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------------- CONTATO ---------------- */
+.editorial-contact-page {
+  min-height: 560px;
+  background: #090909;
+}
+
+.editorial-contact-page::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -2%;
+  right: 15%;
+  bottom: -2%;
+  height: 28%;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(-7deg, rgba(0,0,0,.12) 0 2px, transparent 2px 8px),
+    linear-gradient(4deg, rgba(255,255,255,.10), transparent 50%),
+    #E388A9;
+  clip-path: polygon(0 15%, 9% 6%, 21% 12%, 34% 0, 48% 9%, 62% 3%, 76% 12%, 91% 4%, 100% 17%, 97% 100%, 0 100%);
+}
+
+.editorial-contact-page::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 7%;
+  bottom: 7%;
+  width: 22%;
+  height: 10%;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,255,255,.03)),
+    rgba(20,20,20,.58);
+  clip-path: polygon(0 16%, 25% 3%, 51% 12%, 77% 0, 100% 18%, 94% 91%, 68% 100%, 38% 88%, 9% 100%);
+  transform: rotate(-2deg);
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero-paper.paper-one {
+    left: 2% !important;
+    top: 2% !important;
+    width: 96% !important;
+    height: 96% !important;
+    clip-path: polygon(
+      2% 2%, 19% 1%, 37% 3%, 54% 1%, 72% 2.5%, 98% 1.5%,
+      96% 14%, 98% 28%, 96% 42%, 98% 56%, 96% 71%, 98% 86%, 95% 98%,
+      78% 96%, 60% 98%, 43% 96%, 26% 98%, 4% 96%, 3% 82%, 1% 67%, 3% 53%, 1% 38%, 3% 23%
+    ) !important;
+  }
+
+  .editorial-home--single .editorial-hero-paper.paper-two {
+    width: 31% !important;
+    height: 18% !important;
+    right: 1% !important;
+    top: 67% !important;
+  }
+
   .projects-reference-page::before {
-    width: 27px;
+    clip-path: polygon(
+      2% 2%, 20% 1%, 39% 3%, 58% 1%, 77% 3%, 98% 1%,
+      97% 18%, 99% 34%, 97% 51%, 99% 67%, 97% 83%, 99% 98%,
+      80% 96%, 61% 98%, 42% 96%, 22% 98%, 3% 96%, 2% 81%, 1% 64%, 3% 47%, 1% 30%
+    );
   }
 
-  .editorial-hero::after,
-  .editorial-projects::after,
   .projects-reference-page::after {
-    height: 32px;
+    width: 38%;
+    height: 10%;
+    right: -3%;
+    top: 2%;
   }
 
-  .editorial-about-page__panel::before,
+  .editorial-about-page__panel::before {
+    width: 50%;
+    height: 14%;
+    left: -6%;
+  }
+
+  .editorial-about-page__panel::after {
+    width: 45%;
+    height: 13%;
+    right: -6%;
+  }
+
   .editorial-contact-page::before {
-    width: 25px;
+    right: -4%;
+    height: 22%;
   }
 
-  .editorial-about-page__panel::after,
   .editorial-contact-page::after {
-    width: 82px;
-    height: 54px;
+    width: 34%;
+    left: 4%;
   }
 }
