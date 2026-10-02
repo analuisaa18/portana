@@ -113,6 +113,8 @@ export interface ThemeHeader {
   brandLetterSpacing: number;
   showTagline: boolean;
   navStyle: HeaderNavStyle;
+  /** Style used by the custom reference navbar; omitted means the current visual style. */
+  referenceNavStyle?: HeaderNavStyle;
   navFontSizePx: number;
   navWeight: number;
   navLetterSpacing: number;
