@@ -3128,8 +3128,8 @@ header.header-nav-shell {
 
 
 /* =========================================================
-   GLOBAL EDITORIAL COLLAGE — independent torn-paper layers
-   These layers never participate in layout. They start below the navbar.
+   GLOBAL EDITORIAL PAPER COLLAGE — decorative layer only
+   Independent graphic pieces; no layout dimensions are changed.
    ========================================================= */
 .paper-collage-overlay {
   position: absolute;
@@ -3137,158 +3137,207 @@ header.header-nav-shell {
   min-height: 100%;
   overflow: hidden;
   pointer-events: none;
-  z-index: 3;
+  z-index: 1;
   isolation: isolate;
 }
 
-.paper-piece,
-.paper-scrap {
+.paper-collage-piece {
   position: absolute;
   display: block;
+  overflow: visible;
   pointer-events: none;
-  filter: drop-shadow(0 7px 9px rgba(0,0,0,.16));
+  filter: drop-shadow(0 5px 7px rgba(0,0,0,.16));
 }
 
-.paper-piece--black-left {
-  left: -1.7%;
-  top: 8%;
-  width: 8.2%;
-  height: 76%;
-  transform: rotate(-1.2deg);
-  opacity: .98;
-}
-
-.paper-piece--black-bottom {
-  left: -1%;
-  bottom: -2.5%;
-  width: 64%;
-  height: 15%;
-  transform: rotate(.6deg);
-  opacity: .98;
-}
-
-.paper-piece--black-top-right {
-  right: -1.5%;
-  top: 7%;
-  width: 24%;
-  height: 15%;
-  transform: rotate(3.5deg);
+.paper-collage-piece--pink-top {
+  width: min(52vw, 760px);
+  height: min(20vw, 285px);
+  left: 2.5vw;
+  top: 3.5%;
+  transform: rotate(-1.8deg);
   opacity: .96;
 }
 
-.paper-piece--black-right {
-  right: -2.2%;
-  top: 35%;
-  width: 8%;
-  height: 36%;
-  transform: rotate(-1.8deg);
-  opacity: .95;
+.paper-collage-piece--black-left {
+  width: min(14vw, 205px);
+  height: min(58vw, 790px);
+  left: -4vw;
+  top: 13%;
+  transform: rotate(2.2deg);
+  opacity: .98;
 }
 
-.paper-piece--pink-top-left {
-  left: 6%;
-  top: 1.5%;
-  width: 22%;
-  height: 11%;
-  transform: rotate(-3.5deg);
-  opacity: .78;
-}
-
-.paper-piece--pink-right {
-  right: -1.8%;
-  top: 18%;
-  width: 14%;
-  height: 30%;
-  transform: rotate(3.2deg);
-  opacity: .72;
-}
-
-.paper-piece--pink-bottom-right {
-  right: 5%;
-  bottom: 1%;
-  width: 30%;
-  height: 13%;
-  transform: rotate(-2.7deg);
-  opacity: .82;
-}
-
-.paper-scrap--left {
-  left: 4.5%;
-  top: 25%;
-  width: 12%;
-  height: 12%;
-  transform: rotate(-8deg);
-  opacity: .88;
-}
-
-.paper-scrap--pink-center {
-  left: 43%;
-  top: 4%;
-  width: 14%;
-  height: 9%;
+.paper-collage-piece--black-top-right {
+  width: min(25vw, 350px);
+  height: min(13vw, 180px);
+  right: -2.5vw;
+  top: 5%;
   transform: rotate(5deg);
-  opacity: .42;
+  opacity: .9;
 }
 
-.paper-scrap--bottom {
-  left: 31%;
-  bottom: 2.5%;
-  width: 18%;
-  height: 9%;
-  transform: rotate(-5deg);
+.paper-collage-piece--pink-right {
+  width: min(24vw, 350px);
+  height: min(36vw, 500px);
+  right: -4vw;
+  top: 29%;
+  transform: rotate(-3.4deg);
   opacity: .9;
+}
+
+.paper-collage-piece--black-bottom {
+  width: min(37vw, 520px);
+  height: min(17vw, 235px);
+  left: -2vw;
+  bottom: -2%;
+  transform: rotate(1.7deg);
+  opacity: .98;
+}
+
+.paper-collage-piece--pink-bottom {
+  width: min(31vw, 430px);
+  height: min(13vw, 180px);
+  right: 17%;
+  bottom: 4%;
+  transform: rotate(-4deg);
+  opacity: .84;
+}
+
+.paper-collage-texture {
+  position: absolute;
+  pointer-events: none;
+  opacity: .16;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(circle at 13% 24%, rgba(0,0,0,.26) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 68%, rgba(255,255,255,.22) 0 1px, transparent 1.5px),
+    repeating-linear-gradient(103deg, transparent 0 9px, rgba(0,0,0,.045) 10px 11px, transparent 12px 19px);
+  background-size: 17px 19px, 23px 21px, 29px 29px;
+}
+
+.paper-collage-texture--one {
+  width: min(48vw, 680px);
+  height: min(16vw, 220px);
+  left: 5%;
+  top: 6%;
+  transform: rotate(-2deg);
+}
+
+.paper-collage-texture--two {
+  width: min(28vw, 390px);
+  height: min(24vw, 330px);
+  right: 4%;
+  bottom: 8%;
+  transform: rotate(3deg);
 }
 
 .paper-collage-tape {
   position: absolute;
   width: 150px;
-  height: 38px;
-  border: 1px solid rgba(255,255,255,.10);
+  height: 40px;
+  border: 1px solid rgba(255,255,255,.09);
   background:
-    linear-gradient(102deg, rgba(244,188,204,.34), rgba(235,165,188,.16) 48%, rgba(255,255,255,.21)),
-    repeating-linear-gradient(0deg, rgba(0,0,0,.07) 0 2px, transparent 2px 5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,.16);
-  opacity: .72;
+    linear-gradient(101deg, rgba(242,188,204,.27), rgba(242,188,204,.12) 48%, rgba(255,255,255,.18)),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.055) 0 2px, transparent 2px 5px);
+  box-shadow: 0 3px 8px rgba(0,0,0,.17);
+  opacity: .68;
   mix-blend-mode: screen;
 }
 
-.tape--a { left: 12%; top: 4%; transform: rotate(-7deg); }
-.tape--b { right: 15%; top: 27%; transform: rotate(8deg); }
-.tape--c { right: 5%; bottom: 10%; transform: rotate(-11deg); opacity: .48; }
-.tape--d { left: 42%; bottom: 5%; transform: rotate(6deg); opacity: .38; }
-
-.paper-collage-grain {
-  position: absolute;
-  pointer-events: none;
-  opacity: .13;
-  mix-blend-mode: multiply;
-  background-image:
-    radial-gradient(circle at 18% 27%, rgba(0,0,0,.30) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 71% 64%, rgba(255,255,255,.22) 0 1px, transparent 1.4px),
-    repeating-linear-gradient(101deg, transparent 0 10px, rgba(0,0,0,.05) 11px 12px, transparent 13px 21px);
-  background-size: 19px 21px, 25px 23px, 31px 31px;
+.paper-collage-tape--one {
+  left: 13%;
+  top: 7%;
+  transform: rotate(-7deg);
 }
 
-.grain--a { left: 3%; top: 8%; width: 46%; height: 28%; transform: rotate(-2deg); }
-.grain--b { right: 4%; bottom: 8%; width: 35%; height: 30%; transform: rotate(3deg); }
+.paper-collage-tape--two {
+  right: 14%;
+  top: 31%;
+  transform: rotate(10deg);
+}
 
-/* Keep the navbar above the collage: the overlay lives only inside <main>. */
+.paper-collage-tape--three {
+  left: 44%;
+  bottom: 7%;
+  transform: rotate(-12deg);
+  opacity: .48;
+}
+
+#main-content > * {
+  position: relative;
+  z-index: 2;
+}
+
 @media (max-width: 767px) {
-  .paper-piece--black-left { left: -5%; top: 10%; width: 15%; height: 72%; }
-  .paper-piece--black-bottom { left: -4%; bottom: -1%; width: 78%; height: 12%; }
-  .paper-piece--black-top-right { right: -6%; top: 7%; width: 37%; height: 12%; }
-  .paper-piece--black-right { right: -6%; top: 38%; width: 15%; height: 30%; }
-  .paper-piece--pink-top-left { left: 4%; top: 2%; width: 32%; height: 9%; }
-  .paper-piece--pink-right { right: -5%; top: 20%; width: 23%; height: 24%; }
-  .paper-piece--pink-bottom-right { right: 3%; bottom: 1%; width: 45%; height: 10%; }
-  .paper-scrap--left { left: 3%; top: 28%; width: 22%; height: 10%; }
-  .paper-scrap--pink-center { left: 48%; top: 5%; width: 24%; height: 8%; }
-  .paper-scrap--bottom { left: 28%; bottom: 2%; width: 30%; height: 8%; }
-  .paper-collage-tape { width: 100px; height: 27px; }
-  .tape--a { left: 8%; top: 5%; }
-  .tape--b { right: 8%; top: 29%; }
-  .tape--c { right: 3%; bottom: 8%; }
-  .tape--d { left: 38%; bottom: 5%; }
-  .grain--a { left: 2%; top: 10%; width: 70%; height: 24%; }
-  .grain--b { right: 2%; bottom: 7%; width: 60%; height: 28%; }
+  .paper-collage-piece--pink-top {
+    width: 83vw;
+    height: 30vw;
+    left: -7vw;
+    top: 4%;
+  }
+
+  .paper-collage-piece--black-left {
+    width: 25vw;
+    height: 86vw;
+    left: -9vw;
+    top: 14%;
+  }
+
+  .paper-collage-piece--black-top-right {
+    width: 40vw;
+    height: 22vw;
+    right: -7vw;
+    top: 5%;
+  }
+
+  .paper-collage-piece--pink-right {
+    width: 39vw;
+    height: 61vw;
+    right: -10vw;
+    top: 31%;
+  }
+
+  .paper-collage-piece--black-bottom {
+    width: 60vw;
+    height: 28vw;
+    left: -8vw;
+    bottom: -2%;
+  }
+
+  .paper-collage-piece--pink-bottom {
+    width: 51vw;
+    height: 24vw;
+    right: 8%;
+    bottom: 5%;
+  }
+
+  .paper-collage-texture--one {
+    width: 78vw;
+    height: 27vw;
+    left: 2%;
+    top: 5%;
+  }
+
+  .paper-collage-texture--two {
+    width: 48vw;
+    height: 40vw;
+    right: 0;
+    bottom: 7%;
+  }
+
+  .paper-collage-tape {
+    width: 88px;
+    height: 27px;
+  }
+
+  .paper-collage-tape--one { left: 10%; top: 6%; }
+  .paper-collage-tape--two { right: 7%; top: 32%; }
+  .paper-collage-tape--three { left: 36%; bottom: 6%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-collage-piece,
+  .paper-collage-tape {
+    transition: none !important;
+  }
 }
