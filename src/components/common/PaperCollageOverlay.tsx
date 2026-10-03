@@ -1,58 +1,77 @@
 import React from 'react';
 
 /**
- * Decorative editorial collage layer. It is absolutely positioned inside main,
- * never takes layout space, and starts below the navigation/header.
+ * Global editorial collage layer.
+ * Purely decorative: absolute, pointer-events disabled, and kept below the navbar.
+ * The pieces are independent sheets/scraps rather than a border around content.
  */
 export const PaperCollageOverlay: React.FC = () => (
   <div className="paper-collage-overlay" aria-hidden="true">
-    <svg className="paper-collage-piece paper-collage-piece--pink-top" viewBox="0 0 620 230" preserveAspectRatio="none">
+    <svg className="paper-piece paper-piece--black-left" viewBox="0 0 150 760" preserveAspectRatio="none">
       <defs>
-        <filter id="paperNoisePinkTop" x="-8%" y="-12%" width="116%" height="124%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.025 0.09" numOctaves="2" seed="7" result="n" />
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" />
+        <filter id="tornBlackLeft" x="-15%" y="-5%" width="130%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018 0.075" numOctaves="3" seed="17" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" />
         </filter>
       </defs>
-      <path filter="url(#paperNoisePinkTop)" fill="#e388a9" d="M12 29L74 13L138 24L208 8L271 19L341 10L405 24L478 7L538 20L609 11L594 63L606 116L592 167L603 218L538 205L475 221L411 209L344 225L281 211L215 223L148 208L82 221L18 208L29 157L16 108L27 65Z" />
+      <path filter="url(#tornBlackLeft)" fill="#080808" d="M22 0H150V760H15L24 724L8 693L25 658L11 621L26 584L7 548L24 510L9 470L27 431L8 394L25 355L10 318L29 281L9 242L26 205L7 165L24 126L8 90L28 54Z" />
     </svg>
 
-    <svg className="paper-collage-piece paper-collage-piece--black-left" viewBox="0 0 190 560" preserveAspectRatio="none">
+    <svg className="paper-piece paper-piece--black-bottom" viewBox="0 0 920 145" preserveAspectRatio="none">
       <defs>
-        <filter id="paperNoiseBlackLeft" x="-12%" y="-5%" width="124%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.035 0.075" numOctaves="2" seed="19" result="n" />
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G" />
+        <filter id="tornBlackBottom" x="-4%" y="-15%" width="108%" height="130%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.024 0.055" numOctaves="3" seed="29" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" />
         </filter>
       </defs>
-      <path filter="url(#paperNoiseBlackLeft)" fill="#080808" d="M9 9L65 20L119 8L181 22L168 73L182 126L165 181L179 238L164 291L178 349L160 402L178 455L163 511L181 548L123 538L66 552L8 537L22 488L7 435L21 380L6 326L22 273L8 219L23 164L7 110L21 57Z" />
+      <path filter="url(#tornBlackBottom)" fill="#080808" d="M0 42L54 28L105 40L158 20L211 34L264 16L317 33L370 21L423 37L475 18L528 31L581 17L634 35L687 21L741 38L794 20L848 33L920 17V145H0Z" />
     </svg>
 
-    <svg className="paper-collage-piece paper-collage-piece--black-top-right" viewBox="0 0 300 150" preserveAspectRatio="none">
-      <path fill="#090909" d="M10 22L60 8L112 17L164 6L215 20L273 10L294 35L282 76L295 121L245 143L194 132L142 145L91 131L39 143L7 113L18 72Z" />
+    <svg className="paper-piece paper-piece--black-top-right" viewBox="0 0 370 150" preserveAspectRatio="none">
+      <path fill="#0a0a0a" d="M18 20L68 9L119 22L169 7L218 18L270 10L322 24L359 12L347 53L362 93L346 133L294 121L243 139L191 125L140 141L89 126L39 139L7 110L21 70Z" />
     </svg>
 
-    <svg className="paper-collage-piece paper-collage-piece--pink-right" viewBox="0 0 300 430" preserveAspectRatio="none">
+    <svg className="paper-piece paper-piece--black-right" viewBox="0 0 170 380" preserveAspectRatio="none">
+      <path fill="#090909" d="M19 8L74 18L151 5L143 53L160 96L143 142L158 188L140 232L157 279L140 326L154 371L91 360L38 374L11 347L25 302L8 258L24 214L9 169L26 124L10 79Z" />
+    </svg>
+
+    <svg className="paper-piece paper-piece--pink-top-left" viewBox="0 0 310 125" preserveAspectRatio="none">
       <defs>
-        <filter id="paperNoisePinkRight" x="-10%" y="-8%" width="120%" height="116%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.03 0.06" numOctaves="2" seed="33" result="n" />
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" />
+        <filter id="tornPinkTop" x="-8%" y="-15%" width="116%" height="130%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.022 0.065" numOctaves="2" seed="41" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" />
         </filter>
       </defs>
-      <path filter="url(#paperNoisePinkRight)" fill="#e388a9" d="M16 12L72 25L126 9L181 22L238 8L289 21L276 78L292 132L277 188L291 244L275 300L290 355L273 417L218 404L164 421L109 405L54 417L9 397L23 343L8 288L22 233L7 178L23 124Z" />
+      <path filter="url(#tornPinkTop)" fill="#e388a9" d="M9 22L58 7L108 19L159 5L210 18L261 8L302 23L288 61L301 100L275 119L226 108L176 122L126 109L76 120L27 107L3 86L17 54Z" />
     </svg>
 
-    <svg className="paper-collage-piece paper-collage-piece--black-bottom" viewBox="0 0 430 190" preserveAspectRatio="none">
-      <path fill="#080808" d="M10 25L67 11L121 20L179 7L235 21L292 9L348 22L414 12L402 59L416 105L401 157L345 145L290 161L235 148L177 167L119 151L62 166L14 150L26 104L10 68Z" />
+    <svg className="paper-piece paper-piece--pink-right" viewBox="0 0 250 330" preserveAspectRatio="none">
+      <path fill="#e388a9" d="M18 11L64 24L112 8L159 21L207 10L242 25L229 66L244 107L228 150L241 192L225 235L239 277L221 319L176 307L129 323L82 309L36 320L8 296L21 252L7 209L22 165L9 123L23 80Z" />
     </svg>
 
-    <svg className="paper-collage-piece paper-collage-piece--pink-bottom" viewBox="0 0 360 150" preserveAspectRatio="none">
-      <path fill="#e388a9" d="M9 22L61 8L118 19L174 6L230 20L286 9L348 22L334 64L349 111L325 142L267 130L211 146L155 133L99 146L42 132L12 145L23 101L8 66Z" />
+    <svg className="paper-piece paper-piece--pink-bottom-right" viewBox="0 0 420 155" preserveAspectRatio="none">
+      <path fill="#e388a9" d="M9 25L59 10L111 22L164 8L216 20L270 7L322 22L374 11L411 28L396 69L412 111L390 143L338 131L286 146L233 133L180 148L127 134L75 147L27 133L4 104L19 67Z" />
     </svg>
 
-    <div className="paper-collage-texture paper-collage-texture--one" />
-    <div className="paper-collage-texture paper-collage-texture--two" />
-    <div className="paper-collage-tape paper-collage-tape--one" />
-    <div className="paper-collage-tape paper-collage-tape--two" />
-    <div className="paper-collage-tape paper-collage-tape--three" />
+    <svg className="paper-scrap paper-scrap--left" viewBox="0 0 190 150" preserveAspectRatio="none">
+      <path fill="#111" d="M8 28L41 10L76 19L111 6L146 20L182 11L171 48L186 78L168 111L179 141L142 130L106 145L72 132L38 143L11 124L22 92L6 61Z" />
+    </svg>
+
+    <svg className="paper-scrap paper-scrap--pink-center" viewBox="0 0 250 130" preserveAspectRatio="none">
+      <path fill="#e388a9" d="M10 20L50 8L89 17L129 5L169 20L209 8L242 22L230 55L244 89L222 119L181 108L140 124L98 111L57 123L20 108L5 75L18 48Z" />
+    </svg>
+
+    <svg className="paper-scrap paper-scrap--bottom" viewBox="0 0 250 125" preserveAspectRatio="none">
+      <path fill="#171717" d="M8 21L52 9L96 20L140 7L184 18L228 9L243 33L232 63L244 96L220 116L177 108L134 122L91 110L49 121L15 106L22 73L7 48Z" />
+    </svg>
+
+    <div className="paper-collage-tape tape--a" />
+    <div className="paper-collage-tape tape--b" />
+    <div className="paper-collage-tape tape--c" />
+    <div className="paper-collage-tape tape--d" />
+
+    <div className="paper-collage-grain grain--a" />
+    <div className="paper-collage-grain grain--b" />
   </div>
 );
 
