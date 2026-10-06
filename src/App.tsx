@@ -14,7 +14,6 @@ import { portfolioStore } from './services/store';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { Project, Category } from './types/portfolio';
 import { LoadingState } from './components/common/LoadingState';
-import { PaperCollageOverlay } from './components/common/PaperCollageOverlay';
 
 export function PortfolioApp() {
   const [currentView, setCurrentView] = useState<string>('home');
@@ -92,7 +91,6 @@ export function PortfolioApp() {
       <Header currentView={currentView} onNavigate={handleNavigate} />
 
       <main id="main-content" className="flex-1 w-full relative" tabIndex={-1}>
-        <PaperCollageOverlay />
         {loading ? (
           <LoadingState message="Carregando portfólio autoral..." />
         ) : (
