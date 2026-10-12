@@ -3591,3 +3591,39 @@ header.header-nav-shell {
   .editorial-contact-page form { padding: 18px !important; }
   .editorial-contact-page .grid h2 { font-size: 22px; }
 }
+
+
+/* Home: colagem exportada do Figma, mantendo o componente e as funções existentes. */
+.editorial-home--single .editorial-hero-photo {
+  top: 23%;
+  right: 0;
+  bottom: auto;
+  width: 52%;
+  height: 62%;
+  object-fit: contain;
+  object-position: center;
+  filter: none;
+  mix-blend-mode: normal;
+  border: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .editorial-home--single .editorial-hero-photo {
+    top: 12%;
+    right: 1%;
+    width: 59%;
+    height: 49%;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 767px) {
+  .editorial-home--single .editorial-hero-photo {
+    top: 10%;
+    right: 0;
+    width: 68%;
+    height: 43%;
+    object-fit: contain;
+  }
+}
