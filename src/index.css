@@ -1763,7 +1763,7 @@ header.header-nav-shell {
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.15);
+  filter: none;
   background: #292929;
 }
 
