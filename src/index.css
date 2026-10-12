@@ -3341,3 +3341,253 @@ header.header-nav-shell {
     transition: none !important;
   }
 }
+
+
+/* =========================================================
+   PORTFÓLIO — refinamentos alinhados às telas finais do Figma
+   Mantém a estrutura e os dados existentes do projeto.
+   ========================================================= */
+:root {
+  --figma-pink: #e27698;
+  --figma-pink-light: #f08aaa;
+  --figma-ink: #080808;
+  --figma-card: #302d2d;
+}
+
+/* SOBRE: papel preto, texto rosa e foto administrável em cores. */
+.editorial-about-page {
+  padding: 0 0 32px;
+  background: transparent;
+  color: var(--figma-pink-light);
+}
+.editorial-about-page__panel {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 110px);
+  padding: clamp(42px, 5vw, 76px) clamp(24px, 8vw, 120px);
+  border: 0;
+  background-color: #111;
+  background-image: url("./assets/paper-collage-black.svg");
+  background-size: cover;
+  background-position: center;
+}
+.editorial-about-page__content {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 42%);
+  gap: clamp(32px, 7vw, 100px);
+  min-height: min(660px, calc(100vh - 180px));
+}
+.editorial-about-page__text h1 {
+  margin-bottom: 18px;
+  font-size: clamp(58px, 5vw, 84px);
+  line-height: .78;
+  color: var(--figma-pink);
+}
+.editorial-about-page__intro {
+  max-width: 660px;
+  margin-bottom: 18px;
+  color: var(--figma-pink);
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 700;
+  line-height: 1.25;
+  animation: none;
+}
+.editorial-about-page__body p {
+  margin-bottom: 18px;
+  color: var(--figma-pink-light);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(14px, 1.25vw, 17px);
+  line-height: 1.35;
+}
+.editorial-about-page__details { display: none; }
+.editorial-about-page__paper {
+  width: min(100%, 440px);
+  aspect-ratio: .82;
+  padding: 0;
+  background: #000;
+  box-shadow: none;
+  transform: rotate(-8deg);
+}
+.editorial-about-page__paper::before {
+  inset: 0;
+  border: 0;
+  opacity: 0;
+}
+.editorial-about-page__paper img,
+.editorial-about-page__placeholder {
+  filter: none;
+  background: #000;
+}
+.editorial-about-page__placeholder { color: transparent; }
+.editorial-about-page__button {
+  margin-top: 28px;
+  min-height: 58px;
+  border-radius: 0 !important;
+  background: var(--figma-pink) !important;
+  color: #080808 !important;
+  font-weight: 800;
+}
+
+/* PROJETOS: quatro cartões, imagens coloridas e espaços pretos quando vazios. */
+.projects-reference-page {
+  margin-top: 0;
+  min-height: calc(100vh - 110px);
+  padding: clamp(24px, 3vw, 44px) clamp(20px, 5vw, 72px) 54px;
+  background-color: var(--figma-pink);
+  background-image: url("./assets/paper-collage-pink.svg");
+  background-size: cover;
+  background-position: center;
+}
+.projects-reference__inner { max-width: 1400px; }
+.projects-reference__header { margin-bottom: 32px; }
+.projects-reference__header h1 {
+  font-size: clamp(48px, 5vw, 68px) !important;
+  letter-spacing: -.045em;
+}
+.projects-reference__header span { display: none; }
+.projects-reference__grid { gap: clamp(18px, 4vw, 56px); }
+.projects-reference__image-wrap {
+  aspect-ratio: .72 / 1;
+  background: #000;
+}
+.projects-reference__image {
+  filter: none;
+  transition: transform 420ms cubic-bezier(.16,1,.3,1);
+}
+.projects-reference__item:hover .projects-reference__image,
+.projects-reference__item:focus-visible .projects-reference__image {
+  filter: none;
+}
+.projects-reference__image-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.projects-reference__meta { padding-top: 13px; padding-right: 0; }
+.projects-reference__title {
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(13px, 1.4vw, 20px);
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+.projects-reference__description { display: none; }
+.projects-reference__arrow { margin-top: 8px; }
+.projects-reference__item:disabled { opacity: 1; }
+
+/* CONTATO: cartões cinza escuro com contorno rosa, como no Figma. */
+.editorial-contact-page {
+  min-height: calc(100vh - 110px);
+  padding: 24px clamp(18px, 5vw, 72px) 52px;
+  color: var(--figma-pink);
+  background-color: #111;
+  background-image: url("./assets/paper-collage-black.svg");
+  background-size: cover;
+  background-position: center;
+}
+.editorial-contact-page > div:first-of-type { margin-bottom: 10px; }
+.editorial-contact-page .bold-eyebrow {
+  max-width: 500px;
+  margin: 0 auto;
+  color: #fff;
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: .22em;
+}
+.editorial-contact-page h1 {
+  margin-top: 8px;
+  color: var(--figma-pink) !important;
+  font-size: clamp(32px, 3vw, 42px) !important;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+.editorial-contact-page > div:first-of-type p {
+  color: var(--figma-pink);
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 1.25;
+}
+.editorial-contact-page .grid {
+  gap: clamp(22px, 8vw, 116px);
+  align-items: stretch;
+}
+.editorial-contact-page .grid > div > div,
+.editorial-contact-page form {
+  height: 100%;
+  border: 1px solid var(--figma-pink) !important;
+  border-radius: 12px !important;
+  background: var(--figma-card) !important;
+  box-shadow: none !important;
+  padding: clamp(18px, 2vw, 28px) !important;
+  color: var(--figma-pink) !important;
+}
+.editorial-contact-page .grid h2 {
+  color: var(--figma-pink) !important;
+  border-color: var(--figma-pink) !important;
+  font-size: clamp(21px, 2vw, 30px);
+  line-height: 1.2;
+  font-weight: 500;
+}
+.editorial-contact-page .grid h3,
+.editorial-contact-page .grid label,
+.editorial-contact-page .grid p,
+.editorial-contact-page .grid a {
+  color: var(--figma-pink) !important;
+}
+.editorial-contact-page .grid input,
+.editorial-contact-page .grid textarea {
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #000 !important;
+  color: #fff !important;
+  min-height: 42px;
+}
+.editorial-contact-page .grid textarea { min-height: 88px; }
+.editorial-contact-page .grid input::placeholder,
+.editorial-contact-page .grid textarea::placeholder { color: #a86a7c; }
+.editorial-contact-page form button[type="submit"] {
+  min-height: 40px;
+  border-radius: 999px !important;
+  background: #29965b !important;
+  color: #fff !important;
+}
+
+@media (max-width: 767px) {
+  .editorial-about-page { padding: 0 0 22px; }
+  .editorial-about-page__panel {
+    padding: 38px 22px 36px;
+    background-size: auto 100%;
+  }
+  .editorial-about-page__content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    min-height: 0;
+  }
+  .editorial-about-page__text h1 {
+    margin-bottom: 18px;
+    font-size: clamp(50px, 14vw, 68px);
+  }
+  .editorial-about-page__intro { font-size: 15px; line-height: 1.3; }
+  .editorial-about-page__body p { font-size: 14px; line-height: 1.35; margin-bottom: 14px; }
+  .editorial-about-page__visual { min-height: 0; padding: 8px 12px 22px; }
+  .editorial-about-page__paper { width: min(68%, 280px); margin: 0 auto; }
+  .editorial-about-page__button { min-height: 48px; margin-top: 18px; }
+
+  .projects-reference-page {
+    padding: 24px 18px 34px;
+    background-size: auto 100%;
+  }
+  .projects-reference__header { margin-bottom: 28px; }
+  .projects-reference__grid { column-gap: 30px; row-gap: 30px; }
+  .projects-reference__image-wrap { aspect-ratio: .72 / 1; }
+  .projects-reference__title { font-size: 11px; line-height: 1.25; }
+  .projects-reference__arrow { margin-top: 4px; }
+
+  .editorial-contact-page { padding: 22px 16px 34px; background-size: auto 100%; }
+  .editorial-contact-page .bold-eyebrow { font-size: 19px; letter-spacing: .16em; }
+  .editorial-contact-page h1 { font-size: 30px !important; }
+  .editorial-contact-page > div:first-of-type p { font-size: 14px; }
+  .editorial-contact-page .grid { gap: 20px; }
+  .editorial-contact-page .grid > div > div,
+  .editorial-contact-page form { padding: 18px !important; }
+  .editorial-contact-page .grid h2 { font-size: 22px; }
+}
