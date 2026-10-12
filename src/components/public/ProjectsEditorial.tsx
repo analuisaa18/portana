@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Project } from '../../types/portfolio';
-import homeEditorialPhoto from '../../assets/home-editorial-experiment.jpg';
 
 interface ProjectsEditorialProps {
   projects: Project[];
@@ -36,7 +35,7 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({
               project?.cover_image ||
               (project as any)?.thumbnail ||
               (project as any)?.image_url ||
-              homeEditorialPhoto;
+              null;
 
             return (
               <button
@@ -47,12 +46,16 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({
                 disabled={!project?.slug}
               >
                 <div className="projects-reference__image-wrap">
-                  <img
-                    src={image}
-                    alt={project?.title || item.title}
-                    className="projects-reference__image"
-                    loading="lazy"
-                  />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={project?.title || item.title}
+                      className="projects-reference__image"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="projects-reference__image-placeholder" aria-hidden="true" />
+                  )}
                 </div>
 
                 <div className="projects-reference__meta">
