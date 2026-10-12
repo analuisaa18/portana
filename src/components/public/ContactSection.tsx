@@ -27,9 +27,14 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     if (!validate()) return;
 
-    const whatsappNumber = settings.whatsapp || '5551999998888';
-    // Clean non-digits
+    // O número vem das configurações públicas do perfil no Admin.
+    // Não usar um número fictício caso o campo esteja vazio.
+    const whatsappNumber = settings.whatsapp || '';
     const cleanNumber = whatsappNumber.replace(/\D/g, '');
+    if (!cleanNumber) {
+      window.alert('O WhatsApp ainda não foi configurado. Adicione o número em Admin → Perfil & Sobre → Contatos Públicos.');
+      return;
+    }
 
     const messageText = `Olá! Meu nome é ${formData.nome}.\n\nEstou entrando em contato sobre: ${formData.assunto}\n\n${formData.mensagem}`;
     const encodedText = encodeURIComponent(messageText);
