@@ -31,6 +31,8 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({
         <div className="projects-reference__grid">
           {cards.map((project, index) => {
             const item = labels[index];
+            const cardTitle = project?.title?.trim() || item.title;
+            const cardDescription = project?.short_description?.trim() || item.description;
             const image =
               project?.cover_image ||
               (project as any)?.thumbnail ||
@@ -49,7 +51,7 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({
                   {image ? (
                     <img
                       src={image}
-                      alt={project?.title || item.title}
+                      alt={cardTitle}
                       className="projects-reference__image"
                       loading="lazy"
                     />
@@ -60,10 +62,10 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({
 
                 <div className="projects-reference__meta">
                   <div className="projects-reference__title">
-                    {item.title}
+                    {cardTitle}
                   </div>
                   <div className="projects-reference__description">
-                    {item.description}
+                    {cardDescription}
                   </div>
                   <span className="projects-reference__arrow" aria-hidden="true">
                     <ArrowRight size={14} strokeWidth={1.8} />
