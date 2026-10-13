@@ -3627,3 +3627,34 @@ header.header-nav-shell {
     object-fit: contain;
   }
 }
+
+/* HOME DESKTOP — papel rosa rasgado exportado da composição do Figma.
+   Restrito a telas desktop para preservar integralmente a versão mobile. */
+@media (min-width: 768px) {
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero {
+    background: #080808 !important;
+    isolation: isolate;
+  }
+
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("./assets/paper-pink-desktop.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+  }
+
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-photo,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-index,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-star,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-scribble,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-extra-star {
+    position: absolute;
+  }
+}
