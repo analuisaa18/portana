@@ -3672,3 +3672,103 @@ header.header-nav-shell {
     color: #dd7791 !important;
   }
 }
+
+
+/* AJUSTE FINAL DESKTOP — fidelidade visual aos frames do Figma.
+   Isolado para telas grandes; não altera os estilos mobile nem a lógica React. */
+@media (min-width: 768px) {
+  /* HOME: o papel rasgado deve atravessar a composição inteira, atrás dos elementos. */
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+    background: #080808 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    background-image: url("./assets/paper-pink-desktop.png") !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: 100% 100% !important;
+    opacity: 1 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper {
+    display: none !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-photo,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-index,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-star,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-scribble,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-extra-star {
+    position: relative;
+    z-index: 1 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy {
+    position: absolute !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-photo {
+    position: absolute !important;
+    top: 12% !important;
+    right: 3% !important;
+    bottom: auto !important;
+    width: 48% !important;
+    height: 76% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta {
+    background: #080808 !important;
+    border: 1px solid #080808 !important;
+    color: #dd7791 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* SOBRE: fundo escuro texturizado, texto à esquerda e área visual à direita. */
+  .editorial-about-page {
+    background-color: #080808 !important;
+    background-image: url("./assets/paper-collage-black.svg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .editorial-about-page__panel {
+    background: transparent !important;
+  }
+
+  /* PROJETOS: papel rosa rasgado e cartões verticais escuros. */
+  .projects-reference-page {
+    background-color: #dd7791 !important;
+    background-image: url("./assets/paper-collage-pink.svg") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 100% 100% !important;
+  }
+  .projects-reference__image-wrap,
+  .projects-reference__image-placeholder {
+    background: #000 !important;
+  }
+
+  /* CONTATO: textura escura e cartões grafite com contorno rosa. */
+  .editorial-contact-page {
+    background-color: #080808 !important;
+    background-image: url("./assets/paper-collage-black.svg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .editorial-contact-page .grid > div > div,
+  .editorial-contact-page form {
+    background: #302d2d !important;
+    border: 1px solid #dd7791 !important;
+    border-radius: 12px !important;
+  }
+}
