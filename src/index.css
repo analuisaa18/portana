@@ -3628,15 +3628,116 @@ header.header-nav-shell {
   }
 }
 
-/* HOME DESKTOP — papel rosa rasgado enviado pela usuária.
-   Mantém o papel atrás do título, da colagem e do botão.
-   Escopo desktop para não alterar a composição mobile. */
-@media (min-width: 768px) {
+/* =========================================================
+   FIGMA DESKTOP — composição da Home (>= 901px)
+   Usa o papel rasgado original com transparência, sem alterar o mobile.
+   ========================================================= */
+@media (min-width: 901px) {
+  .editorial-home--single:not(.editorial-home--projects) {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    background: #090909 !important;
+    overflow: hidden !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-grid--single {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    display: block !important;
+  }
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero {
-    background-color: #080808 !important;
+    position: relative !important;
+    width: 100% !important;
+    height: min(824px, calc(100vh - 126px)) !important;
+    min-height: 650px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    background: #090909 !important;
+    isolation: isolate;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero::before {
+    content: "" !important;
+    position: absolute !important;
+    z-index: 0 !important;
+    inset: -2.5% -1.5% -2.5% -1.5% !important;
     background-image: url('./assets/paper-pink-desktop.png') !important;
-    background-repeat: no-repeat !important;
     background-position: center center !important;
+    background-repeat: no-repeat !important;
     background-size: 100% 100% !important;
+    pointer-events: none !important;
+  }
+  /* No desktop, remover os recortes geométricos que ficam atrás da colagem.
+     O papel rosa passa a ser a única peça de fundo da composição. */
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-scribble,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-star,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-extra-star {
+    display: none !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-index {
+    z-index: 8 !important;
+    top: 34px !important;
+    right: 3.2% !important;
+    color: #090909 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy {
+    left: 7% !important;
+    top: 28% !important;
+    bottom: auto !important;
+    width: 47% !important;
+    max-width: 47% !important;
+    z-index: 5 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-title {
+    display: block !important;
+    font-size: clamp(68px, 6.8vw, 100px) !important;
+    line-height: .82 !important;
+    letter-spacing: -.075em !important;
+    white-space: nowrap !important;
+    color: #090909 !important;
+    transform: rotate(-6.82deg) !important;
+    transform-origin: left center !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy p {
+    margin-top: 42px !important;
+    max-width: 360px !important;
+    font-size: clamp(14px, 1.05vw, 18px) !important;
+    line-height: 1.48 !important;
+    letter-spacing: 0 !important;
+    color: #090909 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta {
+    margin-top: 28px !important;
+    min-height: 52px !important;
+    padding: 0 20px !important;
+    background: #090909 !important;
+    border: 1px solid #090909 !important;
+    border-radius: 0 !important;
+    color: #e388a9 !important;
+    font-size: 12px !important;
+    letter-spacing: .08em !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta:hover {
+    background: #090909 !important;
+    color: #e388a9 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-photo {
+    top: 12% !important;
+    right: 5% !important;
+    bottom: auto !important;
+    width: 43% !important;
+    height: 76% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    z-index: 4 !important;
+  }
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper {
+    z-index: 1 !important;
   }
 }
