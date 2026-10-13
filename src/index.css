@@ -3628,12 +3628,18 @@ header.header-nav-shell {
   }
 }
 
-/* HOME DESKTOP — papel rosa rasgado exportado da composição do Figma.
-   Restrito a telas desktop para preservar integralmente a versão mobile. */
+/* HOME DESKTOP — composição com papel rosa rasgado do Figma. */
 @media (min-width: 768px) {
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero {
+    position: relative !important;
     background: #080808 !important;
     isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* Substitui os retângulos decorativos antigos pelo papel original. */
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper {
+    display: none !important;
   }
 
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero::before {
@@ -3642,19 +3648,27 @@ header.header-nav-shell {
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: url("./assets/paper-pink-desktop.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% 100%;
+    background: url("./assets/paper-pink-desktop.png") center / 100% 100% no-repeat;
   }
 
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero-copy,
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero-photo,
   .editorial-home--single:not(.editorial-home--projects) .editorial-index,
-  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-paper,
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero-star,
   .editorial-home--single:not(.editorial-home--projects) .editorial-hero-scribble,
   .editorial-home--single:not(.editorial-home--projects) .editorial-extra-star {
-    position: absolute;
+    z-index: 1;
+  }
+
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta {
+    background: #080808 !important;
+    border: 1px solid #080808 !important;
+    color: #dd7791 !important;
+  }
+
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta:hover,
+  .editorial-home--single:not(.editorial-home--projects) .editorial-hero-projects-cta:focus-visible {
+    background: #080808 !important;
+    color: #dd7791 !important;
   }
 }
