@@ -2,7 +2,8 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { Project } from '../../types/portfolio';
-import homeEditorialPhoto from '../../assets/home-editorial-figma.png';
+import heroCollageDesktop from '../../assets/identity-hero-collage-desktop.png';
+import heroCollageMobile from '../../assets/identity-hero-collage-mobile.png';
 
 const photo = (seed: string) => `https://picsum.photos/seed/${seed}/1000/760`;
 
@@ -60,11 +61,14 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({
       <div className="editorial-hero-paper paper-one" aria-hidden="true" />
       <div className="editorial-hero-paper paper-two" aria-hidden="true" />
 
-      <img
-        className="editorial-hero-photo"
-        src={homeEditorialPhoto}
-        alt="Processo criativo com computador e referências de cor"
-      />
+      <picture className="editorial-hero-photo-frame">
+        <source media="(max-width: 767px)" srcSet={heroCollageMobile} />
+        <img
+          className="editorial-hero-photo"
+          src={heroCollageDesktop}
+          alt="Colagem visual com computador, referências Pantone e materiais de criação"
+        />
+      </picture>
 
       {/* Fitas da colagem: exclusivas da composição mobile. */}
       <span className="editorial-mobile-photo-tape editorial-mobile-photo-tape--one" aria-hidden="true" />
