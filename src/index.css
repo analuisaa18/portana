@@ -3654,3 +3654,19 @@ header.header-nav-shell {
     display: none !important;
   }
 }
+
+/* Fundo 1 global: textura preta em tela cheia, atrás de todas as páginas. */
+html, body, #root {
+  min-height: 100%;
+  background-color: #080808 !important;
+}
+body {
+  background-image: url('./assets/fundo-01.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+#root {
+  background-image: none !important;
+}
