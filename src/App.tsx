@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/layout/Header';
-import { Footer } from './components/layout/Footer';
 import { AboutSection } from './components/public/AboutSection';
-import { ProjectsGrid } from './components/public/ProjectsGrid';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
 import { EditorialHome } from './components/public/EditorialHome';
@@ -20,16 +18,17 @@ export function PortfolioApp() {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
-
   const [projects, setProjects] = useState<Project[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadPublicData = async () => {
     setLoading(true);
     try {
-      const projData = await portfolioStore.getProjects(false);
-      const catData = await portfolioStore.getCategories();
+      const [projData, catData] = await Promise.all([
+        portfolioStore.getProjects(false),
+        portfolioStore.getCategories(),
+      ]);
       setProjects(projData);
       setCategories(catData);
     } catch (err) {
@@ -39,9 +38,7 @@ export function PortfolioApp() {
     }
   };
 
-  useEffect(() => {
-    loadPublicData();
-  }, []);
+  useEffect(() => { loadPublicData(); }, []);
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
@@ -49,19 +46,16 @@ export function PortfolioApp() {
       setAuthLoading(false);
       return;
     }
-
     let active = true;
     supabase.auth.getSession().then(({ data }) => {
       if (!active) return;
       setIsAdminAuthenticated(Boolean(data.session));
       setAuthLoading(false);
     });
-
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAdminAuthenticated(Boolean(session));
       setAuthLoading(false);
     });
-
     return () => {
       active = false;
       listener.subscription.unsubscribe();
@@ -70,95 +64,53 @@ export function PortfolioApp() {
 
   const handleNavigate = (view: string, slug?: string) => {
     setCurrentView(view);
-    if (slug) {
-      setSelectedSlug(slug);
-    } else {
-      setSelectedSlug(null);
-    }
+    setSelectedSlug(slug || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleAdminLogout = async () => {
-    if (isSupabaseConfigured()) {
-      await supabase.auth.signOut();
-    }
+    if (isSupabaseConfigured()) await supabase.auth.signOut();
     setIsAdminAuthenticated(false);
     setCurrentView('home');
   };
 
-  return (
-    <div className={`${currentView === 'admin' ? 'admin-shell' : 'public-identity-v2'} min-h-screen flex flex-col justify-between bg-[var(--color-bg)] text-[var(--color-text-primary)] transition-colors`}>
-      <Header currentView={currentView} onNavigate={handleNavigate} />
+  const isAdmin = currentView === 'admin';
+  const isDetail = currentView === 'projeto-detail' || Boolean(selectedSlug);
 
-      <main id="main-content" className="flex-1 w-full relative" tabIndex={-1}>
-        {loading ? (
-          <LoadingState message="Carregando portfólio autoral..." />
+  return (
+    <div className={isAdmin ? 'admin-shell' : 'reference-site'}>
+      {!isAdmin && !isDetail && <Header currentView={currentView} onNavigate={handleNavigate} />}
+
+      <main id="main-content" className={isAdmin ? 'admin-main' : 'reference-main'} tabIndex={-1}>
+        {loading && !isAdmin ? (
+          <LoadingState message="Carregando portfólio..." />
         ) : (
           <>
-            {/* Home: somente a abertura/portfólio */}
             {currentView === 'home' && !selectedSlug && (
               <EditorialHome
-                view="home"
                 projects={projects}
                 onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
                 onNavigate={handleNavigate}
               />
             )}
-
-            {/* Sobre: aparece somente ao clicar em Sobre */}
-            {currentView === 'sobre' && (
-              <AboutSection onNavigateContact={() => handleNavigate('contato')} />
-            )}
-
-            {/* Projetos: composição editorial da referência */}
+            {currentView === 'sobre' && <AboutSection onNavigateContact={() => handleNavigate('contato')} />}
             {currentView === 'projetos' && !selectedSlug && (
-              <ProjectsEditorial
-                projects={projects}
-                onSelectProject={(slug) => handleNavigate('projeto-detail', slug)}
-              />
+              <ProjectsEditorial projects={projects} onSelectProject={(slug) => handleNavigate('projeto-detail', slug)} />
             )}
-
-            {/* View: Individual Project Details */}
-            {(currentView === 'projeto-detail' || selectedSlug) && selectedSlug && (
-              <ProjectDetail
-                slug={selectedSlug}
-                onBack={() => handleNavigate('projetos')}
-              />
-            )}
-
-            {/* View: Contato */}
+            {isDetail && selectedSlug && <ProjectDetail slug={selectedSlug} onBack={() => handleNavigate('projetos')} />}
             {currentView === 'contato' && <ContactSection />}
-
-            {/* View: Admin */}
             {currentView === 'admin' && (
-              <>
-                {authLoading ? (
-                  <LoadingState message="Verificando acesso administrativo..." />
-                ) : !isAdminAuthenticated ? (
-                  <AdminLogin
-                    onLoginSuccess={() => setIsAdminAuthenticated(true)}
-                  />
-                ) : (
-                  <AdminDashboard
-                    onLogout={handleAdminLogout}
-                    onPreviewPublic={() => handleNavigate('projetos')}
-                  />
-                )}
-              </>
+              authLoading ? <LoadingState message="Verificando acesso administrativo..." /> :
+              !isAdminAuthenticated ? <AdminLogin onLoginSuccess={() => setIsAdminAuthenticated(true)} /> :
+              <AdminDashboard onLogout={handleAdminLogout} onPreviewPublic={() => handleNavigate('projetos')} />
             )}
           </>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }
 
 export default function App() {
-  return (
-    <ThemeProvider>
-      <PortfolioApp />
-    </ThemeProvider>
-  );
+  return <ThemeProvider><PortfolioApp /></ThemeProvider>;
 }
