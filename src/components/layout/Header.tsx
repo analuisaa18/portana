@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const headerStyle = h?.style || 'minimal';
   const navStyle = h?.navStyle || 'underline';
 
-  const brandName = 'Ana Bocheneck';
+  const brandName = settings.portfolio_name || 'Ana Bocheneck';
 
   const navItems = [
     { id: 'sobre', label: 'Sobre' },
