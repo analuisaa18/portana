@@ -1,80 +1,34 @@
 import React from 'react';
-import { MapPin, Mail, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { Button } from '../common/Button';
 
-interface AboutSectionProps {
-  onNavigateContact?: () => void;
-}
+interface AboutSectionProps { onNavigateContact?: () => void; }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact }) => {
   const { settings } = useTheme();
+  const paragraphs = (settings.about_text || settings.short_bio || 'Estudo Design e tenho interesse em criar projetos que unem conceito, estética e funcionalidade, com foco em interfaces digitais, identidade visual e design editorial.').split(/\n\s*\n/);
 
   return (
-    <main className="editorial-about-page" aria-label="Sobre mim">
-      <section className="editorial-about-page__panel">
-        <div className="editorial-about-page__index">01 / 04</div>
-        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
-        <div className="editorial-about-page__floating-star editorial-about-page__floating-star--two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
-
-        <div className="editorial-about-page__content">
-          <div className="editorial-about-page__text">
-            <h1>SOBRE<br />MIM</h1>
-
-            {settings.short_bio && (
-              <p className="editorial-about-page__intro">{settings.short_bio}</p>
-            )}
-
-            <div className="editorial-about-page__body">
-              {(settings.about_text || 'Olá, eu sou Ana.\n\nSou estudante e tenho interesse por design de interfaces, tipografia, fotografia e tudo que envolve comunicação visual.').split('\n\n').map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
-            </div>
-
-            <div className="editorial-about-page__details">
-              {settings.location && (
-                <span><MapPin size={14} /> {settings.location}</span>
-              )}
-              {settings.email_public && (
-                <a href={`mailto:${settings.email_public}`}>
-                  <Mail size={14} /> {settings.email_public}
-                </a>
-              )}
-              {settings.whatsapp && (
-                <span><MessageSquare size={14} /> WhatsApp disponível</span>
-              )}
-            </div>
-
-            {onNavigateContact && (
-              <Button
-                onClick={onNavigateContact}
-                variant="primary"
-                className="editorial-about-page__button"
-                icon={<ArrowUpRight className="w-4 h-4" />}
-              >
-                VAMOS CONVERSAR
-              </Button>
-            )}
-          </div>
-
-          <div className="editorial-about-page__visual">
-            <div className="editorial-about-page__paper">
-              {settings.profile_image ? (
-                <img
-                  src={settings.profile_image}
-                  alt={`Fotografia de ${settings.portfolio_name}`}
-                />
-              ) : (
-                <div className="editorial-about-page__placeholder">
-                  {settings.portfolio_name.substring(0, 2).toUpperCase()}
-                </div>
-              )}
-            </div>
-            <div className="editorial-about-page__doodle"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
-            <div className="editorial-about-page__brush"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
-          </div>
+    <section className="ref-page ref-page--about" aria-label="Sobre mim">
+      <div className="ref-about__copy">
+        <h1>SOBRE<br /><span>MIM</span></h1>
+        {settings.short_bio && <p className="ref-about__lead">{settings.short_bio}</p>}
+        <div className="ref-about__text">
+          {paragraphs.slice(0, 4).map((p, i) => <p key={i}>{p}</p>)}
         </div>
-      </section>
-    </main>
+        {onNavigateContact && (
+          <button type="button" className="ref-cta ref-cta--pink" onClick={onNavigateContact}>
+            <span>VAMOS CONVERSAR</span><ArrowUpRight size={14} />
+          </button>
+        )}
+      </div>
+
+      <div className="ref-about__visual" aria-hidden={!settings.profile_image}>
+        {settings.profile_image ? <img src={settings.profile_image} alt={`Retrato de ${settings.portfolio_name || 'autora'}`} /> : null}
+      </div>
+
+      <span className="ref-star ref-star--about-1" aria-hidden="true">✦</span>
+      <span className="ref-star ref-star--about-2" aria-hidden="true">✦</span>
+    </section>
   );
 };
