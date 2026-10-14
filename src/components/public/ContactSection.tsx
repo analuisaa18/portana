@@ -1,208 +1,57 @@
 import React, { useState } from 'react';
+import { AlertCircle, Mail, MapPin, MessageSquare, Send } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { Button } from '../common/Button';
-import { MessageSquare, Mail, MapPin, Send, AlertCircle } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
   const { settings } = useTheme();
-
-  const [formData, setFormData] = useState({
-    nome: '',
-    assunto: '',
-    mensagem: '',
-  });
-
+  const [formData, setFormData] = useState({ nome: '', assunto: '', mensagem: '' });
   const [errors, setErrors] = useState<{ nome?: string; assunto?: string; mensagem?: string }>({});
 
-  const validate = () => {
-    const newErrors: { nome?: string; assunto?: string; mensagem?: string } = {};
-    if (!formData.nome.trim()) newErrors.nome = 'Por favor, informe seu nome.';
-    if (!formData.assunto.trim()) newErrors.assunto = 'Por favor, informe o assunto da mensagem.';
-    if (!formData.mensagem.trim()) newErrors.mensagem = 'Por favor, escreva a sua mensagem.';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const next: typeof errors = {};
+    if (!formData.nome.trim()) next.nome = 'Informe seu nome.';
+    if (!formData.assunto.trim()) next.assunto = 'Informe o assunto.';
+    if (!formData.mensagem.trim()) next.mensagem = 'Escreva sua mensagem.';
+    setErrors(next);
+    if (Object.keys(next).length) return;
 
-  const handleSendWhatsApp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    // O número vem das configurações públicas do perfil no Admin.
-    // Não usar um número fictício caso o campo esteja vazio.
-    const whatsappNumber = settings.whatsapp || '';
-    const cleanNumber = whatsappNumber.replace(/\D/g, '');
-    if (!cleanNumber) {
-      window.alert('O WhatsApp ainda não foi configurado. Adicione o número em Admin → Perfil & Sobre → Contatos Públicos.');
+    const number = (settings.whatsapp || '').replace(/\D/g, '');
+    if (!number) {
+      window.alert('O WhatsApp ainda não foi configurado no painel administrativo.');
       return;
     }
-
-    const messageText = `Olá! Meu nome é ${formData.nome}.\n\nEstou entrando em contato sobre: ${formData.assunto}\n\n${formData.mensagem}`;
-    const encodedText = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodedText}`;
-
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    const text = encodeURIComponent(`Olá! Meu nome é ${formData.nome}.\n\nAssunto: ${formData.assunto}\n\n${formData.mensagem}`);
+    window.open(`https://wa.me/${number}?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <section className="editorial-contact-page py-12 max-w-[var(--layout-max-width)] mx-auto px-[var(--layout-padding)] animate-fade-in">
-      <div className="editorial-contact-page__star editorial-contact-page__star--one" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--burst" aria-hidden="true" /></div>
-      <div className="editorial-contact-page__star editorial-contact-page__star--two" aria-hidden="true"><span className="editorial-star-mark editorial-star-mark--diamond" aria-hidden="true" /></div>
-      {/* Intro Header */}
-      <div className="mb-12 text-center max-w-3xl mx-auto space-y-3">
-        <h2 className="bold-eyebrow">
-          CANAIS DE COMUNICAÇÃO DIRECTA
-        </h2>
-        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-[var(--color-text-primary)]">
-          INICIAR DIÁLOGO
-        </h1>
-        <p className="text-base md:text-xl text-[var(--color-text-secondary)] font-medium">
-          Preencha o formulário abaixo para enviar uma mensagem diretamente para o WhatsApp de contato profissional.
-        </p>
+    <section className="ref-page ref-page--contact" aria-label="Contato">
+      <div className="ref-contact__heading">
+        <p>CANAIS DE<br />COMUNICAÇÃO<br />DIRETA</p>
+        <h1>INICIAR DIÁLOGO</h1>
+        <span>Preencha o formulário abaixo para enviar uma mensagem diretamente para o WhatsApp de contato.</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-        {/* Contact Info Sidebar */}
-        <div className="md:col-span-5 space-y-6">
-          <div className="p-8 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-xs space-y-6">
-            <h2 className="text-xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-3">
-              Informações Diretas
-            </h2>
+      <div className="ref-contact__columns">
+        <aside className="ref-contact__card ref-contact__info">
+          <h2>INFORMAÇÕES<br />DIRETAS</h2>
+          {settings.whatsapp && <div><MessageSquare size={17} /><span><strong>WhatsApp</strong>{settings.whatsapp}</span></div>}
+          {settings.email_public && <div><Mail size={17} /><span><strong>Correio Eletrônico</strong>{settings.email_public}</span></div>}
+          {settings.location && <div><MapPin size={17} /><span><strong>Localização</strong>{settings.location}</span></div>}
+        </aside>
 
-            {settings.whatsapp && (
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-[var(--radius-md)] bg-[var(--color-success)]/10 text-[var(--color-success)] shrink-0">
-                  <MessageSquare className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">WhatsApp Profissional</h3>
-                  <p className="text-sm text-[var(--color-text-secondary)] mt-0.5">{settings.whatsapp}</p>
-                </div>
-              </div>
-            )}
-
-            {settings.email_public && (
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-[var(--radius-md)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">Correio Eletrônico</h3>
-                  <a
-                    href={`mailto:${settings.email_public}`}
-                    className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] underline decoration-[var(--color-border)]"
-                  >
-                    {settings.email_public}
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {settings.location && (
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-[var(--radius-md)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] shrink-0">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">Localização</h3>
-                  <p className="text-sm text-[var(--color-text-secondary)] mt-0.5">{settings.location}</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* WhatsApp Contact Form */}
-        <div className="md:col-span-7">
-          <form
-            onSubmit={handleSendWhatsApp}
-            className="p-8 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-xs space-y-6"
-            noValidate
-          >
-            <h2 className="text-xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-3">
-              Enviar Mensagem pelo WhatsApp
-            </h2>
-
-            {/* Field: Nome */}
-            <div className="space-y-1.5">
-              <label htmlFor="contact-nome" className="block text-sm font-semibold text-[var(--color-text-primary)]">
-                Seu Nome Completo <span className="text-[var(--color-error)]">*</span>
-              </label>
-              <input
-                id="contact-nome"
-                type="text"
-                value={formData.nome}
-                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                placeholder="Ex: Maria Alice Bochenek"
-                className="w-full px-4 py-2.5 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)] transition-colors text-sm"
-                aria-invalid={!!errors.nome}
-                aria-describedby={errors.nome ? 'error-nome' : undefined}
-              />
-              {errors.nome && (
-                <p id="error-nome" className="text-xs text-[var(--color-error)] flex items-center gap-1 mt-1 font-medium">
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  <span>{errors.nome}</span>
-                </p>
-              )}
-            </div>
-
-            {/* Field: Assunto */}
-            <div className="space-y-1.5">
-              <label htmlFor="contact-assunto" className="block text-sm font-semibold text-[var(--color-text-primary)]">
-                Assunto / Proposta <span className="text-[var(--color-error)]">*</span>
-              </label>
-              <input
-                id="contact-assunto"
-                type="text"
-                value={formData.assunto}
-                onChange={(e) => setFormData({ ...formData, assunto: e.target.value })}
-                placeholder="Ex: Projeto de Identidade Visual e Interface"
-                className="w-full px-4 py-2.5 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)] transition-colors text-sm"
-                aria-invalid={!!errors.assunto}
-                aria-describedby={errors.assunto ? 'error-assunto' : undefined}
-              />
-              {errors.assunto && (
-                <p id="error-assunto" className="text-xs text-[var(--color-error)] flex items-center gap-1 mt-1 font-medium">
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  <span>{errors.assunto}</span>
-                </p>
-              )}
-            </div>
-
-            {/* Field: Mensagem */}
-            <div className="space-y-1.5">
-              <label htmlFor="contact-mensagem" className="block text-sm font-semibold text-[var(--color-text-primary)]">
-                Mensagem <span className="text-[var(--color-error)]">*</span>
-              </label>
-              <textarea
-                id="contact-mensagem"
-                rows={5}
-                value={formData.mensagem}
-                onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })}
-                placeholder="Escreva os detalhes sobre o que você deseja conversar..."
-                className="w-full px-4 py-2.5 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)] transition-colors text-sm"
-                aria-invalid={!!errors.mensagem}
-                aria-describedby={errors.mensagem ? 'error-mensagem' : undefined}
-              />
-              {errors.mensagem && (
-                <p id="error-mensagem" className="text-xs text-[var(--color-error)] flex items-center gap-1 mt-1 font-medium">
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  <span>{errors.mensagem}</span>
-                </p>
-              )}
-            </div>
-
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              className="w-full bg-[var(--color-success)] text-white hover:bg-[var(--color-success)]/90"
-              icon={<Send className="w-4 h-4" />}
-            >
-              Enviar pelo WhatsApp
-            </Button>
-          </form>
-        </div>
+        <form className="ref-contact__card ref-contact__form" onSubmit={submit} noValidate>
+          <h2>Enviar mensagem pelo<br />WhatsApp</h2>
+          <label>Seu Nome Completo *<input value={formData.nome} onChange={(e) => setFormData({ ...formData, nome: e.target.value })} placeholder="Ex: Ana" />{errors.nome && <small><AlertCircle size={11} /> {errors.nome}</small>}</label>
+          <label>Assunto / Proposta *<input value={formData.assunto} onChange={(e) => setFormData({ ...formData, assunto: e.target.value })} placeholder="Ex: Projeto de identidade visual" />{errors.assunto && <small><AlertCircle size={11} /> {errors.assunto}</small>}</label>
+          <label>Mensagem *<textarea rows={4} value={formData.mensagem} onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })} placeholder="Escreva detalhes sobre o que você deseja conversar..." />{errors.mensagem && <small><AlertCircle size={11} /> {errors.mensagem}</small>}</label>
+          <button type="submit"><Send size={13} /> Enviar pelo WhatsApp</button>
+        </form>
       </div>
+
+      <span className="ref-star ref-star--contact-1" aria-hidden="true">✦</span>
+      <span className="ref-star ref-star--contact-2" aria-hidden="true">✦</span>
     </section>
   );
 };
