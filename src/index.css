@@ -3670,3 +3670,487 @@ body {
 #root {
   background-image: none !important;
 }
+
+/* ========================================================================
+   PUBLIC IDENTITY V2 — supplied collage / torn-paper visual language
+   Scope intentionally excludes .admin-shell so Supabase/admin tooling keeps
+   its current visual behavior and all backend-facing flows remain untouched.
+   ======================================================================== */
+.public-identity-v2 {
+  --id-pink: #ec7ea6;
+  --id-pink-soft: #f1a0bd;
+  --id-black: #080808;
+  --id-ink: #111111;
+  --id-white: #fff9fb;
+  --id-panel: #272224;
+  --color-bg: var(--id-black);
+  --color-surface: #1b1819;
+  --color-text-primary: var(--id-white);
+  --color-text-secondary: var(--id-pink-soft);
+  --color-primary: var(--id-pink);
+  --color-secondary: #2c2226;
+  --color-accent: var(--id-pink);
+  --color-border: rgba(236, 126, 166, .72);
+  --color-focus: #ffffff;
+  background-color: var(--id-black);
+  background-image: url('./assets/identity-black-grain-desktop.png');
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  background-position: top center;
+}
+
+.public-identity-v2 > main {
+  overflow: clip;
+}
+
+/* navigation capsule */
+.public-identity-v2 header.header-nav-shell {
+  position: sticky !important;
+  top: 14px !important;
+  width: min(calc(100% - 40px), 1320px) !important;
+  margin: 14px auto 0 !important;
+  min-height: 64px !important;
+  border: 1px solid rgba(236,126,166,.72) !important;
+  border-radius: 999px !important;
+  background: rgba(5,5,5,.96) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  overflow: hidden;
+}
+.public-identity-v2 .header-nav-shell .header-content-row {
+  min-height: 64px !important;
+  padding-inline: clamp(18px, 3vw, 48px) !important;
+}
+.public-identity-v2 .header-nav-shell .header-graphic-block { display: none !important; }
+.public-identity-v2 .header-nav-shell .header-graphic-field { opacity: .9 !important; }
+.public-identity-v2 .header-nav-shell .portfolio-brand,
+.public-identity-v2 .header-nav-shell .header-brand-static,
+.public-identity-v2 .header-nav-shell .desktop-centered-nav button {
+  color: #fff !important;
+}
+.public-identity-v2 .header-nav-shell .desktop-centered-nav button {
+  font-size: 10px !important;
+  letter-spacing: .14em !important;
+  font-weight: 800 !important;
+}
+.public-identity-v2 .header-nav-shell .desktop-centered-nav button[aria-current="page"] {
+  color: var(--id-pink) !important;
+  text-decoration-color: var(--id-pink) !important;
+}
+.public-identity-v2 .header-nav-shell .portfolio-brand svg,
+.public-identity-v2 .header-nav-shell .header-graphic-star:nth-child(even) .header-graphic-star-mark,
+.public-identity-v2 .header-nav-shell .header-graphic-small-star:nth-child(odd) .header-graphic-star-mark {
+  color: var(--id-pink) !important;
+}
+.public-identity-v2 .header-nav-shell .header-admin-button {
+  border-color: rgba(236,126,166,.6) !important;
+}
+
+/* shared paper surfaces */
+.public-identity-v2 .editorial-home,
+.public-identity-v2 .projects-reference-page,
+.public-identity-v2 .editorial-about-page,
+.public-identity-v2 .editorial-contact-page {
+  max-width: 1440px !important;
+  width: min(100%, 1440px) !important;
+  margin-inline: auto !important;
+}
+
+/* HOME */
+.public-identity-v2 .editorial-home--single {
+  padding: clamp(18px, 2.3vw, 34px) 20px 42px !important;
+  min-height: calc(100svh - 92px);
+  display: grid;
+  align-items: center;
+}
+.public-identity-v2 .editorial-grid--single {
+  display: block !important;
+}
+.public-identity-v2 .editorial-hero {
+  position: relative !important;
+  min-height: min(720px, calc(100svh - 132px)) !important;
+  border: 0 !important;
+  background: transparent !important;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 8% 6.4% 7% !important;
+}
+.public-identity-v2 .editorial-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url('./assets/identity-pink-paper-desktop.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  filter: saturate(.93) contrast(1.03);
+}
+.public-identity-v2 .editorial-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background: url('./assets/identity-black-grain-desktop.png') center/cover no-repeat;
+}
+.public-identity-v2 .editorial-hero-copy {
+  position: relative !important;
+  z-index: 5 !important;
+  width: 42% !important;
+  max-width: 510px !important;
+  margin: 0 !important;
+  padding-top: 7.5% !important;
+  color: var(--id-ink) !important;
+}
+.public-identity-v2 .editorial-hero-title {
+  color: var(--id-ink) !important;
+  font-size: clamp(54px, 6.2vw, 96px) !important;
+  line-height: .84 !important;
+  font-weight: 950 !important;
+  letter-spacing: -.065em !important;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+  text-shadow: none !important;
+}
+.public-identity-v2 .editorial-hero-copy p {
+  color: var(--id-ink) !important;
+  margin-top: clamp(38px, 5.5vw, 76px) !important;
+  font-size: clamp(13px, 1.2vw, 17px) !important;
+  line-height: 1.08 !important;
+  font-weight: 900 !important;
+  letter-spacing: -.025em !important;
+}
+.public-identity-v2 .editorial-hero-projects-cta,
+.public-identity-v2 .editorial-about-page__button {
+  background: #090909 !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  min-height: 46px;
+  padding: 0 18px !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .02em !important;
+  box-shadow: none !important;
+}
+.public-identity-v2 .editorial-hero-projects-cta:hover,
+.public-identity-v2 .editorial-about-page__button:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  background: #151515 !important;
+}
+.public-identity-v2 .editorial-hero-photo-frame {
+  position: absolute;
+  z-index: 4;
+  right: 5.2%;
+  top: 21%;
+  width: min(53%, 744px);
+  display: block;
+  transform: rotate(2deg);
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.14));
+}
+.public-identity-v2 .editorial-hero-photo {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border: 0 !important;
+  filter: none !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+.public-identity-v2 .editorial-hero-paper,
+.public-identity-v2 .editorial-mobile-photo-tape { display: none !important; }
+.public-identity-v2 .editorial-index { color: rgba(17,17,17,.68) !important; }
+
+/* PROJECTS */
+.public-identity-v2 .projects-reference-page {
+  position: relative;
+  min-height: calc(100svh - 92px);
+  padding: clamp(26px, 4vw, 58px) 20px 64px !important;
+  isolation: isolate;
+}
+.public-identity-v2 .projects-reference-page::before {
+  content: '';
+  position: absolute;
+  inset: 1% 1.2% 2%;
+  z-index: -1;
+  background: url('./assets/identity-pink-paper-desktop.png') center/100% 100% no-repeat;
+}
+.public-identity-v2 .projects-reference__inner {
+  padding: 6.5% 5.5% 7% !important;
+}
+.public-identity-v2 .projects-reference__header {
+  align-items: start !important;
+  margin-bottom: clamp(28px, 4vw, 54px) !important;
+}
+.public-identity-v2 .projects-reference__header h1 {
+  color: var(--id-ink) !important;
+  font-size: clamp(42px, 5vw, 76px) !important;
+  font-weight: 950 !important;
+  letter-spacing: -.055em !important;
+}
+.public-identity-v2 .projects-reference__header span { color: rgba(17,17,17,.65) !important; }
+.public-identity-v2 .projects-reference__grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(20px, 3.2vw, 50px) !important;
+}
+.public-identity-v2 .projects-reference__item { color: var(--id-ink) !important; text-align: left !important; }
+.public-identity-v2 .projects-reference__image-wrap {
+  background: #050505 !important;
+  aspect-ratio: 4 / 5 !important;
+  border: 0 !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+.public-identity-v2 .projects-reference__image {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.92) contrast(1.06);
+  transition: transform .45s cubic-bezier(.16,1,.3,1), filter .3s ease;
+}
+.public-identity-v2 .projects-reference__item:hover .projects-reference__image {
+  transform: scale(1.035);
+  filter: saturate(1) contrast(1.03);
+}
+.public-identity-v2 .projects-reference__image-placeholder { background: #050505 !important; }
+.public-identity-v2 .projects-reference__title {
+  color: var(--id-ink) !important;
+  font-size: 11px !important;
+  font-weight: 950 !important;
+  text-transform: uppercase;
+  letter-spacing: -.01em !important;
+}
+.public-identity-v2 .projects-reference__description {
+  color: #2d2528 !important;
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+}
+.public-identity-v2 .projects-reference__arrow { color: var(--id-ink) !important; }
+
+/* ABOUT */
+.public-identity-v2 .editorial-about-page {
+  position: relative;
+  min-height: calc(100svh - 92px);
+  padding: clamp(28px, 4vw, 58px) 20px 64px !important;
+  isolation: isolate;
+}
+.public-identity-v2 .editorial-about-page::before,
+.public-identity-v2 .editorial-contact-page::before {
+  content: '';
+  position: absolute;
+  inset: 1% 1.2% 2%;
+  z-index: -1;
+  background: url('./assets/identity-black-paper-desktop.png') center/100% 100% no-repeat;
+}
+.public-identity-v2 .editorial-about-page__panel {
+  min-height: 650px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.public-identity-v2 .editorial-about-page__content {
+  min-height: 650px !important;
+  padding: 7% 7% 8% !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.03fr) minmax(320px, .8fr) !important;
+  gap: 7% !important;
+  align-items: center !important;
+}
+.public-identity-v2 .editorial-about-page__text { max-width: 720px !important; }
+.public-identity-v2 .editorial-about-page__text h1 {
+  color: var(--id-pink) !important;
+  font-size: clamp(58px, 7vw, 102px) !important;
+  line-height: .72 !important;
+  letter-spacing: -.06em !important;
+  text-transform: lowercase !important;
+}
+.public-identity-v2 .editorial-about-page__intro,
+.public-identity-v2 .editorial-about-page__body p,
+.public-identity-v2 .editorial-about-page__details span,
+.public-identity-v2 .editorial-about-page__details a {
+  color: var(--id-pink-soft) !important;
+}
+.public-identity-v2 .editorial-about-page__intro {
+  font-size: clamp(15px, 1.35vw, 19px) !important;
+  line-height: 1.35 !important;
+  font-weight: 650 !important;
+}
+.public-identity-v2 .editorial-about-page__body p {
+  font-size: clamp(12px, 1vw, 15px) !important;
+  line-height: 1.42 !important;
+}
+.public-identity-v2 .editorial-about-page__visual { min-height: 460px !important; }
+.public-identity-v2 .editorial-about-page__paper {
+  width: 72% !important;
+  aspect-ratio: 4/5 !important;
+  background: #050505 !important;
+  border: 0 !important;
+  transform: rotate(-7deg) !important;
+  box-shadow: 18px 18px 0 rgba(0,0,0,.32) !important;
+}
+.public-identity-v2 .editorial-about-page__paper img { filter: grayscale(1) contrast(1.12) !important; }
+.public-identity-v2 .editorial-about-page__index { color: rgba(241,160,189,.55) !important; }
+
+/* CONTACT */
+.public-identity-v2 .editorial-contact-page {
+  position: relative !important;
+  min-height: calc(100svh - 92px);
+  padding: clamp(62px, 8vw, 112px) clamp(38px, 7vw, 104px) 90px !important;
+  isolation: isolate;
+}
+.public-identity-v2 .editorial-contact-page > .mb-12 {
+  margin: 0 auto 36px !important;
+  max-width: 760px !important;
+}
+.public-identity-v2 .editorial-contact-page .bold-eyebrow,
+.public-identity-v2 .editorial-contact-page h1 {
+  color: var(--id-white) !important;
+  text-align: center !important;
+}
+.public-identity-v2 .editorial-contact-page .bold-eyebrow {
+  font-size: clamp(20px, 2.4vw, 34px) !important;
+  letter-spacing: .22em !important;
+  line-height: .85 !important;
+}
+.public-identity-v2 .editorial-contact-page h1 {
+  color: var(--id-pink) !important;
+  font-size: clamp(42px, 5vw, 76px) !important;
+  margin-top: 8px !important;
+}
+.public-identity-v2 .editorial-contact-page > .mb-12 p { color: var(--id-pink-soft) !important; font-size: 13px !important; }
+.public-identity-v2 .editorial-contact-page > .grid {
+  max-width: 1080px;
+  margin-inline: auto;
+  gap: clamp(24px, 4vw, 54px) !important;
+}
+.public-identity-v2 .editorial-contact-page .bg-\[var\(--color-surface\)\] {
+  background: rgba(45,39,41,.9) !important;
+}
+.public-identity-v2 .editorial-contact-page .rounded-\[var\(--radius-xl\)\] {
+  border-radius: 12px !important;
+}
+.public-identity-v2 .editorial-contact-page form,
+.public-identity-v2 .editorial-contact-page .md\:col-span-5 > div {
+  border-color: rgba(236,126,166,.76) !important;
+  box-shadow: none !important;
+}
+.public-identity-v2 .editorial-contact-page input,
+.public-identity-v2 .editorial-contact-page textarea {
+  background: #070707 !important;
+  border-color: rgba(236,126,166,.42) !important;
+  color: #fff !important;
+}
+.public-identity-v2 .editorial-contact-page button[type="submit"] {
+  background: #2ca45d !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+/* project detail inherits the public identity without touching its data logic */
+.public-identity-v2 article[class*="max-w-[var(--layout-max-width)]"] {
+  background: rgba(9,9,9,.76);
+  border: 1px solid rgba(236,126,166,.28);
+  margin-top: 36px;
+  margin-bottom: 40px;
+}
+
+/* footer: visually subordinate to the collage pages */
+.public-identity-v2 footer {
+  margin-top: 0 !important;
+  background: #050505 !important;
+  border-color: rgba(236,126,166,.35) !important;
+}
+
+@media (max-width: 900px) {
+  .public-identity-v2 .projects-reference__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .public-identity-v2 .editorial-about-page__content { grid-template-columns: 1fr 320px !important; gap: 30px !important; }
+}
+
+@media (max-width: 767px) {
+  .public-identity-v2 {
+    background-image: url('./assets/identity-black-grain-mobile.png');
+    background-size: 100% auto;
+  }
+  .public-identity-v2 header.header-nav-shell {
+    top: 10px !important;
+    width: calc(100% - 28px) !important;
+    margin-top: 10px !important;
+    min-height: 58px !important;
+  }
+  .public-identity-v2 .header-nav-shell .header-content-row { min-height: 58px !important; padding-inline: 12px !important; }
+  .public-identity-v2 .header-nav-shell .header-desktop-cluster { gap: 9px !important; }
+  .public-identity-v2 .header-nav-shell .portfolio-brand { font-size: 10px !important; letter-spacing: .06em !important; min-width: 0 !important; }
+  .public-identity-v2 .header-nav-shell .portfolio-brand svg { width: 13px !important; height: 13px !important; }
+  .public-identity-v2 .header-nav-shell .desktop-centered-nav { display: flex !important; gap: 5px !important; }
+  .public-identity-v2 .header-nav-shell .desktop-centered-nav button { font-size: 7px !important; letter-spacing: .06em !important; padding-inline: 2px !important; }
+  .public-identity-v2 .header-nav-shell .desktop-centered-nav button[aria-label="Área administrativa"] { padding: 5px !important; }
+
+  .public-identity-v2 .editorial-home--single { padding: 18px 0 28px !important; min-height: calc(100svh - 80px); }
+  .public-identity-v2 .editorial-hero {
+    min-height: 760px !important;
+    padding: 80px 30px 42px !important;
+  }
+  .public-identity-v2 .editorial-hero::before {
+    background-image: url('./assets/identity-pink-paper-mobile.png');
+    background-size: 100% 100%;
+  }
+  .public-identity-v2 .editorial-hero-copy {
+    width: 100% !important;
+    max-width: none !important;
+    padding-top: 0 !important;
+  }
+  .public-identity-v2 .editorial-hero-title {
+    font-size: clamp(48px, 14.2vw, 68px) !important;
+    transform: rotate(-6deg);
+  }
+  .public-identity-v2 .editorial-hero-copy p {
+    margin-top: 390px !important;
+    font-size: 12px !important;
+    max-width: 260px;
+  }
+  .public-identity-v2 .editorial-hero-photo-frame {
+    width: 82% !important;
+    right: 7% !important;
+    top: 25% !important;
+    transform: rotate(-5deg);
+  }
+  .public-identity-v2 .editorial-hero-projects-cta { min-height: 42px; }
+
+  .public-identity-v2 .projects-reference-page,
+  .public-identity-v2 .editorial-about-page,
+  .public-identity-v2 .editorial-contact-page { padding-inline: 0 !important; }
+  .public-identity-v2 .projects-reference-page::before {
+    inset: 0;
+    background-image: url('./assets/identity-pink-paper-mobile.png');
+    background-size: 100% 100%;
+  }
+  .public-identity-v2 .projects-reference__inner { padding: 78px 34px 74px !important; }
+  .public-identity-v2 .projects-reference__header h1 { font-size: 44px !important; }
+  .public-identity-v2 .projects-reference__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 38px 28px !important; }
+  .public-identity-v2 .projects-reference__image-wrap { aspect-ratio: 4/5 !important; }
+
+  .public-identity-v2 .editorial-about-page::before,
+  .public-identity-v2 .editorial-contact-page::before {
+    inset: 0;
+    background-image: url('./assets/identity-black-grain-mobile.png');
+    background-size: cover;
+  }
+  .public-identity-v2 .editorial-about-page__panel,
+  .public-identity-v2 .editorial-about-page__content { min-height: 760px !important; }
+  .public-identity-v2 .editorial-about-page__content {
+    padding: 76px 34px 70px !important;
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    align-content: start !important;
+  }
+  .public-identity-v2 .editorial-about-page__text h1 { font-size: 64px !important; }
+  .public-identity-v2 .editorial-about-page__visual { min-height: 250px !important; }
+  .public-identity-v2 .editorial-about-page__paper { width: 60% !important; margin-inline: auto !important; }
+
+  .public-identity-v2 .editorial-contact-page { padding: 72px 24px 70px !important; }
+  .public-identity-v2 .editorial-contact-page > .grid { display: grid !important; grid-template-columns: 1fr !important; gap: 20px !important; }
+  .public-identity-v2 .editorial-contact-page .p-8 { padding: 20px !important; }
+  .public-identity-v2 .editorial-contact-page .bold-eyebrow { font-size: 18px !important; }
+  .public-identity-v2 .editorial-contact-page h1 { font-size: 42px !important; }
+
+  .public-identity-v2 footer { padding: 34px 24px !important; }
+}
