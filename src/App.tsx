@@ -87,7 +87,7 @@ export function PortfolioApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-bg)] text-[var(--color-text-primary)] transition-colors">
+    <div className={`${currentView === 'admin' ? 'admin-shell' : 'public-identity-v2'} min-h-screen flex flex-col justify-between bg-[var(--color-bg)] text-[var(--color-text-primary)] transition-colors`}>
       <Header currentView={currentView} onNavigate={handleNavigate} />
 
       <main id="main-content" className="flex-1 w-full relative" tabIndex={-1}>
