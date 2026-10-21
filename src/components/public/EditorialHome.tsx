@@ -27,6 +27,16 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ onNavigate }) => {
         <img src={collageDesktop} alt="Colagem visual com laptop, Pantone e materiais gráficos" />
       </picture>
 
+      {/* Button link to p5.js typography experiment */}
+      <div style={{ position: 'absolute', bottom: '32px', left: '10.3%', zIndex: 10 }}>
+        <a
+          href="#projeto/experimento-p5js-3d"
+          className="text-xs font-mono uppercase tracking-widest text-[#0a0a0a] bg-[#ed83aa] px-3 py-2 rounded font-bold hover:opacity-90 inline-block"
+        >
+          ✦ Experimento p5.js Interativo
+        </a>
+      </div>
+
       <span className="ref-star ref-star--home-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--home-2" aria-hidden="true">✦</span>
     </section>

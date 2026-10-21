@@ -41,6 +41,30 @@ export function PortfolioApp() {
   useEffect(() => { loadPublicData(); }, []);
 
   useEffect(() => {
+    const parseHash = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (!hash || hash === 'home') {
+        setCurrentView('home');
+        setSelectedSlug(null);
+      } else if (hash === 'admin') {
+        setCurrentView('admin');
+        setSelectedSlug(null);
+      } else if (hash.startsWith('projeto/')) {
+        const slug = hash.replace('projeto/', '');
+        setCurrentView('projeto-detail');
+        setSelectedSlug(slug);
+      } else if (['sobre', 'projetos', 'contato'].includes(hash)) {
+        setCurrentView(hash);
+        setSelectedSlug(null);
+      }
+    };
+
+    parseHash();
+    window.addEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('hashchange', parseHash);
+  }, []);
+
+  useEffect(() => {
     if (!isSupabaseConfigured()) {
       setIsAdminAuthenticated(false);
       setAuthLoading(false);
@@ -65,6 +89,11 @@ export function PortfolioApp() {
   const handleNavigate = (view: string, slug?: string) => {
     setCurrentView(view);
     setSelectedSlug(slug || null);
+    if (view === 'projeto-detail' && slug) {
+      window.location.hash = `#projeto/${slug}`;
+    } else {
+      window.location.hash = `#${view}`;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
