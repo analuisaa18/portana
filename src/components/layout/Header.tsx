@@ -19,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
     { id: 'sobre', label: 'Sobre' },
     { id: 'projetos', label: 'Projetos' },
     { id: 'contato', label: 'Contato' },
+    { id: 'admin', label: 'Admin' },
   ];
 
   return (
@@ -26,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       <SkipLink />
       <header className="ref-header">
         <div className="ref-header__inner">
-          <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')}>
+          <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')} style={{ fontFamily: 'var(--font-headings)' }}>
             <span className="ref-header__asterisk" aria-hidden="true">✦</span>
             <span>{brand}</span>
           </button>

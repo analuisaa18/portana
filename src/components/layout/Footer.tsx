@@ -42,6 +42,8 @@ export const Footer: React.FC = () => {
             <span>ACESSIBILIDADE RADICAL</span>
             <Heart className="w-3 h-3 text-[var(--color-accent)] fill-current inline" />
             <span>WCAG 2.2 AA</span>
+            <span>—</span>
+            <a href="#admin" className="hover:text-white underline font-bold">PAINEL ADMIN</a>
           </p>
         </div>
       </div>

@@ -234,9 +234,56 @@ export const DEFAULT_PROJECTS: Project[] = [
     featured: false,
     display_order: 3,
   },
+  {
+    id: 'proj-4',
+    category_id: 'cat-4',
+    title: 'Experimento p5.js 3D',
+    slug: 'experimento-p5js-3d',
+    short_description: 'Exploração tipográfica e de volumetria 3D interativa programada em p5.js.',
+    cover_image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
+    year: 2025,
+    status: 'publicado',
+    featured: true,
+    display_order: 4,
+  },
 ];
 
 export const DEFAULT_BLOCKS: Record<string, ProjectBlock[]> = {
+  'proj-4': [
+    {
+      id: 'block-4-1',
+      project_id: 'proj-4',
+      type: 'texto',
+      content: 'Este projeto reúne explorações computacionais de forma e movimento utilizando p5.js e WebGL. Abaixo você pode interagir com o sketch 3D em tempo real.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-4-2',
+      project_id: 'proj-4',
+      type: 'p5',
+      content: `function setup() {
+  createCanvas(500, 320, WEBGL);
+  debugMode();
+}
+function draw() {
+  background(15, 12, 18);
+  rotateX(frameCount * 0.01);
+  rotateY(frameCount * 0.01);
+  orbitControl();
+  normalMaterial();
+  box(90);
+}`,
+      media_url: '',
+      alt_text: 'Sketch p5.js 3D interativo',
+      caption: 'Sketch 3D interativo com WebGL — clique e arraste com o mouse para orbitar a câmera.',
+      transcript: '',
+      display_order: 2,
+    },
+  ],
   'proj-1': [
     {
       id: 'block-1-1',

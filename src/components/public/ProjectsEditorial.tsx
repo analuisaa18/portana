@@ -9,27 +9,27 @@ interface ProjectsEditorialProps {
 const fallbackLabels = ['IDENTIDADE VISUAL', 'PROJETOS GRÁFICOS', 'INTERFACES', 'DESENHOS E PINTURAS'];
 
 export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({ projects, onSelectProject }) => {
-  const cards = Array.from({ length: 4 }, (_, index) => projects[index]);
+  const displayProjects = projects && projects.length > 0 ? projects : [];
 
   return (
     <section className="ref-page ref-page--projects" aria-label="Projetos">
       <h1 className="ref-projects__title">PROJETOS</h1>
       <div className="ref-projects__grid">
-        {cards.map((project, index) => {
+        {displayProjects.map((project, index) => {
           const image = project?.cover_image || (project as any)?.thumbnail || (project as any)?.image_url;
           return (
             <button
               key={project?.id || index}
               type="button"
-              className="ref-project-card"
+              className="ref-project-card cursor-pointer"
               disabled={!project?.slug}
               onClick={() => project?.slug && onSelectProject(project.slug)}
             >
               <span className="ref-project-card__image">
-                {image ? <img src={image} alt="" loading="lazy" /> : null}
+                {image ? <img src={image} alt={project?.title || 'Capa do projeto'} loading="lazy" /> : null}
               </span>
               <span className="ref-project-card__label">
-                {project?.title?.trim() || fallbackLabels[index]}
+                {project?.title?.trim() || fallbackLabels[index % fallbackLabels.length]}
               </span>
             </button>
           );

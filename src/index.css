@@ -28,7 +28,8 @@
 
 * { box-sizing: border-box; }
 html { background:#efefef; scroll-behavior:smooth; }
-body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); background:#090909; color:#111; }
+body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); font-weight:var(--font-body-weight, 400); line-height:var(--font-line-height, 1.6); background:#090909; color:#111; }
+h1, h2, h3, h4, h5, h6 { font-family:var(--font-headings); font-weight:var(--font-heading-weight, 900); line-height:var(--font-heading-line-height, 0.95); letter-spacing:var(--font-letter-spacing, -0.03em); }
 button, input, textarea { font:inherit; }
 button { -webkit-tap-highlight-color:transparent; }
 *:focus-visible { outline:2px solid var(--color-focus); outline-offset:3px; }
