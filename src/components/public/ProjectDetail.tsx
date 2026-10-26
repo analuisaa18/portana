@@ -8,7 +8,6 @@ import { ImageBlock } from '../blocks/ImageBlock';
 import { YoutubeBlock } from '../blocks/YoutubeBlock';
 import { AudioBlock } from '../blocks/AudioBlock';
 import { ArrowLeft, Calendar, Tag, AlertCircle } from 'lucide-react';
-import { P5SketchBlock } from '../blocks/P5SketchBlock';
 
 interface ProjectDetailProps {
   slug: string;
@@ -136,8 +135,6 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ slug, onBack }) =>
                 return <YoutubeBlock key={block.id} block={block} />;
               case 'audio':
                 return <AudioBlock key={block.id} block={block} />;
-              case 'p5':
-                return <P5SketchBlock key={block.id} block={block} />;
               default:
                 return null;
             }
