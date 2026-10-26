@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
 
@@ -11,15 +11,11 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const { settings } = useTheme();
   const brand = settings.portfolio_name || 'Portfólio';
-  const instagram = settings.social_links?.find((item) =>
-    item.platform?.toLowerCase().includes('instagram')
-  );
 
   const nav = [
     { id: 'sobre', label: 'Sobre' },
     { id: 'projetos', label: 'Projetos' },
     { id: 'contato', label: 'Contato' },
-    { id: 'admin', label: 'Admin' },
   ];
 
   return (
@@ -43,13 +39,15 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 {item.label}
               </button>
             ))}
-            {instagram ? (
-              <a href={instagram.url} target="_blank" rel="noreferrer" aria-label="Instagram">
-                <Instagram size={14} strokeWidth={1.7} />
-              </a>
-            ) : (
-              <span className="ref-header__social" aria-hidden="true"><Instagram size={14} strokeWidth={1.7} /></span>
-            )}
+            <button
+              type="button"
+              onClick={() => onNavigate('admin')}
+              aria-label="Área de Administração"
+              className="ref-header__social cursor-pointer"
+              title="Acessar Área Administrativa"
+            >
+              <Shield size={14} strokeWidth={1.7} />
+            </button>
           </nav>
 
           <span className="ref-header__decor ref-header__decor--1" aria-hidden="true">✦</span>
