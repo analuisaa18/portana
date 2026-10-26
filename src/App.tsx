@@ -108,9 +108,9 @@ export function PortfolioApp() {
 
   return (
     <div className={isAdmin ? 'admin-shell' : 'reference-site'}>
-      {!isAdmin && !isDetail && <Header currentView={currentView} onNavigate={handleNavigate} />}
+      {!isDetail && <Header currentView={currentView} onNavigate={handleNavigate} />}
 
-      <main id="main-content" className={isAdmin ? 'admin-main' : 'reference-main'} tabIndex={-1}>
+      <main id="main-content" className={isAdmin ? 'admin-main pt-28' : 'reference-main'} tabIndex={-1}>
         {loading && !isAdmin ? (
           <LoadingState message="Carregando portfólio..." />
         ) : (
