@@ -21,12 +21,20 @@ let targetRotX = 0;
 let targetRotY = 0;
 let autoTime = 0;
 
+let customFont;
+
+function preload() {
+  // WebGL mode in p5.js requires a loaded font object for text() to render on 3D canvas
+  customFont = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf');
+}
+
 function setup() {
   createCanvas(900, 600, WEBGL);
   pixelDensity(1);
+  if (customFont) {
+    textFont(customFont);
+  }
   textAlign(CENTER, CENTER);
-  textStyle(BOLD);
-  describe('Experimento de tipografia 3D deformada e interativa.');
 }
 
 function draw() {
