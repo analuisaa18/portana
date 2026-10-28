@@ -1,5 +1,5 @@
 import { PortfolioSettings, ThemeConfig } from '../types/portfolio';
-import { DEFAULT_PORTFOLIO_SETTINGS, DEFAULT_THEME_CONFIG } from './defaultData';
+import { DEFAULT_PORTFOLIO_SETTINGS, DEFAULT_THEME_CONFIG, DEFAULT_SITE_CONTENT, DEFAULT_SITE_MEDIA, DEFAULT_NAVIGATION, DEFAULT_SITE_CONTACT, DEFAULT_P5_CONFIG } from './defaultData';
 
 /**
  * Completa configurações antigas/parciais sem apagar valores válidos como false, 0 ou ''.
@@ -58,6 +58,12 @@ export function normalizeThemeConfig(input?: Partial<ThemeConfig> | null): Theme
     customImage: source.customImage ?? DEFAULT_THEME_CONFIG.customImage,
     ctaLabel: source.ctaLabel ?? DEFAULT_THEME_CONFIG.ctaLabel,
     uxVoice: source.uxVoice ?? DEFAULT_THEME_CONFIG.uxVoice,
+    content: { ...DEFAULT_SITE_CONTENT, ...(source.content || {}) },
+    media: { ...DEFAULT_SITE_MEDIA, ...(source.media || {}) },
+    navigation: { ...DEFAULT_NAVIGATION, ...(source.navigation || {}),
+      links: source.navigation?.links?.length ? source.navigation.links : DEFAULT_NAVIGATION.links },
+    contact: { ...DEFAULT_SITE_CONTACT, ...(source.contact || {}) },
+    p5: { ...DEFAULT_P5_CONFIG, ...(source.p5 || {}) },
   };
 }
 
