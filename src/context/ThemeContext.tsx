@@ -76,7 +76,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     // Typography
     root.style.setProperty('--font-headings', typography.fontFamilyHeadings || 'Plus Jakarta Sans, sans-serif');
     root.style.setProperty('--font-body', typography.fontFamilyBody || 'Inter, sans-serif');
+    root.style.setProperty('--font-navbar', typography.fontFamilyNav || 'var(--font-body)');
+    root.style.setProperty('--font-buttons', typography.fontFamilyButtons || 'var(--font-body)');
+    root.style.setProperty('--font-projects', typography.fontFamilyProjects || 'var(--font-headings)');
+    root.style.setProperty('--font-buttons-weight', String(typography.buttonsWeight ?? 900));
+    root.style.setProperty('--font-projects-weight', String(typography.projectsWeight ?? 800));
     root.style.setProperty('--font-size-base', `${typography.baseSizePx || 16}px`);
+    root.style.setProperty('--portfolio-type-scale', `${Math.max(0.8, Math.min(1.2,(typography.baseSizePx || 16)/16))}`);
     root.style.setProperty('--font-heading-weight', `${typography.headingWeight || 700}`);
     root.style.setProperty('--font-body-weight', `${typography.bodyWeight || 400}`);
     root.style.setProperty('--font-line-height', `${typography.lineHeight || 1.6}`);
@@ -136,20 +142,38 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const customImage = themeConfig.customImage || '';
     root.style.setProperty('--theme-custom-image', customImage ? `url(\"${customImage.replace(/\"/g, '\\"')}\")` : 'none');
 
-    const loadGoogleFont = (fontStack: string) => {
-      const family = fontStack.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
-      if (!family) return;
+    // Carrega apenas os pesos escolhidos; não solicita 9 variações para cada família.
+    const weights = (typography.selectedWeights?.length ? typography.selectedWeights : [400, 700])
+      .filter(w => Number.isFinite(w) && w >= 100 && w <= 900);
+    const fontStacks = [typography.fontFamilyHeadings, typography.fontFamilyBody,
+      typography.fontFamilyNav, typography.fontFamilyButtons, typography.fontFamilyProjects,
+      header.brandFontFamily].filter(Boolean) as string[];
+    const selectedFamilies = new Set(fontStacks.map(f => f.split(',')[0].trim().replace(/^['"]|['"]$/g, '')));
+    document.querySelectorAll('link[data-portfolio-google-font]').forEach(link => {
+      if (!selectedFamilies.has(link.getAttribute('data-portfolio-google-font') || '')) link.remove();
+    });
+    for (const family of selectedFamilies) {
+      if (!family || /^(sans-serif|serif|monospace|inherit|var\()/i.test(family)) continue;
       const id = `google-font-${family.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-      if (document.getElementById(id)) return;
-      const link = document.createElement('link');
-      link.id = id;
-      link.rel = 'stylesheet';
-      link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
-      document.head.appendChild(link);
+      const possible = typography.availableWeightsByFamily?.[family];
+      const requested = possible?.length ? weights.filter(weight => possible.includes(weight)) : weights;
+      const supported = requested.length ? requested : (possible?.includes(400) ? [400] : [possible?.[0] || 400]);
+      const href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, '+')}:wght@${supported.join(';')}&display=swap`;
+      let link = document.getElementById(id) as HTMLLinkElement | null;
+      if (!link) { link = document.createElement('link'); link.id = id; link.rel = 'stylesheet'; document.head.appendChild(link); }
+      link.dataset.portfolioGoogleFont = family;
+      if (link.href !== href) link.href = href;
+    }
+    const media = themeConfig.media;
+    const setImage = (name: string, src?: string) => {
+      if (src && /^https?:\/\//.test(src)) root.style.setProperty(name, `url("${src.replace(/["\\]/g, '')}")`);
+      else root.style.removeProperty(name);
     };
-    loadGoogleFont(typography.fontFamilyHeadings || 'Space Grotesk');
-    loadGoogleFont(typography.fontFamilyBody || 'Inter');
-    if (header.brandFontFamily?.trim()) loadGoogleFont(header.brandFontFamily);
+    setImage('--media-home-bg', media?.homeBackground);
+    setImage('--media-home-mobile-bg', media?.homeBackgroundMobile);
+    setImage('--media-projects-bg', media?.projectsBackground);
+    setImage('--media-about-bg', media?.aboutBackground);
+    setImage('--media-contact-bg', media?.contactBackground);
   }, [themeConfig, reducedMotion]);
 
   const updateThemeConfig = async (newConfig: ThemeConfig) => {

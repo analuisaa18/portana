@@ -6,7 +6,7 @@ import { Badge } from '../common/Badge';
 import { Modal } from '../common/Modal';
 import { Toast, ToastMessage } from '../common/Toast';
 import { ProjectEditor } from './ProjectEditor';
-import { Plus, Edit2, Trash2, ArrowUp, ArrowDown, FolderGit2, Star, Eye } from 'lucide-react';
+import { Plus, Edit2, Trash2, ArrowUp, ArrowDown, FolderGit2, Star, Eye, Copy } from 'lucide-react';
 
 interface ProjectListProps {
   projects: Project[];
@@ -43,6 +43,25 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       onRefresh();
     } catch (err) {
       console.error('Erro ao excluir projeto:', err);
+    }
+  };
+
+  const handleDuplicate = async (proj: Project) => {
+    try {
+      // Reaproveita as rotas existentes (projects + project_blocks); nada novo no schema.
+      const duplicate = await portfolioStore.saveProject({
+        ...proj, id: undefined, owner_id: undefined, created_at: undefined, updated_at: undefined,
+        title: `${proj.title} (cópia)`,
+        slug: `${proj.slug}-copia-${Date.now()}`,
+        status: 'rascunho', featured: false,
+        display_order: Math.max(0, ...projects.map(p => p.display_order)) + 1,
+      });
+      const blocks = await portfolioStore.getProjectBlocks(proj.id);
+      if (blocks.length) await portfolioStore.saveBlocks(duplicate.id, blocks);
+      setToast({ id:Date.now().toString(), type:'success', title:'Projeto duplicado', message:'Uma cópia em rascunho foi criada com todos os blocos.' });
+      onRefresh();
+    } catch (err) {
+      setToast({ id:Date.now().toString(), type:'error', title:'Erro ao duplicar', message:err instanceof Error ? err.message : 'Não foi possível duplicar.' });
     }
   };
 
@@ -207,7 +226,8 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button type="button" onClick={() => handleDuplicate(proj)} className="p-2 border border-[var(--color-border)] rounded-[var(--radius-md)]" title="Duplicar projeto como rascunho" aria-label={`Duplicar ${proj.title}`}><Copy size={16}/></button>
                     {/* Toggle Featured */}
                     <button
                       type="button"

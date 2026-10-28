@@ -6,6 +6,38 @@ import {
   ThemeConfig 
 } from '../types/portfolio';
 
+export const DEFAULT_SITE_CONTENT = {
+  homeTitle: 'PORTFÓLIO',
+  homeSubtitle: 'DESIGN DE INTERFACES,\nPROJETOS GRÁFICOS E\nEXPERIÊNCIAS VISUAIS.',
+  homeButton: 'VER PROJETOS',
+  aboutHeading: 'SOBRE\nMIM', aboutButton: 'VAMOS CONVERSAR',
+  projectsHeading: 'PROJETOS',
+  contactEyebrow: 'CANAIS DE\nCOMUNICAÇÃO\nDIRETA',
+  contactHeading: 'INICIAR DIÁLOGO',
+  contactDescription: 'Preencha o formulário abaixo para enviar uma mensagem diretamente para o WhatsApp de contato.',
+  contactDetailsHeading: 'INFORMAÇÕES\nDIRETAS',
+  contactFormHeading: 'Enviar mensagem pelo\nWhatsApp',
+  contactNameLabel: 'Seu Nome Completo *', contactSubjectLabel: 'Assunto / Proposta *', contactMessageLabel: 'Mensagem *',
+  footerRights: 'TODOS OS DIREITOS RESERVADOS', footerAccessibility: 'ACESSIBILIDADE RADICAL', footerAdminLink: 'PAINEL ADMIN',
+};
+export const DEFAULT_SITE_MEDIA = {
+  homeCollageDesktop: '', homeCollageMobile: '', homeBackground: '', homeBackgroundMobile: '',
+  projectsBackground: '', aboutBackground: '', contactBackground: '',
+};
+export const DEFAULT_NAVIGATION = {
+  links: [
+    { id: 'sobre' as const, label: 'Sobre', visible: true },
+    { id: 'projetos' as const, label: 'Projetos', visible: true },
+    { id: 'contato' as const, label: 'Contato', visible: true },
+  ],
+  heightDesktopPx: 94, heightMobilePx: 82, brandSizeDesktopPx: 13, brandSizeMobilePx: 11,
+  navSizeDesktopPx: 10, navSizeMobilePx: 7, gapDesktopPx: 36, gapMobilePx: 13,
+};
+export const DEFAULT_SITE_CONTACT = {
+  whatsappEnabled: true, whatsappButtonText: 'Enviar pelo WhatsApp', whatsappMessage: 'Olá! Vi seu portfólio e gostaria de entrar em contato.',
+};
+export const DEFAULT_P5_CONFIG = { enabled: true, pointerEnabled: true, heightPx: 340 };
+
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   colors: {
     background: '#090909',      // Deep pitch black
@@ -144,6 +176,8 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   customImage: '',
   ctaLabel: 'Ver projeto',
   uxVoice: 'direto',
+  content: DEFAULT_SITE_CONTENT, media: DEFAULT_SITE_MEDIA, navigation: DEFAULT_NAVIGATION,
+  contact: DEFAULT_SITE_CONTACT, p5: DEFAULT_P5_CONFIG,
 };
 
 export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
@@ -234,9 +268,56 @@ export const DEFAULT_PROJECTS: Project[] = [
     featured: false,
     display_order: 3,
   },
+  {
+    id: 'proj-4',
+    category_id: 'cat-4',
+    title: 'Experimento p5.js 3D',
+    slug: 'experimento-p5js-3d',
+    short_description: 'Exploração tipográfica e de volumetria 3D interativa programada em p5.js.',
+    cover_image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
+    year: 2025,
+    status: 'publicado',
+    featured: true,
+    display_order: 4,
+  },
 ];
 
 export const DEFAULT_BLOCKS: Record<string, ProjectBlock[]> = {
+  'proj-4': [
+    {
+      id: 'block-4-1',
+      project_id: 'proj-4',
+      type: 'texto',
+      content: 'Este projeto reúne explorações computacionais de forma e movimento utilizando p5.js e WebGL. Abaixo você pode interagir com o sketch 3D em tempo real.',
+      media_url: '',
+      alt_text: '',
+      caption: '',
+      transcript: '',
+      display_order: 1,
+    },
+    {
+      id: 'block-4-2',
+      project_id: 'proj-4',
+      type: 'p5',
+      content: `function setup() {
+  createCanvas(500, 320, WEBGL);
+  debugMode();
+}
+function draw() {
+  background(15, 12, 18);
+  rotateX(frameCount * 0.01);
+  rotateY(frameCount * 0.01);
+  orbitControl();
+  normalMaterial();
+  box(90);
+}`,
+      media_url: '',
+      alt_text: 'Sketch p5.js 3D interativo',
+      caption: 'Sketch 3D interativo com WebGL — clique e arraste com o mouse para orbitar a câmera.',
+      transcript: '',
+      display_order: 2,
+    },
+  ],
   'proj-1': [
     {
       id: 'block-1-1',

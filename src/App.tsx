@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { AboutSection } from './components/public/AboutSection';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
@@ -38,7 +39,36 @@ export function PortfolioApp() {
     }
   };
 
-  useEffect(() => { loadPublicData(); }, []);
+  useEffect(() => {
+    loadPublicData();
+    const listener = () => { void loadPublicData(); };
+    window.addEventListener(portfolioStore.getDataChangedEventName(), listener);
+    return () => window.removeEventListener(portfolioStore.getDataChangedEventName(), listener);
+  }, []);
+
+  useEffect(() => {
+    const parseHash = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (!hash || hash === 'home') {
+        setCurrentView('home');
+        setSelectedSlug(null);
+      } else if (hash === 'admin') {
+        setCurrentView('admin');
+        setSelectedSlug(null);
+      } else if (hash.startsWith('projeto/')) {
+        const slug = hash.replace('projeto/', '');
+        setCurrentView('projeto-detail');
+        setSelectedSlug(slug);
+      } else if (['sobre', 'projetos', 'contato'].includes(hash)) {
+        setCurrentView(hash);
+        setSelectedSlug(null);
+      }
+    };
+
+    parseHash();
+    window.addEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('hashchange', parseHash);
+  }, []);
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
@@ -63,8 +93,15 @@ export function PortfolioApp() {
   }, []);
 
   const handleNavigate = (view: string, slug?: string) => {
+    if (currentView === 'admin' && view !== 'admin' &&
+      !window.dispatchEvent(new Event('portfolio:admin-before-leave', { cancelable:true }))) return;
     setCurrentView(view);
     setSelectedSlug(slug || null);
+    if (view === 'projeto-detail' && slug) {
+      window.location.hash = `#projeto/${slug}`;
+    } else {
+      window.location.hash = `#${view}`;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -79,9 +116,9 @@ export function PortfolioApp() {
 
   return (
     <div className={isAdmin ? 'admin-shell' : 'reference-site'}>
-      {!isAdmin && !isDetail && <Header currentView={currentView} onNavigate={handleNavigate} />}
+      {!isDetail && <Header currentView={currentView} onNavigate={handleNavigate} />}
 
-      <main id="main-content" className={isAdmin ? 'admin-main' : 'reference-main'} tabIndex={-1}>
+      <main id="main-content" className={isAdmin ? 'admin-main pt-28' : 'reference-main'} tabIndex={-1}>
         {loading && !isAdmin ? (
           <LoadingState message="Carregando portfólio..." />
         ) : (
@@ -107,6 +144,7 @@ export function PortfolioApp() {
           </>
         )}
       </main>
+      {!isAdmin && <Footer />}
     </div>
   );
 }

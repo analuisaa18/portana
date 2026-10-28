@@ -7,8 +7,8 @@ import { TextBlock } from '../blocks/TextBlock';
 import { ImageBlock } from '../blocks/ImageBlock';
 import { YoutubeBlock } from '../blocks/YoutubeBlock';
 import { AudioBlock } from '../blocks/AudioBlock';
+import { P5Block } from '../blocks/P5Block';
 import { ArrowLeft, Calendar, Tag, AlertCircle } from 'lucide-react';
-import { P5SketchBlock } from '../blocks/P5SketchBlock';
 
 interface ProjectDetailProps {
   slug: string;
@@ -137,7 +137,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ slug, onBack }) =>
               case 'audio':
                 return <AudioBlock key={block.id} block={block} />;
               case 'p5':
-                return <P5SketchBlock key={block.id} block={block} />;
+                return <P5Block key={block.id} block={block} />;
               default:
                 return null;
             }

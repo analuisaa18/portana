@@ -8,6 +8,12 @@ import { ProjectList } from './ProjectList';
 import { AppearanceEditor } from './AppearanceEditor';
 import { HeaderEditor } from './HeaderEditor';
 import { GitHubManager } from './GitHubManager';
+import { ContentManager } from './ContentManager';
+import { MediaManager } from './MediaManager';
+import { NavigationManager } from './NavigationManager';
+import { TypographyManager } from './TypographyManager';
+import { ContactManager } from './ContactManager';
+import { P5Manager } from './P5Manager';
 import { 
   FolderGit2, 
   Layers, 
@@ -19,7 +25,7 @@ import {
   FileCheck2, 
   FileClock,
   Sparkles,
-  Github
+  Github, FileText, Images, Menu, Type, MessageSquare, Sparkles as InteractionsIcon
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -31,7 +37,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout,
   onPreviewPublic,
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header' | 'content' | 'media' | 'navigation' | 'typography' | 'contact' | 'interactions'>('overview');
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,8 +63,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const publishedCount = projects.filter((p) => p.status === 'publicado').length;
   const draftCount = projects.filter((p) => p.status === 'rascunho').length;
 
+  const changeTab = (id: typeof activeTab) => {
+    if (!window.dispatchEvent(new Event('portfolio:admin-before-leave', { cancelable: true }))) return;
+    setActiveTab(id);
+  };
+
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'content', label: 'Conteúdo', icon: <FileText className="w-4 h-4" /> },
+    { id: 'media', label: 'Imagens', icon: <Images className="w-4 h-4" /> },
+    { id: 'navigation', label: 'Navbar', icon: <Menu className="w-4 h-4" /> },
+    { id: 'typography', label: 'Tipografia', icon: <Type className="w-4 h-4" /> },
+    { id: 'interactions', label: 'Interações p5.js', icon: <InteractionsIcon className="w-4 h-4" /> },
+    { id: 'contact', label: 'Contato', icon: <MessageSquare className="w-4 h-4" /> },
     { id: 'projects', label: 'Gerenciar Projetos', icon: <FolderGit2 className="w-4 h-4" /> },
     { id: 'categories', label: 'Categorias', icon: <Layers className="w-4 h-4" /> },
     { id: 'github', label: 'Integração GitHub', icon: <Github className="w-4 h-4 text-[var(--color-accent)]" /> },
@@ -83,7 +100,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={onPreviewPublic}
+            onClick={() => { if (window.dispatchEvent(new Event('portfolio:admin-before-leave', { cancelable:true }))) onPreviewPublic(); }}
             className="px-4 py-2.5 text-xs font-semibold rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] hover:border-[var(--color-primary)] transition-colors flex items-center gap-2 cursor-pointer"
           >
             <Eye className="w-4 h-4 text-[var(--color-accent)]" />
@@ -92,7 +109,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           <button
             type="button"
-            onClick={onLogout}
+            onClick={() => { if (window.dispatchEvent(new Event('portfolio:admin-before-leave', { cancelable:true }))) onLogout(); }}
             className="px-4 py-2.5 text-xs font-semibold rounded-[var(--radius-md)] bg-[var(--color-error)]/10 border border-[var(--color-error)]/30 text-[var(--color-error)] hover:bg-[var(--color-error)] hover:text-white transition-colors flex items-center gap-2 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
@@ -111,7 +128,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => changeTab(tab.id as typeof activeTab)}
               className={`px-4 py-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 isActive
                   ? 'border-[var(--color-primary)] text-[var(--color-text-primary)] bg-[var(--color-surface)] rounded-t-[var(--radius-md)]'
@@ -211,6 +228,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </div>
         </div>
       )}
+
+      {activeTab === 'content' && <ContentManager />}
+      {activeTab === 'media' && <MediaManager />}
+      {activeTab === 'navigation' && <NavigationManager />}
+      {activeTab === 'typography' && <TypographyManager />}
+      {activeTab === 'interactions' && <P5Manager />}
+      {activeTab === 'contact' && <ContactManager />}
 
       {activeTab === 'projects' && (
         <ProjectList

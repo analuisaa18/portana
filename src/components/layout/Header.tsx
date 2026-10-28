@@ -1,7 +1,8 @@
 import React from 'react';
-import { Instagram } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
+import { DEFAULT_NAVIGATION } from '../../services/defaultData';
 
 interface HeaderProps {
   currentView: string;
@@ -9,24 +10,28 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
-  const { settings } = useTheme();
+  const { settings, themeConfig } = useTheme();
   const brand = settings.portfolio_name || 'Portfólio';
-  const instagram = settings.social_links?.find((item) =>
-    item.platform?.toLowerCase().includes('instagram')
-  );
 
-  const nav = [
-    { id: 'sobre', label: 'Sobre' },
-    { id: 'projetos', label: 'Projetos' },
-    { id: 'contato', label: 'Contato' },
-  ];
+  const nav = (themeConfig.navigation?.links || DEFAULT_NAVIGATION.links).filter(item => item.visible);
 
   return (
     <>
       <SkipLink />
-      <header className="ref-header">
+      <header className="ref-header" style={{
+        ...({
+          '--navbar-height': `${themeConfig.navigation?.heightDesktopPx ?? 94}px`,
+          '--navbar-height-mobile': `${themeConfig.navigation?.heightMobilePx ?? 82}px`,
+          '--navbar-brand-size': `${themeConfig.navigation?.brandSizeDesktopPx ?? 13}px`,
+          '--navbar-brand-size-mobile': `${themeConfig.navigation?.brandSizeMobilePx ?? 11}px`,
+          '--navbar-nav-size': `${themeConfig.navigation?.navSizeDesktopPx ?? 10}px`,
+          '--navbar-nav-size-mobile': `${themeConfig.navigation?.navSizeMobilePx ?? 7}px`,
+          '--navbar-gap': `${themeConfig.navigation?.gapDesktopPx ?? 36}px`,
+          '--navbar-gap-mobile': `${themeConfig.navigation?.gapMobilePx ?? 13}px`,
+        } as React.CSSProperties),
+      }}>
         <div className="ref-header__inner">
-          <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')}>
+          <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')} style={{ fontFamily: 'var(--font-headings)' }}>
             <span className="ref-header__asterisk" aria-hidden="true">✦</span>
             <span>{brand}</span>
           </button>
@@ -42,13 +47,15 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 {item.label}
               </button>
             ))}
-            {instagram ? (
-              <a href={instagram.url} target="_blank" rel="noreferrer" aria-label="Instagram">
-                <Instagram size={14} strokeWidth={1.7} />
-              </a>
-            ) : (
-              <span className="ref-header__social" aria-hidden="true"><Instagram size={14} strokeWidth={1.7} /></span>
-            )}
+            <button
+              type="button"
+              onClick={() => onNavigate('admin')}
+              aria-label="Área de Administração"
+              className="ref-header__social cursor-pointer"
+              title="Acessar Área Administrativa"
+            >
+              <Shield size={14} strokeWidth={1.7} />
+            </button>
           </nav>
 
           <span className="ref-header__decor ref-header__decor--1" aria-hidden="true">✦</span>

@@ -56,6 +56,15 @@ export interface ThemeTypography {
   headingLineHeight: number;
   letterSpacing: number;
   lab?: ThemeTypographyLab;
+  fontFamilyNav?: string;
+  fontFamilyButtons?: string;
+  fontFamilyProjects?: string;
+  navWeight?: number;
+  buttonsWeight?: number;
+  projectsWeight?: number;
+  selectedWeights?: number[];
+  availableWeightsByFamily?: Record<string, number[]>;
+
 }
 
 export type IconProvider = 'material' | 'apple' | 'feather' | 'lucide' | 'custom';
@@ -185,6 +194,36 @@ export interface ThemeHeader {
   mobileBackgroundOpacity?: number;
 }
 
+export interface NavigationItem { id: 'sobre' | 'projetos' | 'contato'; label: string; visible: boolean; }
+export interface NavigationConfig {
+  links: NavigationItem[];
+  heightDesktopPx: number;
+  heightMobilePx: number;
+  brandSizeDesktopPx: number;
+  brandSizeMobilePx: number;
+  navSizeDesktopPx: number;
+  navSizeMobilePx: number;
+  gapDesktopPx: number;
+  gapMobilePx: number;
+}
+export interface SiteContent {
+  homeTitle: string; homeSubtitle: string; homeButton: string;
+  aboutHeading: string; aboutButton: string;
+  projectsHeading: string;
+  contactEyebrow: string; contactHeading: string; contactDescription: string;
+  contactDetailsHeading: string; contactFormHeading: string; contactNameLabel: string;
+  contactSubjectLabel: string; contactMessageLabel: string;
+  footerRights: string; footerAccessibility: string; footerAdminLink: string;
+}
+export interface SiteMedia {
+  homeCollageDesktop: string; homeCollageMobile: string;
+  homeBackground: string; homeBackgroundMobile: string;
+  projectsBackground: string; aboutBackground: string; contactBackground: string;
+}
+export interface SiteContact {
+  whatsappEnabled: boolean; whatsappButtonText: string; whatsappMessage: string;
+}
+export interface P5Config { enabled: boolean; pointerEnabled: boolean; heightPx: number; }
 export interface ThemeConfig {
   colors: ThemeColors;
   typography: ThemeTypography;
@@ -196,6 +235,11 @@ export interface ThemeConfig {
   customImage: string;
   ctaLabel: CtaLabel;
   uxVoice: UXVoice;
+  content?: SiteContent;
+  media?: SiteMedia;
+  navigation?: NavigationConfig;
+  contact?: SiteContact;
+  p5?: P5Config;
 }
 
 export interface SocialLink {
@@ -203,6 +247,8 @@ export interface SocialLink {
   platform: string;
   url: string;
   label: string;
+  enabled?: boolean;
+  display_label?: string;
 }
 
 export interface PortfolioSettings {
