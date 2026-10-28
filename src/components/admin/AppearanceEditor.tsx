@@ -132,7 +132,11 @@ export const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ onSaved }) =
     setConfig(prev => ({ ...prev, brandIcon: { ...prev.brandIcon, ...patch } }));
 
   const handleResetDefault = () => {
-    setConfig(JSON.parse(JSON.stringify(DEFAULT_THEME_CONFIG)));
+    setConfig(prev => ({
+      ...JSON.parse(JSON.stringify(DEFAULT_THEME_CONFIG)),
+      content:prev.content,media:prev.media,navigation:prev.navigation,
+      contact:prev.contact,p5:prev.p5,
+    }));
     setToast({ id: Date.now().toString(), type: 'info', title: 'Restaurado para o Padrão', message: 'As configurações visuais foram restauradas.' });
   };
 
