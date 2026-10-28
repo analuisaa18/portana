@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { AboutSection } from './components/public/AboutSection';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
@@ -38,7 +39,12 @@ export function PortfolioApp() {
     }
   };
 
-  useEffect(() => { loadPublicData(); }, []);
+  useEffect(() => {
+    loadPublicData();
+    const listener = () => { void loadPublicData(); };
+    window.addEventListener(portfolioStore.getDataChangedEventName(), listener);
+    return () => window.removeEventListener(portfolioStore.getDataChangedEventName(), listener);
+  }, []);
 
   useEffect(() => {
     const parseHash = () => {
@@ -87,6 +93,8 @@ export function PortfolioApp() {
   }, []);
 
   const handleNavigate = (view: string, slug?: string) => {
+    if (currentView === 'admin' && view !== 'admin' &&
+      !window.dispatchEvent(new Event('portfolio:admin-before-leave', { cancelable:true }))) return;
     setCurrentView(view);
     setSelectedSlug(slug || null);
     if (view === 'projeto-detail' && slug) {
@@ -136,6 +144,7 @@ export function PortfolioApp() {
           </>
         )}
       </main>
+      {!isAdmin && <Footer />}
     </div>
   );
 }
