@@ -28,7 +28,7 @@
 
 * { box-sizing: border-box; }
 html { background:#efefef; scroll-behavior:smooth; }
-body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); font-weight:var(--font-body-weight, 400); line-height:var(--font-line-height, 1.6); background:#090909; color:#111; }
+body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); font-size:var(--font-size-base,16px); font-weight:var(--font-body-weight, 400); line-height:var(--font-line-height, 1.6); background:#090909; color:#111; }
 h1, h2, h3, h4, h5, h6 { font-family:var(--font-headings); font-weight:var(--font-heading-weight, 900); line-height:var(--font-heading-line-height, 0.95); letter-spacing:var(--font-letter-spacing, -0.03em); }
 button, input, textarea { font:inherit; }
 button { -webkit-tap-highlight-color:transparent; }
@@ -56,7 +56,7 @@ button { -webkit-tap-highlight-color:transparent; }
 }
 .ref-header__inner {
   position:relative;
-  height:94px;
+  height:var(--navbar-height,94px);
   padding:0 54px;
   border:1px solid #f08bb0;
   border-radius:999px;
@@ -80,18 +80,18 @@ button { -webkit-tap-highlight-color:transparent; }
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:13px;
+  font-size:var(--navbar-brand-size,13px);
   font-weight:800;
   letter-spacing:-.02em;
   cursor:pointer;
   z-index:2;
 }
 .ref-header__asterisk { color:#fff; font-size:17px; }
-.ref-header__nav { display:flex; align-items:center; gap:36px; z-index:2; }
+.ref-header__nav { display:flex; align-items:center; gap:var(--navbar-gap,36px); z-index:2; }
 .ref-header__nav button {
   cursor:pointer;
   text-transform:uppercase;
-  font-size:10px;
+  font-size:var(--navbar-nav-size,10px);
   font-weight:900;
   letter-spacing:.03em;
   padding:8px 0;
@@ -107,7 +107,7 @@ button { -webkit-tap-highlight-color:transparent; }
 .ref-page { min-height:100vh; position:relative; overflow:hidden; }
 .ref-page--home {
   background-color:#090909;
-  background-image:url('./assets/identity/fundo-02-rosa-desktop.png'), url('./assets/identity/fundo-01-desktop.png');
+  background-image:var(--media-home-bg, url('./assets/identity/fundo-02-rosa-desktop.png')), url('./assets/identity/fundo-01-desktop.png');
   background-position:center, center;
   background-size:cover, cover;
   background-repeat:no-repeat, no-repeat;
@@ -160,7 +160,7 @@ button { -webkit-tap-highlight-color:transparent; }
 
 .ref-page--projects {
   background-color:#090909;
-  background-image:url('./assets/identity/fundo-02-rosa-desktop.png'), url('./assets/identity/fundo-01-desktop.png');
+  background-image:var(--media-projects-bg, url('./assets/identity/fundo-02-rosa-desktop.png')), url('./assets/identity/fundo-01-desktop.png');
   background-position:center, center;
   background-size:cover, cover;
   background-repeat:no-repeat, no-repeat;
@@ -185,13 +185,14 @@ button { -webkit-tap-highlight-color:transparent; }
 .ref-page--about,
 .ref-page--contact {
   background-color:#090909;
-  background-image:url('./assets/identity/fundo-02-preto-desktop.png'), url('./assets/identity/fundo-01-desktop.png');
+  background-image:var(--media-about-bg, url('./assets/identity/fundo-02-preto-desktop.png')), url('./assets/identity/fundo-01-desktop.png');
   background-position:center, center;
   background-size:cover, cover;
   background-repeat:no-repeat, no-repeat;
   color:#f3a0bd;
 }
 .ref-page--about { padding:178px 10% 90px; }
+.ref-page--contact { background-image:var(--media-contact-bg, url('./assets/identity/fundo-02-preto-desktop.png')), url('./assets/identity/fundo-01-desktop.png'); }
 .ref-about__copy { width:50%; position:relative; z-index:3; }
 .ref-about__copy h1 {
   margin:0 0 16px;
@@ -260,17 +261,17 @@ button { -webkit-tap-highlight-color:transparent; }
   .reference-main { min-height:852px; }
   .ref-page { min-height:852px; }
   .ref-header { top:28px; width:calc(100% - 36px); }
-  .ref-header__inner { height:82px; padding:0 22px; }
-  .ref-header__brand { font-size:11px; }
-  .ref-header__nav { gap:13px; }
-  .ref-header__nav button { font-size:7px; }
+  .ref-header__inner { height:var(--navbar-height-mobile,82px); padding:0 22px; }
+  .ref-header__brand { font-size:var(--navbar-brand-size-mobile,11px); }
+  .ref-header__nav { gap:var(--navbar-gap-mobile,13px); }
+  .ref-header__nav button { font-size:var(--navbar-nav-size-mobile,7px); }
   .ref-header__nav a,.ref-header__social { display:none; }
   .ref-header__decor--1 { left:24%; }
   .ref-header__decor--2 { left:48%; }
   .ref-header__decor--3 { right:7%; }
   .ref-header__decor--4 { display:none; }
 
-  .ref-page--home { background-image:url('./assets/identity/fundo-02-rosa-mobile.png'), url('./assets/identity/fundo-01-mobile.png'); background-size:cover,cover; }
+  .ref-page--home { background-image:var(--media-home-mobile-bg, url('./assets/identity/fundo-02-rosa-mobile.png')), url('./assets/identity/fundo-01-mobile.png'); background-size:cover,cover; }
   .ref-home__copy { left:25px; right:20px; top:154px; }
   .ref-home__copy h1 { font-size:54px; transform:rotate(-7deg); }
   .ref-home__copy p { position:absolute; top:402px; left:11px; margin:0; font-size:12px; line-height:1.02; }
@@ -310,4 +311,24 @@ button { -webkit-tap-highlight-color:transparent; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+}
+
+/* Configurações administradas, sem mudança dos valores visuais anteriores. */
+.ref-header__nav { font-family:var(--font-navbar,var(--font-body)); }
+.ref-cta,.ref-contact__form button { font-family:var(--font-buttons,var(--font-body)); font-weight:var(--font-buttons-weight,900); }
+.ref-project-card__label,.ref-projects__title { font-family:var(--font-projects,var(--font-headings)); }
+.ref-project-card__label { font-weight:var(--font-projects-weight,800); }
+.ref-page { overflow-wrap:break-word; }
+@media (max-width:900px) { .ref-header__inner { min-width:0; } .ref-header__brand { min-width:0; } .ref-header__brand span:last-child { overflow-wrap:anywhere; } }
+
+/* Limites fluidos para o texto continuar legível em telas estreitas. */
+.ref-home__copy h1 { font-size:clamp(62px,calc(6.7vw * var(--portfolio-type-scale,1)),calc(104px * var(--portfolio-type-scale,1))); }
+.ref-projects__title { font-size:calc(58px * var(--portfolio-type-scale,1)); }
+.ref-about__copy h1 { font-size:calc(76px * var(--portfolio-type-scale,1)); }
+.ref-contact__heading h1 { font-size:calc(38px * var(--portfolio-type-scale,1)); }
+@media(max-width:900px) {
+  .ref-header__brand { flex:1 1 0; }
+  .ref-header__nav { flex:0 1 55%; min-width:0; flex-wrap:wrap; justify-content:flex-end; row-gap:4px; }
+  .ref-contact__heading h1 { font-size:calc(31px * var(--portfolio-type-scale,1)); }
+  .ref-home__copy h1 { font-size:calc(54px * var(--portfolio-type-scale,1)); }
 }
