@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Heart } from 'lucide-react';
+import { DEFAULT_SITE_CONTENT } from '../../services/defaultData';
 
 export const Footer: React.FC = () => {
-  const { settings } = useTheme();
+  const { settings, themeConfig } = useTheme();
+  const text = themeConfig.content || DEFAULT_SITE_CONTENT;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -21,7 +23,7 @@ export const Footer: React.FC = () => {
         {/* Social Links */}
         {settings.social_links && settings.social_links.length > 0 && (
           <ul className="flex flex-wrap items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--color-text-secondary)]">
-            {settings.social_links.map((link) => (
+            {settings.social_links.filter(link => link.enabled !== false).map((link) => (
               <li key={link.id}>
                 <a
                   href={link.url}
@@ -29,7 +31,7 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors underline decoration-[var(--color-accent)] underline-offset-4 hover:decoration-white"
                 >
-                  {link.platform}
+                  {link.display_label || link.platform}
                 </a>
               </li>
             ))}
@@ -37,13 +39,13 @@ export const Footer: React.FC = () => {
         )}
 
         <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--color-text-secondary)] text-left md:text-right space-y-1">
-          <p>© {currentYear} — TODOS OS DIREITOS RESERVADOS</p>
+          <p>© {currentYear} — {text.footerRights}</p>
           <p className="inline-flex items-center gap-1.5 opacity-80">
-            <span>ACESSIBILIDADE RADICAL</span>
+            <span>{text.footerAccessibility}</span>
             <Heart className="w-3 h-3 text-[var(--color-accent)] fill-current inline" />
             <span>WCAG 2.2 AA</span>
             <span>—</span>
-            <a href="#admin" className="hover:text-white underline font-bold">PAINEL ADMIN</a>
+            <a href="#admin" className="hover:text-white underline font-bold">{text.footerAdminLink}</a>
           </p>
         </div>
       </div>
