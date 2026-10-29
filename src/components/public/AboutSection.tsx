@@ -7,13 +7,14 @@ interface AboutSectionProps { onNavigateContact?: () => void; }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact }) => {
   const { settings, themeConfig } = useTheme();
-  const text = themeConfig.content || DEFAULT_SITE_CONTENT;
+  const text = { ...DEFAULT_SITE_CONTENT, ...(themeConfig.content || {}) };
+  const aboutHeading = typeof text.aboutHeading === 'string' ? text.aboutHeading : DEFAULT_SITE_CONTENT.aboutHeading;
   const paragraphs = (settings.about_text || settings.short_bio || 'Estudo Design e tenho interesse em criar projetos que unem conceito, estética e funcionalidade, com foco em interfaces digitais, identidade visual e design editorial.').split(/\n\s*\n/);
 
   return (
     <section className="ref-page ref-page--about" aria-label="Sobre mim">
       <div className="ref-about__copy">
-        <h1>{text.aboutHeading.split('\n')[0]}<br /><span>{text.aboutHeading.split('\n').slice(1).join(' ')}</span></h1>
+        <h1>{aboutHeading.split('\n')[0]}<br /><span>{aboutHeading.split('\n').slice(1).join(' ')}</span></h1>
         {settings.short_bio && <p className="ref-about__lead">{settings.short_bio}</p>}
         <div className="ref-about__text">
           {paragraphs.slice(0, 4).map((p, i) => <p key={i}>{p}</p>)}
