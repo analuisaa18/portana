@@ -18,6 +18,9 @@ export function normalizeThemeConfig(input?: Partial<ThemeConfig> | null): Theme
     typography: {
       ...DEFAULT_THEME_CONFIG.typography,
       ...(source.typography || {}),
+      selectedWeights: Array.isArray(source.typography?.selectedWeights)
+        ? source.typography.selectedWeights.filter((weight): weight is number => typeof weight === 'number' && Number.isFinite(weight) && weight >= 100 && weight <= 900)
+        : DEFAULT_THEME_CONFIG.typography.selectedWeights,
       lab: {
         ...(DEFAULT_THEME_CONFIG.typography.lab || {
           text: '3D TICKER',
@@ -58,10 +61,15 @@ export function normalizeThemeConfig(input?: Partial<ThemeConfig> | null): Theme
     customImage: source.customImage ?? DEFAULT_THEME_CONFIG.customImage,
     ctaLabel: source.ctaLabel ?? DEFAULT_THEME_CONFIG.ctaLabel,
     uxVoice: source.uxVoice ?? DEFAULT_THEME_CONFIG.uxVoice,
-    content: { ...DEFAULT_SITE_CONTENT, ...(source.content || {}) },
+    content: Object.fromEntries(Object.entries(DEFAULT_SITE_CONTENT).map(([key, fallback]) => {
+      const value = source.content?.[key as keyof typeof DEFAULT_SITE_CONTENT];
+      return [key, typeof value === 'string' ? value : fallback];
+    })) as ThemeConfig['content'],
     media: { ...DEFAULT_SITE_MEDIA, ...(source.media || {}) },
     navigation: { ...DEFAULT_NAVIGATION, ...(source.navigation || {}),
-      links: source.navigation?.links?.length ? source.navigation.links : DEFAULT_NAVIGATION.links },
+      links: Array.isArray(source.navigation?.links) && source.navigation.links.length
+        ? source.navigation.links.filter(item => item && typeof item.id === 'string' && typeof item.label === 'string')
+        : DEFAULT_NAVIGATION.links },
     contact: { ...DEFAULT_SITE_CONTACT, ...(source.contact || {}) },
     p5: { ...DEFAULT_P5_CONFIG, ...(source.p5 || {}) },
   };
