@@ -8,7 +8,7 @@ import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 export const ContactManager: React.FC = () => {
   const { settings, themeConfig, updateSettings } = useTheme();
   const source = { whatsapp:settings.whatsapp, email_public:settings.email_public, location:settings.location,
-    social_links:settings.social_links, contact:{...DEFAULT_SITE_CONTACT,...themeConfig.contact} };
+    social_links:Array.isArray(settings.social_links) ? settings.social_links : [], contact:{...DEFAULT_SITE_CONTACT,...themeConfig.contact} };
   const [data,setData]=useState(source);
   const dirty=JSON.stringify(data)!==JSON.stringify(source);
   const feedback=useSaveFeedback();
