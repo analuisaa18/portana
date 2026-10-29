@@ -13,7 +13,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const { settings, themeConfig } = useTheme();
   const brand = settings.portfolio_name || 'Portfólio';
 
-  const nav = (themeConfig.navigation?.links || DEFAULT_NAVIGATION.links).filter(item => item.visible);
+  const rawNav = themeConfig.navigation?.links;
+  const nav = (Array.isArray(rawNav) ? rawNav : DEFAULT_NAVIGATION.links).filter(item => item && item.visible && typeof item.id === 'string');
 
   return (
     <>
