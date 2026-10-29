@@ -29,12 +29,12 @@ export const ContentManager: React.FC = () => {
     {sections.map(section => <section key={section.name} className={cardClass}>
       <h3 className="font-bold text-lg">{section.name}</h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {section.fields.map(([key, label]) => <label key={key} className={fieldClass}>
+        {section.fields.map(([key, label]) => { const value = typeof data[key] === 'string' ? data[key] : ''; return <label key={key} className={fieldClass}>
           <span>{label}</span>
-          {data[key].includes('\n') || data[key].length > 90 ? <textarea rows={3} className={inputClass} value={data[key]} onChange={e => setData({ ...data, [key]: e.target.value })}/>
-            : <input className={inputClass} value={data[key]} onChange={e => setData({ ...data, [key]: e.target.value })}/>}
-          <span className="block text-[11px] opacity-65 font-normal">Prévia: <span style={{whiteSpace:'pre-line'}}>{data[key]}</span></span>
-        </label>)}
+          {value.includes('\n') || value.length > 90 ? <textarea rows={3} className={inputClass} value={value} onChange={e => setData({ ...data, [key]: e.target.value })}/>
+            : <input className={inputClass} value={value} onChange={e => setData({ ...data, [key]: e.target.value })}/>}
+          <span className="block text-[11px] opacity-65 font-normal">Prévia: <span style={{whiteSpace:'pre-line'}}>{value}</span></span>
+        </label>; })}
       </div>
     </section>)}
     <p className="text-xs opacity-70">Nome exibido na marca: {settings.portfolio_name}. Outros textos do banco são administrados nas abas correspondentes.</p>
