@@ -142,27 +142,34 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const customImage = themeConfig.customImage || '';
     root.style.setProperty('--theme-custom-image', customImage ? `url(\"${customImage.replace(/\"/g, '\\"')}\")` : 'none');
 
-    // Carrega apenas os pesos escolhidos; não solicita 9 variações para cada família.
-    const weights = (typography.selectedWeights?.length ? typography.selectedWeights : [400, 700])
-      .filter(w => Number.isFinite(w) && w >= 100 && w <= 900);
-    const fontStacks = [typography.fontFamilyHeadings, typography.fontFamilyBody,
-      typography.fontFamilyNav, typography.fontFamilyButtons, typography.fontFamilyProjects,
-      header.brandFontFamily].filter(Boolean) as string[];
-    const selectedFamilies = new Set(fontStacks.map(f => f.split(',')[0].trim().replace(/^['"]|['"]$/g, '')));
-    document.querySelectorAll('link[data-portfolio-google-font]').forEach(link => {
-      if (!selectedFamilies.has(link.getAttribute('data-portfolio-google-font') || '')) link.remove();
-    });
-    for (const family of selectedFamilies) {
-      if (!family || /^(sans-serif|serif|monospace|inherit|var\()/i.test(family)) continue;
-      const id = `google-font-${family.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-      const possible = typography.availableWeightsByFamily?.[family];
-      const requested = possible?.length ? weights.filter(weight => possible.includes(weight)) : weights;
-      const supported = requested.length ? requested : (possible?.includes(400) ? [400] : [possible?.[0] || 400]);
-      const href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, '+')}:wght@${supported.join(';')}&display=swap`;
-      let link = document.getElementById(id) as HTMLLinkElement | null;
-      if (!link) { link = document.createElement('link'); link.id = id; link.rel = 'stylesheet'; document.head.appendChild(link); }
-      link.dataset.portfolioGoogleFont = family;
-      if (link.href !== href) link.href = href;
+    // Fontes configuradas no Admin não podem derrubar a aplicação se o banco possuir
+    // valores legados em formato diferente de string/array.
+    try {
+      const rawWeights = typography.selectedWeights;
+      const weights = (Array.isArray(rawWeights) ? rawWeights : [400, 700])
+        .filter((weight): weight is number => typeof weight === 'number' && Number.isFinite(weight) && weight >= 100 && weight <= 900);
+      const fontStacks = [typography.fontFamilyHeadings, typography.fontFamilyBody,
+        typography.fontFamilyNav, typography.fontFamilyButtons, typography.fontFamilyProjects,
+        header.brandFontFamily].filter((family): family is string => typeof family === 'string' && family.trim().length > 0);
+      const selectedFamilies = new Set(fontStacks.map(family => family.split(',')[0].trim().replace(/^['"]|['"]$/g, '')));
+      document.querySelectorAll('link[data-portfolio-google-font]').forEach(link => {
+        if (!selectedFamilies.has(link.getAttribute('data-portfolio-google-font') || '')) link.remove();
+      });
+      for (const family of selectedFamilies) {
+        if (!family || /^(sans-serif|serif|monospace|inherit|var\()/i.test(family)) continue;
+        const id = `google-font-${family.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+        const possible = typography.availableWeightsByFamily?.[family];
+        const validPossible = Array.isArray(possible) ? possible.filter(weight => typeof weight === 'number' && Number.isFinite(weight)) : [];
+        const requested = validPossible.length ? weights.filter(weight => validPossible.includes(weight)) : weights;
+        const supported = requested.length ? requested : (validPossible.includes(400) ? [400] : [validPossible[0] || 400]);
+        const href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, '+')}:wght@${supported.join(';')}&display=swap`;
+        let link = document.getElementById(id) as HTMLLinkElement | null;
+        if (!link) { link = document.createElement('link'); link.id = id; link.rel = 'stylesheet'; document.head.appendChild(link); }
+        link.dataset.portfolioGoogleFont = family;
+        if (link.href !== href) link.href = href;
+      }
+    } catch (error) {
+      console.warn('[Portfólio] Fonte personalizada inválida; fonte padrão preservada:', error);
     }
     const media = themeConfig.media;
     const setImage = (name: string, src?: string) => {
