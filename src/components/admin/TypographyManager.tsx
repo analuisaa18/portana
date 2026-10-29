@@ -39,7 +39,7 @@ export const TypographyManager: React.FC = () => {
         const raw = await result.json();
         const items: any[] = Array.isArray(raw) ? raw : (raw.familyMetadataList || raw.items || Object.values(raw));
         if (mounted && Array.isArray(items)) {
-          setFonts(items.map(i => ({family:typeof i === 'string' ? i : i.family || i.name,variants:i?.variants || ['regular','700']})).filter((i: Font)=>Boolean(i.family)));
+          setFonts(items.map(i => ({family:typeof i === 'string' ? i : i.family || i.name,variants:Array.isArray(i?.variants) ? i.variants : ['regular','700']})).filter((i: Font)=>Boolean(i.family)));
           setSourceInfo('Catálogo de contingência (mirror); configure GOOGLE_FONTS_API_KEY para a API oficial.');return;
         }
       } catch {}
