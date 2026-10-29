@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -8,7 +8,8 @@ import { ContactSection } from './components/public/ContactSection';
 import { EditorialHome } from './components/public/EditorialHome';
 import { ProjectsEditorial } from './components/public/ProjectsEditorial';
 import { AdminLogin } from './components/admin/AdminLogin';
-import { AdminDashboard } from './components/admin/AdminDashboard';
+// O painel é carregado somente em #admin, sem bloquear a Home pública.
+const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
 import { portfolioStore } from './services/store';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { Project, Category } from './types/portfolio';
@@ -139,7 +140,7 @@ export function PortfolioApp() {
             {currentView === 'admin' && (
               authLoading ? <LoadingState message="Verificando acesso administrativo..." /> :
               !isAdminAuthenticated ? <AdminLogin onLoginSuccess={() => setIsAdminAuthenticated(true)} /> :
-              <AdminDashboard onLogout={handleAdminLogout} onPreviewPublic={() => handleNavigate('projetos')} />
+              <Suspense fallback={<LoadingState message="Carregando painel administrativo..." />}><AdminDashboard onLogout={handleAdminLogout} onPreviewPublic={() => handleNavigate('projetos')} /></Suspense>
             )}
           </>
         )}
