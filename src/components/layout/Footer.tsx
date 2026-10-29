@@ -7,6 +7,7 @@ export const Footer: React.FC = () => {
   const { settings, themeConfig } = useTheme();
   const text = themeConfig.content || DEFAULT_SITE_CONTENT;
   const currentYear = new Date().getFullYear();
+  const socialLinks = Array.isArray(settings.social_links) ? settings.social_links : [];
 
   return (
     <footer className="w-full border-t border-[var(--color-border)] bg-[#080808] py-12 mt-20 transition-colors relative z-10">
@@ -21,9 +22,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Social Links */}
-        {settings.social_links && settings.social_links.length > 0 && (
+        {socialLinks.length > 0 && (
           <ul className="flex flex-wrap items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--color-text-secondary)]">
-            {settings.social_links.filter(link => link.enabled !== false).map((link) => (
+            {socialLinks.filter(link => link.enabled !== false).map((link) => (
               <li key={link.id}>
                 <a
                   href={link.url}
