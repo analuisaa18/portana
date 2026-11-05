@@ -8,6 +8,8 @@ import { ProjectList } from './ProjectList';
 import { AppearanceEditor } from './AppearanceEditor';
 import { HeaderEditor } from './HeaderEditor';
 import { GitHubManager } from './GitHubManager';
+import { SiteContentEditor, ADMIN_BEFORE_LEAVE_EVENT } from './SiteContentEditor';
+import { ErrorBoundary } from '../common/ErrorBoundary';
 import { 
   FolderGit2, 
   Layers, 
@@ -19,7 +21,8 @@ import {
   FileCheck2, 
   FileClock,
   Sparkles,
-  Github
+  Github,
+  FileText
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -31,7 +34,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout,
   onPreviewPublic,
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
+  const [activeTab, setActiveTabRaw] = useState<'overview' | 'content' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
+  // Troca de aba pergunta antes de descartar edições não salvas.
+  const setActiveTab = (tab: typeof activeTab) => {
+    if (tab === activeTab) return;
+    if (!window.dispatchEvent(new Event(ADMIN_BEFORE_LEAVE_EVENT, { cancelable: true }))) return;
+    setActiveTabRaw(tab);
+  };
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +68,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'content', label: 'Conteúdo do Site', icon: <FileText className="w-4 h-4" /> },
     { id: 'projects', label: 'Gerenciar Projetos', icon: <FolderGit2 className="w-4 h-4" /> },
     { id: 'categories', label: 'Categorias', icon: <Layers className="w-4 h-4" /> },
     { id: 'github', label: 'Integração GitHub', icon: <Github className="w-4 h-4 text-[var(--color-accent)]" /> },
@@ -126,6 +136,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </nav>
 
       {/* Tab Contents */}
+      <ErrorBoundary key={activeTab} area="esta aba do painel" onReset={() => setActiveTabRaw('overview')} resetLabel="Voltar à visão geral">
       {activeTab === 'overview' && (
         <div className="space-y-8 animate-fade-in">
           {/* Quick Metrics */}
@@ -212,6 +223,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       )}
 
+      {activeTab === 'content' && <SiteContentEditor />}
+
       {activeTab === 'projects' && (
         <ProjectList
           projects={projects}
@@ -245,6 +258,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {activeTab === 'header' && (
         <HeaderEditor onSaved={refreshData} />
       )}
+      </ErrorBoundary>
     </div>
   );
 };
