@@ -5,9 +5,10 @@ import { ShieldCheck, Lock, AlertCircle } from 'lucide-react';
 
 interface AdminLoginProps {
   onLoginSuccess: () => void;
+  onBack?: () => void;
 }
 
-export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
+export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBack }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -109,6 +110,12 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         <p className="text-xs text-center text-[var(--color-text-secondary)]">
           Somente usuários cadastrados no Supabase Authentication podem acessar este painel.
         </p>
+
+        {onBack && (
+          <button type="button" onClick={onBack} className="block mx-auto text-xs underline text-[var(--color-text-secondary)] cursor-pointer">
+            ← Voltar ao site
+          </button>
+        )}
       </div>
     </div>
   );
