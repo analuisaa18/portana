@@ -9,7 +9,8 @@ interface ThemeContextType {
   loading: boolean;
   reducedMotion: boolean;
   setReducedMotion: (val: boolean) => void;
-  updateThemeConfig: (newConfig: ThemeConfig) => Promise<void>;
+  /** includeSiteContent: só a aba 'Conteúdo do Site' deve passar true. */
+  updateThemeConfig: (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean }) => Promise<void>;
   updateSettings: (newSettings: Partial<PortfolioSettings>) => Promise<void>;
   reloadSettings: () => Promise<void>;
 }
@@ -152,9 +153,21 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (header.brandFontFamily?.trim()) loadGoogleFont(header.brandFontFamily);
   }, [themeConfig, reducedMotion]);
 
-  const updateThemeConfig = async (newConfig: ThemeConfig) => {
+  const updateThemeConfig = async (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean }) => {
+    // Proteção: as abas Aparência/Header (inclusive "restaurar padrão") salvam o tema inteiro.
+    // Textos, imagens, menu e contato do site só mudam pela aba "Conteúdo do Site".
+    const current = settings.theme_config || DEFAULT_THEME_CONFIG;
+    const safeConfig: ThemeConfig = options?.includeSiteContent
+      ? newConfig
+      : {
+          ...newConfig,
+          content: current.content,
+          media: current.media,
+          navigation: current.navigation,
+          contact: current.contact,
+        };
     // Persist first. The UI only adopts the new theme after Supabase confirms the save.
-    const updated = await portfolioStore.updateSettings({ theme_config: newConfig });
+    const updated = await portfolioStore.updateSettings({ theme_config: safeConfig });
     setSettings(updated);
   };
 
