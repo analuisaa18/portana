@@ -1,7 +1,8 @@
 import React from 'react';
-import { Instagram } from 'lucide-react';
+import { LockKeyhole } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
+import { useSiteContent } from '../public/siteContent';
 
 interface HeaderProps {
   currentView: string;
@@ -10,16 +11,9 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   const { settings } = useTheme();
+  const { navigation } = useSiteContent();
   const brand = settings.portfolio_name || 'Portfólio';
-  const instagram = settings.social_links?.find((item) =>
-    item.platform?.toLowerCase().includes('instagram')
-  );
-
-  const nav = [
-    { id: 'sobre', label: 'Sobre' },
-    { id: 'projetos', label: 'Projetos' },
-    { id: 'contato', label: 'Contato' },
-  ];
+  const links = navigation.links.filter((item) => item.visible);
 
   return (
     <>
@@ -32,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
           </button>
 
           <nav className="ref-header__nav" aria-label="Navegação principal">
-            {nav.map((item) => (
+            {links.map((item) => (
               <button
                 key={item.id}
                 type="button"
@@ -42,12 +36,18 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
                 {item.label}
               </button>
             ))}
-            {instagram ? (
-              <a href={instagram.url} target="_blank" rel="noreferrer" aria-label="Instagram">
-                <Instagram size={14} strokeWidth={1.7} />
-              </a>
-            ) : (
-              <span className="ref-header__social" aria-hidden="true"><Instagram size={14} strokeWidth={1.7} /></span>
+            {/* Último ícone: acesso à área administrativa (sempre leva a #/admin). */}
+            {navigation.showAdminIcon !== false && (
+              <button
+                type="button"
+                className="ref-header__social"
+                onClick={() => onNavigate('admin')}
+                aria-label="Área administrativa"
+                title="Área administrativa"
+                aria-current={currentView === 'admin' ? 'page' : undefined}
+              >
+                <LockKeyhole size={15} strokeWidth={1.8} aria-hidden="true" />
+              </button>
             )}
           </nav>
 
