@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import collageDesktop from '../../assets/identity/colagem-desktop.png';
 import collageMobile from '../../assets/identity/colagem-mobile.png';
 import { Project } from '../../types/portfolio';
+import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 interface EditorialHomeProps {
   projects: Project[];
@@ -12,19 +13,39 @@ interface EditorialHomeProps {
 }
 
 export const EditorialHome: React.FC<EditorialHomeProps> = ({ onNavigate }) => {
+  const { text, media } = useSiteContent();
+  // Se o link cadastrado no painel falhar, volta para a colagem original em vez de mostrar imagem quebrada.
+  const [customFailed, setCustomFailed] = useState(false);
+  useEffect(() => setCustomFailed(false), [media.homeCollageDesktop, media.homeCollageMobile]);
+  const useCustom = !customFailed;
+  const desktopImage = (useCustom && media.homeCollageDesktop) || collageDesktop;
+  // Se só a imagem desktop foi trocada, ela também é usada no celular.
+  const mobileImage = (useCustom && (media.homeCollageMobile || media.homeCollageDesktop)) || collageMobile;
+  const hasCustom = Boolean(media.homeCollageDesktop || media.homeCollageMobile);
+
   return (
-    <section className="ref-page ref-page--home" aria-label="Portfólio">
+    <section
+      className="ref-page ref-page--home"
+      aria-label="Portfólio"
+      style={backgroundVars(media.homeBackground, media.homeBackgroundMobile)}
+    >
       <div className="ref-home__copy">
-        <h1>PORTFÓLIO</h1>
-        <p>DESIGN DE INTERFACES,<br />PROJETOS GRÁFICOS E<br />EXPERIÊNCIAS VISUAIS.</p>
-        <button type="button" className="ref-cta" onClick={() => onNavigate('projetos')}>
-          <span>VER PROJETOS</span><ArrowUpRight size={14} strokeWidth={2.2} />
-        </button>
+        <h1><MultiLine text={text.homeTitle} /></h1>
+        {text.homeSubtitle && <p><MultiLine text={text.homeSubtitle} /></p>}
+        {text.homeButton && (
+          <button type="button" className="ref-cta" onClick={() => onNavigate('projetos')}>
+            <span>{text.homeButton}</span><ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <picture className="ref-home__collage">
-        <source media="(max-width: 640px)" srcSet={collageMobile} />
-        <img src={collageDesktop} alt="Colagem visual com laptop, Pantone e materiais gráficos" />
+        <source media="(max-width: 640px)" srcSet={mobileImage} />
+        <img
+          src={desktopImage}
+          alt={media.homeCollageAlt || ''}
+          onError={() => { if (hasCustom && !customFailed) setCustomFailed(true); }}
+        />
       </picture>
 
       <span className="ref-star ref-star--home-1" aria-hidden="true">✦</span>
