@@ -196,6 +196,56 @@ export interface ThemeConfig {
   customImage: string;
   ctaLabel: CtaLabel;
   uxVoice: UXVoice;
+  /* Conteúdo editável do site público. Fica dentro de theme_config (JSONB),
+     portanto não exige nenhuma coluna nova no banco. Nomes compatíveis com o PR #1. */
+  content?: SiteContent;
+  media?: SiteMedia;
+  navigation?: NavigationConfig;
+  contact?: SiteContact;
+}
+
+export interface SiteContent {
+  homeTitle: string;
+  homeSubtitle: string;
+  homeButton: string;
+  aboutHeading: string;
+  aboutButton: string;
+  projectsHeading: string;
+  projectsEmpty: string;
+  contactEyebrow: string;
+  contactHeading: string;
+  contactDescription: string;
+  contactDetailsHeading: string;
+  contactFormHeading: string;
+  contactNameLabel: string;
+  contactSubjectLabel: string;
+  contactMessageLabel: string;
+  detailBack: string;
+}
+
+export interface SiteMedia {
+  homeCollageDesktop: string;
+  homeCollageMobile: string;
+  homeCollageAlt: string;
+  homeBackground: string;
+  homeBackgroundMobile: string;
+  projectsBackground: string;
+  aboutBackground: string;
+  contactBackground: string;
+}
+
+export type NavigationId = 'sobre' | 'projetos' | 'contato';
+export interface NavigationItem { id: NavigationId; label: string; visible: boolean; }
+export interface NavigationConfig {
+  links: NavigationItem[];
+  showAdminIcon: boolean;
+}
+
+export interface SiteContact {
+  whatsappEnabled: boolean;
+  whatsappButtonText: string;
+  whatsappMessage: string;
+  showSocialLinks: boolean;
 }
 
 export interface SocialLink {
@@ -203,6 +253,8 @@ export interface SocialLink {
   platform: string;
   url: string;
   label: string;
+  enabled?: boolean;
+  display_label?: string;
 }
 
 export interface PortfolioSettings {
