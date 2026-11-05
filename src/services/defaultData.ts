@@ -3,8 +3,60 @@ import {
   Category, 
   Project, 
   ProjectBlock,
-  ThemeConfig 
+  ThemeConfig,
+  SiteContent,
+  SiteMedia,
+  NavigationConfig,
+  SiteContact,
 } from '../types/portfolio';
+
+/* Textos atuais do site — o admin parte exatamente do que já aparece hoje. */
+export const DEFAULT_SITE_CONTENT: SiteContent = {
+  homeTitle: 'PORTFÓLIO',
+  homeSubtitle: 'DESIGN DE INTERFACES,\nPROJETOS GRÁFICOS E\nEXPERIÊNCIAS VISUAIS.',
+  homeButton: 'VER PROJETOS',
+  aboutHeading: 'SOBRE\nMIM',
+  aboutButton: 'VAMOS CONVERSAR',
+  projectsHeading: 'PROJETOS',
+  projectsEmpty: 'Novos projetos serão publicados em breve.',
+  contactEyebrow: 'CANAIS DE\nCOMUNICAÇÃO\nDIRETA',
+  contactHeading: 'INICIAR DIÁLOGO',
+  contactDescription: 'Preencha o formulário abaixo para enviar uma mensagem diretamente para o WhatsApp de contato.',
+  contactDetailsHeading: 'INFORMAÇÕES\nDIRETAS',
+  contactFormHeading: 'Enviar mensagem pelo\nWhatsApp',
+  contactNameLabel: 'Seu Nome Completo *',
+  contactSubjectLabel: 'Assunto / Proposta *',
+  contactMessageLabel: 'Mensagem *',
+  detailBack: 'Voltar aos projetos',
+};
+
+/* Vazio = usa a imagem original da identidade visual. */
+export const DEFAULT_SITE_MEDIA: SiteMedia = {
+  homeCollageDesktop: '',
+  homeCollageMobile: '',
+  homeCollageAlt: 'Colagem visual com laptop, Pantone e materiais gráficos',
+  homeBackground: '',
+  homeBackgroundMobile: '',
+  projectsBackground: '',
+  aboutBackground: '',
+  contactBackground: '',
+};
+
+export const DEFAULT_NAVIGATION: NavigationConfig = {
+  links: [
+    { id: 'sobre', label: 'Sobre', visible: true },
+    { id: 'projetos', label: 'Projetos', visible: true },
+    { id: 'contato', label: 'Contato', visible: true },
+  ],
+  showAdminIcon: true,
+};
+
+export const DEFAULT_SITE_CONTACT: SiteContact = {
+  whatsappEnabled: true,
+  whatsappButtonText: 'Enviar pelo WhatsApp',
+  whatsappMessage: 'Olá! Meu nome é {nome}.\n\nAssunto: {assunto}\n\n{mensagem}',
+  showSocialLinks: true,
+};
 
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   colors: {
@@ -144,6 +196,10 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   customImage: '',
   ctaLabel: 'Ver projeto',
   uxVoice: 'direto',
+  content: DEFAULT_SITE_CONTENT,
+  media: DEFAULT_SITE_MEDIA,
+  navigation: DEFAULT_NAVIGATION,
+  contact: DEFAULT_SITE_CONTACT,
 };
 
 export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
