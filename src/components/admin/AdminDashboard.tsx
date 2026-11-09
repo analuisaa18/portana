@@ -10,6 +10,7 @@ import { HeaderEditor } from './HeaderEditor';
 import { GitHubManager } from './GitHubManager';
 import { SiteContentEditor, ADMIN_BEFORE_LEAVE_EVENT } from './SiteContentEditor';
 import { ErrorBoundary } from '../common/ErrorBoundary';
+import { P5Manager } from './P5Manager';
 import { 
   FolderGit2, 
   Layers, 
@@ -34,7 +35,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout,
   onPreviewPublic,
 }) => {
-  const [activeTab, setActiveTabRaw] = useState<'overview' | 'content' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
+  const [activeTab, setActiveTabRaw] = useState<'overview' | 'content' | 'p5' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
   // Troca de aba pergunta antes de descartar edições não salvas.
   const setActiveTab = (tab: typeof activeTab) => {
     if (tab === activeTab) return;
@@ -69,6 +70,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'content', label: 'Conteúdo do Site', icon: <FileText className="w-4 h-4" /> },
+    { id: 'p5', label: 'Interações p5.js', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'projects', label: 'Gerenciar Projetos', icon: <FolderGit2 className="w-4 h-4" /> },
     { id: 'categories', label: 'Categorias', icon: <Layers className="w-4 h-4" /> },
     { id: 'github', label: 'Integração GitHub', icon: <Github className="w-4 h-4 text-[var(--color-accent)]" /> },
@@ -224,6 +226,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       )}
 
       {activeTab === 'content' && <SiteContentEditor />}
+
+      {activeTab === 'p5' && <P5Manager />}
 
       {activeTab === 'projects' && (
         <ProjectList
