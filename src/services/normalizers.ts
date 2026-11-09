@@ -1,4 +1,4 @@
-import { NavigationConfig, NavigationItem, PortfolioSettings, SiteContent, SiteMedia, ThemeConfig } from '../types/portfolio';
+import { InteractionsConfig, NavigationConfig, NavigationItem, P5Layer, P5Place, PortfolioSettings, SiteContent, SiteMedia, ThemeConfig } from '../types/portfolio';
 import {
   DEFAULT_NAVIGATION,
   DEFAULT_PORTFOLIO_SETTINGS,
@@ -6,7 +6,9 @@ import {
   DEFAULT_SITE_CONTENT,
   DEFAULT_SITE_MEDIA,
   DEFAULT_THEME_CONFIG,
+  DEFAULT_INTERACTIONS,
 } from './defaultData';
+import { P5_PRESETS, resolveParams } from '../p5/presets';
 
 /** Só aceita textos; qualquer valor estranho salvo no banco cai no texto padrão. */
 function mergeStrings<T extends object>(defaults: T, input: unknown): T {
@@ -16,6 +18,41 @@ function mergeStrings<T extends object>(defaults: T, input: unknown): T {
     result[key] = typeof source[key] === "string" ? source[key] : (defaults as Record<string, unknown>)[key];
   }
   return result as T;
+}
+
+const P5_PLACES: P5Place[] = ['navbar', 'home', 'projetos', 'sobre', 'contato', 'projeto'];
+const MAX_LAYERS = 16;
+const MAX_CODE = 60000;
+
+/** Camadas p5.js: qualquer valor estranho salvo no banco vira algo seguro, nunca um erro. */
+export function normalizeInteractions(input: unknown): InteractionsConfig {
+  const source = (input && typeof input === 'object' ? input : {}) as Partial<InteractionsConfig>;
+  const rawLayers = Array.isArray(source.layers) ? source.layers.slice(0, MAX_LAYERS) : [];
+  const layers: P5Layer[] = rawLayers
+    .filter((l) => l && typeof l === 'object')
+    .map((l, index) => {
+      const preset = P5_PRESETS.some((p) => p.id === l.preset) ? l.preset : P5_PRESETS[0].id;
+      const places = Array.isArray(l.places) ? l.places.filter((p): p is P5Place => P5_PLACES.includes(p as P5Place)) : [];
+      const opacity = Number(l.opacity);
+      return {
+        id: typeof l.id === 'string' && l.id ? l.id.slice(0, 60) : `camada-${index + 1}`,
+        name: typeof l.name === 'string' && l.name.trim() ? l.name.slice(0, 80) : `Camada ${index + 1}`,
+        enabled: l.enabled !== false,
+        places: places.length ? Array.from(new Set(places)) : ['home'],
+        depth: l.depth === 'frente' ? 'frente' : 'fundo',
+        opacity: Number.isFinite(opacity) ? Math.min(1, Math.max(0.05, opacity)) : 1,
+        showOnMobile: l.showOnMobile !== false,
+        mode: l.mode === 'code' ? 'code' : 'preset',
+        preset,
+        params: resolveParams(preset, (l.params && typeof l.params === 'object') ? l.params : {}),
+        code: typeof l.code === 'string' ? l.code.slice(0, MAX_CODE) : '',
+      };
+    });
+  return {
+    layers,
+    animateStars: source.animateStars !== false,
+    respectReducedMotion: source.respectReducedMotion !== false,
+  };
 }
 
 /** Garante que os 3 links existam sempre, uma única vez cada, na ordem salva. */
@@ -102,6 +139,7 @@ export function normalizeThemeConfig(input?: Partial<ThemeConfig> | null): Theme
     content: mergeStrings<SiteContent>(DEFAULT_SITE_CONTENT, source.content),
     media: mergeStrings<SiteMedia>(DEFAULT_SITE_MEDIA, source.media),
     navigation: normalizeNavigation(source.navigation),
+    interactions: normalizeInteractions(source.interactions ?? DEFAULT_INTERACTIONS),
     contact: {
       ...DEFAULT_SITE_CONTACT,
       ...((source.contact as object) || {}),
