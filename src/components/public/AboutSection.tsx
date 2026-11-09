@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { P5Layers } from '../../p5/P5Layers';
 import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 interface AboutSectionProps { onNavigateContact?: () => void; }
@@ -43,6 +44,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateContact })
         <div className="ref-about__visual" aria-hidden="true" />
       )}
 
+      <P5Layers place="sobre" />
       <span className="ref-star ref-star--about-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--about-2" aria-hidden="true">✦</span>
     </section>
