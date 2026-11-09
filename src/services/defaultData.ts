@@ -8,6 +8,7 @@ import {
   SiteMedia,
   NavigationConfig,
   SiteContact,
+  InteractionsConfig,
 } from '../types/portfolio';
 
 /* Textos atuais do site — o admin parte exatamente do que já aparece hoje. */
@@ -49,6 +50,13 @@ export const DEFAULT_NAVIGATION: NavigationConfig = {
     { id: 'contato', label: 'Contato', visible: true },
   ],
   showAdminIcon: true,
+};
+
+/* Começa sem camadas p5 (o site fica igual); as estrelas da identidade flutuam. */
+export const DEFAULT_INTERACTIONS: InteractionsConfig = {
+  layers: [],
+  animateStars: true,
+  respectReducedMotion: true,
 };
 
 export const DEFAULT_SITE_CONTACT: SiteContact = {
@@ -200,6 +208,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   media: DEFAULT_SITE_MEDIA,
   navigation: DEFAULT_NAVIGATION,
   contact: DEFAULT_SITE_CONTACT,
+  interactions: DEFAULT_INTERACTIONS,
 };
 
 export const DEFAULT_PORTFOLIO_SETTINGS: PortfolioSettings = {
