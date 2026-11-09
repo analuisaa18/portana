@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '../../types/portfolio';
+import { P5Layers } from '../../p5/P5Layers';
 import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 interface ProjectsEditorialProps {
@@ -56,6 +57,7 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({ projects, 
         <p className="ref-projects__empty">{text.projectsEmpty}</p>
       )}
 
+      <P5Layers place="projetos" />
       <span className="ref-star ref-star--projects-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--projects-2" aria-hidden="true">✧</span>
     </section>
