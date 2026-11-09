@@ -165,6 +165,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           media: current.media,
           navigation: current.navigation,
           contact: current.contact,
+          interactions: current.interactions,
         };
     // Persist first. The UI only adopts the new theme after Supabase confirms the save.
     const updated = await portfolioStore.updateSettings({ theme_config: safeConfig });
