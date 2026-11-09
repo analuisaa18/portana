@@ -202,6 +202,36 @@ export interface ThemeConfig {
   media?: SiteMedia;
   navigation?: NavigationConfig;
   contact?: SiteContact;
+  /* Camadas interativas p5.js aplicadas nas partes do site (aba "Interações p5.js"). */
+  interactions?: InteractionsConfig;
+}
+
+export type P5Place = 'navbar' | 'home' | 'projetos' | 'sobre' | 'contato' | 'projeto';
+export type P5ParamValue = string | number | boolean;
+
+export interface P5Layer {
+  id: string;
+  name: string;
+  enabled: boolean;
+  /** Em quais partes do site a camada aparece. */
+  places: P5Place[];
+  /** fundo = atrás do conteúdo; frente = por cima (não bloqueia cliques). */
+  depth: 'fundo' | 'frente';
+  opacity: number;
+  showOnMobile: boolean;
+  /** preset = efeito pronto com controles; code = código p5.js escrito no painel. */
+  mode: 'preset' | 'code';
+  preset: string;
+  params: Record<string, P5ParamValue>;
+  code: string;
+}
+
+export interface InteractionsConfig {
+  layers: P5Layer[];
+  /** Estrelas ✦ da identidade flutuando (animação CSS leve). */
+  animateStars: boolean;
+  /** Desliga animações para quem pediu menos movimento no sistema (WCAG 2.3.3). */
+  respectReducedMotion: boolean;
 }
 
 export interface SiteContent {
