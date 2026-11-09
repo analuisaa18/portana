@@ -37,7 +37,8 @@ const toHash = ({ view, slug }: Route) => {
 };
 
 export function PortfolioApp() {
-  const { settings } = useTheme();
+  const { settings, themeConfig } = useTheme();
+  const starsMove = themeConfig.interactions?.animateStars !== false;
   const [route, setRoute] = useState<Route>(() => parseHash(window.location.hash));
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
@@ -136,7 +137,7 @@ export function PortfolioApp() {
   const headerView = isDetail ? 'projetos' : currentView;
 
   return (
-    <div className={isAdmin ? 'admin-shell' : 'reference-site'}>
+    <div className={isAdmin ? 'admin-shell' : `reference-site${starsMove ? '' : ' stars-still'}`}>
       {!isAdmin && <Header currentView={headerView} onNavigate={handleNavigate} />}
 
       <main id="main-content" className={isAdmin ? 'admin-main' : 'reference-main'} tabIndex={-1}>
