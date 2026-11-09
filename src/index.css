@@ -28,7 +28,7 @@
 
 * { box-sizing: border-box; }
 html { background:#efefef; scroll-behavior:smooth; }
-body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); background:#090909; color:#111; overflow-wrap:break-word; }
+body { margin:0; min-width:320px; min-height:100vh; font-family:var(--font-body); background:#090909; color:#111; }
 button, input, textarea { font:inherit; }
 button { -webkit-tap-highlight-color:transparent; }
 *:focus-visible { outline:2px solid var(--color-focus); outline-offset:3px; }
@@ -60,12 +60,11 @@ button { -webkit-tap-highlight-color:transparent; }
   top:32px;
   left:50%;
   width:calc(100% - 96px);
-  max-width:1600px;
   transform:translateX(-50%);
 }
 .ref-header__inner {
   position:relative;
-  min-height:94px;
+  height:94px;
   padding:0 54px;
   border:1px solid #f08bb0;
   border-radius:999px;
@@ -103,10 +102,10 @@ button { -webkit-tap-highlight-color:transparent; }
 .ref-header__nav button {
   cursor:pointer;
   text-transform:uppercase;
-  font-size:11px;
+  font-size:10px;
   font-weight:900;
   letter-spacing:.03em;
-  padding:10px 0;
+  padding:8px 0;
   transition:color .2s;
 }
 .ref-header__nav button:hover { color:#ed84aa; }
@@ -166,43 +165,44 @@ button { -webkit-tap-highlight-color:transparent; }
 .ref-cta:hover { transform:translateY(-2px); }
 .ref-cta--pink { background:#ed83aa; color:#0a0a0a; }
 
-/* ---------- Home ---------- */
+/* ---------- Home ----------
+   Desktop: composição original do layout (posições em %), só com altura mínima
+   proporcional à largura para a colagem nunca ser cortada em telas baixas.
+   Tablet/celular: versão empilhada (ver media queries abaixo). */
 .ref-page--home {
-  display:grid;
-  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-  align-items:center;
-  gap:4vw;
-  padding:clamp(150px,20vh,200px) 5% clamp(90px,12vh,140px) 10.3%;
+  min-height:max(100vh, 51vw);
+  min-height:max(100svh, 51vw);
+  background-position:center, center;
 }
-.ref-home__copy { position:relative; z-index:5; color:#0a0a0a; }
+.ref-home__copy { position:absolute; left:10.3%; top:41%; z-index:5; color:#0a0a0a; }
 .ref-home__copy h1 {
   margin:0;
   font-family:var(--font-headings);
-  font-size:clamp(54px,6.7vw,104px);
+  font-size:clamp(62px,6.7vw,104px);
   line-height:.88;
   letter-spacing:-.065em;
+  white-space:nowrap;
   transform:rotate(-5deg);
   transform-origin:left center;
   color:#0a0a0a;
 }
 .ref-home__copy p {
   margin:42px 0 25px;
-  font-size:clamp(14px,1.4vw,20px);
-  line-height:1.05;
+  font-size:20px;
+  line-height:1.02;
   font-weight:900;
   letter-spacing:-.03em;
 }
 .ref-home__collage {
-  position:relative;
+  position:absolute;
+  width:48.5%;
+  right:4.5%;
+  top:25.5%;
   z-index:3;
-  justify-self:end;
-  width:100%;
-  /* nunca maior do que a altura disponível da tela (evita corte em notebooks) */
-  max-width:min(100%, calc((100svh - 220px) * 1.333));
   transform:rotate(-1deg);
 }
 .ref-home__collage img { display:block; width:100%; height:auto; }
-.ref-star--home-1 { left:50%; top:45%; font-size:38px; }
+.ref-star--home-1 { right:47.3%; top:43%; font-size:38px; }
 .ref-star--home-2 { right:7%; bottom:12%; font-size:42px; }
 
 /* ---------- Projetos ---------- */
@@ -335,6 +335,45 @@ button { -webkit-tap-highlight-color:transparent; }
 .ref-detail__state h2 { color:#ed86ac; font-family:var(--font-headings); font-size:32px; margin:16px 0 8px; }
 .ref-detail__state p { margin:0 0 24px; }
 
+/* ---------- Estrelas da identidade flutuando ----------
+   Mesmo movimento das versões anteriores do site (deslocamento + giro + escala).
+   Pode ser desligado no admin (Interações p5.js) e respeita "reduzir movimento". */
+@keyframes refStarFloatA {
+  0%, 100% { transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+  50% { transform:translate3d(8px,-12px,0) rotate(14deg) scale(1.1); }
+}
+@keyframes refStarFloatB {
+  0%, 100% { transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+  50% { transform:translate3d(-10px,9px,0) rotate(-16deg) scale(.92); }
+}
+@keyframes refStarTwinkle {
+  0%, 100% { opacity:1; transform:scale(1) rotate(0deg); }
+  50% { opacity:.35; transform:scale(.7) rotate(45deg); }
+}
+.ref-star { display:inline-block; will-change:transform; animation:refStarFloatA 6.2s ease-in-out infinite; }
+.ref-star[class*="-2"] { animation:refStarFloatB 7.4s ease-in-out infinite; animation-delay:-2s; }
+.ref-header__decor { display:inline-block; animation:refStarTwinkle 3.6s ease-in-out infinite; }
+.ref-header__decor--2 { animation-delay:-1.2s; }
+.ref-header__decor--3 { animation-delay:-2.1s; }
+.ref-header__decor--4 { animation-delay:-.6s; }
+.stars-still .ref-star,
+.stars-still .ref-header__decor { animation:none; }
+
+/* ---------- Camadas p5.js ---------- */
+.p5-layer {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:transparent;
+  pointer-events:none;
+  color-scheme:normal;
+}
+.p5-layer--fundo { z-index:2; }
+.p5-layer--frente { z-index:40; }
+.ref-header__inner .p5-layer { z-index:1; }
+
 /* ---------- Notebooks / tablets ---------- */
 @media (max-width: 1100px) {
   .ref-header { width:calc(100% - 48px); }
@@ -356,14 +395,18 @@ button { -webkit-tap-highlight-color:transparent; }
 
   /* Home: título → colagem → texto → botão */
   .ref-page--home {
+    display:grid;
     grid-template-columns:1fr;
     align-content:center;
     gap:0;
+    min-height:100vh;
+    min-height:100svh;
     padding:190px 28px 80px;
   }
   .ref-home__copy { display:contents; }
   .ref-home__copy h1 { order:1; font-size:clamp(48px,13vw,96px); transform:rotate(-7deg); margin-bottom:24px; }
-  .ref-home__collage { order:2; justify-self:center; width:min(100%,620px); max-width:none; transform:none; }
+  .ref-home__collage { position:relative; inset:auto; order:2; justify-self:center; width:min(100%,620px); max-width:none; transform:none; }
+  .ref-star--home-1 { right:auto; }
   .ref-home__copy p { order:3; margin:28px 0 22px; font-size:clamp(13px,3.4vw,18px); }
   .ref-home__copy .ref-cta { order:4; justify-self:start; }
   .ref-star--home-1 { left:24px; top:46%; font-size:28px; }
@@ -405,6 +448,7 @@ button { -webkit-tap-highlight-color:transparent; }
     flex-direction:column;
     justify-content:center;
     gap:2px;
+    height:auto;
     min-height:0;
     padding:12px 20px 8px;
     border-radius:32px;
