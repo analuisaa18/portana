@@ -3,6 +3,7 @@ import { LockKeyhole } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
 import { useSiteContent } from '../public/siteContent';
+import { P5Layers } from '../../p5/P5Layers';
 
 interface HeaderProps {
   currentView: string;
@@ -20,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       <SkipLink />
       <header className="ref-header">
         <div className="ref-header__inner">
+          <P5Layers place="navbar" />
           <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')}>
             <span className="ref-header__asterisk" aria-hidden="true">✦</span>
             <span>{brand}</span>
