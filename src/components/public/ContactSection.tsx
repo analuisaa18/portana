@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AlertCircle, ExternalLink, Mail, MapPin, MessageSquare, Send } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { P5Layers } from '../../p5/P5Layers';
+import { InteractiveStars } from '../common/InteractiveStars';
 import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 const safeUrl = (url: string) => (/^(https?:|mailto:)/i.test(url.trim()) ? url.trim() : '');
@@ -81,6 +82,7 @@ export const ContactSection: React.FC = () => {
       </div>
 
       <P5Layers place="contato" />
+      <InteractiveStars place="contato" />
       <span className="ref-star ref-star--contact-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--contact-2" aria-hidden="true">✦</span>
     </section>
