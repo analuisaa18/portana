@@ -10,6 +10,7 @@ import { ArrowLeft, Calendar, Tag, AlertCircle } from 'lucide-react';
 import { P5SketchBlock } from '../blocks/P5SketchBlock';
 import { useSiteContent } from './siteContent';
 import { P5Layers } from '../../p5/P5Layers';
+import { InteractiveStars } from '../common/InteractiveStars';
 
 interface ProjectDetailProps {
   slug: string;
@@ -128,6 +129,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ slug, onBack }) =>
         )}
       </div>
       <P5Layers place="projeto" />
+      <InteractiveStars place="projeto" />
       <span className="ref-star" aria-hidden="true" style={{ left: '4%', top: '30%', fontSize: 34 }}>✦</span>
     </section>
   );
