@@ -9,7 +9,8 @@ import './InteractiveStars.css';
  *    na navbar, cada estrela é puxada na direção do cursor com força/velocidade próprias (por
  *    distância, "massa" e mola individuais) e volta suavemente ao lugar quando o mouse sai.
  *  • place="home" | "sobre" | "projetos" | "contato" | "projeto" → estrelas de cada página,
- *    flutuando, girando e brilhando, com uma reação bem leve ao cursor.
+ *    maiores (pequenas, médias e de destaque), só com animação própria: flutuam, giram e brilham.
+ *    NÃO reagem ao cursor nem à rolagem — o magnetismo é exclusivo da navbar.
  *
  * Um único laço requestAnimationFrame compartilhado anima todas as estrelas (só transform/opacity,
  * sem re-render do React), pausa fora da tela / aba oculta e respeita "reduzir movimento".
@@ -70,31 +71,35 @@ const LAYOUTS: Record<StarPlace, StarSpec[]> = {
     s(89.2, 76, 9,  'gray', { rot: -12, spin: -9,  shape: 0, amp: 3, speed: 1.15, phase: 3.9, opacity: 0.75, twinkle: 0.4,  pull: 0.8,  stiffness: 0.08, damping: 0.82 }),
   ],
 
+  // Páginas: tamanhos ampliados (seguindo o vídeo), com estrelas pequenas, médias e de destaque.
   home: [
-    s(38.5, 47, 36, 'black', { rot: -8, spin: 4, shape: 0, amp: 5, speed: 0.55, phase: 0.8, opacity: 0.55, twinkle: 0.12 }),
-    s(7.6, 14, 30, 'black', { yu: 'bpct', rot: 12, spin: -5, shape: 1, amp: 7, speed: 0.6, phase: 2.2 }),
-    s(6.4, 10.5, 24, 'white', { yu: 'bpct', rot: -16, spin: 6, shape: 0, amp: 6, speed: 0.7, phase: 4.0 }),
-    s(80, 4, 18, 'pink',     { yu: 'bpct', rot: 6, spin: 7, shape: 1, amp: 4, speed: 0.8, phase: 1.5, opacity: 0.8 }),
+    s(38.5, 47, 64, 'black', { rot: -8, spin: 4, shape: 0, amp: 7, speed: 0.55, phase: 0.8, opacity: 0.55, twinkle: 0.12 }),
+    s(7.6, 14, 84, 'black', { yu: 'bpct', rot: 12, spin: -5, shape: 1, amp: 9, speed: 0.6, phase: 2.2 }),
+    s(6.4, 10.5, 44, 'white', { yu: 'bpct', rot: -16, spin: 6, shape: 0, amp: 7, speed: 0.7, phase: 4.0 }),
+    s(80, 4, 40, 'pink',     { yu: 'bpct', rot: 6, spin: 7, shape: 1, amp: 6, speed: 0.8, phase: 1.5, opacity: 0.8 }),
   ],
 
   sobre: [
-    s(10, 33, 30, 'pink',    { rot: 10, spin: 4, shape: 0, amp: 5, speed: 0.55, phase: 1.1 }),
-    s(57, 74, 44, 'pink',    { rot: -6, spin: -3, shape: 1, amp: 8, speed: 0.45, phase: 3.0, opacity: 0.42, twinkle: 0.15 }),
-    s(89, 84, 36, 'pink',    { rot: 14, spin: 5, shape: 0, amp: 7, speed: 0.6, phase: 4.6 }),
+    s(10, 33, 52, 'pink',    { rot: 10, spin: 4, shape: 0, amp: 7, speed: 0.55, phase: 1.1 }),
+    s(57, 74, 92, 'pink',    { rot: -6, spin: -3, shape: 1, amp: 10, speed: 0.45, phase: 3.0, opacity: 0.42, twinkle: 0.15 }),
+    s(89, 84, 68, 'pink',    { rot: 14, spin: 5, shape: 0, amp: 9, speed: 0.6, phase: 4.6 }),
   ],
 
   projetos: [
-    s(4, 52, 26, 'black',    { rot: 8, spin: 4, shape: 1, amp: 5, speed: 0.6, phase: 0.3 }),
-    s(96, 7, 34, 'white',    { yu: 'bpct', rot: -12, spin: -5, shape: 0, amp: 6, speed: 0.55, phase: 2.5 }),
+    s(4, 52, 58, 'black',    { rot: 8, spin: 4, shape: 1, amp: 7, speed: 0.6, phase: 0.3 }),
+    s(96, 7, 80, 'white',    { yu: 'bpct', rot: -12, spin: -5, shape: 0, amp: 9, speed: 0.55, phase: 2.5 }),
+    s(95, 30, 34, 'black',   { rot: 18, spin: 6, shape: 0, amp: 5, speed: 0.75, phase: 4.1, opacity: 0.85, twinkle: 0.3 }),
   ],
 
   contato: [
-    s(14, 200, 40, 'white',  { yu: 'px', rot: -10, spin: 4, shape: 0, amp: 6, speed: 0.55, phase: 0.6 }),
-    s(88, 7, 34, 'white',    { yu: 'bpct', rot: 12, spin: -5, shape: 1, amp: 6, speed: 0.6, phase: 3.4 }),
+    s(14, 200, 72, 'white',  { yu: 'px', rot: -10, spin: 4, shape: 0, amp: 8, speed: 0.55, phase: 0.6 }),
+    s(88, 7, 60, 'white',    { yu: 'bpct', rot: 12, spin: -5, shape: 1, amp: 8, speed: 0.6, phase: 3.4 }),
+    s(90, 150, 32, 'pink',   { yu: 'px', rot: 4, spin: 7, shape: 1, amp: 5, speed: 0.8, phase: 5.2, opacity: 0.85, twinkle: 0.3 }),
   ],
 
   projeto: [
-    s(4, 30, 30, 'pink',     { rot: 6, spin: 4, shape: 1, amp: 5, speed: 0.6, phase: 1.9 }),
+    s(4, 30, 64, 'pink',     { rot: 6, spin: 4, shape: 1, amp: 8, speed: 0.6, phase: 1.9 }),
+    s(96, 62, 34, 'pink',    { rot: -10, spin: -6, shape: 0, amp: 5, speed: 0.75, phase: 3.6, opacity: 0.85, twinkle: 0.3 }),
   ],
 };
 
@@ -137,15 +142,11 @@ const fields = new Set<Field>();
 const pointer = { x: -9999, y: -9999, active: false, touch: false };
 let raf = 0;
 let lastT = 0;
-let lastScrollY = 0;
-let scrollVel = 0;
 let listening = false;
 let hoverCapable = true;
 
-const PARAMS = {
-  navbar: { radius: 300, maxPull: 150, falloff: 1.15 },
-  page: { radius: 170, maxPull: 22, falloff: 1.4 },
-} as const;
+/** Magnetismo: existe SOMENTE para a navbar. As estrelas das páginas nunca leem o cursor. */
+const NAVBAR_MAGNET = { radius: 300, maxPull: 150, falloff: 1.15 } as const;
 
 const resolveBase = (spec: StarSpec, w: number, h: number) => ({
   bx: (spec.x / 100) * w,
@@ -159,22 +160,20 @@ const tick = (now: number) => {
   const f = dt / 16.667;
   const t = now / 1000;
 
-  const sy = window.scrollY;
-  scrollVel += ((sy - lastScrollY) - scrollVel) * Math.min(1, 0.18 * f);
-  lastScrollY = sy;
-
   // 1) leituras de layout (uma por campo) — 2) escritas de transform, sem alternar.
   const active: Array<{ field: Field; w: number; h: number; px: number; py: number; inside: boolean; ghost: boolean }> = [];
   fields.forEach((field) => {
     if (!field.visible) return;
     const r = field.el.getBoundingClientRect();
     if (!r.width || !r.height) return;
+    const isNavbar = field.mode === 'navbar';
     let px = pointer.x - r.left;
     let py = pointer.y - r.top;
-    let inside = pointer.active && px >= 0 && py >= 0 && px <= r.width && py <= r.height;
+    // Só a navbar pode ser influenciada pelo cursor; nas páginas "inside" é sempre falso.
+    let inside = isNavbar && pointer.active && px >= 0 && py >= 0 && px <= r.width && py <= r.height;
     let ghost = false;
     // Celular (sem hover): a navbar ganha um "ímã" invisível que passeia devagar, e o toque também atrai.
-    if (field.mode === 'navbar' && !hoverCapable && !inside) {
+    if (isNavbar && !hoverCapable && !inside) {
       px = r.width * (0.5 + 0.44 * Math.sin(t * 0.32)) ;
       py = r.height * (0.5 + 0.28 * Math.sin(t * 0.53 + 1));
       inside = true;
@@ -184,7 +183,7 @@ const tick = (now: number) => {
   });
 
   for (const { field, w, h, px, py, inside, ghost } of active) {
-    const P = PARAMS[field.mode];
+    const P = NAVBAR_MAGNET;
     for (const st of field.stars) {
       const sp = st.spec;
       const fx = Math.sin(t * sp.speed + sp.phase) * sp.amp;
@@ -197,7 +196,7 @@ const tick = (now: number) => {
       let ty = 0;
       let heat = 0;
 
-      if (inside) {
+      if (inside && field.mode === 'navbar') {
         const dx = px - (bx + fx);
         const dy = py - (by + fy);
         const d = Math.hypot(dx, dy);
@@ -212,9 +211,6 @@ const tick = (now: number) => {
           if (m > cap) { mx = (mx / m) * cap; my = (my / m) * cap; }
           tx = mx; ty = my;
         }
-      } else if (field.mode === 'page' && !hoverCapable) {
-        // Celular: as estrelas das páginas se deslocam com a rolagem (paralaxe), sem hover.
-        ty = Math.max(-18, Math.min(18, -scrollVel * (0.6 + sp.pull)));
       }
 
       // Mola individual (rigidez/amortecimento próprios): movimento orgânico, sem corte seco.
@@ -255,7 +251,6 @@ const startListening = () => {
   window.addEventListener('blur', onLeave);
   document.documentElement.addEventListener('mouseleave', onLeave);
   document.addEventListener('visibilitychange', syncLoop);
-  lastScrollY = window.scrollY;
 };
 
 const stopListening = () => {
