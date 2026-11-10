@@ -4,6 +4,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { SkipLink } from '../common/SkipLink';
 import { useSiteContent } from '../public/siteContent';
 import { P5Layers } from '../../p5/P5Layers';
+import { InteractiveStars } from '../common/InteractiveStars';
 
 interface HeaderProps {
   currentView: string;
@@ -22,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
       <header className="ref-header">
         <div className="ref-header__inner">
           <P5Layers place="navbar" />
+          <InteractiveStars place="navbar" />
           <button className="ref-header__brand" type="button" onClick={() => onNavigate('home')}>
             <span className="ref-header__asterisk" aria-hidden="true">✦</span>
             <span>{brand}</span>
