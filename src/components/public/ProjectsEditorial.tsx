@@ -1,6 +1,7 @@
 import React from 'react';
 import { Project } from '../../types/portfolio';
 import { P5Layers } from '../../p5/P5Layers';
+import { InteractiveStars } from '../common/InteractiveStars';
 import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 interface ProjectsEditorialProps {
@@ -58,6 +59,7 @@ export const ProjectsEditorial: React.FC<ProjectsEditorialProps> = ({ projects, 
       )}
 
       <P5Layers place="projetos" />
+      <InteractiveStars place="projetos" />
       <span className="ref-star ref-star--projects-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--projects-2" aria-hidden="true">✧</span>
     </section>
