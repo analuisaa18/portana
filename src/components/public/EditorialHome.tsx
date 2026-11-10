@@ -4,6 +4,7 @@ import collageDesktop from '../../assets/identity/colagem-desktop.png';
 import collageMobile from '../../assets/identity/colagem-mobile.png';
 import { Project } from '../../types/portfolio';
 import { P5Layers } from '../../p5/P5Layers';
+import { InteractiveStars } from '../common/InteractiveStars';
 import { MultiLine, backgroundVars, useSiteContent } from './siteContent';
 
 interface EditorialHomeProps {
@@ -50,6 +51,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ onNavigate }) => {
       </picture>
 
       <P5Layers place="home" />
+      <InteractiveStars place="home" />
       <span className="ref-star ref-star--home-1" aria-hidden="true">✦</span>
       <span className="ref-star ref-star--home-2" aria-hidden="true">✦</span>
     </section>
