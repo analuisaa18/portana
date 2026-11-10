@@ -40,6 +40,8 @@
 
 @media (max-width: 640px) {
   .istar { --k: .82; }
+  /* Estrelas das páginas (ampliadas): um pouco menores no celular para não cobrir os textos. */
+  .istars--page .istar { --k: .72; }
   /* Cabeçalho do celular tem duas linhas: tira as estrelas que ficariam sobre o nome da marca. */
   .istars--navbar .istar:nth-child(3),
   .istars--navbar .istar:nth-child(6) { display: none; }
