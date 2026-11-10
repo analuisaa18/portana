@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Estrelas interativas (burst de 8 pontas) — navbar + todas as páginas.
+   Arquivo isolado: não altera nenhuma regra existente do site.
+   As estrelas nunca capturam cliques (pointer-events: none) e ficam abaixo
+   dos textos/botões da navbar.
+   ========================================================================== */
+
+.istars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  contain: layout style;
+}
+
+/* Navbar: dentro da cápsula (overflow:hidden), atrás da marca e dos links (z-index:2). */
+.istars--navbar { z-index: 1; border-radius: inherit; }
+
+/* Páginas: acima do fundo e da colagem, mas abaixo dos textos posicionados (z-index:5). */
+.istars--page { z-index: 4; overflow: hidden; }
+
+.istar {
+  --k: 1;
+  position: absolute;
+  width: calc(var(--s) * var(--k));
+  height: calc(var(--s) * var(--k));
+  margin: calc(var(--s) * var(--k) / -2) 0 0 calc(var(--s) * var(--k) / -2);
+  opacity: var(--o, 1);
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+}
+
+.istar svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.istar path { fill: var(--c, #fff); }
+
+.istar--white { --c: #ffffff; }
+.istar--gray  { --c: #b9b6b8; }
+.istar--pink  { --c: #ec77a2; }
+.istar--black { --c: #090909; }
+
+@media (max-width: 640px) {
+  .istar { --k: .82; }
+  /* Cabeçalho do celular tem duas linhas: tira as estrelas que ficariam sobre o nome da marca. */
+  .istars--navbar .istar:nth-child(3),
+  .istars--navbar .istar:nth-child(6) { display: none; }
+}
