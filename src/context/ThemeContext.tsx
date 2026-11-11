@@ -1,7 +1,28 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useLayoutEffect, useState, ReactNode } from 'react';
 import { PortfolioSettings, ThemeConfig } from '../types/portfolio';
 import { DEFAULT_PORTFOLIO_SETTINGS, DEFAULT_THEME_CONFIG } from '../services/defaultData';
 import { portfolioStore } from '../services/store';
+import { normalizePortfolioSettings, normalizeThemeConfig } from '../services/normalizers';
+import { buildDesignCss, designFontRequests } from '../lib/designCss';
+import { ensureGoogleFont } from '../lib/googleFonts';
+
+/* Cache SÓ de pintura inicial: evita o "flash" do design padrão enquanto o Supabase responde.
+   A fonte de verdade continua sendo o banco — o cache é sempre substituído pelo que o Supabase devolver. */
+const SETTINGS_CACHE_KEY = 'portana:settings-cache:v1';
+const readSettingsCache = (): PortfolioSettings | null => {
+  try {
+    const raw = window.localStorage.getItem(SETTINGS_CACHE_KEY);
+    return raw ? normalizePortfolioSettings(JSON.parse(raw)) : null;
+  } catch { return null; }
+};
+const writeSettingsCache = (value: PortfolioSettings) => {
+  try { window.localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(value)); } catch { /* cache é opcional */ }
+};
+
+/** Mensagem enviada pelo Editor Visual para o iframe de pré-visualização (mesma origem). */
+export const PREVIEW_MESSAGE = 'portana:preview-theme';
+const IS_PREVIEW_FRAME = typeof window !== 'undefined' && window.parent !== window &&
+  new URLSearchParams(window.location.search).has('portana-preview');
 
 interface ThemeContextType {
   settings: PortfolioSettings;
@@ -10,7 +31,7 @@ interface ThemeContextType {
   reducedMotion: boolean;
   setReducedMotion: (val: boolean) => void;
   /** includeSiteContent: só a aba 'Conteúdo do Site' deve passar true. */
-  updateThemeConfig: (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean }) => Promise<void>;
+  updateThemeConfig: (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean; includeDesign?: boolean }) => Promise<void>;
   updateSettings: (newSettings: Partial<PortfolioSettings>) => Promise<void>;
   reloadSettings: () => Promise<void>;
 }
@@ -18,7 +39,8 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [settings, setSettings] = useState<PortfolioSettings>(DEFAULT_PORTFOLIO_SETTINGS);
+  const [settings, setSettings] = useState<PortfolioSettings>(() => readSettingsCache() || DEFAULT_PORTFOLIO_SETTINGS);
+  const [previewConfig, setPreviewConfig] = useState<ThemeConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -37,6 +59,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       setLoading(true);
       const data = await portfolioStore.getSettings();
       setSettings(data);
+      writeSettingsCache(data);
     } catch (err) {
       console.error('Erro ao carregar configurações do tema:', err);
     } finally {
@@ -48,7 +71,32 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     loadData();
   }, []);
 
-  const themeConfig = settings.theme_config || DEFAULT_THEME_CONFIG;
+  // Pré-visualização do Editor Visual: só vale dentro do iframe de prévia, nunca no site público.
+  useEffect(() => {
+    if (!IS_PREVIEW_FRAME) return;
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin || event.data?.type !== PREVIEW_MESSAGE) return;
+      setPreviewConfig(event.data.themeConfig ? normalizeThemeConfig(event.data.themeConfig) : null);
+    };
+    window.addEventListener('message', onMessage);
+    window.parent.postMessage({ type: 'portana:preview-ready' }, window.location.origin);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
+
+  const themeConfig = (IS_PREVIEW_FRAME && previewConfig) || settings.theme_config || DEFAULT_THEME_CONFIG;
+
+  // Editor Visual: CSS gerado do design PUBLICADO (ou da prévia, dentro do iframe) + fontes com os pesos reais.
+  useLayoutEffect(() => {
+    const css = buildDesignCss(themeConfig.design);
+    let el = document.getElementById('portana-design-overrides') as HTMLStyleElement | null;
+    if (!el) {
+      el = document.createElement('style');
+      el.id = 'portana-design-overrides';
+      document.head.appendChild(el);
+    }
+    if (el.textContent !== css) el.textContent = css;
+    designFontRequests(themeConfig.design).forEach((f) => ensureGoogleFont(f.family, f.weights, f.italic));
+  }, [themeConfig.design]);
 
   // Apply CSS custom properties dynamically to document head / element
   useEffect(() => {
@@ -153,11 +201,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (header.brandFontFamily?.trim()) loadGoogleFont(header.brandFontFamily);
   }, [themeConfig, reducedMotion]);
 
-  const updateThemeConfig = async (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean }) => {
+  const updateThemeConfig = async (newConfig: ThemeConfig, options?: { includeSiteContent?: boolean; includeDesign?: boolean }) => {
     // Proteção: as abas Aparência/Header (inclusive "restaurar padrão") salvam o tema inteiro.
     // Textos, imagens, menu e contato do site só mudam pela aba "Conteúdo do Site".
     const current = settings.theme_config || DEFAULT_THEME_CONFIG;
-    const safeConfig: ThemeConfig = options?.includeSiteContent
+    const base: ThemeConfig = options?.includeSiteContent
       ? newConfig
       : {
           ...newConfig,
@@ -167,14 +215,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           contact: current.contact,
           interactions: current.interactions,
         };
+    // O Editor Visual é o único que altera design/rascunho; todas as outras abas preservam o que está salvo.
+    const safeConfig: ThemeConfig = {
+      ...base,
+      design: options?.includeDesign ? newConfig.design : current.design,
+      designDraft: options?.includeDesign ? newConfig.designDraft : current.designDraft,
+    };
     // Persist first. The UI only adopts the new theme after Supabase confirms the save.
     const updated = await portfolioStore.updateSettings({ theme_config: safeConfig });
     setSettings(updated);
+    writeSettingsCache(updated);
   };
 
   const handleUpdateSettings = async (newSettings: Partial<PortfolioSettings>) => {
     const updated = await portfolioStore.updateSettings(newSettings);
     setSettings(updated);
+    writeSettingsCache(updated);
   };
 
   return (
