@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { AboutSection } from './components/public/AboutSection';
 import { ProjectDetail } from './components/public/ProjectDetail';
 import { ContactSection } from './components/public/ContactSection';
@@ -170,6 +171,9 @@ export function PortfolioApp() {
           </>
         )}
       </main>
+
+      {/* Rodapé de autoria: depois do conteúdo de cada página pública (fora do <main>, nunca sobreposto). */}
+      {!isAdmin && !(loading && !isDetail) && <Footer />}
     </div>
   );
 }
