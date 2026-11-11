@@ -7,6 +7,7 @@ import { CategoryManager } from './CategoryManager';
 import { ProjectList } from './ProjectList';
 import { AppearanceEditor } from './AppearanceEditor';
 import { HeaderEditor } from './HeaderEditor';
+import { VisualEditor } from './VisualEditor';
 import { GitHubManager } from './GitHubManager';
 import { SiteContentEditor, ADMIN_BEFORE_LEAVE_EVENT } from './SiteContentEditor';
 import { ErrorBoundary } from '../common/ErrorBoundary';
@@ -23,7 +24,8 @@ import {
   FileClock,
   Sparkles,
   Github,
-  FileText
+  FileText,
+  Wand2
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -35,7 +37,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout,
   onPreviewPublic,
 }) => {
-  const [activeTab, setActiveTabRaw] = useState<'overview' | 'content' | 'p5' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header'>('overview');
+  const [activeTab, setActiveTabRaw] = useState<'overview' | 'content' | 'p5' | 'projects' | 'categories' | 'github' | 'settings' | 'appearance' | 'header' | 'visual'>('overview');
   // Troca de aba pergunta antes de descartar edições não salvas.
   const setActiveTab = (tab: typeof activeTab) => {
     if (tab === activeTab) return;
@@ -75,6 +77,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     { id: 'categories', label: 'Categorias', icon: <Layers className="w-4 h-4" /> },
     { id: 'github', label: 'Integração GitHub', icon: <Github className="w-4 h-4 text-[var(--color-accent)]" /> },
     { id: 'settings', label: 'Perfil & Sobre', icon: <UserCheck className="w-4 h-4" /> },
+    { id: 'visual', label: 'Editor Visual', icon: <Wand2 className="w-4 h-4" /> },
     { id: 'appearance', label: 'Aparência & Design System', icon: <Palette className="w-4 h-4" /> },
     { id: 'header', label: 'Personalizar Header', icon: <PanelTop className="w-4 h-4" /> },
   ];
@@ -254,6 +257,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {activeTab === 'settings' && (
         <SettingsEditor onSaved={refreshData} />
       )}
+
+      {activeTab === 'visual' && <VisualEditor onOpenAppearance={() => setActiveTab('appearance')} />}
 
       {activeTab === 'appearance' && (
         <AppearanceEditor onSaved={refreshData} />
