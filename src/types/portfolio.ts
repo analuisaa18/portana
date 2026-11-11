@@ -1,3 +1,4 @@
+import type { DesignConfig } from './design';
 export type UXVoice = 
   | 'direto' 
   | 'informal' 
@@ -204,6 +205,10 @@ export interface ThemeConfig {
   contact?: SiteContact;
   /* Camadas interativas p5.js aplicadas nas partes do site (aba "Interações p5.js"). */
   interactions?: InteractionsConfig;
+  /* Editor Visual do Admin. `design` = versão PUBLICADA (o site usa só esta);
+     `designDraft` = rascunho salvo no banco, ainda não publicado. */
+  design?: DesignConfig;
+  designDraft?: DesignConfig;
 }
 
 export type P5Place = 'navbar' | 'home' | 'projetos' | 'sobre' | 'contato' | 'projeto';
