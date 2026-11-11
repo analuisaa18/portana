@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import './InteractiveStars.css';
 
@@ -102,6 +102,46 @@ const LAYOUTS: Record<StarPlace, StarSpec[]> = {
     s(96, 62, 34, 'pink',    { rot: -10, spin: -6, shape: 0, amp: 5, speed: 0.75, phase: 3.6, opacity: 0.85, twinkle: 0.3 }),
   ],
 };
+
+/* ---------- Celular: só a POSIÇÃO muda ----------
+   Mesmas estrelas (mesma ordem, tamanho, cor, animação e lógica); no celular (≤ 640px)
+   apenas o centro de cada uma é levado para áreas livres da composição, longe de
+   fotos, títulos e textos. A navbar não entra aqui: ela não muda. */
+
+const MOBILE_QUERY = '(max-width: 640px)';
+type StarPos = Pick<StarSpec, 'x' | 'y' | 'yu'>;
+
+const MOBILE_POSITIONS: Partial<Record<StarPlace, StarPos[]>> = {
+  home: [
+    { x: 12, y: 152, yu: 'px' },
+    { x: 84, y: 7, yu: 'bpct' },
+    { x: 66, y: 5, yu: 'bpct' },
+    { x: 92, y: 640, yu: 'px' },
+  ],
+  projetos: [
+    { x: 88, y: 175, yu: 'px' },
+    { x: 88, y: 4, yu: 'bpct' },
+    { x: 94, y: 46, yu: 'pct' },
+  ],
+  sobre: [
+    { x: 70, y: 168, yu: 'px' },
+    { x: 80, y: 13, yu: 'bpct' },
+    { x: 90, y: 26, yu: 'bpct' },
+  ],
+  contato: [
+    { x: 9, y: 170, yu: 'px' },
+    { x: 92, y: 520, yu: 'px' },
+    { x: 94, y: 380, yu: 'px' },
+  ],
+};
+
+const subscribeMobile = (cb: () => void) => {
+  const mql = window.matchMedia(MOBILE_QUERY);
+  mql.addEventListener('change', cb);
+  return () => mql.removeEventListener('change', cb);
+};
+const useIsMobile = () =>
+  useSyncExternalStore(subscribeMobile, () => window.matchMedia(MOBILE_QUERY).matches, () => false);
 
 /* ---------- Forma: burst de 8 pontas com raios desiguais (como no vídeo) ---------- */
 
@@ -306,7 +346,12 @@ const useStill = () => {
 const InteractiveStarsBase: React.FC<{ place: StarPlace }> = ({ place }) => {
   const ref = useRef<HTMLDivElement>(null);
   const still = useStill();
-  const specs = LAYOUTS[place];
+  const mobile = useIsMobile();
+  const specs = useMemo(() => {
+    const base = LAYOUTS[place];
+    const pos = mobile ? MOBILE_POSITIONS[place] : undefined;
+    return pos && pos.length === base.length ? base.map((sp, i) => ({ ...sp, ...pos[i] })) : base;
+  }, [place, mobile]);
   const mode: Field['mode'] = place === 'navbar' ? 'navbar' : 'page';
 
   useEffect(() => {
