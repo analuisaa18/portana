@@ -332,6 +332,123 @@ const register = (field: Field) => {
   };
 };
 
+/* ---------- Estrelas nunca sobre conteúdo (só a POSIÇÃO muda) ----------
+   Os textos das páginas vêm do admin e mudam de tamanho; posições fixas acabariam caindo
+   sobre títulos, parágrafos, fotos, botões ou cards. Depois que a página monta (e sempre que
+   ela muda de tamanho), cada estrela da página é conferida: se o espaço que ela ocupa —
+   somando a flutuação — encosta em algum conteúdo, ela é levada ao ponto livre mais próximo
+   do lugar original. Tamanho, cor, forma e animação continuam iguais. A navbar não entra aqui. */
+
+const CONTENT_SELECTOR = [
+  'h1', 'h2', 'h3', 'p', 'button', 'a', 'img', 'picture', 'figure', 'input', 'textarea', 'label',
+  '.ref-about__visual', '.ref-contact__card', '.ref-project-card', '.ref-detail__cover', '.ref-detail__chip',
+].join(',');
+
+type Box = { l: number; t: number; r: number; b: number };
+
+const collectObstacles = (section: HTMLElement): Box[] => {
+  const s = section.getBoundingClientRect();
+  const boxes: Box[] = [];
+  section.querySelectorAll<HTMLElement>(CONTENT_SELECTOR).forEach((node) => {
+    if (node.closest('.istars, .p5-layer, .ref-star')) return;
+    const r = node.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;
+    boxes.push({ l: r.left - s.left - 6, t: r.top - s.top - 6, r: r.right - s.left + 6, b: r.bottom - s.top + 6 });
+  });
+  // a navbar fica por cima das páginas: as estrelas da página também não entram nela
+  const header = document.querySelector<HTMLElement>('.ref-header');
+  if (header) {
+    const r = header.getBoundingClientRect();
+    boxes.push({ l: r.left - s.left - 8, t: r.top - s.top - 8, r: r.right - s.left + 8, b: r.bottom - s.top + 8 });
+  }
+  return boxes;
+};
+
+const hitsAny = (c: Box, boxes: Box[]) => boxes.some((o) => c.l < o.r && c.r > o.l && c.t < o.b && c.b > o.t);
+
+const placeAwayFromContent = (section: HTMLElement, starEls: HTMLElement[], margins: number[]) => {
+  const W = section.clientWidth;
+  const H = section.clientHeight;
+  if (!W || !H) return;
+  // volta todas ao lugar original antes de medir
+  starEls.forEach((el) => {
+    if (el.dataset.baseLeft === undefined) {
+      el.dataset.baseLeft = el.style.left; el.dataset.baseTop = el.style.top;
+      el.dataset.baseRight = el.style.right; el.dataset.baseBottom = el.style.bottom;
+    }
+    el.style.left = el.dataset.baseLeft || ''; el.style.top = el.dataset.baseTop || '';
+    el.style.right = el.dataset.baseRight || ''; el.style.bottom = el.dataset.baseBottom || '';
+    el.style.visibility = '';
+  });
+  const obstacles = collectObstacles(section);
+  const placed: Box[] = [];
+  const sectionRect = section.getBoundingClientRect();
+
+  starEls.forEach((el, i) => {
+    const size = Math.max(el.offsetWidth, el.offsetHeight);
+    if (!size) return;
+    // centro atual (sem a animação), a partir da caixa de layout
+    const cs = getComputedStyle(el);
+    const rect = el.getBoundingClientRect();
+    const half = size / 2;
+    const cx0 = el.offsetParent === section ? el.offsetLeft + half : rect.left - sectionRect.left + rect.width / 2;
+    const cy0 = el.offsetParent === section ? el.offsetTop + half : rect.top - sectionRect.top + rect.height / 2;
+    const reach = half + margins[i];
+    const boxAt = (x: number, y: number): Box => ({ l: x - reach, t: y - reach, r: x + reach, b: y + reach });
+    const fits = (x: number, y: number) => {
+      const b = boxAt(x, y);
+      // pode sair um pouco pela borda da página (fica recortada, como uma colagem), nunca sobre conteúdo
+      const bleed = reach * 0.5;
+      return b.l >= -bleed && b.t >= -bleed && b.r <= W + bleed && b.b <= H + bleed && !hitsAny(b, obstacles) && !hitsAny(b, placed);
+    };
+    let best: [number, number] | null = fits(cx0, cy0) ? [cx0, cy0] : null;
+    for (let radius = 10; !best && radius < Math.max(W, H); radius += 10) {
+      const steps = Math.max(12, Math.round(radius / 8));
+      for (let k = 0; k < steps && !best; k++) {
+        const a = (k / steps) * Math.PI * 2;
+        const x = cx0 + Math.cos(a) * radius;
+        const y = cy0 + Math.sin(a) * radius;
+        if (fits(x, y)) best = [x, y];
+      }
+    }
+    if (!best) { el.style.visibility = 'hidden'; return; }
+    placed.push(boxAt(best[0], best[1]));
+    if (Math.abs(best[0] - cx0) < 0.5 && Math.abs(best[1] - cy0) < 0.5) return;
+    // posiciona pelo centro: as estrelas da página usam margin negativa de meio tamanho
+    const usesCenter = cs.marginLeft.startsWith('-');
+    el.style.right = 'auto'; el.style.bottom = 'auto';
+    el.style.left = `${(usesCenter ? best[0] : best[0] - half).toFixed(1)}px`;
+    el.style.top = `${(usesCenter ? best[1] : best[1] - half).toFixed(1)}px`;
+  });
+};
+
+const useStarsAvoidContent = (container: React.RefObject<HTMLDivElement>, enabled: boolean, specs: StarSpec[]) => {
+  useEffect(() => {
+    const box = container.current;
+    const section = box?.parentElement;
+    if (!enabled || !box || !section) return;
+    let frame = 0;
+    const run = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const istars = Array.from(box.children) as HTMLElement[];
+        // as estrelas ✦ de texto da própria página seguem a mesma regra
+        const glyphs: HTMLElement[] = Array.from(section.querySelectorAll<HTMLElement>(":scope > .ref-star"));
+        const els: HTMLElement[] = [...istars, ...glyphs];
+        const margins = [...istars.map((_, i) => (specs[i]?.amp ?? 6) + 6), ...glyphs.map(() => 12)];
+        placeAwayFromContent(section, els, margins);
+      });
+    };
+    run();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(run) : null;
+    ro?.observe(section);
+    section.querySelectorAll('img').forEach((img) => { if (!img.complete) img.addEventListener('load', run, { once: true }); });
+    document.fonts?.ready.then(run).catch(() => undefined);
+    const late = window.setTimeout(run, 900);
+    return () => { cancelAnimationFrame(frame); ro?.disconnect(); window.clearTimeout(late); };
+  }, [container, enabled, specs]);
+};
+
 /* ---------- Componente ---------- */
 
 const useStill = () => {
@@ -362,6 +479,8 @@ const InteractiveStarsBase: React.FC<{ place: StarPlace }> = ({ place }) => {
     }));
     return register({ el, mode, stars, visible: true });
   }, [still, specs, mode]);
+
+  useStarsAvoidContent(ref, mode === 'page', specs);
 
   return (
     <div ref={ref} className={`istars istars--${mode}`} aria-hidden="true" data-stars-place={place}>
