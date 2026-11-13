@@ -160,10 +160,26 @@ button { -webkit-tap-highlight-color:transparent; }
   font-weight:900;
   letter-spacing:.01em;
   text-transform:uppercase;
-  transition:transform .2s, background .2s, color .2s;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), background-color .35s ease, color .35s ease, box-shadow .35s ease;
 }
 .ref-cta:hover { transform:translateY(-2px); }
 .ref-cta--pink { background:#ed83aa; color:#0a0a0a; }
+
+/* ---------- Efeitos dos vídeos de referência: botões ----------
+   "Ver projetos" (preto): as cores se invertem (fundo rosa, texto preto) e o botão
+   levanta, com sombra marcada embaixo, numa transição suave.
+   "Vamos conversar" (rosa): as cores se invertem (fundo preto, texto rosa).
+   Sem hover (celular): o mesmo efeito aparece enquanto o dedo toca no botão.
+   As cores continuam editáveis no admin (Editor visual → Botões). */
+@media (hover: hover) {
+  .ref-cta:not(.ref-cta--pink):hover { background:#ec83aa; color:#0a0a0a; transform:translateY(-3px); box-shadow:0 7px 9px rgba(0,0,0,.5); }
+  .ref-cta--pink:hover { background:#090909; color:#ed83aa; }
+}
+.ref-cta:not(.ref-cta--pink):active,
+.ref-cta:not(.ref-cta--pink):focus-visible { background:#ec83aa; color:#0a0a0a; transform:translateY(-3px); box-shadow:0 7px 9px rgba(0,0,0,.5); }
+.ref-cta--pink:active,
+.ref-cta--pink:focus-visible { background:#090909; color:#ed83aa; }
+.ref-cta:focus-visible { outline:2px solid #fff; outline-offset:3px; }
 
 /* ---------- Home ----------
    Desktop: composição original do layout (posições em %), só com altura mínima
@@ -186,6 +202,21 @@ button { -webkit-tap-highlight-color:transparent; }
   transform-origin:left center;
   color:#0a0a0a;
 }
+/* ---------- Efeito dos vídeos de referência: título "PORTFÓLIO" ----------
+   Com o mouse em cima, o título "descola do papel": cresce cerca de 8% a partir
+   da esquerda e ganha uma sombra projetada. Ao sair, volta devagar ao lugar.
+   Usa a propriedade "scale" (separada de "transform"), então a inclinação, a fonte,
+   a cor e a posição originais não mudam. No celular, o efeito aparece ao tocar. */
+.ref-home__copy h1 {
+  scale:1;
+  text-shadow:0 0 0 rgba(0,0,0,0);
+  transition:scale .55s cubic-bezier(.2,.8,.2,1), text-shadow .55s ease;
+  will-change:scale;
+}
+@media (hover: hover) {
+  .ref-home__copy h1:hover { scale:1.08; text-shadow:3px 6px 6px rgba(0,0,0,.45); }
+}
+.ref-home__copy h1.is-lifted { scale:1.08; text-shadow:3px 6px 6px rgba(0,0,0,.45); }
 .ref-home__copy p {
   margin:42px 0 25px;
   font-size:20px;
@@ -537,6 +568,11 @@ button { -webkit-tap-highlight-color:transparent; }
     padding:152px 10% 48px 15%;
     background-image:var(--bg-top-mobile), url('./assets/identity/fundo-01-mobile.png');
     --bg-top-mobile:url('./assets/identity/fundo-02-preto-desktop.png');
+    /* Print de referência: papel preto amassado na escala da tela, com a borda rasgada
+       só na margem esquerda; em páginas longas o papel continua para baixo. */
+    background-size:auto max(100svh, 852px), cover;
+    background-repeat:repeat-y, no-repeat;
+    background-position:left top, center;
   }
   .ref-about__copy { width:100%; }
   .ref-about__copy h1 { font-size:36px; line-height:.86; margin:0 0 18px; }
@@ -544,9 +580,10 @@ button { -webkit-tap-highlight-color:transparent; }
   .ref-about__lead { font-size:14px; line-height:1.32; margin:0 0 12px; }
   .ref-about__text p { font-size:12.5px; line-height:1.3; margin:0 0 9px; }
   .ref-about__copy .ref-cta { margin-top:22px; padding:11px 16px; font-size:12px; }
+  /* Foto maior só no celular (antes 42vw, máx. 180px). Mesma proporção e enquadramento. */
   .ref-about__visual {
-    width:42vw;
-    max-width:180px;
+    width:min(70vw, 300px);
+    max-width:none;
     aspect-ratio:.9;
     align-self:flex-start;
     justify-self:auto;
@@ -562,6 +599,11 @@ button { -webkit-tap-highlight-color:transparent; }
     padding:150px 0 56px;
     background-image:var(--bg-top-mobile), url('./assets/identity/fundo-01-mobile.png');
     --bg-top-mobile:url('./assets/identity/fundo-02-preto-desktop.png');
+    /* Print de referência: papel preto amassado na escala da tela, com a borda rasgada
+       só na margem esquerda; em páginas longas o papel continua para baixo. */
+    background-size:auto max(100svh, 852px), cover;
+    background-repeat:repeat-y, no-repeat;
+    background-position:left top, center;
   }
   .ref-contact__heading { width:100%; padding:0 6%; margin:0 auto 18px; }
   .ref-contact__heading p { font-size:17px; letter-spacing:.26em; line-height:1.1; }
