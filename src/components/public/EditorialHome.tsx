@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import collageDesktop from '../../assets/identity/colagem-desktop.png';
 import collageMobile from '../../assets/identity/colagem-mobile.png';
@@ -25,6 +25,18 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ onNavigate }) => {
   const mobileImage = (useCustom && (media.homeCollageMobile || media.homeCollageDesktop)) || collageMobile;
   const hasCustom = Boolean(media.homeCollageDesktop || media.homeCollageMobile);
 
+  // Celular (sem hover): o toque no título "PORTFÓLIO" mostra o mesmo efeito do vídeo
+  // (cresce com sombra) e ele volta sozinho ao lugar logo depois.
+  const [titleLifted, setTitleLifted] = useState(false);
+  const liftTimer = useRef<number>();
+  useEffect(() => () => window.clearTimeout(liftTimer.current), []);
+  const liftTitle = (event: React.PointerEvent) => {
+    if (event.pointerType === 'mouse') return;
+    setTitleLifted(true);
+    window.clearTimeout(liftTimer.current);
+    liftTimer.current = window.setTimeout(() => setTitleLifted(false), 1100);
+  };
+
   return (
     <section
       className="ref-page ref-page--home"
@@ -32,7 +44,7 @@ export const EditorialHome: React.FC<EditorialHomeProps> = ({ onNavigate }) => {
       style={backgroundVars(media.homeBackground, media.homeBackgroundMobile)}
     >
       <div className="ref-home__copy">
-        <h1><MultiLine text={text.homeTitle} /></h1>
+        <h1 className={titleLifted ? 'is-lifted' : undefined} onPointerDown={liftTitle}><MultiLine text={text.homeTitle} /></h1>
         {text.homeSubtitle && <p><MultiLine text={text.homeSubtitle} /></p>}
         {text.homeButton && (
           <button type="button" className="ref-cta" onClick={() => onNavigate('projetos')}>
